@@ -5,10 +5,12 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import Colours from '../constants/Colours';
+import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 
 const ProductsNavigator = createStackNavigator(
 	{
-		ProductsOverview: ProductsOverviewScreen
+		ProductsOverview: ProductsOverviewScreen,
+		DetailScreen: ProductDetailScreen
 	},
 	{
 		defaultNavigationOptions: {
