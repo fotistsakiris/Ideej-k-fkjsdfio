@@ -43,7 +43,7 @@ const ProductItem = (props) => {
 								<Text style={styles.price}>€ {props.price.toFixed(2)}</Text>
 								<View>
 									<CustomButton
-										title="...στο καλάθι"
+										title="... στο καλάθι"
 										onPress={props.onAddToCard}
 									/>
 								</View>
@@ -52,14 +52,14 @@ const ProductItem = (props) => {
 							<View style={styles.actions}>
 								<View style={styles.button}>
 									<Button
-										color={Colours.chocolate}
+										color={Colours.gr_brown_light}
 										title="Λεπτομέρειες"
 										onPress={props.onViewDetail}
 									/>
 								</View>
 								<Text style={styles.price}>€ {props.price.toFixed(2)}</Text>
 								<View style={styles.button}>
-									<Button color={Colours.chocolate} title="...στο καλάθι" onPress={props.onAddToCard} />
+									<Button color={Colours.gr_brown_light} title="... στο καλάθι" onPress={props.onAddToCard} />
 								</View>
 							</View>
 						)}

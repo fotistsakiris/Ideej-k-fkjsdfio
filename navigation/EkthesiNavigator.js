@@ -6,9 +6,11 @@ import { createStackNavigator } from 'react-navigation-stack';
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import Colours from '../constants/Colours';
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
+import CategoriesScreen from '../screens/shop/CategoriesScreen';
 
 const ProductsNavigator = createStackNavigator(
 	{
+		Categories: CategoriesScreen,
 		ProductsOverview: ProductsOverviewScreen,
 		DetailScreen: ProductDetailScreen
 	},
@@ -16,13 +18,13 @@ const ProductsNavigator = createStackNavigator(
 		defaultNavigationOptions: {
 			headerBackTitle: 'Πίσω',
 			headerStyle: {
-				backgroundColor: Platform.OS === 'android' ? Colours.maroon : ''
+				backgroundColor: Platform.OS === 'android' ? Colours.gr_brown : ''
 			},
 			headerTitleStyle: {
 				fontFamily: 'GFSNeohellenic-Bold',
 				fontSize: 22
 			},
-			headerTintColor: Platform.OS === 'android' ? 'white' : Colours.maroon
+			headerTintColor: Platform.OS === 'android' ? 'white' : Colours.gr_brown
 		}
 	}
 );

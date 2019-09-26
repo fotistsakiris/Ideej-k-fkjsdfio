@@ -18,11 +18,14 @@ const styles = StyleSheet.create({
 		width: '80%',
 		marginHorizontal: 20,
 		marginVertical: 10,
-        padding: 5,
-		borderRadius: 12,
+        paddingBottom: 7,
+        paddingTop: 2,
+        paddingLeft: 7,
+        paddingRight: 7,
+		borderRadius: 15,
 		alignSelf: 'center',
 		alignItems: 'center',
-		backgroundColor: Colours.chocolate,
+		backgroundColor: Colours.gr_brown_light,
 
 		// shadowColor: '#2AC062',
 		// shadowOpacity: 0.7,
@@ -32,7 +35,7 @@ const styles = StyleSheet.create({
 		elevation: 7,
 	},
 	text: {
-        fontSize: 18,
+        fontSize: 20,
 		color: 'white',
         // textDecorationColor: Colours.chocolateRGBA,
         fontFamily: 'GFSNeohellenic-Bold'

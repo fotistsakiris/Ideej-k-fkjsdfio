@@ -1,4 +1,6 @@
 export default {
+    gr_brown: '#AD3333',
+    gr_brown_light: '#AE4444',
     lightcyan: '#E0FFFF', 
     cyan: '#00FFFF',
     silver: '#C0C0C0',

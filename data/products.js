@@ -3,6 +3,7 @@ import Icon from '../models/icon';
 const PRODUCTS = [
   new Icon(
     'icon_1',
+    ['category_1'],
     'u1',
     'Ο Κύριος ημών Ιησούς Χριστός',
     'https://i.pinimg.com/564x/b9/79/fe/b979fe5f5d87be38e581fd5d8fca4067.jpg',
@@ -12,6 +13,7 @@ const PRODUCTS = [
   ),
   new Icon(
     'icon_2',
+    ['category_1'],
     'u1',
     'Η Υπεραγία Θεοτόκος',
     'https://www.sfaturiortodoxe.ro/muntele-athos/icoane/Untitled-16.jpg',
@@ -28,6 +30,7 @@ const PRODUCTS = [
   ),
   new Icon(
     'icon_3',
+    ['category_1'],
     'u3',
     'Άγιος Ιωάννης ο Πρόδρομος',
     'https://i.pinimg.com/564x/1c/13/39/1c1339de03a5ed172c8fabbf508866b0.jpg',
@@ -40,6 +43,7 @@ const PRODUCTS = [
   ),
   new Icon(
     'icon_4',
+    ['category_1'],
     'u3',
     'Άγιος Φώτιος ο Μέγας',
     'https://i.pinimg.com/564x/3f/19/44/3f1944706058590e38c752e8c9013bbc.jpg',
@@ -49,6 +53,7 @@ const PRODUCTS = [
   ),
   new Icon(
     'icon_5',
+    ['category_1'],
     'u1',
     'Άγιος Παΐσιος ο Αγιορείτης',
     'https://i.pinimg.com/564x/c6/b5/5e/c6b55ed63fc9fe6270d488d03f9aae5e.jpg',

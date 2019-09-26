@@ -18,7 +18,7 @@ const ProductDetailScreen = (props) => {
 				</View>
 			) : (
 				<View style={styles.button}>
-					<Button color={Colours.chocolate} title="Προσθήκη στο καλάθι" />
+					<Button color={Colours.gr_brown_light} title="Προσθήκη στο καλάθι" />
 				</View>
 			)}
 	
