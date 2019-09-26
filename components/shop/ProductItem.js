@@ -12,6 +12,7 @@ import {
 
 import Card from '../UI/Card';
 import Colours from '../../constants/Colours';
+import CustomButton from '../UI/CustomButton';
 
 const ProductItem = (props) => {
 	let TouchableComp = TouchableOpacity;
@@ -30,11 +31,38 @@ const ProductItem = (props) => {
 							<Text style={styles.title}>{props.title}</Text>
 						</View>
 						<View style={styles.line} />
-						<View style={styles.actions}>
-							<Button style={styles.button} color={Colours.chocolate} title="Λεπτομέρειες" onPress={props.onViewDetail} />
-							<Text style={styles.price}>Τιμή: € {props.price.toFixed(2)}</Text>
-							<Button style={styles.button} color={Colours.chocolate} title="Στο καλάθι" onPress={props.onAddToCard} />
-						</View>
+
+						{Platform.OS === 'android' ? (
+							<View style={styles.actions}>
+								<View>
+									<CustomButton
+										title="Λεπτομέρειες"
+										onPress={props.onViewDetail}
+									/>
+								</View>
+								<Text style={styles.price}>€ {props.price.toFixed(2)}</Text>
+								<View>
+									<CustomButton
+										title="...στο καλάθι"
+										onPress={props.onAddToCard}
+									/>
+								</View>
+							</View>
+						) : (
+							<View style={styles.actions}>
+								<View style={styles.button}>
+									<Button
+										color={Colours.chocolate}
+										title="Λεπτομέρειες"
+										onPress={props.onViewDetail}
+									/>
+								</View>
+								<Text style={styles.price}>€ {props.price.toFixed(2)}</Text>
+								<View style={styles.button}>
+									<Button color={Colours.chocolate} title="...στο καλάθι" onPress={props.onAddToCard} />
+								</View>
+							</View>
+						)}
 					</View>
 				</TouchableComp>
 			</View>
@@ -52,7 +80,8 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		backgroundColor: 'white',
 		height: 300,
-		margin: 20
+		margin: 20,
+		padding: 10
 	},
 	touchable: {
 		overflow: 'hidden',
@@ -60,9 +89,7 @@ const styles = StyleSheet.create({
 	},
 	imageContainer: {
 		width: '100%',
-		height: '70%'
-		// borderRadius: 10,
-		// overflow: 'hidden'
+		height: '65%'
 	},
 	image: {
 		width: '100%',
@@ -76,28 +103,32 @@ const styles = StyleSheet.create({
 		padding: 2
 	},
 	title: {
-		fontSize: 18,
-		marginVertical: 2
+		fontSize: 20,
+		marginVertical: 6,
+		fontFamily: 'GFSNeohellenic-Bold'
 	},
 	line: {
 		borderBottomColor: 'black',
 		borderBottomWidth: 1,
 		width: '40%',
-		alignSelf: 'center'
+		alignSelf: 'center',
+		margin: 2,
+		height: '2%',
 	},
 	price: {
-		fontSize: 14,
-		color: '#888'
+		fontSize: 18,
+		color: '#888',
+		fontFamily: 'GFSNeohellenic-Bold'
 	},
 	actions: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
+		alignSelf: 'center',
 		alignItems: 'center',
-		height: '15%',
-		paddingHorizontal: 20
+		height: '18%',
+		paddingHorizontal: 20,
 	},
 	button: {
-		width: '40%'
+		width: '50%'
 	}
 });
 

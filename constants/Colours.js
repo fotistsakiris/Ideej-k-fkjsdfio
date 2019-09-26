@@ -7,6 +7,7 @@ export default {
     maroon: '#800000',
     sandybrown: '#F4A460',
     chocolate: '#D2691E',
+    chocolateRGBA: 'rgba(210,105,30, 0.3)',
     lightyellow: '#FFFFE0',
     lightskyblue: '#87CEFA',
     deepskyblue: '#00BFFF',

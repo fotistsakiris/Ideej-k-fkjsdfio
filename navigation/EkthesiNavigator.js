@@ -14,8 +14,13 @@ const ProductsNavigator = createStackNavigator(
 	},
 	{
 		defaultNavigationOptions: {
+			headerBackTitle: 'Πίσω',
 			headerStyle: {
 				backgroundColor: Platform.OS === 'android' ? Colours.maroon : ''
+			},
+			headerTitleStyle: {
+				fontFamily: 'GFSNeohellenic-Bold',
+				fontSize: 22
 			},
 			headerTintColor: Platform.OS === 'android' ? 'white' : Colours.maroon
 		}
