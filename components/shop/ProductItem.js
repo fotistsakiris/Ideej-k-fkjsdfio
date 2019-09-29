@@ -30,7 +30,7 @@ const ProductItem = (props) => {
 						<View style={styles.textContainer}>
 							<Text style={styles.title}>{props.title}</Text>
 						</View>
-						<View style={styles.line} />
+						{/* <View style={styles.line} /> */}
 
 						{Platform.OS === 'android' ? (
 							<View style={styles.actions}>
