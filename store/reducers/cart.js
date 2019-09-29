@@ -23,7 +23,6 @@ export default (state = initialState, action) => {
 				);
 			} else {
 				upadtatedOrNewCartItem = new CartItemModel(1, prodPrice, prodTitle, prodPrice);
-				console.log(state.items);
 			}
 			return {
 				...state,

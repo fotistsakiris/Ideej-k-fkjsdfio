@@ -30,7 +30,7 @@ const ProductItem = (props) => {
 						<View style={styles.textContainer}>
 							<Text style={styles.title}>{props.title}</Text>
 						</View>
-						{/* <View style={styles.line} /> */}
+						<View style={styles.line} />
 
 						{Platform.OS === 'android' ? (
 							<View style={styles.actions}>
@@ -59,7 +59,7 @@ const ProductItem = (props) => {
 								</View>
 								<Text style={styles.price}>€ {props.price.toFixed(2)}</Text>
 								<View style={styles.button}>
-									<Button color={Colours.gr_brown_light} title="... στο καλάθι" onPress={props.onAddToCard} />
+									<Button color={Colours.gr_brown_light} title="... στο καλάθι" onPress={props.onAddToCart} />
 								</View>
 							</View>
 						)}

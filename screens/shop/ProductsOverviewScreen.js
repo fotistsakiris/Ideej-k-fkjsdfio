@@ -11,26 +11,28 @@ const ProductsOverviewScreen = (props) => {
 	const products = useSelector((state) =>
 		state.products.availableProducts.filter((prod) => prod.categoryIds.indexOf(categoryId) >= 0)
 	);
+
 	return (
-		<FlatList
-			data={products}
-			keyExtractor={(item) => item.id}
-			renderItem={(itemData) => (
-				<ProductItem
-					title={itemData.item.title}
-					price={itemData.item.price}
-					image={itemData.item.imageUrl}
-					onViewDetail={() =>
-						props.navigation.navigate('DetailScreen', {
-							productId: itemData.item.id,
-							productTitle: itemData.item.title
-						})}
-					onAddToCart={() => dispatch(cartActions.addToCard(itemData.item))}
-				/>
-			)}
-		/>
+			<FlatList
+				data={products}
+				keyExtractor={(item) => item.id}
+				renderItem={(itemData) => (
+					<ProductItem
+						title={itemData.item.title}
+						price={itemData.item.price}
+						image={itemData.item.imageUrl}
+						onViewDetail={() =>
+							props.navigation.navigate('DetailScreen', {
+								productId: itemData.item.id,
+								productTitle: itemData.item.title
+							})}
+						onAddToCart={() => dispatch(cartActions.addToCard(itemData.item))}
+					/>
+				)}
+			/>
 	);
 };
+
 ProductsOverviewScreen.navigationOptions = (navData) => {
 	return {
 		headerTitle: navData.navigation.getParam('categoryTitle')
