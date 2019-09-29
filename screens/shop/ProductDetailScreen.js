@@ -1,12 +1,16 @@
 import React from 'react';
 import { Platform, View, Text, ScrollView, Image, Button, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import PRODUCTS from '../../data/products';
 import CustomButton from '../../components/UI/CustomButton';
+import * as cartActions from '../../store/actions/cart';
+
 import Colours from '../../constants/Colours';
 
 const ProductDetailScreen = (props) => {
+	const dispatch = useDispatch();
+
 	const productId = props.navigation.getParam('productId');
 	const selectedProduct = PRODUCTS.find((prod) => prod.id === productId);
 	return (
@@ -14,14 +18,21 @@ const ProductDetailScreen = (props) => {
 			<Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
 			{Platform.OS === 'android' ? (
 				<View style={styles.button}>
-					<CustomButton title="Προσθήκη στο καλάθι" />
+					<CustomButton
+						title="Προσθήκη στο καλάθι"
+						onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
+					/>
 				</View>
 			) : (
 				<View style={styles.button}>
-					<Button color={Colours.gr_brown_light} title="Προσθήκη στο καλάθι" />
+					<Button
+						color={Colours.gr_brown_light}
+						title="Προσθήκη στο καλάθι"
+						onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
+					/>
 				</View>
 			)}
-	
+
 			<Text style={styles.price}>€ {selectedProduct.price.toFixed(2)}</Text>
 			<Text style={styles.description}>{selectedProduct.description}</Text>
 		</ScrollView>

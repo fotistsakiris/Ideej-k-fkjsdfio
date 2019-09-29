@@ -7,4 +7,5 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 #### !!! expo install react-native-gesture-handler react-native-reanimated
 #### expo-font
 #### npm install --save-dev redux-devtools-extension 
+#### redux-thunk
 #### moment (for formating dates)

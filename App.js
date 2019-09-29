@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 
-import ProductReducer from './store/reducers/products';
 import EkthesiNavigator from './navigation/EkthesiNavigator';
+import configureStore from './store/configureStore';
 
-const rootReducer = combineReducers({
-	products: ProductReducer
-});
-const store = createStore(rootReducer);
+const store = configureStore();
+
 
 const fetchFonts = () => {
 	return Font.loadAsync({
@@ -34,12 +30,3 @@ export default function App() {
 		</Provider>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center'
-	}
-});
