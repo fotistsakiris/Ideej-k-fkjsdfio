@@ -29,6 +29,7 @@ export default (state = initialState, action) => {
 				items: { ...state.items, [addedProduct.id]: upadtatedOrNewCartItem },
 				totalAmount: state.totalAmount + prodPrice
 			};
+			
 			default:
 			return state;
 	}
