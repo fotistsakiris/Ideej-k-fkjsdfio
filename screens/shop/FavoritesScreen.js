@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector } from 'react-redux';
 
@@ -18,31 +18,31 @@ const FavoritesScreen = (props) => {
 	// const favProducts = MEALS.filter((meal) => meal.affordability === 'affordable');
 
 	// Render something when no favorites are selected.
-	if (favProducts.length === 0 || !favProducts) {
+	// if (favProducts.length === 0 || !favProducts) {
 		return (
 			<View style={styles.content}>
-				<DefaultText>No favorite meals found.</DefaultText>
+				<Text>No favorite meals found.</Text>
 			</View>
 		);
-	}
+	// }
 
-	return <ProductList listData={favProducts} navigation={props.navigation} />;
+	// return <ProductList listData={favProducts} navigation={props.navigation} />;
 };
 
 FavoritesScreen.navigationOptions = (navData) => {
 	return {
-		headerTitle: 'Favorites',
-		headerLeft: (
-			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-				<Item
-					title="Menu"
-					iconName="menu"
-					onPress={() => {
-						navData.navigation.toggleDrawer();
-					}}
-				/>
-			</HeaderButtons>
-		)
+		headerTitle: 'Αγαπημένα',
+		// headerLeft: (
+		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+		// 		<Item
+		// 			title="Menu"
+		// 			iconName="menu"
+		// 			onPress={() => {
+		// 				navData.navigation.toggleDrawer();
+		// 			}}
+		// 		/>
+		// 	</HeaderButtons>
+		// )
 	};
 };
 

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import ProductItem from './ProductItem';
 
 // Is getting used in FavoritesScreen
-/////// Is getting used in CategoryMealsScreen and in FavoritesScreen
+/////// Is NOT getting used in ProducstOverviewScreen yet!
 const ProductList = (props) => {
 	const favoriteProducts = useSelector((state) => state.products.favoriteProducts);
 	
