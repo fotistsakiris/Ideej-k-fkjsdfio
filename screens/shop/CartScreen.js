@@ -39,7 +39,10 @@ const CartScreen = (props) => {
 					color={Colours.chocolate}
 					title="Order Now"
 					disabled={cartItems.length === 0}
-					onPress={() => dispatch(ordersActions.addOrder(cartItems, cartTotalAmount))}
+					onPress={() => {
+					 dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
+					 props.navigation.navigate('Orders')
+					}}
 				/>
 			</Card>
 			<FlatList
@@ -72,7 +75,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		marginBottom: 20,
-		padding: 10,
+		padding: 10
 	},
 	summaryText: {
 		fontFamily: 'GFSNeohellenic-Bold',
