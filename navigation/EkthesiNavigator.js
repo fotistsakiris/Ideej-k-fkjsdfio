@@ -54,27 +54,6 @@ const EkthesisNavigator = createStackNavigator(
 	}
 );
 
-
-// const CartNavigator = createStackNavigator(
-// 	{
-// 		Cart: CartScreen
-// 	},
-// 	{
-// 		// navigationOptions only apply if this Screen here, belongs to another Navigator
-// 		navigationOptions: {
-// 			drawerLabel: 'Καλάθι',
-// 			drawerIcon: (drawerConfig) => (
-// 				<Ionicons
-// 					name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-// 					size={23}
-// 					color={drawerConfig.tintColor}
-// 				/>
-// 			)
-// 		},
-// 		defaultNavigationOptions: defaultNavOptions
-// 	}
-// );
-
 const OrdersNavigator = createStackNavigator(
 	{
 		Orders: OrdersScreen
@@ -95,10 +74,9 @@ const OrdersNavigator = createStackNavigator(
 	}
 );
 
-
 const FavNavigator = createStackNavigator(
 	{
-		Favorites: FavoritesScreen,
+		Favorites: FavoritesScreen
 		// DetailScreen: ProductDetailScreen
 	},
 	{
@@ -145,7 +123,13 @@ const tabScreenConfig = {
 		screen: OrdersNavigator,
 		navigationOptions: {
 			tabBarIcon: (tabInfo) => {
-				return <Ionicons name={Platform.OS === 'android' ? 'md-list' : 'ios-list'} size={25} color={tabInfo.tintColor} />;
+				return (
+					<Ionicons
+						name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+						size={25}
+						color={tabInfo.tintColor}
+					/>
+				);
 			},
 			tabBarColor: Colours.gr_brown,
 			tabBarLabel:
@@ -181,20 +165,20 @@ const MultiTabNavigator =
 const MainNavigator = createDrawerNavigator(
 	{
 		// Cart: CartNavigator,
-		Ekthesis: EkthesisNavigator,
-		Orders: OrdersNavigator,
+		// Ekthesis: EkthesisNavigator,
+		// Orders: OrdersNavigator,
 		// Admin: AdminNavigator,
 		MultiNav: {
 			screen: MultiTabNavigator,
 			navigationOptions: {
 				drawerLabel: 'Έκθεση',
-				// drawerIcon: (drawerConfig) => (
-				// 	<MaterialIcons
-				// 		name='favorite'
-				// 		size={23}
-				// 		color={drawerConfig.tintColor}
-				// 	/>
-				// )
+				drawerIcon: (drawerConfig) => (
+					<Ionicons
+						name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
+						size={23}
+						color={drawerConfig.tintColor}
+					/>
+				)
 			}
 		}
 	},
