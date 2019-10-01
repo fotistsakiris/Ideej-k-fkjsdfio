@@ -1,10 +1,12 @@
 import React from 'react';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 import { Platform } from 'react-native';
 import { createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import Colours from '../constants/Colours';
@@ -12,6 +14,7 @@ import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 import CategoriesScreen from '../screens/shop/CategoriesScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
+import FavoritesScreen from '../screens/shop/FavoritesScreen';
 
 const defaultNavOptions = {
 	headerBackTitle: 'Πίσω',
@@ -29,7 +32,7 @@ const defaultNavOptions = {
 	headerTintColor: Platform.OS === 'android' ? 'white' : Colours.gr_brown
 };
 
-const ProductsNavigator = createStackNavigator(
+const EkthesisNavigator = createStackNavigator(
 	{
 		Categories: CategoriesScreen,
 		ProductsOverview: ProductsOverviewScreen,
@@ -38,15 +41,39 @@ const ProductsNavigator = createStackNavigator(
 	},
 	{
 		navigationOptions: {
+			drawerLabel: 'Καλάθι',
 			drawerIcon: (drawerConfig) => (
-				<Ionicons name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-				size={23} 
-				color={drawerConfig.tintColor} />
+				<Ionicons
+					name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+					size={23}
+					color={drawerConfig.tintColor}
+				/>
 			)
 		},
 		defaultNavigationOptions: defaultNavOptions
 	}
 );
+
+
+// const CartNavigator = createStackNavigator(
+// 	{
+// 		Cart: CartScreen
+// 	},
+// 	{
+// 		// navigationOptions only apply if this Screen here, belongs to another Navigator
+// 		navigationOptions: {
+// 			drawerLabel: 'Καλάθι',
+// 			drawerIcon: (drawerConfig) => (
+// 				<Ionicons
+// 					name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+// 					size={23}
+// 					color={drawerConfig.tintColor}
+// 				/>
+// 			)
+// 		},
+// 		defaultNavigationOptions: defaultNavOptions
+// 	}
+// );
 
 const OrdersNavigator = createStackNavigator(
 	{
@@ -55,28 +82,132 @@ const OrdersNavigator = createStackNavigator(
 	{
 		// navigationOptions only apply if this Screen here, belongs to another Navigator
 		navigationOptions: {
+			drawerLabel: 'Παραγγελίες',
 			drawerIcon: (drawerConfig) => (
-				<Ionicons name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
-				size={23} 
-				color={drawerConfig.tintColor} />
+				<Ionicons
+					name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+					size={23}
+					color={drawerConfig.tintColor}
+				/>
 			)
 		},
 		defaultNavigationOptions: defaultNavOptions
 	}
 );
 
-const ShopNavigator = createDrawerNavigator(
+
+const FavNavigator = createStackNavigator(
 	{
-		
-		Products: ProductsNavigator,
-		Orders: OrdersNavigator,
-		// Admin: AdminNavigator
+		Favorites: FavoritesScreen,
+		// DetailScreen: ProductDetailScreen
 	},
 	{
-		contentOptions: {
-			activeTintColor: Colours.chocolate
-		}
+		// initialRouteName: 'Categories',
+		defaultNavigationOptions: defaultNavOptions
 	}
 );
 
-export default createAppContainer(ShopNavigator);
+const tabScreenConfig = {
+	Ekthesis: {
+		screen: EkthesisNavigator,
+		navigationOptions: {
+			tabBarIcon: (tabInfo) => {
+				return (
+					<Ionicons
+						name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
+						size={25}
+						color={tabInfo.tintColor}
+					/>
+				);
+			},
+			tabBarColor: Colours.gr_brown,
+			// Use Platform... otherwise we loose the color from iOS.
+			tabBarLabel:
+				Platform.OS === 'android' ? <Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Έκθεση</Text> : 'Έκθεση'
+		}
+	},
+	Favorites: {
+		screen: FavNavigator,
+		navigationOptions: {
+			tabBarIcon: (tabInfo) => {
+				return <MaterialIcons name="favorite" size={25} color={tabInfo.tintColor} />;
+			},
+			tabBarColor: Colours.gr_brown,
+			tabBarLabel:
+				Platform.OS === 'android' ? (
+					<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Αγαπημένα</Text>
+				) : (
+					'Αγαπημένα'
+				)
+		}
+	},
+	Orders: {
+		screen: OrdersNavigator,
+		navigationOptions: {
+			tabBarIcon: (tabInfo) => {
+				return <Ionicons name={Platform.OS === 'android' ? 'md-list' : 'ios-list'} size={25} color={tabInfo.tintColor} />;
+			},
+			tabBarColor: Colours.gr_brown,
+			tabBarLabel:
+				Platform.OS === 'android' ? (
+					<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Παραγγελίες</Text>
+				) : (
+					'Παραγγελίες'
+				)
+		}
+	}
+};
+
+const MultiTabNavigator =
+	Platform.OS === 'android'
+		? createMaterialBottomTabNavigator(tabScreenConfig, {
+				// NO tabBarOptions...
+				activeTintColor: 'white',
+				shifting: true,
+				barStyle: {
+					backgroundColor: Colours.gr_brown
+				}
+			})
+		: createBottomTabNavigator(tabScreenConfig, {
+				tabBarOptions: {
+					activeTintColor: Colours.gr_brown,
+					labelStyle: {
+						fontFamily: 'GFSNeohellenic-Bold',
+						fontSize: 18
+					}
+				}
+			});
+
+const MainNavigator = createDrawerNavigator(
+	{
+		// Cart: CartNavigator,
+		Ekthesis: EkthesisNavigator,
+		Orders: OrdersNavigator,
+		// Admin: AdminNavigator,
+		MultiNav: {
+			screen: MultiTabNavigator,
+			navigationOptions: {
+				drawerLabel: 'Έκθεση',
+				// drawerIcon: (drawerConfig) => (
+				// 	<MaterialIcons
+				// 		name='favorite'
+				// 		size={23}
+				// 		color={drawerConfig.tintColor}
+				// 	/>
+				// )
+			}
+		}
+	},
+	{
+		contentOptions: {
+			activeTintColor: Colours.chocolate,
+			labelStyle: {
+				fontFamily: 'GFSNeohellenic-Bold',
+				fontSize: 18
+			}
+		},
+		drawerWidth: 200
+	}
+);
+
+export default createAppContainer(MainNavigator);
