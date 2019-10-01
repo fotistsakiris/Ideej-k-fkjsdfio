@@ -8,25 +8,22 @@ import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 // import DefaultText from '../components/UI/DefaultText';
 
 const FavoritesScreen = (props) => {
-	// `meals` is the reducer identifier (see in App.js)
-	const favProducts = useSelector((state) => state.products.favoriteMeals);
+	const products = useSelector((state) => state.products.availableProducts);
 
 	// Not needed anymore!
 	// dummy data for favorite
-	// const favProducts = favProducts.filter((meal) => meal.id === 'm1' || meal.id === 'm2');
-	// Alternative:
-	// const favProducts = MEALS.filter((meal) => meal.affordability === 'affordable');
-
+	const favProducts = products.filter((product) => product.id === 'icon_1' || product.id === 'icon_2');
+	
 	// Render something when no favorites are selected.
-	// if (favProducts.length === 0 || !favProducts) {
+	if (favProducts.length === 0 || !favProducts) {
 		return (
 			<View style={styles.content}>
 				<Text>No favorite meals found.</Text>
 			</View>
 		);
-	// }
+	}
 
-	// return <ProductList listData={favProducts} navigation={props.navigation} />;
+	return  <ProductList listData={favProducts} navigation={props.navigation} />;
 };
 
 FavoritesScreen.navigationOptions = (navData) => {
@@ -50,7 +47,8 @@ const styles = StyleSheet.create({
 	content: {
 		flex: 1,
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		margin: 12
 	}
 });
 
