@@ -154,21 +154,72 @@ const MultiTabNavigator =
 
 const MainNavigator = createDrawerNavigator(
 	{
-		// Cart: CartNavigator,
-		// Ekthesis: EkthesisNavigator,
-		// Orders: OrdersNavigator,
-		// Admin: AdminNavigator,
 		MultiNav: {
 			screen: MultiTabNavigator,
 			navigationOptions: {
+				drawerLabel: 'Περιεχόμενα',
+				// drawerIcon: (drawerConfig) => (
+				// 	<Ionicons
+				// 		name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
+				// 		size={23}
+				// 		color={drawerConfig.tintColor}
+				// 	/>
+				// )
+			}
+		},
+		Ekthesis: {
+			screen: EkthesisNavigator,
+			navigationOptions: {
 				drawerLabel: 'Έκθεση',
-				drawerIcon: (drawerConfig) => (
-					<Ionicons
-						name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
-						size={23}
-						color={drawerConfig.tintColor}
-					/>
-				)
+				drawerIcon: (tabInfo) => {
+					return (
+						<Ionicons
+							name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
+							size={25}
+							color={tabInfo.tintColor}
+						/>
+					);
+				},
+				tabBarColor: Colours.gr_brown,
+				// Use Platform... otherwise we loose the color from iOS.
+				drawerLabel:
+					Platform.OS === 'android' ? <Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Έκθεση</Text> : 'Έκθεση'
+			}
+		},
+		Favorites: {
+			screen: FavNavigator,
+			navigationOptions: {
+				drawerIcon: (tabInfo) => {
+					return <MaterialIcons name="favorite" size={25} color={tabInfo.tintColor} />;
+				},
+				tabBarColor: Colours.gr_brown,
+				drawerLabel:
+					Platform.OS === 'android' ? (
+						<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Αγαπημένα</Text>
+					) : (
+						'Αγαπημένα'
+					)
+			}
+		},
+		Orders: {
+			screen: OrdersNavigator,
+			navigationOptions: {
+				drawerIcon: (tabInfo) => {
+					return (
+						<Ionicons
+							name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+							size={25}
+							color={tabInfo.tintColor}
+						/>
+					);
+				},
+				tabBarColor: Colours.gr_brown,
+				tabBarLabel:
+					Platform.OS === 'android' ? (
+						<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Παραγγελίες</Text>
+					) : (
+						'Παραγγελίες'
+					)
 			}
 		}
 	},
