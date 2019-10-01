@@ -23,7 +23,7 @@ const ProductList = (props) => {
 				onViewDetail={itemData.item.onViewDetail}
 				onAddToCard={itemData.item.onAddToCard}
 				// onSelectMeal={() => {
-                //     //  We have a `navigation` prop because we forwarded it in CategoryMealsScreen.
+                //     //  We have a `navigation` prop because we forwarded it in FavoritesScreen.
 				// 	props.navigation.navigate({ routeName: 'MealDetail', 
 				// 	params: { 
 				// 		mealId: itemData.item.id,

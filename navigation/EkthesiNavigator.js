@@ -66,8 +66,8 @@ const OrdersNavigator = createStackNavigator(
 
 const FavNavigator = createStackNavigator(
 	{
-		Favorites: FavoritesScreen
-		// DetailScreen: ProductDetailScreen
+		Favorites: FavoritesScreen,
+		DetailScreen: ProductDetailScreen
 	},
 	{
 		// initialRouteName: 'Categories',

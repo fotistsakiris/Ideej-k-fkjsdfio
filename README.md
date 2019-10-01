@@ -11,3 +11,4 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### npm install --save-dev redux-devtools-extension 
 ### redux-thunk
 ### moment (for formating dates)
+### react-native-screens
