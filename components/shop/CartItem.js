@@ -34,12 +34,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     quantity:{
-        fontFamily: 'open-sans',
+        fontFamily: 'GFSNeohellenic-Regular',
         color: '#888',
         fontSize: 16
     },
     mainText:{
-        fontFamily: 'open-sans-bold',
+        fontFamily: 'GFSNeohellenic-Bold',
         fontSize: 16
     },
 })
