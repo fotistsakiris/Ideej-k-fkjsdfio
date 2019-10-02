@@ -5,8 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import PRODUCTS from '../../data/products';
 import CustomButton from '../../components/UI/CustomButton';
 import * as cartActions from '../../store/actions/cart';
+import * as productActions from '../../store/actions/products';
 
 import Colours from '../../constants/Colours';
+import { Icon } from 'react-native-elements';
 
 const ProductDetailScreen = (props) => {
 	const dispatch = useDispatch();
@@ -15,6 +17,15 @@ const ProductDetailScreen = (props) => {
 	const selectedProduct = PRODUCTS.find((prod) => prod.id === productId);
 	return (
 		<ScrollView>
+			<View style={styles.icon}>
+				<Icon
+					size={18}
+					name={true ? 'favorite' : 'favorite_bord'}
+					type="material"
+					color={Colours.chocolate}
+					onPress={() => dispatch(productActions.toggleFavorite(productId))}
+				/>
+			</View>
 			<Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
 			{Platform.OS === 'android' ? (
 				<View style={styles.button}>
@@ -46,6 +57,10 @@ ProductDetailScreen.navigationOptions = (navData) => {
 };
 
 const styles = StyleSheet.create({
+	icon: {
+		alignSelf: 'center',
+		margin: 2
+	},
 	image: {
 		width: '100%',
 		height: 300,

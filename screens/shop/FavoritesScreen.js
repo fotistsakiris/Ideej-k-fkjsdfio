@@ -6,18 +6,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import ProductItem from '../../components/shop/ProductItem';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import * as cartActions from '../../store/actions/cart';
+import * as productActions from '../../store/actions/products';
 
 // import DefaultText from '../components/UI/DefaultText';
 
 const FavoritesScreen = (props) => {
 	const dispatch = useDispatch();
 
-	const products = useSelector((state) => state.products.availableProducts);
+	// const products = useSelector((state) => state.products.availableProducts);
+	const favProducts = useSelector((state) => state.products.favoriteProducts);
 
-	// Not needed anymore!
-	// dummy data for favorite
-	const favProducts = products.filter((product) => product.id === 'icon_1' || product.id === 'icon_2');
-
+	// // Not needed anymore!
+	// // dummy data for favorite
+	// const favProducts = products.filter((product) => product.id === 'icon_1' || product.id === 'icon_2');
+ 
 	// Render something when no favorites are selected.
 	if (favProducts.length === 0 || !favProducts) {
 		return (
@@ -36,6 +38,7 @@ const FavoritesScreen = (props) => {
 					title={itemData.item.title}
 					price={itemData.item.price}
 					image={itemData.item.imageUrl}
+					onToggleFavorite={() => dispatch(productActions.toggleFavorite(itemData.item.id))}
 					onViewDetail={() =>
 						props.navigation.navigate('DetailScreen', {
 							productId: itemData.item.id,

@@ -9,6 +9,7 @@ import {
 	TouchableOpacity,
 	TouchableNativeFeedback
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 
 // import Card from '../UI/Card';
 import Line from '../UI/Line';
@@ -23,31 +24,35 @@ const ProductItem = (props) => {
 	}
 	return (
 		<View style={styles.product}>
+			<View style={styles.icon}>
+				<Icon
+					size={18}
+					name={true ? 'favorite' : 'favorite_bord'}
+					type="material"
+					color={Colours.chocolate}
+					onPress={props.onToggleFavorite}
+				/>
+			</View>
 			<View style={styles.touchable}>
 				<TouchableComp onPress={props.onViewDetail} useForground>
 					<View>
 						<View style={styles.imageContainer}>
 							<Image style={styles.image} source={{ uri: props.image }} />
 						</View>
+
 						<View style={styles.textContainer}>
 							<BoldText style={styles.title}>{props.title}</BoldText>
 						</View>
-						<Line />
 
+						<Line />
 						{Platform.OS === 'android' ? (
 							<View style={styles.actions}>
 								<View>
-									<CustomButton
-										title="Λεπτομέρειες"
-										onPress={props.onViewDetail}
-									/>
+									<CustomButton title="Λεπτομέρειες" onPress={props.onViewDetail} />
 								</View>
 								<BoldText style={styles.price}>€ {props.price.toFixed(2)}</BoldText>
 								<View>
-									<CustomButton
-										title="... στο καλάθι"
-										onPress={props.onAddToCard}
-									/>
+									<CustomButton title="... στο καλάθι" onPress={props.onAddToCard} />
 								</View>
 							</View>
 						) : (
@@ -61,7 +66,11 @@ const ProductItem = (props) => {
 								</View>
 								<Text style={styles.price}>€ {props.price.toFixed(2)}</Text>
 								<View style={styles.button}>
-									<Button color={Colours.gr_brown_light} title="... στο καλάθι" onPress={props.onAddToCart} />
+									<Button
+										color={Colours.gr_brown_light}
+										title="... στο καλάθι"
+										onPress={props.onAddToCart}
+									/>
 								</View>
 							</View>
 						)}
@@ -81,9 +90,13 @@ const styles = StyleSheet.create({
 		elevation: 5,
 		borderRadius: 10,
 		backgroundColor: 'white',
-		height: 300,
+		height: 290,
 		margin: 20,
 		padding: 10
+	},
+	icon: {
+		alignSelf: 'center',
+		margin: 2
 	},
 	touchable: {
 		overflow: 'hidden',
@@ -91,7 +104,7 @@ const styles = StyleSheet.create({
 	},
 	imageContainer: {
 		width: '100%',
-		height: '65%'
+		height: '62%'
 	},
 	image: {
 		width: '100%',
@@ -105,18 +118,18 @@ const styles = StyleSheet.create({
 		padding: 2
 	},
 	title: {
-		marginVertical: 6,
+		marginVertical: 6
 	},
 	price: {
 		fontSize: 18,
-		color: '#888',
+		color: '#888'
 	},
 	actions: {
 		flexDirection: 'row',
 		alignSelf: 'center',
 		alignItems: 'center',
 		height: '18%',
-		paddingHorizontal: 20,
+		paddingHorizontal: 20
 	},
 	button: {
 		width: '50%'

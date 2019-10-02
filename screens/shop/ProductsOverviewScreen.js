@@ -6,6 +6,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import ProductItem from '../../components/shop/ProductItem';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import * as cartActions from '../../store/actions/cart';
+import * as productActions from '../../store/actions/products';
 
 const ProductsOverviewScreen = (props) => {
 	const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const ProductsOverviewScreen = (props) => {
 					title={itemData.item.title}
 					price={itemData.item.price}
 					image={itemData.item.imageUrl}
+					onToggleFavorite={() => dispatch(productActions.toggleFavorite(itemData.item.id))}
 					onViewDetail={() =>
 						props.navigation.navigate('DetailScreen', {
 							productId: itemData.item.id,
