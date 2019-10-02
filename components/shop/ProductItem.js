@@ -10,7 +10,8 @@ import {
 	TouchableNativeFeedback
 } from 'react-native';
 
-import Card from '../UI/Card';
+// import Card from '../UI/Card';
+import Line from '../UI/Line';
 import Colours from '../../constants/Colours';
 import CustomButton from '../UI/CustomButton';
 
@@ -30,7 +31,7 @@ const ProductItem = (props) => {
 						<View style={styles.textContainer}>
 							<Text style={styles.title}>{props.title}</Text>
 						</View>
-						<View style={styles.line} />
+						<Line />
 
 						{Platform.OS === 'android' ? (
 							<View style={styles.actions}>
@@ -107,14 +108,7 @@ const styles = StyleSheet.create({
 		marginVertical: 6,
 		fontFamily: 'GFSNeohellenic-Bold'
 	},
-	line: {
-		borderBottomColor: 'black',
-		borderBottomWidth: 1,
-		width: '40%',
-		alignSelf: 'center',
-		margin: 2,
-		height: '2%',
-	},
+
 	price: {
 		fontSize: 18,
 		color: '#888',

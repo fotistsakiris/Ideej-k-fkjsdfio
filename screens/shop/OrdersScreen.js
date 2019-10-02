@@ -29,7 +29,7 @@ OrdersScreen.navigationOptions = (navData) => {
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
-					title="card"
+					title="menu"
 					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
 					onPress={() => navData.navigation.toggleDrawer()}
 				/>

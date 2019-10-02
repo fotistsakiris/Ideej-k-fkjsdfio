@@ -3,18 +3,18 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 
 import CartItem from './CartItem';
 import Colours from '../../constants/Colours';
-import Card from '../UI/Card';
+// import Card from '../UI/Card';
 
 const OrderItem = (props) => {
 	const [ showDetails, setShowDetails ] = useState(false);
 	return (
-		<Card style={styles.orderItem}>
+		<View style={styles.orderItem}>
 			<View style={styles.summary}>
-				<Text style={styles.totalAmount}>{props.amount.toFixed(2)}</Text>
 				<Text style={styles.date}>{props.date}</Text>
+				<Text style={styles.totalAmount}>Σύνολο: {props.amount.toFixed(2)}</Text>
 			</View>
 			<Button
-				title={showDetails ? 'Hide Details' : 'Show Details'}
+				title={showDetails ? 'Απόκρυψη παργγελίας' : 'Εμφάνιση παραγγελίας'}
 				color={Colours.chocolate}
 				onPress={() => setShowDetails((prevState) => !prevState)}
 			/>
@@ -30,33 +30,41 @@ const OrderItem = (props) => {
 					))}
 				</View>
 			)}
-		</Card>
+		</View>
 	);
 };
 
 const styles = StyleSheet.create({
 	orderItem: {
+		shadowColor: 'black',
+		shadowOpacity: 0.26,
+		shadowOffset: { width: 0, height: 2 },
+		shadowRadius: 8,
+		elevation: 5,
+		borderRadius: 10,
+		backgroundColor: 'white',
 		margin: 20,
 		padding: 10,
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	summary: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
+		justifyContent: 'space-around',
 		alignItems: 'center',
-		width: '100%'
+		width: '80%'
 	},
 	totalAmount: {
 		fontFamily: 'GFSNeohellenic-Bold',
-		fontSize: 16
+		fontSize: 22,
+		paddingVertical: 10
 	},
 	date: {
 		fontFamily: 'GFSNeohellenic-Regular',
 		fontSize: 16,
-		color: '#888'
+		color: '#888',
+		paddingVertical: 10
 	},
 	detailItems: {
-		width: '100%'
+		width: '80%'
 	}
 });
 

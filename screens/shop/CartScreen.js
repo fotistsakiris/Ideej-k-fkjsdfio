@@ -29,7 +29,7 @@ const CartScreen = (props) => {
 
 	return (
 		<View style={styles.screen}>
-			<Card style={styles.summary}>
+			<View style={styles.summary}>
 				<Text style={styles.summaryText}>
 					{/* Use Math.round etc to remove the -0... */}
 					Total: <Text style={styles.amount}>${Math.round(cartTotalAmount.toFixed(2) * 100) / 100}</Text>
@@ -44,7 +44,7 @@ const CartScreen = (props) => {
 					 props.navigation.navigate('Orders')
 					}}
 				/>
-			</Card>
+			</View>
 			<FlatList
 				data={cartItems}
 				keyExtractor={(item) => item.productId}
@@ -63,7 +63,7 @@ const CartScreen = (props) => {
 };
 
 CartScreen.navigationOptions = {
-	headerTitle: 'Your Orders'
+	headerTitle: 'Το καλάθι σας'
 };
 
 const styles = StyleSheet.create({
@@ -71,6 +71,13 @@ const styles = StyleSheet.create({
 		margin: 20
 	},
 	summary: {
+		shadowColor: 'black',
+		shadowOpacity: 0.26,
+		shadowOffset: { width: 0, height: 2 },
+		shadowRadius: 8,
+		elevation: 5,
+		borderRadius: 10,
+		backgroundColor: 'white',
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
@@ -84,7 +91,8 @@ const styles = StyleSheet.create({
 	},
 	amount: {
 		color: Colours.chocolate
-	}
+	},
+
 });
 
 export default CartScreen;
