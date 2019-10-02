@@ -75,98 +75,99 @@ const FavNavigator = createStackNavigator(
 	}
 );
 
-const tabScreenConfig = {
-	Ekthesis: {
-		screen: EkthesisNavigator,
-		navigationOptions: {
-			tabBarIcon: (tabInfo) => {
-				return (
-					<Ionicons
-						name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
-						size={25}
-						color={tabInfo.tintColor}
-					/>
-				);
-			},
-			tabBarColor: Colours.gr_brown,
-			// Use Platform... otherwise we loose the color from iOS.
-			tabBarLabel:
-				Platform.OS === 'android' ? <Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Έκθεση</Text> : 'Έκθεση'
-		}
-	},
-	Favorites: {
-		screen: FavNavigator,
-		navigationOptions: {
-			tabBarIcon: (tabInfo) => {
-				return <MaterialIcons name="favorite" size={25} color={tabInfo.tintColor} />;
-			},
-			tabBarColor: Colours.gr_brown,
-			tabBarLabel:
-				Platform.OS === 'android' ? (
-					<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Αγαπημένα</Text>
-				) : (
-					'Αγαπημένα'
-				)
-		}
-	},
-	Orders: {
-		screen: OrdersNavigator,
-		navigationOptions: {
-			tabBarIcon: (tabInfo) => {
-				return (
-					<Ionicons
-						name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
-						size={25}
-						color={tabInfo.tintColor}
-					/>
-				);
-			},
-			tabBarColor: Colours.gr_brown,
-			tabBarLabel:
-				Platform.OS === 'android' ? (
-					<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Παραγγελίες</Text>
-				) : (
-					'Παραγγελίες'
-				)
-		}
-	}
-};
+// COMMENT OUT BOTTOMTABNAVIGATOR BECAUSE OF MALFUNCTION IN DRAWER...
+// const tabScreenConfig = {
+// 	Ekthesis: {
+// 		screen: EkthesisNavigator,
+// 		navigationOptions: {
+// 			tabBarIcon: (tabInfo) => {
+// 				return (
+// 					<Ionicons
+// 						name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
+// 						size={25}
+// 						color={tabInfo.tintColor}
+// 					/>
+// 				);
+// 			},
+// 			tabBarColor: Colours.gr_brown,
+// 			// Use Platform... otherwise we loose the color from iOS.
+// 			tabBarLabel:
+// 				Platform.OS === 'android' ? <Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Έκθεση</Text> : 'Έκθεση'
+// 		}
+// 	},
+// 	Favorites: {
+// 		screen: FavNavigator,
+// 		navigationOptions: {
+// 			tabBarIcon: (tabInfo) => {
+// 				return <MaterialIcons name="favorite" size={25} color={tabInfo.tintColor} />;
+// 			},
+// 			tabBarColor: Colours.gr_brown,
+// 			tabBarLabel:
+// 				Platform.OS === 'android' ? (
+// 					<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Αγαπημένα</Text>
+// 				) : (
+// 					'Αγαπημένα'
+// 				)
+// 		}
+// 	},
+// 	Orders: {
+// 		screen: OrdersNavigator,
+// 		navigationOptions: {
+// 			tabBarIcon: (tabInfo) => {
+// 				return (
+// 					<Ionicons
+// 						name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+// 						size={25}
+// 						color={tabInfo.tintColor}
+// 					/>
+// 				);
+// 			},
+// 			tabBarColor: Colours.gr_brown,
+// 			tabBarLabel:
+// 				Platform.OS === 'android' ? (
+// 					<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Παραγγελίες</Text>
+// 				) : (
+// 					'Παραγγελίες'
+// 				)
+// 		}
+// 	}
+// };
 
-const MultiTabNavigator =
-	Platform.OS === 'android'
-		? createMaterialBottomTabNavigator(tabScreenConfig, {
-				// NO tabBarOptions...
-				activeTintColor: 'white',
-				shifting: true,
-				barStyle: {
-					backgroundColor: Colours.gr_brown
-				}
-			})
-		: createBottomTabNavigator(tabScreenConfig, {
-				tabBarOptions: {
-					activeTintColor: Colours.gr_brown,
-					labelStyle: {
-						fontFamily: 'GFSNeohellenic-Bold',
-						fontSize: 18
-					}
-				}
-			});
+// const MultiTabNavigator =
+// 	Platform.OS === 'android'
+// 		? createMaterialBottomTabNavigator(tabScreenConfig, {
+// 				// NO tabBarOptions...
+// 				activeTintColor: 'white',
+// 				shifting: true,
+// 				barStyle: {
+// 					backgroundColor: Colours.gr_brown
+// 				}
+// 			})
+// 		: createBottomTabNavigator(tabScreenConfig, {
+// 				tabBarOptions: {
+// 					activeTintColor: Colours.gr_brown,
+// 					labelStyle: {
+// 						fontFamily: 'GFSNeohellenic-Bold',
+// 						fontSize: 18
+// 					}
+// 				}
+// 			});
 
 const MainNavigator = createDrawerNavigator(
 	{
-		MultiNav: {
-			screen: MultiTabNavigator,
-			navigationOptions: {
-				drawerLabel: 'Περιεχόμενα',
-				// drawerIcon: (drawerConfig) => (
-				// 	<Ionicons
-				// 		name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
-				// 		size={23}
-				// 		color={drawerConfig.tintColor}
-				// 	/>
-				// )
-			}
-		},
+		// MultiNav: {
+		// 	screen: MultiTabNavigator,
+		// 	navigationOptions: {
+		// 		drawerLabel: 'Περιεχόμενα',
+		// 		// drawerIcon: (drawerConfig) => (
+		// 		// 	<Ionicons
+		// 		// 		name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
+		// 		// 		size={23}
+		// 		// 		color={drawerConfig.tintColor}
+		// 		// 	/>
+		// 		// )
+		// 	}
+		// },
 		Ekthesis: {
 			screen: EkthesisNavigator,
 			navigationOptions: {
