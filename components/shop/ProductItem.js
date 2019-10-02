@@ -14,6 +14,7 @@ import {
 import Line from '../UI/Line';
 import Colours from '../../constants/Colours';
 import CustomButton from '../UI/CustomButton';
+import BoldText from '../UI/BoldText';
 
 const ProductItem = (props) => {
 	let TouchableComp = TouchableOpacity;
@@ -29,7 +30,7 @@ const ProductItem = (props) => {
 							<Image style={styles.image} source={{ uri: props.image }} />
 						</View>
 						<View style={styles.textContainer}>
-							<Text style={styles.title}>{props.title}</Text>
+							<BoldText style={styles.title}>{props.title}</BoldText>
 						</View>
 						<Line />
 
@@ -41,7 +42,7 @@ const ProductItem = (props) => {
 										onPress={props.onViewDetail}
 									/>
 								</View>
-								<Text style={styles.price}>€ {props.price.toFixed(2)}</Text>
+								<BoldText style={styles.price}>€ {props.price.toFixed(2)}</BoldText>
 								<View>
 									<CustomButton
 										title="... στο καλάθι"
@@ -104,15 +105,11 @@ const styles = StyleSheet.create({
 		padding: 2
 	},
 	title: {
-		fontSize: 20,
 		marginVertical: 6,
-		fontFamily: 'GFSNeohellenic-Bold'
 	},
-
 	price: {
 		fontSize: 18,
 		color: '#888',
-		fontFamily: 'GFSNeohellenic-Bold'
 	},
 	actions: {
 		flexDirection: 'row',

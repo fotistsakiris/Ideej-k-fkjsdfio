@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, TouchableNativeFeedback, StyleSheet, Text } from 'react-native';
+
 import Colours from '../../constants/Colours';
+import BoldText from '../UI/BoldText';
 
 export default (CustomButton = (props) => {
 	return (
 		<TouchableNativeFeedback onPress={props.onPress} style={{ ...styles.buttonStyle, ...props.style }}>
 			<View onPress={props.onPress} style={{ ...styles.buttonStyle, ...props.style }}>
-				<Text style={{ ...styles.text, ...props.style }}>{props.title}</Text>
+				<BoldText style={{ ...styles.text, ...props.style }}>{props.title}</BoldText>
 			</View>
 		</TouchableNativeFeedback>
 	);
@@ -35,9 +37,7 @@ const styles = StyleSheet.create({
 		elevation: 7,
 	},
 	text: {
-        fontSize: 20,
 		color: 'white',
         // textDecorationColor: Colours.chocolateRGBA,
-        fontFamily: 'GFSNeohellenic-Bold'
 	}
 });

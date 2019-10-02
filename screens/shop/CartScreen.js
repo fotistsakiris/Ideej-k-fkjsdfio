@@ -7,6 +7,7 @@ import * as cartActions from '../../store/actions/cart';
 import * as ordersActions from '../../store/actions/orders';
 import Card from '../../components/UI/Card';
 import Colours from '../../constants/Colours';
+import BoldText from "../../components/UI/BoldText";
 
 const CartScreen = (props) => {
 	const dispatch = useDispatch();
@@ -30,14 +31,14 @@ const CartScreen = (props) => {
 	return (
 		<View style={styles.screen}>
 			<View style={styles.summary}>
-				<Text style={styles.summaryText}>
+				<BoldText style={styles.summaryText}>
 					{/* Use Math.round etc to remove the -0... */}
-					Total: <Text style={styles.amount}>${Math.round(cartTotalAmount.toFixed(2) * 100) / 100}</Text>
-				</Text>
+					Σύνολο: <BoldText style={styles.amount}>{Math.round(cartTotalAmount.toFixed(2) * 100) / 100} €</BoldText>
+				</BoldText>
 				{/* NOTE: cartItems is an array!!! (Because of the FlatList down below) */}
 				<Button
 					color={Colours.chocolate}
-					title="Order Now"
+					title="Εκτέλεση παραγγελίας"
 					disabled={cartItems.length === 0}
 					onPress={() => {
 					 dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
@@ -85,7 +86,6 @@ const styles = StyleSheet.create({
 		padding: 10
 	},
 	summaryText: {
-		fontFamily: 'GFSNeohellenic-Bold',
 		fontSize: 18,
 		color: Colours.chocolate
 	},

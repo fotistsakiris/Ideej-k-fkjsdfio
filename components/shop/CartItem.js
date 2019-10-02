@@ -3,13 +3,14 @@ import { View, Text, Platform, StyleSheet, TouchableOpacity } from 'react-native
 import { Ionicons } from '@expo/vector-icons';
 
 import Line from '../UI/Line';
+import BoldText from '../UI/BoldText';
 
 const CartItem = (props) => {
 	return (
 		<View style={styles.cartItem}>
-			<Text style={styles.mainText}>{props.title} </Text>
+			<BoldText style={styles.mainText}>{props.title} </BoldText>
 			<View style={styles.itemData}>
-				<Text style={styles.mainText}>€ {+props.amount.toFixed(2)} </Text>
+				<BoldText style={styles.mainText}>{+props.amount.toFixed(2)} €</BoldText>
 				<Text style={styles.quantity}>Τεμ. {props.quantity} </Text>
 				{/* deletable is becuase we do not want to render the icon in OrderItem */}
 				{props.deletable && (
@@ -42,8 +43,6 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10
 	},
 	mainText: {
-		fontFamily: 'GFSNeohellenic-Bold',
-		fontSize: 20,
 		paddingHorizontal: 10
     },
     line: {

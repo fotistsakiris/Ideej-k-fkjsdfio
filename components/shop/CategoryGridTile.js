@@ -1,6 +1,8 @@
 import React from 'react';
 import { TouchableOpacity, Platform, View, Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
 
+import BoldText from '../UI/BoldText';
+
 const CategoryGridTile = (props) => {
     let TouchComp = Platform.OS === 'android' && Platform.Version >= 21 
     ? TouchableNativeFeedback : TouchableOpacity;
@@ -9,9 +11,9 @@ const CategoryGridTile = (props) => {
         <View style={styles.gridItem} >
 		<TouchComp style={{flex: 1}} onPress={props.onSelect}>
 			<View style={{ ...styles.container, ...{ backgroundColor: props.color } }}>
-				<Text numberOfLines={2} style={styles.title}>
+				<BoldText numberOfLines={2} >
 					{props.title}
-				</Text>
+				</BoldText>
 			</View>
 		</TouchComp>
         </View>
@@ -38,10 +40,6 @@ const styles = StyleSheet.create({
 		padding: 10,
 		justifyContent: 'center',
 		alignItems: 'center'
-	},
-	title: {
-		fontSize: 20,
-		fontFamily: 'GFSNeohellenic-Bold'
 	}
 });
 

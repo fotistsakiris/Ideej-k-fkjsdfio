@@ -14,7 +14,7 @@ const OrderItem = (props) => {
 				<Text style={styles.totalAmount}>Σύνολο: {props.amount.toFixed(2)}</Text>
 			</View>
 			<Button
-				title={showDetails ? 'Απόκρυψη παργγελίας' : 'Εμφάνιση παραγγελίας'}
+				title={showDetails ? 'Απόκρυψη παραγγελίας' : 'Εμφάνιση παραγγελίας'}
 				color={Colours.chocolate}
 				onPress={() => setShowDetails((prevState) => !prevState)}
 			/>
