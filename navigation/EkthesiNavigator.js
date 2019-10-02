@@ -1,7 +1,7 @@
 import React from 'react';
+import { Platform, Text } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-import { Platform, Text } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -44,6 +44,27 @@ const EkthesisNavigator = createStackNavigator(
 	}
 );
 
+// const CategoriesNavigator = createStackNavigator(
+// 	{
+// 		Categories: CategoriesScreen,
+		
+// 	},
+// 	{
+// 		defaultNavigationOptions: defaultNavOptions
+// 	}
+// );
+
+const FavNavigator = createStackNavigator(
+	{
+		Favorites: FavoritesScreen,
+		DetailScreen: ProductDetailScreen
+	},
+	{
+		// initialRouteName: 'Categories',
+		defaultNavigationOptions: defaultNavOptions
+	}
+);
+
 const OrdersNavigator = createStackNavigator(
 	{
 		Orders: OrdersScreen
@@ -64,176 +85,169 @@ const OrdersNavigator = createStackNavigator(
 	}
 );
 
-const FavNavigator = createStackNavigator(
-	{
-		Favorites: FavoritesScreen,
-		DetailScreen: ProductDetailScreen
-	},
-	{
-		// initialRouteName: 'Categories',
-		defaultNavigationOptions: defaultNavOptions
-	}
-);
+
 
 // COMMENT OUT BOTTOMTABNAVIGATOR BECAUSE OF MALFUNCTION IN DRAWER...
-// const tabScreenConfig = {
-// 	Ekthesis: {
-// 		screen: EkthesisNavigator,
-// 		navigationOptions: {
-// 			tabBarIcon: (tabInfo) => {
-// 				return (
-// 					<Ionicons
-// 						name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
-// 						size={25}
-// 						color={tabInfo.tintColor}
-// 					/>
-// 				);
-// 			},
-// 			tabBarColor: Colours.gr_brown,
-// 			// Use Platform... otherwise we loose the color from iOS.
-// 			tabBarLabel:
-// 				Platform.OS === 'android' ? <Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Έκθεση</Text> : 'Έκθεση'
-// 		}
-// 	},
-// 	Favorites: {
-// 		screen: FavNavigator,
-// 		navigationOptions: {
-// 			tabBarIcon: (tabInfo) => {
-// 				return <MaterialIcons name="favorite" size={25} color={tabInfo.tintColor} />;
-// 			},
-// 			tabBarColor: Colours.gr_brown,
-// 			tabBarLabel:
-// 				Platform.OS === 'android' ? (
-// 					<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Αγαπημένα</Text>
-// 				) : (
-// 					'Αγαπημένα'
-// 				)
-// 		}
-// 	},
-// 	Orders: {
-// 		screen: OrdersNavigator,
-// 		navigationOptions: {
-// 			tabBarIcon: (tabInfo) => {
-// 				return (
-// 					<Ionicons
-// 						name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
-// 						size={25}
-// 						color={tabInfo.tintColor}
-// 					/>
-// 				);
-// 			},
-// 			tabBarColor: Colours.gr_brown,
-// 			tabBarLabel:
-// 				Platform.OS === 'android' ? (
-// 					<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Παραγγελίες</Text>
-// 				) : (
-// 					'Παραγγελίες'
-// 				)
-// 		}
-// 	}
-// };
-
-// const MultiTabNavigator =
-// 	Platform.OS === 'android'
-// 		? createMaterialBottomTabNavigator(tabScreenConfig, {
-// 				// NO tabBarOptions...
-// 				activeTintColor: 'white',
-// 				shifting: true,
-// 				barStyle: {
-// 					backgroundColor: Colours.gr_brown
-// 				}
-// 			})
-// 		: createBottomTabNavigator(tabScreenConfig, {
-// 				tabBarOptions: {
-// 					activeTintColor: Colours.gr_brown,
-// 					labelStyle: {
-// 						fontFamily: 'GFSNeohellenic-Bold',
-// 						fontSize: 18
-// 					}
-// 				}
-// 			});
-
-const MainNavigator = createDrawerNavigator(
-	{
-		// MultiNav: {
-		// 	screen: MultiTabNavigator,
-		// 	navigationOptions: {
-		// 		drawerLabel: 'Περιεχόμενα',
-		// 		// drawerIcon: (drawerConfig) => (
-		// 		// 	<Ionicons
-		// 		// 		name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
-		// 		// 		size={23}
-		// 		// 		color={drawerConfig.tintColor}
-		// 		// 	/>
-		// 		// )
-		// 	}
-		// },
-		Ekthesis: {
-			screen: EkthesisNavigator,
-			navigationOptions: {
-				drawerLabel: 'Έκθεση',
-				drawerIcon: (tabInfo) => {
-					return (
-						<Ionicons
-							name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
-							size={25}
-							color={tabInfo.tintColor}
-						/>
-					);
-				},
-				tabBarColor: Colours.gr_brown,
-				// Use Platform... otherwise we loose the color from iOS.
-				drawerLabel:
-					Platform.OS === 'android' ? <Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Έκθεση</Text> : 'Έκθεση'
-			}
-		},
-		Favorites: {
-			screen: FavNavigator,
-			navigationOptions: {
-				drawerIcon: (tabInfo) => {
-					return <MaterialIcons name="favorite" size={25} color={tabInfo.tintColor} />;
-				},
-				tabBarColor: Colours.gr_brown,
-				drawerLabel:
-					Platform.OS === 'android' ? (
-						<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Αγαπημένα</Text>
-					) : (
-						'Αγαπημένα'
-					)
-			}
-		},
-		Orders: {
-			screen: OrdersNavigator,
-			navigationOptions: {
-				drawerIcon: (tabInfo) => {
-					return (
-						<Ionicons
-							name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
-							size={25}
-							color={tabInfo.tintColor}
-						/>
-					);
-				},
-				tabBarColor: Colours.gr_brown,
-				tabBarLabel:
-					Platform.OS === 'android' ? (
-						<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Παραγγελίες</Text>
-					) : (
-						'Παραγγελίες'
-					)
-			}
+const tabScreenConfig = {
+	Ekthesis: {
+		screen: EkthesisNavigator,
+		navigationOptions: {
+			tabBarIcon: (tabInfo) => {
+				return (
+					<Ionicons
+						name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
+						size={25}
+						color={tabInfo.tintColor}
+					/>
+				);
+			},
+			tabBarColor: Colours.gr_brown,
+			// Use Platform... otherwise we loose the color from iOS.
+			tabBarLabel:
+				Platform.OS === 'android' ? 
+				 <Text style={{ fontWeight:'bold', fontSize: 14, fontFamily: 'GFSNeohellenic-Bold' }}>Έκθεση</Text> : 'Έκθεση'
 		}
 	},
-	{
-		contentOptions: {
-			activeTintColor: Colours.gr_brown,
-			labelStyle: {
-				fontFamily: 'GFSNeohellenic-Bold',
-				fontSize: 20
-			}
-		},
-		drawerWidth: 200
+	Favorites: {
+		screen: FavNavigator,
+		navigationOptions: {
+			tabBarIcon: (tabInfo) => {
+				return <MaterialIcons name="favorite" size={25} color={tabInfo.tintColor} />;
+			},
+			tabBarColor: Colours.gr_brown,
+			tabBarLabel:
+				Platform.OS === 'android' ? (
+					<Text style={{ fontWeight:'bold', fontSize: 14, fontFamily: 'GFSNeohellenic-Bold' }}>Αγαπημένα</Text>
+				) : (
+					'Αγαπημένα'
+				)
+		}
+	},
+	Orders: {
+		screen: OrdersNavigator,
+		navigationOptions: {
+			tabBarIcon: (tabInfo) => {
+				return (
+					<Ionicons
+						name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+						size={25}
+						color={tabInfo.tintColor}
+					/>
+				);
+			},
+			tabBarColor: Colours.gr_brown,
+			tabBarLabel:
+				Platform.OS === 'android' ? (
+					<Text style={{ fontWeight:'bold', fontSize: 14, fontFamily: 'GFSNeohellenic-Bold' }}>Παραγγελίες</Text>
+				) : (
+					'Παραγγελίες'
+				)
+		}
 	}
-);
+};
 
-export default createAppContainer(MainNavigator);
+const MultiTabNavigator =
+	Platform.OS === 'android'
+		? createMaterialBottomTabNavigator(tabScreenConfig, {
+				// NO tabBarOptions...
+				activeTintColor: 'white',
+				shifting: true,
+				barStyle: {
+					backgroundColor: Colours.gr_brown
+				}
+			})
+		: createBottomTabNavigator(tabScreenConfig, {
+				tabBarOptions: {
+					activeTintColor: Colours.gr_brown,
+					labelStyle: {
+						fontFamily: 'GFSNeohellenic-Bold',
+						fontSize: 18
+					}
+				}
+			});
+
+// const MainNavigator = createDrawerNavigator(
+// 	{
+// 		MultiNav: {
+// 			screen: MultiTabNavigator,
+// 			navigationOptions: {
+// 				drawerLabel: 'Περιεχόμενα',
+// 				// drawerIcon: (drawerConfig) => (
+// 				// 	<Ionicons
+// 				// 		name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
+// 				// 		size={23}
+// 				// 		color={drawerConfig.tintColor}
+// 				// 	/>
+// 				// )
+// 			}
+// 		},
+// 		Categories: {
+// 			screen: CategoriesNavigator,
+// 			navigationOptions: {
+// 				drawerLabel: 'Έκθεση',
+// 				drawerIcon: (tabInfo) => {
+// 					return (
+// 						<Ionicons
+// 							name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
+// 							size={25}
+// 							color={tabInfo.tintColor}
+// 						/>
+// 					);
+// 				},
+// 				tabBarColor: Colours.gr_brown,
+// 				// Use Platform... otherwise we loose the color from iOS.
+// 				drawerLabel:
+// 					Platform.OS === 'android' ? <Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Έκθεση</Text> : 'Έκθεση'
+// 			}
+// 		},
+		
+// 		Favorites: {
+// 			screen: FavNavigator,
+// 			navigationOptions: {
+// 				drawerIcon: (tabInfo) => {
+// 					return <MaterialIcons name="favorite" size={25} color={tabInfo.tintColor} />;
+// 				},
+// 				tabBarColor: Colours.gr_brown,
+// 				drawerLabel:
+// 					Platform.OS === 'android' ? (
+// 						<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Αγαπημένα</Text>
+// 					) : (
+// 						'Αγαπημένα'
+// 					)
+// 			}
+// 		},
+// 		Orders: {
+// 			screen: OrdersNavigator,
+// 			navigationOptions: {
+// 				drawerIcon: (tabInfo) => {
+// 					return (
+// 						<Ionicons
+// 							name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+// 							size={25}
+// 							color={tabInfo.tintColor}
+// 						/>
+// 					);
+// 				},
+// 				tabBarColor: Colours.gr_brown,
+// 				tabBarLabel:
+// 					Platform.OS === 'android' ? (
+// 						<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Παραγγελίες</Text>
+// 					) : (
+// 						'Παραγγελίες'
+// 					)
+// 			}
+// 		}
+// 	},
+// 	{
+// 		contentOptions: {
+// 			activeTintColor: Colours.gr_brown,
+// 			labelStyle: {
+// 				fontFamily: 'GFSNeohellenic-Bold',
+// 				fontSize: 20
+// 			}
+// 		},
+// 		drawerWidth: 200
+// 	}
+// );
+
+export default createAppContainer(MultiTabNavigator);

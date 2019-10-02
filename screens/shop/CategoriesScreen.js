@@ -41,13 +41,22 @@ const CategoriesScreen = (props) => {
 CategoriesScreen.navigationOptions = (navData) => {
 	return {
 		headerTitle: 'Έκθεση',
-		headerLeft: (
+		// headerLeft: (
+		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+		// 		<Item
+		// 			onPress={() => navData.navigation.toggleDrawer()}
+		// 			title="Menu"
+		// 			iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+		// 			size={23}
+		// 		/>
+		// 	</HeaderButtons>
+		// )
+		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
-					onPress={() => navData.navigation.toggleDrawer()}
-					title="Menu"
-					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-					size={23}
+					title="card"
+					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+					onPress={() => navData.navigation.navigate({routeName: 'Cart'})}
 				/>
 			</HeaderButtons>
 		)

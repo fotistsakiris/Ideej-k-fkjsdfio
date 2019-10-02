@@ -38,15 +38,15 @@ const ProductsOverviewScreen = (props) => {
 ProductsOverviewScreen.navigationOptions = (navData) => {
 	return {
 		headerTitle: navData.navigation.getParam('categoryTitle'),
-		headerLeft: (
-			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-				<Item
-					title="card"
-					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-					onPress={() => navData.navigation.toggleDrawer()}
-				/>
-			</HeaderButtons>
-		),
+		// headerLeft: (
+		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+		// 		<Item
+		// 			title="menu"
+		// 			iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+		// 			onPress={() => navData.navigation.toggleDrawer()}
+		// 		/>
+		// 	</HeaderButtons>
+		// ),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item

@@ -26,12 +26,21 @@ const OrdersScreen = (props) => {
 OrdersScreen.navigationOptions = (navData) => {
 	return {
 		headerTitle: 'Οι παραγγελίες σας',
-		headerLeft: (
+		// headerLeft: (
+		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+		// 		<Item
+		// 			title="menu"
+		// 			iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+		// 			onPress={() => navData.navigation.toggleDrawer()}
+		// 		/>
+		// 	</HeaderButtons>
+		// )
+		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
-					title="menu"
-					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-					onPress={() => navData.navigation.toggleDrawer()}
+					title="card"
+					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+					onPress={() => navData.navigation.navigate({routeName: 'Cart'})}
 				/>
 			</HeaderButtons>
 		)
