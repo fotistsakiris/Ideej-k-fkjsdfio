@@ -225,10 +225,10 @@ const MainNavigator = createDrawerNavigator(
 	},
 	{
 		contentOptions: {
-			activeTintColor: Colours.chocolate,
+			activeTintColor: Colours.gr_brown,
 			labelStyle: {
 				fontFamily: 'GFSNeohellenic-Bold',
-				fontSize: 18
+				fontSize: 20
 			}
 		},
 		drawerWidth: 200

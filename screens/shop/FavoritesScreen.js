@@ -1,19 +1,23 @@
 import React from 'react';
-import { Text, View, StyleSheet, Platform } from 'react-native';
+import { Text, View, FlatList, StyleSheet, Platform } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-import ProductList from '../../components/shop/ProductList';
+import ProductItem from '../../components/shop/ProductItem';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
+import * as cartActions from '../../store/actions/cart';
+
 // import DefaultText from '../components/UI/DefaultText';
 
 const FavoritesScreen = (props) => {
+	const dispatch = useDispatch();
+
 	const products = useSelector((state) => state.products.availableProducts);
 
 	// Not needed anymore!
 	// dummy data for favorite
 	const favProducts = products.filter((product) => product.id === 'icon_1' || product.id === 'icon_2');
-	
+
 	// Render something when no favorites are selected.
 	if (favProducts.length === 0 || !favProducts) {
 		return (
@@ -23,7 +27,25 @@ const FavoritesScreen = (props) => {
 		);
 	}
 
-	return  <ProductList listData={favProducts} navigation={props.navigation} />;
+	return (
+		<FlatList
+			data={favProducts}
+			keyExtractor={(item) => item.id}
+			renderItem={(itemData) => (
+				<ProductItem
+					title={itemData.item.title}
+					price={itemData.item.price}
+					image={itemData.item.imageUrl}
+					onViewDetail={() =>
+						props.navigation.navigate('DetailScreen', {
+							productId: itemData.item.id,
+							productTitle: itemData.item.title
+						})}
+					onAddToCart={() => dispatch(cartActions.addToCard(itemData.item))}
+				/>
+			)}
+		/>
+	);
 };
 
 FavoritesScreen.navigationOptions = (navData) => {
@@ -39,6 +61,15 @@ FavoritesScreen.navigationOptions = (navData) => {
 					}}
 				/>
 			</HeaderButtons>
+		),
+		headerRight: (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					title="card"
+					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+					onPress={() => navData.navigation.navigate({routeName: 'Cart'})}
+				/>
+			</HeaderButtons>
 		)
 	};
 };
@@ -48,6 +79,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+		width: '100%',
 		margin: 12
 	}
 });
