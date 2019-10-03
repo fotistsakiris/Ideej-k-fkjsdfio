@@ -12,14 +12,9 @@ import * as productActions from '../../store/actions/products';
 
 const FavoritesScreen = (props) => {
 	const dispatch = useDispatch();
-
-	// const products = useSelector((state) => state.products.availableProducts);
 	const favProducts = useSelector((state) => state.products.favoriteProducts);
 
-	// // Not needed anymore!
-	// // dummy data for favorite
-	// const favProducts = products.filter((product) => product.id === 'icon_1' || product.id === 'icon_2');
- 
+
 	// Render something when no favorites are selected.
 	if (favProducts.length === 0 || !favProducts) {
 		return (

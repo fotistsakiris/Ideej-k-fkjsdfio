@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Platform, View, Text, ScrollView, Image, Button, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -15,6 +15,9 @@ const ProductDetailScreen = (props) => {
 
 	const productId = props.navigation.getParam('productId');
 	const selectedProduct = PRODUCTS.find((prod) => prod.id === productId);
+
+	const toggleFavoriteHandler = () => dispatch(productActions.toggleFavorite(productId));
+
 	return (
 		<ScrollView>
 			<View style={styles.icon}>
@@ -23,7 +26,7 @@ const ProductDetailScreen = (props) => {
 					name={true ? 'favorite' : 'favorite_bord'}
 					type="material"
 					color={Colours.chocolate}
-					onPress={() => dispatch(productActions.toggleFavorite(productId))}
+					onPress={toggleFavoriteHandler}
 				/>
 			</View>
 			<Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />

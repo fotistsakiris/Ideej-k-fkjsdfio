@@ -14,8 +14,8 @@ export default (state = initialState, action) => {
 			if (existingIndex >= 0) {
                 // Remove a favorite product.
 				const updatedFavProducts= [ ...state.favoriteProducts];
-				updatedFavMeals.splice(existingIndex, 1);
-				return { ...state, favoriteMeals: updatedFavProducts};
+				updatedFavProducts.splice(existingIndex, 1);
+				return { ...state, favoriteProducts: updatedFavProducts};
 			} else {
 				// Add a favorite product.
 				const product = state.availableProducts.find((product) => product.id === action.productId);

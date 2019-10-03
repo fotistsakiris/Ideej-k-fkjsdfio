@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { FlatList, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -15,6 +15,8 @@ const ProductsOverviewScreen = (props) => {
 		state.products.availableProducts.filter((prod) => prod.categoryIds.indexOf(categoryId) >= 0)
 	);
 
+	const toggleFavoriteHandler = (id) => dispatch(productActions.toggleFavorite(id));
+
 	return (
 		<FlatList
 			data={products}
@@ -24,7 +26,7 @@ const ProductsOverviewScreen = (props) => {
 					title={itemData.item.title}
 					price={itemData.item.price}
 					image={itemData.item.imageUrl}
-					onToggleFavorite={() => dispatch(productActions.toggleFavorite(itemData.item.id))}
+					onToggleFavorite={() => toggleFavoriteHandler(itemData.item.id)}
 					onViewDetail={() =>
 						props.navigation.navigate('DetailScreen', {
 							productId: itemData.item.id,
@@ -54,7 +56,7 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
 				<Item
 					title="card"
 					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-					onPress={() => navData.navigation.navigate({routeName: 'Cart'})}
+					onPress={() => navData.navigation.navigate({ routeName: 'Cart' })}
 				/>
 			</HeaderButtons>
 		)

@@ -2,6 +2,11 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 [React Native - The Practical Guide](https://www.udemy.com/react-native-the-practical-guide/)
 
 
+## TODO
+### fix scrollView when having a lot of items in CartScreen,
+### fix change tab from cartScreen to home. It needs to tab it twice. - Also from favorites...
+
+
 # Packages installed:
 ### redux react-redux react-navigation react-navigation-stack react-navigation-header-buttons, react-navigation react-navigation-tabs react-navigation react-navigation-drawer 
 ### react-navigation-material-bottom-tabs 
