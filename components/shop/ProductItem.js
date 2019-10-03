@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 		height: 290,
 		margin: 20,
 		padding: 10,
-		backgroundColor: Colours.gr_brown_lighter 
+		backgroundColor: Colours.lightseagreen 
 	},
 	icon: {
 		alignSelf: 'center',

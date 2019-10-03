@@ -15,7 +15,7 @@ import CategoriesScreen from '../screens/shop/CategoriesScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 import FavoritesScreen from '../screens/shop/FavoritesScreen';
-import UserProductsScreen from '../screens/user/UserProductsScreen';
+import AdminProductsScreen from '../screens/user/AdminProductsScreen';
 
 const defaultNavOptions = {
 	headerBackTitle: 'Πίσω',
@@ -87,9 +87,9 @@ const OrdersNavigator = createStackNavigator(
 );
 
 
-const UserNavigator = createStackNavigator(
+const AdminNavigator = createStackNavigator(
 	{
-		User: UserProductsScreen
+		Admin: AdminProductsScreen
 	},
 	{
 		// navigationOptions only apply if this Screen here, belongs to another Navigator
@@ -165,8 +165,8 @@ const tabScreenConfig = {
 				)
 		}
 	},
-	User: {
-		screen: UserNavigator,
+	Admin: {
+		screen: AdminNavigator,
 		navigationOptions: {
 			tabBarIcon: (tabInfo) => {
 				return (
@@ -182,7 +182,7 @@ const tabScreenConfig = {
 				Platform.OS === 'android' ? (
 					<Text style={{ fontWeight:'bold', fontSize: 14, fontFamily: 'GFSNeohellenic-Bold' }}>Παραγγελίες</Text>
 				) : (
-					'Χρήστης'
+					'Διαχειριστής'
 				)
 		}
 	}

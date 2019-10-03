@@ -52,7 +52,7 @@ const FavoritesScreen = (props) => {
 									onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 								/>
 							</View>
-							<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
+							<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
 							<View>
 								<CustomButton
 									title="... στο καλάθι"
@@ -69,7 +69,7 @@ const FavoritesScreen = (props) => {
 									onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 								/>
 							</View>
-							<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
+							<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
 							<View style={styles.button}>
 								<Button
 									color={Colours.gr_brown_light}

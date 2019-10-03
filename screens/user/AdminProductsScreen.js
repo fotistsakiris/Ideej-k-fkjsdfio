@@ -8,7 +8,7 @@ import ProductItem from '../../components/shop/ProductItem';
 import Colours from '../../constants/Colours';
 import * as productsActions from '../../store/actions/products';
 
-const UserProductsScreen = (props) => {
+const AdminProductsScreen = (props) => {
 	const dispatch = useDispatch();
 	const userProducts = useSelector((state) => state.products.userProducts);
 
@@ -30,7 +30,6 @@ const UserProductsScreen = (props) => {
 				<ProductItem
 					image={itemData.item.imageUrl}
 					title={itemData.item.title}
-					price={itemData.item.price}
 					onSelect={() => editProductHandler(itemData.item.id)}
 				>
                     {Platform.OS === 'android' ? (
@@ -38,7 +37,7 @@ const UserProductsScreen = (props) => {
 								<View>
 									<CustomButton title="Επεξεργασία" onPress={() => editProductHandler(itemData.item.id)} />
 								</View>
-								<BoldText style={styles.price}>€ {props.price.toFixed(2)}</BoldText>
+								<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
 								<View>
 									<CustomButton title="Διαγραφή" onPress={deleteHandler.bind(this, itemData.item.id)} />
 								</View>
@@ -52,7 +51,7 @@ const UserProductsScreen = (props) => {
 										onPress={() => editProductHandler(itemData.item.id)}
 									/>
 								</View>
-								<Text style={styles.price}>€ {props.price.toFixed(2)}</Text>
+								<Text style={styles.price}>€ {itemData.item.price.toFixed(2)}</Text>
 								<View style={styles.button}>
 									<Button
 										color={Colours.gr_brown_light}
@@ -74,7 +73,7 @@ const UserProductsScreen = (props) => {
 	);
 };
 
-UserProductsScreen.navigationOptions = (navData) => {
+AdminProductsScreen.navigationOptions = (navData) => {
 	return {
 		headerTitle: 'Τα προϊόντα σας',
 		headerLeft: (
@@ -115,4 +114,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default UserProductsScreen;
+export default AdminProductsScreen;
