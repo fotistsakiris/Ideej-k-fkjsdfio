@@ -9,7 +9,7 @@ import ordersReducer from './reducers/orders';
 const rootReducer = combineReducers({
     products: ProductReducer,
     cart: cartReducer,
-    orders: ordersReducer
+    orders: ordersReducer,
 });
 
 let composeEnhancers = compose;

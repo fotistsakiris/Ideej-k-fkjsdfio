@@ -5,6 +5,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import ProductItem from '../../components/shop/ProductItem';
+import BoldText from '../../components/UI/BoldText';
 import Colours from '../../constants/Colours';
 import * as productsActions from '../../store/actions/products';
 
@@ -37,7 +38,7 @@ const AdminProductsScreen = (props) => {
 								<View>
 									<CustomButton title="Επεξεργασία" onPress={() => editProductHandler(itemData.item.id)} />
 								</View>
-								<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
+								<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
 								<View>
 									<CustomButton title="Διαγραφή" onPress={deleteHandler.bind(this, itemData.item.id)} />
 								</View>
@@ -51,7 +52,7 @@ const AdminProductsScreen = (props) => {
 										onPress={() => editProductHandler(itemData.item.id)}
 									/>
 								</View>
-								<Text style={styles.price}>€ {itemData.item.price.toFixed(2)}</Text>
+								<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
 								<View style={styles.button}>
 									<Button
 										color={Colours.gr_brown_light}

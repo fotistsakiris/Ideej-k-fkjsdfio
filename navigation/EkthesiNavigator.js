@@ -15,7 +15,8 @@ import CategoriesScreen from '../screens/shop/CategoriesScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 import FavoritesScreen from '../screens/shop/FavoritesScreen';
-import AdminProductsScreen from '../screens/user/AdminProductsScreen';
+import AdminProductsScreen from '../screens/admin/AdminProductsScreen';
+import EditProductScreen from '../screens/admin/EditProductScreen';
 
 const defaultNavOptions = {
 	headerBackTitle: 'Πίσω',
@@ -89,20 +90,21 @@ const OrdersNavigator = createStackNavigator(
 
 const AdminNavigator = createStackNavigator(
 	{
-		Admin: AdminProductsScreen
+		Admin: AdminProductsScreen,
+		EditProduct: EditProductScreen
 	},
 	{
 		// navigationOptions only apply if this Screen here, belongs to another Navigator
-		navigationOptions: {
-			drawerLabel: 'Χρήστης',
-			// drawerIcon: (drawerConfig) => (
-			// 	<Ionicons
-			// 		name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
-			// 		size={23}
-			// 		color={drawerConfig.tintColor}
-			// 	/>
-			// )
-		},
+		// navigationOptions: {
+		// 	drawerLabel: 'Χρήστης',
+		// 	// drawerIcon: (drawerConfig) => (
+		// 	// 	<Ionicons
+		// 	// 		name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+		// 	// 		size={23}
+		// 	// 		color={drawerConfig.tintColor}
+		// 	// 	/>
+		// 	// )
+		// },
 		defaultNavigationOptions: defaultNavOptions
 	}
 );

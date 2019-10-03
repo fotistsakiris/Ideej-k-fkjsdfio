@@ -10,7 +10,7 @@ const CartItem = (props) => {
 		<View style={styles.cartItem}>
 			<BoldText style={styles.mainText}>{props.title} </BoldText>
 			<View style={styles.itemData}>
-				<BoldText style={styles.mainText}>{+props.amount.toFixed(2)} €</BoldText>
+				<BoldText style={styles.mainText}>{props.amount.toFixed(2)} €</BoldText>
 				<Text style={styles.quantity}>Τεμ. {props.quantity} </Text>
 				{/* deletable is becuase we do not want to render the icon in OrderItem */}
 				{props.deletable && (

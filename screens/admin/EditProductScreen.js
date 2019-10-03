@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
+import BoldText from '../../components/UI/BoldText';
 import * as productActions from '../../store/actions/products';
 
 const EditProductScreen = (props) => {
@@ -42,22 +43,22 @@ const EditProductScreen = (props) => {
 	return (
 		<ScrollView style={styles.form}>
 			<View style={styles.formControl}>
-				<Text style={styles.label}>Title</Text>
+				<BoldText>Title</BoldText>
 				<TextInput style={styles.input} value={title} onChangeText={(text) => setTitle(text)} />
 			</View>
 			<View style={styles.formControl}>
-				<Text style={styles.label}>Image</Text>
+				<BoldText>Image</BoldText>
 				<TextInput style={styles.input} value={imageUrl} onChangeText={(text) => setImageUrl(text)} />
 			</View>
 			{/* If in edited mode then we get no price */}
 			{editedProduct ? null : (
 				<View style={styles.formControl}>
-					<Text style={styles.label}>Price</Text>
+					<BoldText>Price</BoldText>
 					<TextInput style={styles.input} value={price} onChangeText={(text) => setPrice(text)} />
 				</View>
 			)}
 			<View style={styles.formControl}>
-				<Text style={styles.label}>Description</Text>
+				<BoldText>Description</BoldText>
 				<TextInput style={styles.input} value={description} onChangeText={(text) => setDescription(text)} />
 			</View>
 		</ScrollView>
@@ -87,10 +88,6 @@ const styles = StyleSheet.create({
 	formControl: {
 		width: '100%'
 		// marginBottom: 10
-	},
-	label: {
-		fontFamily: 'open-sans-bold'
-		// marginHorizontal: 8
 	},
 	input: {
 		paddingHorizontal: 1,
