@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, Text } from 'react-native';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -15,6 +15,7 @@ import CategoriesScreen from '../screens/shop/CategoriesScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 import FavoritesScreen from '../screens/shop/FavoritesScreen';
+import UserProductsScreen from '../screens/user/UserProductsScreen';
 
 const defaultNavOptions = {
 	headerBackTitle: 'Πίσω',
@@ -86,8 +87,28 @@ const OrdersNavigator = createStackNavigator(
 );
 
 
+const UserNavigator = createStackNavigator(
+	{
+		User: UserProductsScreen
+	},
+	{
+		// navigationOptions only apply if this Screen here, belongs to another Navigator
+		navigationOptions: {
+			drawerLabel: 'Χρήστης',
+			// drawerIcon: (drawerConfig) => (
+			// 	<Ionicons
+			// 		name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+			// 		size={23}
+			// 		color={drawerConfig.tintColor}
+			// 	/>
+			// )
+		},
+		defaultNavigationOptions: defaultNavOptions
+	}
+);
 
-// COMMENT OUT BOTTOMTABNAVIGATOR BECAUSE OF MALFUNCTION IN DRAWER...
+
+
 const tabScreenConfig = {
 	Ekthesis: {
 		screen: EkthesisNavigator,
@@ -141,6 +162,27 @@ const tabScreenConfig = {
 					<Text style={{ fontWeight:'bold', fontSize: 14, fontFamily: 'GFSNeohellenic-Bold' }}>Παραγγελίες</Text>
 				) : (
 					'Παραγγελίες'
+				)
+		}
+	},
+	User: {
+		screen: UserNavigator,
+		navigationOptions: {
+			tabBarIcon: (tabInfo) => {
+				return (
+					<FontAwesome
+						name='user-o'
+						size={23}
+						color={tabInfo.tintColor}
+					/>
+				);
+			},
+			tabBarColor: Colours.gr_brown,
+			tabBarLabel:
+				Platform.OS === 'android' ? (
+					<Text style={{ fontWeight:'bold', fontSize: 14, fontFamily: 'GFSNeohellenic-Bold' }}>Παραγγελίες</Text>
+				) : (
+					'Χρήστης'
 				)
 		}
 	}

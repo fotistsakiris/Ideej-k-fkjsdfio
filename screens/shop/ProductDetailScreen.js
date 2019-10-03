@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		color: '#888',
 		textAlign: 'center',
-		marginVertical: 20
+		marginVertical: 2
 	},
 	description: {
 		fontSize: 20,

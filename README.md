@@ -5,7 +5,8 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ## TODO
 ### fix scrollView when having a lot of items in CartScreen,
 ### fix change tab from cartScreen to home. It needs to tab it twice. - Also from favorites...
-
+### change favorite icon on toggle
+### put a plus/minus sign to add/remove products in the cartScreen.
 
 # Packages installed:
 ### redux react-redux react-navigation react-navigation-stack react-navigation-header-buttons, react-navigation react-navigation-tabs react-navigation react-navigation-drawer 

@@ -1,11 +1,13 @@
 import React from 'react';
-import { Text, View, FlatList, StyleSheet, Platform } from 'react-native';
+import { Text, View, Button, FlatList, StyleSheet, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import ProductItem from '../../components/shop/ProductItem';
 import BoldText from '../../components/UI/BoldText';
+import Colours from '../../constants/Colours';
+
 import * as cartActions from '../../store/actions/cart';
 import * as productActions from '../../store/actions/products';
 
@@ -15,13 +17,18 @@ const FavoritesScreen = (props) => {
 	const dispatch = useDispatch();
 	const favProducts = useSelector((state) => state.products.favoriteProducts);
 
-
+	const selectItemHandler = (id, title) => {
+		props.navigation.navigate('DetailScreen', {
+			productId: id,
+			productTitle: title
+		})
+	} 
 	// Render something when no favorites are selected.
 	if (favProducts.length === 0 || !favProducts) {
 		return (
 			<View style={styles.content}>
-				<BoldText>{`Ακόμη δεν έχετε επιλέξει αγαπημένα. \nΠαρακαλώ κάντε τις επιλογές σας.\nΘα χαρούμε να σας εξυπηρετήσουμε!`}</BoldText>
-
+				<BoldText
+				>{`Ακόμη δεν έχετε επιλέξει αγαπημένα. \nΠαρακαλώ κάντε τις επιλογές σας.\nΘα χαρούμε να σας εξυπηρετήσουμε!`}</BoldText>
 			</View>
 		);
 	}
@@ -33,22 +40,52 @@ const FavoritesScreen = (props) => {
 			renderItem={(itemData) => (
 				<ProductItem
 					title={itemData.item.title}
-					price={itemData.item.price}
 					image={itemData.item.imageUrl}
 					onToggleFavorite={() => dispatch(productActions.toggleFavorite(itemData.item.id))}
-					onViewDetail={() =>
-						props.navigation.navigate('DetailScreen', {
-							productId: itemData.item.id,
-							productTitle: itemData.item.title
-						})}
-					onAddToCart={() => dispatch(cartActions.addToCard(itemData.item))}
-				/>
+					onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
+				>
+					{Platform.OS === 'android' ? (
+						<View style={styles.actions}>
+							<View>
+								<CustomButton
+									title="Λεπτομέρειες"
+									onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
+								/>
+							</View>
+							<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
+							<View>
+								<CustomButton
+									title="... στο καλάθι"
+									onPress={() => dispatch(cartActions.addToCard(itemData.item))}
+								/>
+							</View>
+						</View>
+					) : (
+						<View style={styles.actions}>
+							<View style={styles.button}>
+								<Button
+									color={Colours.gr_brown_light}
+									title="Λεπτομέρειες"
+									onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
+								/>
+							</View>
+							<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
+							<View style={styles.button}>
+								<Button
+									color={Colours.gr_brown_light}
+									title="... στο καλάθι"
+									onPress={() => dispatch(cartActions.addToCard(itemData.item))}
+								/>
+							</View>
+						</View>
+					)}
+				</ProductItem>
 			)}
 		/>
 	);
 };
 
-FavoritesScreen.navigationOptions = ({navigation}) => {
+FavoritesScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: 'Αγαπημένα',
 		// headerLeft: (
@@ -65,7 +102,7 @@ FavoritesScreen.navigationOptions = ({navigation}) => {
 				<Item
 					title="card"
 					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-					onPress={() => navigation.navigate({routeName: 'Cart'})}
+					onPress={() => navigation.navigate({ routeName: 'Cart' })}
 				/>
 			</HeaderButtons>
 		)
@@ -79,6 +116,20 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: '100%',
 		margin: 12
+	},
+	price: {
+		fontSize: 18,
+		color: '#888'
+	},
+	actions: {
+		flexDirection: 'row',
+		alignSelf: 'center',
+		alignItems: 'center',
+		height: '18%',
+		paddingHorizontal: 20
+	},
+	button: {
+		width: '50%'
 	}
 });
 

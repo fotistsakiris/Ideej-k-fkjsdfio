@@ -34,7 +34,7 @@ const ProductItem = (props) => {
 				/>
 			</View>
 			<View style={styles.touchable}>
-				<TouchableComp onPress={props.onViewDetail} useForground>
+				<TouchableComp onPress={props.onSelect} useForground>
 					<View>
 						<View style={styles.imageContainer}>
 							<Image style={styles.image} source={{ uri: props.image }} />
@@ -45,35 +45,7 @@ const ProductItem = (props) => {
 						</View>
 
 						<Line />
-						{Platform.OS === 'android' ? (
-							<View style={styles.actions}>
-								<View>
-									<CustomButton title="Λεπτομέρειες" onPress={props.onViewDetail} />
-								</View>
-								<BoldText style={styles.price}>€ {props.price.toFixed(2)}</BoldText>
-								<View>
-									<CustomButton title="... στο καλάθι" onPress={props.onAddToCart} />
-								</View>
-							</View>
-						) : (
-							<View style={styles.actions}>
-								<View style={styles.button}>
-									<Button
-										color={Colours.gr_brown_light}
-										title="Λεπτομέρειες"
-										onPress={props.onViewDetail}
-									/>
-								</View>
-								<Text style={styles.price}>€ {props.price.toFixed(2)}</Text>
-								<View style={styles.button}>
-									<Button
-										color={Colours.gr_brown_light}
-										title="... στο καλάθι"
-										onPress={props.onAddToCart}
-									/>
-								</View>
-							</View>
-						)}
+						{props.children}
 					</View>
 				</TouchableComp>
 			</View>
@@ -92,7 +64,8 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white',
 		height: 290,
 		margin: 20,
-		padding: 10
+		padding: 10,
+		backgroundColor: Colours.gr_brown_lighter 
 	},
 	icon: {
 		alignSelf: 'center',
