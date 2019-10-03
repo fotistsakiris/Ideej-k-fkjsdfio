@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, View, FlatList, StyleSheet, Platform } from 'react-native';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import ProductItem from '../../components/shop/ProductItem';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
+import ProductItem from '../../components/shop/ProductItem';
 import BoldText from '../../components/UI/BoldText';
 import * as cartActions from '../../store/actions/cart';
 import * as productActions from '../../store/actions/products';
@@ -48,17 +48,15 @@ const FavoritesScreen = (props) => {
 	);
 };
 
-FavoritesScreen.navigationOptions = (navData) => {
+FavoritesScreen.navigationOptions = ({navigation}) => {
 	return {
 		headerTitle: 'Αγαπημένα',
 		// headerLeft: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item
-		// 			title="Menu"
-		// 			iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-		// 			onPress={() => {
-		// 				navData.navigation.toggleDrawer();
-		// 			}}
+		// 			title="goBack"
+		// 			iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
+		// 			onPress={() => navigation.pop()}
 		// 		/>
 		// 	</HeaderButtons>
 		// ),
@@ -67,7 +65,7 @@ FavoritesScreen.navigationOptions = (navData) => {
 				<Item
 					title="card"
 					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-					onPress={() => navData.navigation.navigate({routeName: 'Cart'})}
+					onPress={() => navigation.navigate({routeName: 'Cart'})}
 				/>
 			</HeaderButtons>
 		)

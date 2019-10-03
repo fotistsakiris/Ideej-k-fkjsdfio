@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import { View, FlatList, Button, StyleSheet, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
+import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CartItem from '../../components/shop/CartItem';
 import * as cartActions from '../../store/actions/cart';
 import * as ordersActions from '../../store/actions/orders';
@@ -63,9 +65,32 @@ const CartScreen = (props) => {
 	);
 };
 
-CartScreen.navigationOptions = {
-	headerTitle: 'Το καλάθι σας'
+
+CartScreen.navigationOptions = ({navigation}) => {
+	return {
+		headerTitle: 'Το καλάθι σας',
+		// headerRight: (
+		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+		// 		<Item
+		// 			title="goBack"
+		// 			iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
+		// 			onPress={() => navigation.pop()}
+		// 		/>
+		// 	</HeaderButtons>
+		// ),
+		// headerRight: (
+		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+		// 		<Item
+		// 			title="card"
+		// 			iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+		// 			onPress={() => navigation.navigate({routeName: 'Cart'})}
+		// 		/>
+		// 	</HeaderButtons>
+		// )
+	};
 };
+
+
 
 const styles = StyleSheet.create({
 	screen: {

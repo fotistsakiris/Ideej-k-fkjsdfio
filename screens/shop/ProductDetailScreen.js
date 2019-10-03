@@ -1,7 +1,9 @@
-import React, { useEffect, useCallback } from 'react';
+import React from 'react';
 import { Platform, View, Text, ScrollView, Image, Button, StyleSheet } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
+import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import PRODUCTS from '../../data/products';
 import CustomButton from '../../components/UI/CustomButton';
 import * as cartActions from '../../store/actions/cart';
@@ -53,11 +55,31 @@ const ProductDetailScreen = (props) => {
 	);
 };
 
-ProductDetailScreen.navigationOptions = (navData) => {
+
+ProductDetailScreen.navigationOptions = ({navigation}) => {
 	return {
-		headerTitle: navData.navigation.getParam('productTitle')
+		headerTitle: navigation.getParam('productTitle'),
+		// headerLeft: (
+		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+		// 		<Item
+		// 			title="goBack"
+		// 			iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
+		// 			onPress={() => navigation.pop()}
+		// 		/>
+		// 	</HeaderButtons>
+		// ),
+		headerRight: (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					title="card"
+					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+					onPress={() => navigation.navigate({routeName: 'Cart'})}
+				/>
+			</HeaderButtons>
+		)
 	};
 };
+
 
 const styles = StyleSheet.create({
 	icon: {

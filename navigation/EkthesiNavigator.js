@@ -57,7 +57,7 @@ const EkthesisNavigator = createStackNavigator(
 const FavNavigator = createStackNavigator(
 	{
 		Favorites: FavoritesScreen,
-		DetailScreen: ProductDetailScreen
+		// DetailScreen: ProductDetailScreen
 	},
 	{
 		// initialRouteName: 'Categories',
@@ -73,13 +73,13 @@ const OrdersNavigator = createStackNavigator(
 		// navigationOptions only apply if this Screen here, belongs to another Navigator
 		navigationOptions: {
 			drawerLabel: 'Παραγγελίες',
-			drawerIcon: (drawerConfig) => (
-				<Ionicons
-					name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
-					size={23}
-					color={drawerConfig.tintColor}
-				/>
-			)
+			// drawerIcon: (drawerConfig) => (
+			// 	<Ionicons
+			// 		name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+			// 		size={23}
+			// 		color={drawerConfig.tintColor}
+			// 	/>
+			// )
 		},
 		defaultNavigationOptions: defaultNavOptions
 	}
@@ -105,7 +105,7 @@ const tabScreenConfig = {
 			// Use Platform... otherwise we loose the color from iOS.
 			tabBarLabel:
 				Platform.OS === 'android' ? 
-				 <Text style={{ fontWeight:'bold', fontSize: 14, fontFamily: 'GFSNeohellenic-Bold' }}>Έκθεση</Text> : 'Έκθεση'
+				 <Text style={{ fontWeight:'bold', fontSize: 14, fontFamily: 'GFSNeohellenic-Bold' }}>{`Έκθεση`}</Text> : `< Έκθεση`
 		}
 	},
 	Favorites: {
