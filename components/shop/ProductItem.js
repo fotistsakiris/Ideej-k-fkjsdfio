@@ -52,7 +52,7 @@ const ProductItem = (props) => {
 								</View>
 								<BoldText style={styles.price}>€ {props.price.toFixed(2)}</BoldText>
 								<View>
-									<CustomButton title="... στο καλάθι" onPress={props.onAddToCard} />
+									<CustomButton title="... στο καλάθι" onPress={props.onAddToCart} />
 								</View>
 							</View>
 						) : (
