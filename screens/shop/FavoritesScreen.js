@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import ProductItem from '../../components/shop/ProductItem';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
+import BoldText from '../../components/UI/BoldText';
 import * as cartActions from '../../store/actions/cart';
 import * as productActions from '../../store/actions/products';
 
@@ -19,7 +20,8 @@ const FavoritesScreen = (props) => {
 	if (favProducts.length === 0 || !favProducts) {
 		return (
 			<View style={styles.content}>
-				<Text>No favorite meals found.</Text>
+				<BoldText>{`Ακόμη δεν έχετε επιλέξει αγαπημένα. \nΠαρακαλώ κάντε τις επιλογές σας.\nΘα χαρούμε να σας εξυπηρετήσουμε!`}</BoldText>
+
 			</View>
 		);
 	}
