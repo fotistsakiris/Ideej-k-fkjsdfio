@@ -26,7 +26,8 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				userProducts: state.userProducts.filter((product) => product.id !== action.pid),
-				availableProducts: state.availableProducts.filter((product) => product.id !== action.pid)
+				availableProducts: state.availableProducts.filter((product) => product.id !== action.pid),
+				favoriteProducts: state.favoriteProducts.filter((product) => product.id !== action.pid)
 			};
 		case CREATE_PRODUCT:
 			const newProduct = new Icon(
@@ -60,10 +61,15 @@ export default (state = initialState, action) => {
 			const availableProductIndex = state.availableProducts.findIndex((prod) => prod.id === action.pid);
 			const updatedAvailableProducts = [ ...state.availableProducts ];
 			updatedAvailableProducts[availableProductIndex] = updatedProduct;
+			
+			favoriteProductIndex = state.favoriteProducts.findIndex((prod) => prod.id === action.pid);
+			const updatedFavoriteProducts = [ ...state.favoriteProducts ];
+			updatedFavoriteProducts[favoriteProductIndex] = updatedProduct;
 			return {
 				...state,
 				userProducts: updatedUserProducts,
-				availableProducts: updatedAvailableProducts
+				availableProducts: updatedAvailableProducts,
+				favoriteProducts: updatedFavoriteProducts
 			};
 		default:
 			return state; // is actually first reached when app starts
