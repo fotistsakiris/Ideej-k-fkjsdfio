@@ -13,6 +13,7 @@ const EditProductScreen = (props) => {
 	// then editedProduct will be undifined. But that is OK.
 	const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === prodId));
 
+	const [ categoryIds, setCategoryIds ] = useState(editedProduct ? editedProduct.categoryIds : '');
 	const [ title, setTitle ] = useState(editedProduct ? editedProduct.title : '');
 	const [ imageUrl, setImageUrl ] = useState(editedProduct ? editedProduct.imageUrl : '');
 	const [ price, setPrice ] = useState('');
@@ -28,10 +29,10 @@ const EditProductScreen = (props) => {
 			} else
 				// Put a + to price to convert it from a string to a number so the .toFixed(2)
 				// function works (in ProductsOverviewScreen) !
-				dispatch(productActions.createProduct(title, description, imageUrl, +price));
+				dispatch(productActions.createProduct(categoryIds, title, description, imageUrl, +price));
 			props.navigation.goBack();
 		},
-		[ dispatch, prodId, title, imageUrl, price, description ]
+		[ dispatch, prodId, categoryIds, title, imageUrl, price, description ]
 	);
 
 	useEffect(
@@ -42,6 +43,10 @@ const EditProductScreen = (props) => {
 	);
 	return (
 		<ScrollView style={styles.form}>
+			<View style={styles.formControl}>
+				<BoldText>Category Ids</BoldText>
+				<TextInput style={styles.input} value={categoryIds} onChangeText={(text) => setCategoryIds(text)} autoCapitalize='none' />
+			</View>
 			<View style={styles.formControl}>
 				<BoldText>Title</BoldText>
 				<TextInput style={styles.input} value={title} onChangeText={(text) => setTitle(text)} />

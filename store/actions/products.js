@@ -22,10 +22,11 @@ export const deleteProduct = (productId) => {
 	};
 };
 
-export const createProduct = (title, description, imageUrl, price) => {
+export const createProduct = ( categoryIds, title, description, imageUrl, price) => {
 	return {
 		type: CREATE_PRODUCT,
 		productData: {
+			categoryIds,
 			title,
 			description,
 			imageUrl,

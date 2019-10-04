@@ -77,15 +77,15 @@ const AdminProductsScreen = (props) => {
 AdminProductsScreen.navigationOptions = (navData) => {
 	return {
 		headerTitle: 'Τα προϊόντα σας',
-		headerLeft: (
-			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-				<Item
-					title="card"
-					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-					onPress={() => navData.navigation.toggleDrawer()}
-				/>
-			</HeaderButtons>
-		),
+		// headerLeft: (
+		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+		// 		<Item
+		// 			title="card"
+		// 			iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+		// 			onPress={() => navData.navigation.toggleDrawer()}
+		// 		/>
+		// 	</HeaderButtons>
+		// ),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item

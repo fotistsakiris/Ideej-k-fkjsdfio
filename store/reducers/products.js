@@ -31,6 +31,7 @@ export default (state = initialState, action) => {
 		case CREATE_PRODUCT:
 			const newProduct = new Icon(
 				new Date().toString,
+				action.productData.categoryIds,
 				'u1',
 				action.productData.title,
 				action.productData.imageUrl,
@@ -46,6 +47,7 @@ export default (state = initialState, action) => {
 			const productIndex = state.userProducts.findIndex((prod) => prod.id === action.pid);
 			const updatedProduct = new Icon(
 				action.pid,
+				state.userProducts[productIndex].categoryIds,
 				state.userProducts[productIndex].ownerId,
 				action.productData.title,
 				action.productData.imageUrl,
