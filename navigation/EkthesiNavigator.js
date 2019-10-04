@@ -128,7 +128,7 @@ const tabScreenConfig = {
 			// Use Platform... otherwise we loose the color from iOS.
 			tabBarLabel:
 				Platform.OS === 'android' ? 
-				 <Text style={{ fontWeight:'bold', fontSize: 14, fontFamily: 'GFSNeohellenic-Bold' }}>{`Έκθεση`}</Text> : `< Έκθεση`
+				 <Text style={{ fontWeight:'bold', fontSize: 14, fontFamily: 'GFSNeohellenic-Bold' }}>{`Έκθεσις`}</Text> : `< Έκθεσις`
 		}
 	},
 	Favorites: {

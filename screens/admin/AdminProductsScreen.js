@@ -24,6 +24,8 @@ const AdminProductsScreen = (props) => {
 		]);
 	};
 	return (
+		<View>
+			<BoldText>Εδώ ο κάθε διαχειριστής, έχει τα προϊόντα του. Προσθέσαμε ήδη τρια χάριν ευκολίας προς δοκιμασίαν της εφαρμογής.</BoldText>
 		<FlatList
 			data={userProducts}
 			keyExtractor={(item) => item.id}
@@ -36,11 +38,11 @@ const AdminProductsScreen = (props) => {
                     {Platform.OS === 'android' ? (
 							<View style={styles.actions}>
 								<View>
-									<CustomButton title="Επεξεργασία" onPress={() => editProductHandler(itemData.item.id)} />
+									<CustomButton title="Επεξεργασίαν" onPress={() => editProductHandler(itemData.item.id)} />
 								</View>
 								<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
 								<View>
-									<CustomButton title="Διαγραφή" onPress={deleteHandler.bind(this, itemData.item.id)} />
+									<CustomButton title="Διαγραφήν" onPress={deleteHandler.bind(this, itemData.item.id)} />
 								</View>
 							</View>
 						) : (
@@ -48,7 +50,7 @@ const AdminProductsScreen = (props) => {
 								<View style={styles.button}>
 									<Button
 										color={Colours.gr_brown_light}
-										title="Επεξεργασία"
+										title="Επεξεργασίαν"
 										onPress={() => editProductHandler(itemData.item.id)}
 									/>
 								</View>
@@ -56,7 +58,7 @@ const AdminProductsScreen = (props) => {
 								<View style={styles.button}>
 									<Button
 										color={Colours.gr_brown_light}
-										title="Διαγραφή"
+										title="Διαγραφήν"
 										onPress={() => dispatch(deleteHandler.bind(this, itemData.item.id))}
 									/>
 								</View>
@@ -71,6 +73,7 @@ const AdminProductsScreen = (props) => {
 				</ProductItem>
 			)}
 		/>
+		</View>
 	);
 };
 

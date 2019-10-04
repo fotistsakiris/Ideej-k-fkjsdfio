@@ -40,7 +40,7 @@ const CategoriesScreen = (props) => {
 
 CategoriesScreen.navigationOptions = (navData) => {
 	return {
-		headerTitle: 'Έκθεση',
+		headerTitle: '\`Εκθεσις',
 		// headerLeft: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item
