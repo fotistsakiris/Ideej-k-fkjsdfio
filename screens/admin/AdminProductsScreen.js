@@ -18,9 +18,9 @@ const AdminProductsScreen = (props) => {
 	};
 
 	const deleteHandler = (id) => {
-		Alert.alert('Delete product!', 'Are you sure you want to delete this product?', [
-			{ text: 'NO', style: 'default' },
-			{ text: 'YES', style: 'destructive', onPress: () => dispatch(productsActions.deleteProduct(id)) }
+		Alert.alert('Διαγραφή προϊόντος!', 'Θέλετε να διαγράψετε το προϊόν;', [
+			{ text: 'ΟΧΙ', style: 'default' },
+			{ text: 'ΝΑΙ', style: 'destructive', onPress: () => dispatch(productsActions.deleteProduct(id)) }
 		]);
 	};
 	return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, View, Text, ScrollView, Image, Button, StyleSheet } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
@@ -16,7 +16,7 @@ const ProductDetailScreen = (props) => {
 	const dispatch = useDispatch();
 
 	const productId = props.navigation.getParam('productId');
-	const selectedProduct = PRODUCTS.find((prod) => prod.id === productId);
+	const selectedProduct = useSelector((state) => state.products.availableProducts.find((prod) => prod.id === productId));
 
 	const toggleFavoriteHandler = () => dispatch(productActions.toggleFavorite(productId));
 
@@ -55,8 +55,7 @@ const ProductDetailScreen = (props) => {
 	);
 };
 
-
-ProductDetailScreen.navigationOptions = ({navigation}) => {
+ProductDetailScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: navigation.getParam('productTitle'),
 		// headerLeft: (
@@ -73,13 +72,12 @@ ProductDetailScreen.navigationOptions = ({navigation}) => {
 				<Item
 					title="card"
 					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-					onPress={() => navigation.navigate({routeName: 'Cart'})}
+					onPress={() => navigation.navigate({ routeName: 'Cart' })}
 				/>
 			</HeaderButtons>
 		)
 	};
 };
-
 
 const styles = StyleSheet.create({
 	icon: {

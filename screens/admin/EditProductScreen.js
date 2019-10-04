@@ -43,27 +43,27 @@ const EditProductScreen = (props) => {
 	);
 	return (
 		<ScrollView style={styles.form}>
-			<View style={styles.formControl}>
-				<BoldText>Category Ids</BoldText>
+			{!editedProduct && <View style={styles.formControl}>
+				<BoldText>Κατηγορία</BoldText>
 				<TextInput style={styles.input} value={categoryIds} onChangeText={(text) => setCategoryIds(text)} autoCapitalize='none' />
-			</View>
+			</View>}
 			<View style={styles.formControl}>
-				<BoldText>Title</BoldText>
+				<BoldText>Τίτλος</BoldText>
 				<TextInput style={styles.input} value={title} onChangeText={(text) => setTitle(text)} />
 			</View>
 			<View style={styles.formControl}>
-				<BoldText>Image</BoldText>
+				<BoldText>Εικόνα</BoldText>
 				<TextInput style={styles.input} value={imageUrl} onChangeText={(text) => setImageUrl(text)} />
 			</View>
 			{/* If in edited mode then we get no price */}
 			{editedProduct ? null : (
 				<View style={styles.formControl}>
-					<BoldText>Price</BoldText>
+					<BoldText>Τιμή</BoldText>
 					<TextInput style={styles.input} value={price} onChangeText={(text) => setPrice(text)} />
 				</View>
 			)}
 			<View style={styles.formControl}>
-				<BoldText>Description</BoldText>
+				<BoldText>Περιγραφή</BoldText>
 				<TextInput style={styles.input} value={description} onChangeText={(text) => setDescription(text)} />
 			</View>
 		</ScrollView>
@@ -73,7 +73,7 @@ const EditProductScreen = (props) => {
 EditProductScreen.navigationOptions = (navData) => {
 	const submitFn = navData.navigation.getParam('submit');
 	return {
-		headerTitle: navData.navigation.getParam('productId') ? 'Edit Product' : 'Add Product',
+		headerTitle: navData.navigation.getParam('productId') ? 'Επεξεργασία προϊόντος' : 'Προσθήκη προϊόντος',
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
