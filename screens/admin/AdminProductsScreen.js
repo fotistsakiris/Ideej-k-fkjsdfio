@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View, Text, Button, StyleSheet, Platform, Alert } from 'react-native';
+import { FlatList, View, Text, Button, StyleSheet, Platform, Alert, SafeAreaView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -24,7 +24,8 @@ const AdminProductsScreen = (props) => {
 		]);
 	};
 	return (
-		<View>
+
+		<SafeAreaView style={{flex: 1}}>
 			<BoldText>Εδώ ο κάθε διαχειριστής, έχει τα προϊόντα του. Προσθέσαμε ήδη τρια χάριν ευκολίας προς δοκιμασίαν της εφαρμογής.</BoldText>
 		<FlatList
 			data={userProducts}
@@ -73,7 +74,7 @@ const AdminProductsScreen = (props) => {
 				</ProductItem>
 			)}
 		/>
-		</View>
+		</SafeAreaView>
 	);
 };
 
