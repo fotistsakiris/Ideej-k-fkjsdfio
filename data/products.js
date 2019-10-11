@@ -3,7 +3,7 @@ import Icon from '../models/icon';
 const PRODUCTS = [
   new Icon({
     id: 'icon_1',
-    categoryIds: ['category_1'],
+    categoryIds: ['c1'],
     ownerId: 'u1',
    title: `Εικόνα του Κυρίου ημών Ιησού Χριστού`,
     imageUrl: 'https://i.pinimg.com/564x/b9/79/fe/b979fe5f5d87be38e581fd5d8fca4067.jpg',
@@ -13,7 +13,7 @@ const PRODUCTS = [
   }),
   new Icon({
     id: 'icon_2',
-    categoryIds: ['category_1'],
+    categoryIds: ['c1'],
     ownerId: 'u1',
     title: 'Εικόνα Παναγίας Γλυκοφιλούσας ',
     imageUrl: 'https://www.sfaturiortodoxe.ro/muntele-athos/icoane/Untitled-16.jpg',
@@ -30,7 +30,7 @@ const PRODUCTS = [
   }),
   new Icon({
     id: 'icon_3',
-    categoryIds: ['category_1'],
+    categoryIds: ['c1'],
     ownerId: 'u3',
     title: 'Εικόνα Αγίου Ιωάννη του Προδρόμου',
     imageUrl: 'https://i.pinimg.com/564x/1c/13/39/1c1339de03a5ed172c8fabbf508866b0.jpg',
@@ -43,7 +43,7 @@ const PRODUCTS = [
   }),
   new Icon({
     id: 'icon_4',
-    categoryIds: ['category_1'],
+    categoryIds: ['c1'],
     ownerId: 'u3',
     title: 'Εικόνα Αγίου Φωτίου του Μέγα',
     imageUrl: 'https://i.pinimg.com/564x/3f/19/44/3f1944706058590e38c752e8c9013bbc.jpg',
@@ -53,7 +53,7 @@ const PRODUCTS = [
   }),
   new Icon({
     id: 'icon_5',
-    categoryIds: ['category_1'],
+    categoryIds: ['c1'],
     ownerId: 'u1',
     title: 'Εικόνα του Οσίου Παϊσίου του Αγιορείτη',
     imageUrl: 'https://i.pinimg.com/564x/c6/b5/5e/c6b55ed63fc9fe6270d488d03f9aae5e.jpg',
