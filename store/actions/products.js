@@ -10,79 +10,84 @@ export const CREATE_PRODUCT = 'CREATE_PRODUCT';
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 
 export const toggleFavorite = (id) => {
-    return { type: TOGGLE_FAVORITE, productId: id}
-}
+	return { type: TOGGLE_FAVORITE, productId: id };
+};
 
 export const setFilters = (filterSettings) => {
-    return { type: SET_FILTERS, filters: filterSettings}
-}
+	return { type: SET_FILTERS, filters: filterSettings };
+};
 
 // Admin
 export const deleteProduct = (productId) => {
-	return {
-		type: DELETE_PRODUCT,
-		pid: productId
+	return async (dispatch) => {
+		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json`, {
+			method: 'DELETE'
+		});
+
+		if (!response.ok) {
+			throw new Error('Δυστυχώς η διαγραφή του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
+		}
+
+		dispatch({
+			type: DELETE_PRODUCT,
+			pid: productId
+		});
 	};
 };
 
-
 export const fetchProducts = () => {
-	return async dispatch => {
-	  try {
-		const response = await fetch(
-		  'https://ekthesi-7767c.firebaseio.com/products.json'
-		);
-  
-		if (!response.ok) {
-		  throw new Error('Δυστυχώς η φόρτωση των προϊόντων δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
-		}
-  
-		const resData = await response.json();
-		const loadedProducts = [];
-  
-		for (const key in resData) {
-		  loadedProducts.push(
-			new Icon({
-			  id: key,
-			  categoryIds: resData[key].categoryIds,
-			  ownerId: resData[key].ownerId,
-			  title: resData[key].title,
-			  imageUrl: resData[key].imageUrl,
-			  price: resData[key].price,
-			  description: resData[key].description,
-			})
-		  );
-		}
-  
-		dispatch({ type: SET_PRODUCTS, products: loadedProducts });
-	  } catch (err) {
-		// send to custom analytics server
-		throw err;
-	  }
-	};
-  };
+	return async (dispatch) => {
+		try {
+			const response = await fetch('https://ekthesi-7767c.firebaseio.com/products.json');
 
-export const createProduct = ( title, categoryIds, ownerId, imageUrl, price, description) => {
-	return async dispatch => {
-		const response = await fetch(
-			'https://ekthesi-7767c.firebaseio.com/products.json',
-			{
-			  method: 'POST',
-			  headers: {
+			// check before unpack the response body
+			if (!response.ok) {
+				throw new Error('Δυστυχώς η φόρτωση των προϊόντων δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
+			}
+
+			const resData = await response.json();
+			const loadedProducts = [];
+
+			for (const key in resData) {
+				loadedProducts.push(
+					new Icon({
+						id: key,
+						categoryIds: resData[key].categoryIds,
+						ownerId: resData[key].ownerId,
+						title: resData[key].title,
+						imageUrl: resData[key].imageUrl,
+						price: resData[key].price,
+						description: resData[key].description
+					})
+				);
+			}
+
+			dispatch({ type: SET_PRODUCTS, products: loadedProducts });
+		} catch (err) {
+			// send to custom analytics server
+			throw err;
+		}
+	};
+};
+
+export const createProduct = (title, categoryIds, ownerId, imageUrl, price, description) => {
+	return async (dispatch) => {
+		const response = await fetch('https://ekthesi-7767c.firebaseio.com/products.json', {
+			method: 'POST',
+			headers: {
 				'Content-Type': 'application/json'
-			  },
-			  body: JSON.stringify({
+			},
+			body: JSON.stringify({
 				categoryIds,
 				ownerId,
 				title,
 				description,
 				imageUrl,
 				price
-			  })
-			}
-		  );
-	  
-		  const resData = await response.json();
+			})
+		});
+
+		const resData = await response.json();
 		dispatch({
 			type: CREATE_PRODUCT,
 			productData: {
@@ -94,31 +99,30 @@ export const createProduct = ( title, categoryIds, ownerId, imageUrl, price, des
 				imageUrl,
 				price
 			}
-		})
-	}
-	 
+		});
+	};
 };
 
 export const updateProduct = (id, title, categoryIds, ownerId, imageUrl, description) => {
-	return async dispatch => {
-		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products${id}.json`, 
-		{
-			method: 'PATCH', 
+	return async (dispatch) => {
+		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products${id}.json`, {
+			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json'
-
 			},
 			body: JSON.stringify({
 				title,
 				categoryIds,
 				ownerId,
 				imageUrl,
-				description,
+				description
 			})
-		})
+		});
 
 		if (!response.ok) {
-			throw new Error('Δυστυχώς η ανανέωση των πληροφωριών του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.')
+			throw new Error(
+				'Δυστυχώς η ανανέωση των πληροφωριών του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+			);
 		}
 
 		dispatch({
@@ -129,9 +133,8 @@ export const updateProduct = (id, title, categoryIds, ownerId, imageUrl, descrip
 				categoryIds,
 				ownerId,
 				imageUrl,
-				description,
+				description
 			}
-		})
-		
+		});
 	};
 };

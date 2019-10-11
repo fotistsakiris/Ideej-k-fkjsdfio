@@ -13,39 +13,43 @@ import * as productsActions from '../../store/actions/products';
 
 const ProductsOverviewScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
-	const [ error, setError ] = useState();
+	const [ error, setError ] = useState(); // error initially is undefined!
 	const dispatch = useDispatch();
 	const categoryId = props.navigation.getParam('categoryId');
 	const products = useSelector((state) =>
-		state.products.availableProducts
-		.filter((prod) => prod.categoryIds.indexOf(categoryId) >= 0)
+		state.products.availableProducts.filter((prod) => prod.categoryIds.indexOf(categoryId) >= 0)
 	);
 
-	const loadProducts = useCallback(async () => {
-		setError(null);
-		setIsLoading(true);
-		try {
-		  await dispatch(productsActions.fetchProducts());
-		} catch (err) {
-		  setError(err.message);
-		}
-		setIsLoading(false);
-	  }, [dispatch, setIsLoading, setError]);
-	
-	  useEffect(() => {
-		const willFocusEvent = props.navigation.addListener(
-		  'willFocus',
-		  loadProducts
-		);
-	
-		return () => {
-		  willFocusEvent.remove();
-		};
-	  }, [loadProducts]);
-	
-	  useEffect(() => {
-		loadProducts();
-	  }, [dispatch, loadProducts]);
+	const loadProducts = useCallback(
+		async () => {
+			setError(null);
+			setIsLoading(true);
+			try {
+				await dispatch(productsActions.fetchProducts());
+			} catch (err) {
+				setError(err.message);
+			}
+			setIsLoading(false);
+		},
+		[ dispatch, setIsLoading, setError ]
+	);
+
+	// loadProducts after focusing
+	useEffect(
+		() => {
+			const willFocusEvent = props.navigation.addListener('willFocus', loadProducts);
+			return () => willFocusEvent.remove();
+		},
+		[ loadProducts ]
+	);
+
+	// loadProducts initially...
+	useEffect(
+		() => {
+			loadProducts();
+		},
+		[ dispatch, loadProducts ]
+	);
 
 	const toggleFavoriteHandler = (id) => dispatch(productsActions.toggleFavorite(id));
 
@@ -58,32 +62,28 @@ const ProductsOverviewScreen = (props) => {
 
 	if (error) {
 		return (
-		  <View style={styles.centered}>
-			<Text>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</Text>
-			<Button
-			  title="Δοκιμάστε Ξανά"
-			  onPress={loadProducts}
-			  color={Colours.chocolate}
-			/>
-		  </View>
+			<View style={styles.centered}>
+				<Text>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</Text>
+				<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.chocolate} />
+			</View>
 		);
-	  }
-	
-	  if (isLoading) {
+	}
+
+	if (isLoading) {
 		return (
-		  <View style={styles.centered}>
-			<ActivityIndicator size="large" color={Colours.chocolate} />
-		  </View>
+			<View style={styles.centered}>
+				<ActivityIndicator size="large" color={Colours.chocolate} />
+			</View>
 		);
-	  }
-	
-	  if (!isLoading && products.length === 0) {
+	}
+
+	if (!isLoading && products.length === 0) {
 		return (
-		  <View style={styles.centered}>
-			<Text>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</Text>
-		  </View>
+			<View style={styles.centered}>
+				<Text>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</Text>
+			</View>
 		);
-	  }
+	}
 
 	return (
 		<FlatList
@@ -177,6 +177,5 @@ const styles = StyleSheet.create({
 		width: '50%'
 	},
 	centered: { flex: 1, justifyContent: 'center', alignItems: 'center' }
-
 });
 export default ProductsOverviewScreen;
