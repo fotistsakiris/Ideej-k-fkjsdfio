@@ -105,7 +105,7 @@ export const createProduct = (title, categoryIds, ownerId, imageUrl, price, desc
 
 export const updateProduct = (id, title, categoryIds, ownerId, imageUrl, description) => {
 	return async (dispatch) => {
-		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products${id}.json`, {
+		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${id}.json`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json'
