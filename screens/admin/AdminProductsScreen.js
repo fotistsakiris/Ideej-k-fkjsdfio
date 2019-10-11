@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View, Text, Button, StyleSheet, Platform, Alert, SafeAreaView } from 'react-native';
+import { FlatList, View, Button, StyleSheet, Platform, Alert, SafeAreaView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 

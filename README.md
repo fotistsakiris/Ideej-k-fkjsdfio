@@ -9,6 +9,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### put a plus/minus sign to add/remove products in the cartScreen.
 ### Show an alert in cartScreen if a chosen product is deleted from admin...
 ### Use Card for UI
+### Save chosen filters and favorites on the server
 
 # Packages installed:
 ### redux react-redux react-navigation react-navigation-stack react-navigation-header-buttons, react-navigation react-navigation-tabs react-navigation react-navigation-drawer 

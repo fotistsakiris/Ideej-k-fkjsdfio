@@ -89,7 +89,9 @@ export const createProduct = (title, categoryIds, ownerId, imageUrl, price, desc
 			});
 
 			if (!response.ok) {
-				throw new Error('Δυστυχώς η δημιουργία νέου προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
+				throw new Error(
+					'Δυστυχώς η δημιουργία νέου προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+				);
 			}
 
 			const resData = await response.json();
@@ -114,36 +116,41 @@ export const createProduct = (title, categoryIds, ownerId, imageUrl, price, desc
 
 export const updateProduct = (id, title, categoryIds, ownerId, imageUrl, description) => {
 	return async (dispatch) => {
-		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${id}.json`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				title,
-				categoryIds,
-				ownerId,
-				imageUrl,
-				description
-			})
-		});
+		try {
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${id}.json`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					title,
+					categoryIds,
+					ownerId,
+					imageUrl,
+					description
+				})
+			});
 
-		if (!response.ok) {
-			throw new Error(
-				'Δυστυχώς η ανανέωση των πληροφωριών του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
-			);
-		}
-
-		dispatch({
-			type: UPDATE_PRODUCT,
-			pid: id,
-			productData: {
-				title,
-				categoryIds,
-				ownerId,
-				imageUrl,
-				description
+			if (!response.ok) {
+				throw new Error(
+					'Δυστυχώς η ανανέωση των πληροφωριών του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+				);
 			}
-		});
+
+			dispatch({
+				type: UPDATE_PRODUCT,
+				pid: id,
+				productData: {
+					title,
+					categoryIds,
+					ownerId,
+					imageUrl,
+					description
+				}
+			});
+		} catch (err) {
+			// send to custom analytics server
+			throw err;
+		}
 	};
 };
