@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect, useCallback } from 'react';
-import { View, ScrollView, KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Platform, Alert, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -38,22 +38,25 @@ const EditProductScreen = (props) => {
 	// then editedProduct will be undifined. But that is OK.
 	const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === prodId));
 
-	
 	const dispatch = useDispatch();
 
 	// Rap it with useCallback to avoid infinite loop.
 	const [ formState, dispatchFormState ] = useReducer(formReducer, {
 		inputValues: {
 			title: editedProduct ? editedProduct.title : '',
+			categoryIds: editedProduct ? editedProduct.categoryIds : '',
+			ownerId: editedProduct ? editedProduct.ownerId : '',
 			imageUrl: editedProduct ? editedProduct.imageUrl : '',
+			price: '',
 			description: editedProduct ? editedProduct.description : '',
-			price: ''
 		},
 		inputValidities: {
 			title: editedProduct ? true : false,
+			categoryIds: editedProduct ? true : false,
+			ownerId: editedProduct ? true : false,
 			imageUrl: editedProduct ? true : false,
+			price: editedProduct ? true : false,
 			description: editedProduct ? true : false,
-			price: editedProduct ? true : false
 		},
 		formIsValid: editedProduct ? true : false
 	});
@@ -69,17 +72,21 @@ const EditProductScreen = (props) => {
 					productsActions.updateProduct(
 						prodId,
 						formState.inputValues.title,
+						formState.inputValues.categoryIds,
+						formState.inputValues.ownerId,
+						formState.inputValues.imageUrl,
 						formState.inputValues.description,
-						formState.inputValues.imageUrl
 					)
 				);
 			} else {
 				dispatch(
 					productsActions.createProduct(
 						formState.inputValues.title,
-						formState.inputValues.description,
+						formState.inputValues.categoryIds,
+						formState.inputValues.ownerId,
 						formState.inputValues.imageUrl,
-						+formState.inputValues.price
+						+formState.inputValues.price,
+						formState.inputValues.description,
 					)
 				);
 			}
@@ -107,9 +114,40 @@ const EditProductScreen = (props) => {
 		[ dispatchFormState ]
 	);
 	return (
-		<KeyboardAvoidingView style={{flex: 1}} behavior='padding' keyboardVerticalOffset={100} >
+		<KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={100}>
 			<ScrollView>
 				<View style={styles.form}>
+				<Input
+						id="categoryIds"
+						label="Κατηγορίες"
+						errorText="Παρακαλώ εισαγάγεται έγκυρες κατηγορίες!"
+						keyboardType="default"
+						autoCapitalize="sentences"
+						autoCorrect
+						returnKeyType="next"
+						onInputChange={inputChangeHandler}
+						initialValue={editedProduct ? editedProduct.categoryIds : ''}
+						// Applying two NOT operators in a row is just a handy JavaScript shortcut 
+						// (not React specific) to convert a value into a boolean (if the value exists, 
+						// you will get true, if the value is null, you will get false).
+						initiallyValid={!!editedProduct}
+						required
+						autoCapitalize='none'
+					/>
+					<Input
+						id="ownerId"
+						label="Ταυτότητα διαχειριστή"
+						errorText="Παρακαλώ εισαγάγεται έγκυρη ταυτότητα διαχειριστή!"
+						keyboardType="default"
+						returnKeyType="next"
+						onInputChange={inputChangeHandler}
+						initialValue={editedProduct ? editedProduct.ownerId : ''}
+						initiallyValid={!!editedProduct}
+						required
+						autoCapitalize='none'
+
+					/>
+				
 					<Input
 						id="title"
 						label="Τίτλος"
@@ -186,7 +224,7 @@ EditProductScreen.navigationOptions = (navData) => {
 const styles = StyleSheet.create({
 	form: {
 		margin: 20
-	},
+	}
 });
 
 export default EditProductScreen;

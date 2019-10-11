@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, Button, FlatList, StyleSheet, Platform } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, Button, FlatList, StyleSheet, ActivityIndicator, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -9,23 +9,82 @@ import BoldText from '../../components//UI/BoldText';
 import Colours from '../../constants/Colours';
 
 import * as cartActions from '../../store/actions/cart';
-import * as productActions from '../../store/actions/products';
+import * as productsActions from '../../store/actions/products';
 
 const ProductsOverviewScreen = (props) => {
+	const [ isLoading, setIsLoading ] = useState(false);
+	const [ error, setError ] = useState();
 	const dispatch = useDispatch();
 	const categoryId = props.navigation.getParam('categoryId');
 	const products = useSelector((state) =>
-		state.products.availableProducts.filter((prod) => prod.categoryIds.indexOf(categoryId) >= 0)
+		state.products.availableProducts
+		.filter((prod) => prod.categoryIds.indexOf(categoryId) >= 0)
 	);
 
-	const toggleFavoriteHandler = (id) => dispatch(productActions.toggleFavorite(id));
+	const loadProducts = useCallback(async () => {
+		setError(null);
+		setIsLoading(true);
+		try {
+		  await dispatch(productsActions.fetchProducts());
+		} catch (err) {
+		  setError(err.message);
+		}
+		setIsLoading(false);
+	  }, [dispatch, setIsLoading, setError]);
+	
+	  useEffect(() => {
+		const willFocusEvent = props.navigation.addListener(
+		  'willFocus',
+		  loadProducts
+		);
+	
+		return () => {
+		  willFocusEvent.remove();
+		};
+	  }, [loadProducts]);
+	
+	  useEffect(() => {
+		loadProducts();
+	  }, [dispatch, loadProducts]);
+
+	const toggleFavoriteHandler = (id) => dispatch(productsActions.toggleFavorite(id));
 
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('DetailScreen', {
 			productId: id,
 			productTitle: title
-		})
-	} 
+		});
+	};
+
+	if (error) {
+		return (
+		  <View style={styles.centered}>
+			<Text>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</Text>
+			<Button
+			  title="Δοκιμάστε Ξανά"
+			  onPress={loadProducts}
+			  color={Colours.chocolate}
+			/>
+		  </View>
+		);
+	  }
+	
+	  if (isLoading) {
+		return (
+		  <View style={styles.centered}>
+			<ActivityIndicator size="large" color={Colours.chocolate} />
+		  </View>
+		);
+	  }
+	
+	  if (!isLoading && products.length === 0) {
+		return (
+		  <View style={styles.centered}>
+			<Text>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</Text>
+		  </View>
+		);
+	  }
+
 	return (
 		<FlatList
 			data={products}
@@ -116,6 +175,8 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		width: '50%'
-	}
+	},
+	centered: { flex: 1, justifyContent: 'center', alignItems: 'center' }
+
 });
 export default ProductsOverviewScreen;
