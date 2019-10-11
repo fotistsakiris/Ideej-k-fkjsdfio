@@ -54,8 +54,8 @@ export default (state = initialState, action) => {
 			const productIndex = state.userProducts.findIndex((prod) => prod.id === action.pid);
 			const updatedProduct = new Icon({
 				id: action.pid,
-				categoryIds: action.userProducts[productIndex].categoryIds,
-				ownerId: action.userProducts.ownerId,
+				categoryIds: state.userProducts[productIndex].categoryIds,
+				ownerId: action.productData.ownerId,
 				title: action.productData.title,
 				imageUrl: action.productData.imageUrl,
 				description: action.productData.description,
