@@ -176,6 +176,10 @@ const styles = StyleSheet.create({
 	button: {
 		width: '50%'
 	},
-	centered: { flex: 1, justifyContent: 'center', alignItems: 'center' }
+	centered: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
+	}
 });
 export default ProductsOverviewScreen;

@@ -1,10 +1,11 @@
-import React, { useReducer, useEffect, useCallback } from 'react';
-import { View, ScrollView, KeyboardAvoidingView, Platform, Alert, StyleSheet } from 'react-native';
+import React, { useState, useReducer, useEffect, useCallback } from 'react';
+import { View, ActivityIndicator, ScrollView, KeyboardAvoidingView, Platform, Alert, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import Input from '../../components/UI/Input';
+import Colours from '../../constants/Colours';
 import * as productsActions from '../../store/actions/products';
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
@@ -33,6 +34,9 @@ const formReducer = (state, action) => {
 };
 
 const EditProductScreen = (props) => {
+	const [ isLoading, setIsLoading ] = useState(false);
+	const [ error, setError ] = useState(); // error initially is undefined!
+
 	const prodId = props.navigation.getParam('productId');
 	// If productId is not set (if we press the add button in UserProductScreen)
 	// then editedProduct will be undifined. But that is OK.
@@ -48,7 +52,7 @@ const EditProductScreen = (props) => {
 			ownerId: editedProduct ? editedProduct.ownerId : '',
 			imageUrl: editedProduct ? editedProduct.imageUrl : '',
 			price: '',
-			description: editedProduct ? editedProduct.description : '',
+			description: editedProduct ? editedProduct.description : ''
 		},
 		inputValidities: {
 			title: editedProduct ? true : false,
@@ -56,41 +60,60 @@ const EditProductScreen = (props) => {
 			ownerId: editedProduct ? true : false,
 			imageUrl: editedProduct ? true : false,
 			price: editedProduct ? true : false,
-			description: editedProduct ? true : false,
+			description: editedProduct ? true : false
 		},
 		formIsValid: editedProduct ? true : false
 	});
 
-	const submitHandler = useCallback(
+	useEffect(
 		() => {
+			if (error) {
+				// get the error message that we set down in the catch block
+				Alert.alert('Σφάλμα στην ανανέωση δεδομένων!', error, [ { text: 'Εντάξει!' } ]);
+			}
+		},
+		[ error ]
+	);
+
+	const submitHandler = useCallback(
+		async () => {
 			if (!formState.formIsValid) {
-				Alert.alert('Wrong input!', 'Please check the errors in the form.', [ { text: 'Okay' } ]);
+				Alert.alert('Σφάλμα στην εισαγωγή δεδομένων!', 'Παρακαλώ ελέγξτε τις ειδοποιήσεις!', [
+					{ text: 'Εντάξει!' }
+				]);
 				return;
 			}
-			if (editedProduct) {
-				dispatch(
-					productsActions.updateProduct(
-						prodId,
-						formState.inputValues.title,
-						formState.inputValues.categoryIds,
-						formState.inputValues.ownerId,
-						formState.inputValues.imageUrl,
-						formState.inputValues.description,
-					)
-				);
-			} else {
-				dispatch(
-					productsActions.createProduct(
-						formState.inputValues.title,
-						formState.inputValues.categoryIds,
-						formState.inputValues.ownerId,
-						formState.inputValues.imageUrl,
-						+formState.inputValues.price,
-						formState.inputValues.description,
-					)
-				);
+			setIsLoading(true);
+			setError(null);
+			try {
+				if (editedProduct) {
+					await dispatch(
+						productsActions.updateProduct(
+							prodId,
+							formState.inputValues.title,
+							formState.inputValues.categoryIds,
+							formState.inputValues.ownerId,
+							formState.inputValues.imageUrl,
+							formState.inputValues.description
+						)
+					);
+				} else {
+					await dispatch(
+						productsActions.createProduct(
+							formState.inputValues.title,
+							formState.inputValues.categoryIds,
+							formState.inputValues.ownerId,
+							formState.inputValues.imageUrl,
+							+formState.inputValues.price,
+							formState.inputValues.description
+						)
+					);
+				}
+				props.navigation.goBack();
+			} catch (err) {
+				setError(err.message);
 			}
-			props.navigation.goBack();
+			setIsLoading(false);
 		},
 		[ dispatch, prodId, formState ]
 	);
@@ -113,11 +136,20 @@ const EditProductScreen = (props) => {
 		},
 		[ dispatchFormState ]
 	);
+
+	if (isLoading) {
+		return (
+			<View style={styles.centered}>
+				<ActivityIndicator size="large" color={Colours.chocolate} />
+			</View>
+		);
+	}
+
 	return (
 		<KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={100}>
 			<ScrollView>
 				<View style={styles.form}>
-				<Input
+					<Input
 						id="categoryIds"
 						label="Κατηγορίες"
 						errorText="Παρακαλώ εισαγάγεται έγκυρες κατηγορίες!"
@@ -127,12 +159,12 @@ const EditProductScreen = (props) => {
 						returnKeyType="next"
 						onInputChange={inputChangeHandler}
 						initialValue={editedProduct ? editedProduct.categoryIds : ''}
-						// Applying two NOT operators in a row is just a handy JavaScript shortcut 
-						// (not React specific) to convert a value into a boolean (if the value exists, 
+						// Applying two NOT operators in a row is just a handy JavaScript shortcut
+						// (not React specific) to convert a value into a boolean (if the value exists,
 						// you will get true, if the value is null, you will get false).
 						initiallyValid={!!editedProduct}
 						required
-						autoCapitalize='none'
+						autoCapitalize="none"
 					/>
 					<Input
 						id="ownerId"
@@ -144,10 +176,9 @@ const EditProductScreen = (props) => {
 						initialValue={editedProduct ? editedProduct.ownerId : ''}
 						initiallyValid={!!editedProduct}
 						required
-						autoCapitalize='none'
-
+						autoCapitalize="none"
 					/>
-				
+
 					<Input
 						id="title"
 						label="Τίτλος"
@@ -224,6 +255,11 @@ EditProductScreen.navigationOptions = (navData) => {
 const styles = StyleSheet.create({
 	form: {
 		margin: 20
+	},
+	centered: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
 	}
 });
 
