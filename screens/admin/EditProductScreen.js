@@ -109,6 +109,7 @@ const EditProductScreen = (props) => {
 						)
 					);
 				}
+				// move back only if no error!
 				props.navigation.goBack();
 			} catch (err) {
 				setError(err.message);

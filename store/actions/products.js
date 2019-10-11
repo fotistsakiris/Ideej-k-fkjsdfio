@@ -72,34 +72,43 @@ export const fetchProducts = () => {
 
 export const createProduct = (title, categoryIds, ownerId, imageUrl, price, description) => {
 	return async (dispatch) => {
-		const response = await fetch('https://ekthesi-7767c.firebaseio.com/products.json', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				categoryIds,
-				ownerId,
-				title,
-				description,
-				imageUrl,
-				price
-			})
-		});
+		try {
+			const response = await fetch('https://ekthesi-7767c.firebaseio.com/products.json', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					categoryIds,
+					ownerId,
+					title,
+					description,
+					imageUrl,
+					price
+				})
+			});
 
-		const resData = await response.json();
-		dispatch({
-			type: CREATE_PRODUCT,
-			productData: {
-				id: resData.name,
-				categoryIds,
-				ownerId,
-				title,
-				description,
-				imageUrl,
-				price
+			if (!response.ok) {
+				throw new Error('Δυστυχώς η δημιουργία νέου προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
 			}
-		});
+
+			const resData = await response.json();
+			dispatch({
+				type: CREATE_PRODUCT,
+				productData: {
+					id: resData.name,
+					categoryIds,
+					ownerId,
+					title,
+					description,
+					imageUrl,
+					price
+				}
+			});
+		} catch (err) {
+			// send to custom analytics server
+			throw err;
+		}
 	};
 };
 
