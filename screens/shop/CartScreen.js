@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, FlatList, Button, StyleSheet, Platform } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, FlatList, Button, StyleSheet, ActivityIndicator, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -9,9 +9,11 @@ import * as cartActions from '../../store/actions/cart';
 import * as ordersActions from '../../store/actions/orders';
 import Card from '../../components/UI/Card';
 import Colours from '../../constants/Colours';
-import BoldText from "../../components/UI/BoldText";
+import BoldText from '../../components/UI/BoldText';
 
 const CartScreen = (props) => {
+	const [ isLoading, setIsLoading ] = useState(false);
+	const [ error, setError ] = useState();
 	const dispatch = useDispatch();
 	const cartTotalAmount = useSelector((state) => state.cart.totalAmount);
 	const cartItems = useSelector((state) => {
@@ -30,23 +32,37 @@ const CartScreen = (props) => {
 		return transformedCartItems.sort((a, b) => (a.productId > b.productId ? 1 : -1));
 	});
 
+	const sendOrderHandler = async () => {
+		setError(null);
+		setIsLoading(true);
+		try {
+			await dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
+		} catch (err) {
+			setError(err.message);
+		}
+		setIsLoading(false);
+		// props.navigation.navigate('Orders');
+	};
+
 	return (
 		<View style={styles.screen}>
 			<View style={styles.summary}>
 				<BoldText style={styles.summaryText}>
 					{/* Use Math.round etc to remove the -0... */}
-					Σύνολο: <BoldText style={styles.amount}>{Math.round(cartTotalAmount.toFixed(2) * 100) / 100} €</BoldText>
+					Σύνολο:{' '}
+					<BoldText style={styles.amount}>{Math.round(cartTotalAmount.toFixed(2) * 100) / 100} €</BoldText>
 				</BoldText>
 				{/* NOTE: cartItems is an array!!! (Because of the FlatList down below) */}
-				<Button
-					color={Colours.chocolate}
-					title="Εκτέλεση παραγγελίας"
-					disabled={cartItems.length === 0}
-					onPress={() => {
-					 dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
-					 props.navigation.navigate('Orders')
-					}}
-				/>
+				{isLoading ? (
+					<ActivityIndicator size="large" color={Colours.chocolate} />
+				) : (
+					<Button
+						color={Colours.chocolate}
+						title="Εκτέλεση παραγγελίας"
+						disabled={cartItems.length === 0}
+						onPress={sendOrderHandler}
+					/>
+				)}
 			</View>
 			<FlatList
 				data={cartItems}
@@ -65,10 +81,9 @@ const CartScreen = (props) => {
 	);
 };
 
-
-CartScreen.navigationOptions = ({navigation}) => {
+CartScreen.navigationOptions = ({ navigation }) => {
 	return {
-		headerTitle: 'Το καλάθι σας',
+		headerTitle: 'Το καλάθι σας'
 		// headerRight: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item
@@ -89,8 +104,6 @@ CartScreen.navigationOptions = ({navigation}) => {
 		// )
 	};
 };
-
-
 
 const styles = StyleSheet.create({
 	screen: {
@@ -116,8 +129,7 @@ const styles = StyleSheet.create({
 	},
 	amount: {
 		color: Colours.chocolate
-	},
-
+	}
 });
 
 export default CartScreen;

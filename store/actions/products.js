@@ -82,9 +82,9 @@ export const createProduct = (title, categoryIds, ownerId, imageUrl, price, desc
 					categoryIds,
 					ownerId,
 					title,
-					description,
 					imageUrl,
-					price
+					price,
+					description,
 				})
 			});
 
