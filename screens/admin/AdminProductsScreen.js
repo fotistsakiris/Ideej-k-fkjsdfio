@@ -26,7 +26,7 @@ const AdminProductsScreen = (props) => {
 	return (
 
 		<SafeAreaView style={{flex: 1}}>
-			<BoldText>Εδώ ο κάθε διαχειριστής, έχει τα προϊόντα του. Προσθέσαμε ήδη τρια χάριν ευκολίας προς δοκιμασίαν της εφαρμογής.</BoldText>
+			{/* <BoldText>Εδώ ο κάθε διαχειριστής, έχει τα προϊόντα του. Προσθέσαμε ήδη τρια χάριν ευκολίας προς δοκιμασίαν της εφαρμογής.</BoldText> */}
 		<FlatList
 			data={userProducts}
 			keyExtractor={(item) => item.id}

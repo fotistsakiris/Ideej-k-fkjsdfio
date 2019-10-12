@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 	text: {
 		fontSize: 20, 
 		fontFamily: 'GFSNeohellenic-Bold',
-		textAlign: 'center',
+		textAlign: 'left',
 	}
 });
 

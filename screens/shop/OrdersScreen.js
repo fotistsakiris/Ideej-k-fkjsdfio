@@ -50,7 +50,7 @@ OrdersScreen.navigationOptions = (navData) => {
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
-					title="card"
+					title="cart"
 					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
 					onPress={() => navData.navigation.navigate({ routeName: 'Cart' })}
 				/>

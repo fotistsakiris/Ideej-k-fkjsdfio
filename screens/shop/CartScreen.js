@@ -58,7 +58,7 @@ const CartScreen = (props) => {
 
 	return (
 		<View style={styles.screen}>
-			<View style={styles.summary}>
+			<Card style={styles.summary}>
 				<BoldText style={styles.summaryText}>
 					{/* Use Math.round etc to remove the -0... */}
 					Σύνολο:{' '}
@@ -75,7 +75,7 @@ const CartScreen = (props) => {
 						onPress={sendOrderHandler}
 					/>
 				)}
-			</View>
+			</Card>
 			<FlatList
 				data={cartItems}
 				keyExtractor={(item) => item.productId}
@@ -122,13 +122,6 @@ const styles = StyleSheet.create({
 		margin: 20
 	},
 	summary: {
-		shadowColor: 'black',
-		shadowOpacity: 0.26,
-		shadowOffset: { width: 0, height: 2 },
-		shadowRadius: 8,
-		elevation: 5,
-		borderRadius: 10,
-		backgroundColor: 'white',
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',

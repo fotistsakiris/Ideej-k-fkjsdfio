@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-// import Card from '../UI/Card';
+import Card from '../UI/Card';
 import Line from '../UI/Line';
 import Colours from '../../constants/Colours';
 import CustomButton from '../UI/CustomButton';
@@ -23,7 +23,7 @@ const ProductItem = (props) => {
 		TouchableComp = TouchableNativeFeedback;
 	}
 	return (
-		<View style={styles.product}>
+		<Card style={styles.product}>
 			<View style={styles.icon}>
 				<Icon
 					size={18}
@@ -49,19 +49,12 @@ const ProductItem = (props) => {
 					</View>
 				</TouchableComp>
 			</View>
-		</View>
+		</Card>
 	);
 };
 
 const styles = StyleSheet.create({
 	product: {
-		shadowColor: 'black',
-		shadowOpacity: 0.26,
-		shadowOffset: { width: 0, height: 2 },
-		shadowRadius: 8,
-		elevation: 5,
-		borderRadius: 10,
-		backgroundColor: 'white',
 		height: 290,
 		margin: 20,
 		padding: 10,
