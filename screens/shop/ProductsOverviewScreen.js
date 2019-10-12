@@ -13,6 +13,7 @@ import * as productsActions from '../../store/actions/products';
 
 const ProductsOverviewScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
+	const [ isRefresing, setIsRefresing ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const dispatch = useDispatch();
 	const categoryId = props.navigation.getParam('categoryId');
@@ -23,13 +24,13 @@ const ProductsOverviewScreen = (props) => {
 	const loadProducts = useCallback(
 		async () => {
 			setError(null);
-			setIsLoading(true);
+			setIsRefresing(true);
 			try {
 				await dispatch(productsActions.fetchProducts());
 			} catch (err) {
 				setError(err.message);
 			}
-			setIsLoading(false);
+			setIsRefresing(false);
 		},
 		[ dispatch, setIsLoading, setError ]
 	);
@@ -46,7 +47,9 @@ const ProductsOverviewScreen = (props) => {
 	// loadProducts initially...
 	useEffect(
 		() => {
+			setIsLoading(true);
 			loadProducts();
+			setIsLoading(false);
 		},
 		[ dispatch, loadProducts ]
 	);
@@ -87,6 +90,8 @@ const ProductsOverviewScreen = (props) => {
 
 	return (
 		<FlatList
+			onRefresh={loadProducts}
+			refreshing={isRefresing}
 			data={products}
 			keyExtractor={(item) => item.id}
 			renderItem={(itemData) => (
