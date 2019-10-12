@@ -36,6 +36,7 @@ const CartScreen = (props) => {
 		setError(null);
 		setIsLoading(true);
 		try {
+			// Note on the server, 1 cartItems is 0, 2 = 1 etc...
 			await dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
 		} catch (err) {
 			setError(err.message);
@@ -43,6 +44,17 @@ const CartScreen = (props) => {
 		setIsLoading(false);
 		// props.navigation.navigate('Orders');
 	};
+
+
+	if (error) {
+		return (
+			<View style={styles.centered}>
+				<BoldText>Σφάλμα στη διαδικασία αποστολής της παραγγελίας. Παρακαλώ ελέγξτε τη σύνδεσή σας.</BoldText>
+				<Button title="Δοκιμάστε Ξανά" 
+				onPress={() => dispatch(ordersActions.addOrder(cartItems, cartTotalAmount))} color={Colours.chocolate} />
+			</View>
+		);
+	}
 
 	return (
 		<View style={styles.screen}>
@@ -129,6 +141,11 @@ const styles = StyleSheet.create({
 	},
 	amount: {
 		color: Colours.chocolate
+	},
+	centered: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
 	}
 });
 
