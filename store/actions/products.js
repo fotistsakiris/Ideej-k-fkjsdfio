@@ -9,8 +9,63 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 
-export const toggleFavorite = (id) => {
-	return { type: TOGGLE_FAVORITE, productId: id };
+export const toggleFavorite = (id, isFav) => {
+	return async (dispatch) => {
+		try {
+			if (isFav) {
+				const response = await fetch('https://ekthesi-7767c.firebaseio.com/favorites.json', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						id,
+						isFav
+					})
+				});
+
+				if (!response.ok) {
+					throw new Error(
+						'Δυστυχώς η δημιουργία νέου προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+					);
+				}
+
+				dispatch({ type: TOGGLE_FAVORITE, productId: id });
+			} else if (!isFav) {
+				// console.log(isFav);
+				
+				const response = await fetch(`https://ekthesi-7767c.firebaseio.com/favorites/.json`);
+
+				if (!response.ok) {
+					throw new Error(
+						'Δυστυχώς η διαγραφή του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+					);
+				}
+
+				const resData = await response.json();
+				console.log(resData.name);
+
+				for (const key in resData) {
+					// console.log(key);
+					await fetch(`https://ekthesi-7767c.firebaseio.com/favorites/${key}.json`, {
+						method: 'DELETE'
+					});
+
+					if (!response.ok) {
+						throw new Error(
+							'Δυστυχώς η διαγραφή του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+						);
+					}
+
+					dispatch({ type: TOGGLE_FAVORITE, productId: id });
+				}
+			}
+		} catch (err) {
+			// send to custom analytics server
+			throw err;
+		}
+	};
+	// return { type: TOGGLE_FAVORITE, productId: id };
 };
 
 export const setFilters = (filterSettings) => {
@@ -84,7 +139,7 @@ export const createProduct = (title, categoryIds, ownerId, imageUrl, price, desc
 					title,
 					imageUrl,
 					price,
-					description,
+					description
 				})
 			});
 
@@ -95,6 +150,7 @@ export const createProduct = (title, categoryIds, ownerId, imageUrl, price, desc
 			}
 
 			const resData = await response.json();
+			console.log(resData);
 			dispatch({
 				type: CREATE_PRODUCT,
 				productData: {

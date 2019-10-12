@@ -13,6 +13,7 @@ import * as productsActions from '../../store/actions/products';
 
 const ProductsOverviewScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
+	const [ isFav, setIsFav ] = useState(true);
 	const [ isRefresing, setIsRefresing ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const dispatch = useDispatch();
@@ -54,7 +55,10 @@ const ProductsOverviewScreen = (props) => {
 		[ dispatch, loadProducts ]
 	);
 
-	const toggleFavoriteHandler = (id) => dispatch(productsActions.toggleFavorite(id));
+	const toggleFavoriteHandler = (id) => {
+		dispatch(productsActions.toggleFavorite(id, isFav));
+		setIsFav(prevState => !prevState)
+	} 
 
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('DetailScreen', {
