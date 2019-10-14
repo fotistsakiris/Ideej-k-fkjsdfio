@@ -84,9 +84,10 @@ const CartScreen = (props) => {
 						quantity={itemData.item.quantity}
 						title={itemData.item.title}
 						amount={itemData.item.sum}
-						deletable // Needed to show the delete button.
+						changeQuantity // Needed to show the plus/minus buttons.
 						onAddProduct={() => dispatch(cartActions.addToCard(itemData.item))}
-						onRemove={() => dispatch(cartActions.removeFromCart(itemData.item.id))}
+						onRemoveProduct={() => dispatch(cartActions.removeFromCart(itemData.item.id))}
+						onRemoveAll={() => dispatch(cartActions.removeFromCart(itemData.item.id))}
 					/>
 				)}
 			/>

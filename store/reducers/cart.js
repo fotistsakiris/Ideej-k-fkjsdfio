@@ -44,12 +44,12 @@ export default (state = initialState, action) => {
 			let updatedCartItems;
 			if (currentQty > 1) {
 				// need to reduce it not erase it
-				const updatedCartItem = new CartItemModel(
-					selectedCartItem.quantity - 1,
-					selectedCartItem.productPrice,
-					selectedCartItem.productTitle,
-					selectedCartItem.sum - selectedCartItem.productPrice
-				);
+				const updatedCartItem = new CartItemModel({
+					quantity: selectedCartItem.quantity - 1,
+					price: selectedCartItem.price,
+					title: selectedCartItem.title,
+					sum: selectedCartItem.sum - selectedCartItem.price
+				});
 				updatedCartItems = { ...state.items, [action.pid]: updatedCartItem };
 			} else {
 				updatedCartItems = { ...state.items };
@@ -58,7 +58,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				items: updatedCartItems,
-				totalAmount: state.totalAmount - selectedCartItem.productPrice
+				totalAmount: state.totalAmount - selectedCartItem.price
 			};
 		case ADD_ORDER:
 			return initialState; // Just clearing the cart!

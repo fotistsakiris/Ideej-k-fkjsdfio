@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Platform, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Line from '../UI/Line';
 import BoldText from '../UI/BoldText';
@@ -11,16 +11,16 @@ const CartItem = (props) => {
 			<BoldText style={styles.mainText}>{props.title} </BoldText>
 			<View style={styles.itemData}>
 				<BoldText style={styles.mainText}>{props.amount.toFixed(2)} €</BoldText>
-				<TouchableOpacity onPress={props.onAddProduct}>
-					<Ionicons name={Platform.OS === 'android' ? 'md-add' : 'ios-add'} size={23} color="gray" />
-				</TouchableOpacity>
-
 				<Text style={styles.quantity}>Τεμ. {props.quantity} </Text>
-				{/* deletable is becuase we do not want to render the icon in OrderItem */}
-				{props.deletable && (
-					<TouchableOpacity onPress={props.onRemove}>
-						<Ionicons name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'} size={23} color="red" />
-					</TouchableOpacity>
+				{props.changeQuantity && (
+					<View style={styles.itemData} >
+						<TouchableOpacity style={styles.itemData} onPress={props.onAddProduct}>
+							<Ionicons name={Platform.OS === 'android' ? 'md-add' : 'ios-add'} size={23} color="gray" />
+						</TouchableOpacity>
+						<TouchableOpacity style={styles.itemData} onPress={props.onRemoveProduct}>
+							<MaterialCommunityIcons name="minus" size={23} color="gray" />
+						</TouchableOpacity>
+					</View>
 				)}
 			</View>
 			<Line style={styles.line} />
@@ -30,7 +30,7 @@ const CartItem = (props) => {
 
 const styles = StyleSheet.create({
 	cartItem: {
-		padding: 10,
+		paddingTop: 10,
 		backgroundColor: 'white',
 		justifyContent: 'flex-start',
 		marginHorizontal: 20
@@ -38,16 +38,22 @@ const styles = StyleSheet.create({
 	itemData: {
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
-		alignItems: 'center'
+		alignItems: 'center',
+		paddingRight: 15
 	},
 	quantity: {
 		fontFamily: 'GFSNeohellenic-Regular',
 		color: '#888',
 		fontSize: 20,
-		paddingHorizontal: 10
+		paddingHorizontal: 15
 	},
+	// changeQuantity : {
+	// 	flexDirection: 'row',
+	// 	justifyContent: 'flex-start',
+	// 	alignItems: 'center'
+	// }
 	mainText: {
-		paddingHorizontal: 10
+		paddingVertical: 5
 	},
 	line: {
 		width: '70%',

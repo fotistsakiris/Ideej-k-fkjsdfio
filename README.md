@@ -1,6 +1,13 @@
 This is an app for church products. In other words it's a shop-app. It is kind of a copy of this Udemy cource: 
 [React Native - The Practical Guide](https://www.udemy.com/react-native-the-practical-guide/)
 
+## Extra features added:
+### The configureStore file.
+### Using an object in the Models.
+### In UI: the <Line />, <BoldText />
+### Favorites
+### A plus and a minus sign to add/subtrack products in the cartScreen.
+
 
 ## TODO
 ### fix scrollView when having a lot of items in CartScreen,
