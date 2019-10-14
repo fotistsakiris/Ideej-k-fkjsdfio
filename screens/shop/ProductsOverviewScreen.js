@@ -13,9 +13,9 @@ import * as productsActions from '../../store/actions/products';
 
 const ProductsOverviewScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
+	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isFav, setIsFav ] = useState(true);
 	const [ isRefresing, setIsRefresing ] = useState(false);
-	const [ error, setError ] = useState(); // error initially is undefined!
 	const dispatch = useDispatch();
 	const categoryId = props.navigation.getParam('categoryId');
 	const products = useSelector((state) =>

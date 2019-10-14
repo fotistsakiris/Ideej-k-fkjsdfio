@@ -1,5 +1,6 @@
-import React from 'react';
-import { FlatList, View, Button, StyleSheet, Platform, Alert, SafeAreaView } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, Button, FlatList, StyleSheet, SafeAreaView, ActivityIndicator, Platform } from 'react-native';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -10,9 +11,46 @@ import Colours from '../../constants/Colours';
 import * as productsActions from '../../store/actions/products';
 
 const AdminProductsScreen = (props) => {
+	const [ isLoading, setIsLoading ] = useState(false);
+	const [ error, setError ] = useState(); // error initially is undefined!
+	const [ isRefresing, setIsRefresing ] = useState(false);
+	
 	const dispatch = useDispatch();
 	const userProducts = useSelector((state) => state.products.userProducts);
 
+
+	const loadProducts = useCallback(
+		async () => {
+			setError(null);
+			setIsRefresing(true);
+			try {
+				await dispatch(productsActions.fetchProducts());
+			} catch (err) {
+				setError(err.message);
+			}
+			setIsRefresing(false);
+		},
+		[ dispatch, setIsLoading, setError ]
+	);
+
+	// loadProducts after focusing
+	useEffect(
+		() => {
+			const willFocusEvent = props.navigation.addListener('willFocus', loadProducts);
+			return () => willFocusEvent.remove();
+		},
+		[ loadProducts ]
+	);
+
+	// loadProducts initially...
+	useEffect(
+		() => {
+			setIsLoading(true);
+			loadProducts();
+			setIsLoading(false);
+		},
+		[ dispatch, loadProducts ]
+	);
 	const editProductHandler = (id) => {
 		props.navigation.navigate('EditProduct', { productId: id });
 	};
@@ -23,11 +61,40 @@ const AdminProductsScreen = (props) => {
 			{ text: 'ΝΑΙ', style: 'destructive', onPress: () => dispatch(productsActions.deleteProduct(id)) }
 		]);
 	};
+
+
+	if (error) {
+		return (
+			<View style={styles.centered}>
+				<Text>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</Text>
+				<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.chocolate} />
+			</View>
+		);
+	}
+
+	if (isLoading) {
+		return (
+			<View style={styles.centered}>
+				<ActivityIndicator size="large" color={Colours.chocolate} />
+			</View>
+		);
+	}
+
+	if (!isLoading && userProducts.length === 0) {
+		return (
+			<View style={styles.centered}>
+				<Text>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</Text>
+			</View>
+		);
+	}
+
 	return (
 
 		<SafeAreaView style={{flex: 1}}>
 			{/* <BoldText>Εδώ ο κάθε διαχειριστής, έχει τα προϊόντα του. Προσθέσαμε ήδη τρια χάριν ευκολίας προς δοκιμασίαν της εφαρμογής.</BoldText> */}
 		<FlatList
+		onRefresh={loadProducts}
+		refreshing={isRefresing}
 			data={userProducts}
 			keyExtractor={(item) => item.id}
 			renderItem={(itemData) => (
