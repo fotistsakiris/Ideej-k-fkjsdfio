@@ -12,7 +12,7 @@ import * as cartActions from '../../store/actions/cart';
 import * as productsActions from '../../store/actions/products';
 
 const ProductsOverviewScreen = (props) => {
-	const [ isLoading, setIsLoading ] = useState(false);
+	const [ isLoading, setIsLoading ] = useState(true);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isFav, setIsFav ] = useState(true);
 	const [ isRefresing, setIsRefresing ] = useState(false);
@@ -102,6 +102,7 @@ const ProductsOverviewScreen = (props) => {
 				<ProductItem
 					title={itemData.item.title}
 					image={itemData.item.imageUrl}
+					isFavorite={isFav}
 					onToggleFavorite={() => toggleFavoriteHandler(itemData.item.id)}
 					onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 				>

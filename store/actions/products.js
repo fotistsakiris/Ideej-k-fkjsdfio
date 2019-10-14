@@ -22,8 +22,7 @@ export const toggleFavorite = (id, isFav) => {
 					body: JSON.stringify({
 						id,
 						isFav
-					}) 
-
+					})
 				});
 
 				if (!response.ok) {
@@ -31,15 +30,11 @@ export const toggleFavorite = (id, isFav) => {
 						'Δυστυχώς η δημιουργία νέου προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
 					);
 				}
-				const resData = await response.json();
-
-				console.log(resData.name); // Why is this undefined?
 
 				dispatch({ type: TOGGLE_FAVORITE, productId: id });
 			} else if (!isFav) {
-				
 				// First get the key in order to delete it in second fetch(...).
-				const response = await fetch(`https://ekthesi-7767c.firebaseio.com/favorites/.json`);
+				const response = await fetch(`https://ekthesi-7767c.firebaseio.com/favorites.json`);
 
 				if (!response.ok) {
 					throw new Error(
@@ -49,68 +44,68 @@ export const toggleFavorite = (id, isFav) => {
 
 				const resData = await response.json();
 
-				console.log(resData.name); // Why is this undefined?
-				
+				// Note: No `name` property, that's why we use a `for_in` loop
+				console.log('JSON.stringify(resData)', JSON.stringify(resData));
+
 				for (const key in resData) {
-					console.log(key);
 					await fetch(`https://ekthesi-7767c.firebaseio.com/favorites/${key}.json`, {
 						method: 'DELETE'
 					});
-					
+
 					if (!response.ok) {
 						throw new Error(
 							'Δυστυχώς η διαγραφή του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
-							);
-						}
-						
-						dispatch({ type: TOGGLE_FAVORITE, productId: id });
+						);
 					}
+
+					dispatch({ type: TOGGLE_FAVORITE, productId: id });
 				}
-			} catch (err) {
-				// send to custom analytics server
-				throw err;
 			}
-		};
+		} catch (err) {
+			// send to custom analytics server
+			throw err;
+		}
 	};
-	
-	export const setFilters = (filterSettings) => {
-		return { type: SET_FILTERS, filters: filterSettings };
+};
+
+export const setFilters = (filterSettings) => {
+	return { type: SET_FILTERS, filters: filterSettings };
+};
+
+// Admin
+export const deleteProduct = (productId) => {
+	return async (dispatch) => {
+		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json`, {
+			method: 'DELETE'
+		});
+
+		if (!response.ok) {
+			throw new Error('Δυστυχώς η διαγραφή του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
+		}
+
+		dispatch({
+			type: DELETE_PRODUCT,
+			pid: productId
+		});
 	};
-	
-	// Admin
-	export const deleteProduct = (productId) => {
-		return async (dispatch) => {
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json`, {
-				method: 'DELETE'
-			});
-			
+};
+
+export const fetchProducts = () => {
+	return async (dispatch) => {
+		try {
+			const response = await fetch('https://ekthesi-7767c.firebaseio.com/products.json');
+
+			// check before unpack the response body
 			if (!response.ok) {
-				throw new Error('Δυστυχώς η διαγραφή του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
+				throw new Error('Δυστυχώς η φόρτωση των προϊόντων δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
 			}
-			
-			dispatch({
-				type: DELETE_PRODUCT,
-				pid: productId
-			});
-		};
-	};
-	
-	export const fetchProducts = () => {
-		return async (dispatch) => {
-			try {
-				const response = await fetch('https://ekthesi-7767c.firebaseio.com/products.json');
-				
-				// check before unpack the response body
-				if (!response.ok) {
-					throw new Error('Δυστυχώς η φόρτωση των προϊόντων δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
-				}
-				
-				const resData = await response.json();
-				// console.log(resData.name); // Why is this undefined?
-				const loadedProducts = [];
-				
-				for (const key in resData) {
-					loadedProducts.push(
+
+			const resData = await response.json();
+			// console.log('fetchProducts resData.name: ', resData.name); // Why is this undefined?
+			const loadedProducts = [];
+
+			for (const key in resData) {
+				loadedProducts.push(
 					new Icon({
 						id: key,
 						categoryIds: resData[key].categoryIds,
@@ -199,7 +194,7 @@ export const updateProduct = (id, title, categoryIds, ownerId, imageUrl, descrip
 				);
 			}
 			const resData = await response.json();
-			console.log(resData.name);
+			console.log('PATCH resData.name: ', resData.name);
 
 			dispatch({
 				type: UPDATE_PRODUCT,

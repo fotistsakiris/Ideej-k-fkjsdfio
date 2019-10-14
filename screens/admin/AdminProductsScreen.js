@@ -11,7 +11,7 @@ import Colours from '../../constants/Colours';
 import * as productsActions from '../../store/actions/products';
 
 const AdminProductsScreen = (props) => {
-	const [ isLoading, setIsLoading ] = useState(false);
+	const [ isLoading, setIsLoading ] = useState(true);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isRefresing, setIsRefresing ] = useState(false);
 	
@@ -43,6 +43,7 @@ const AdminProductsScreen = (props) => {
 	);
 
 	// loadProducts initially...
+	
 	useEffect(
 		() => {
 			setIsLoading(true);
@@ -183,6 +184,11 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		width: '50%'
+	},
+	centered: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
 	}
 });
 

@@ -3,8 +3,8 @@ import { TOGGLE_FAVORITE, DELETE_PRODUCT, CREATE_PRODUCT, UPDATE_PRODUCT, SET_PR
 import Icon from '../../models/icon';
 
 const initialState = {
-	userProducts: PRODUCTS.filter((prod) => prod.ownerId === 'u1'), // dummy set up
-	availableProducts: PRODUCTS,
+	userProducts:[], // PRODUCTS.filter((prod) => prod.ownerId === 'u1'), // dummy set up
+	availableProducts: [], // PRODUCTS,
 	favoriteProducts: []
 };
 
