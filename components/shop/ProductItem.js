@@ -27,7 +27,7 @@ const ProductItem = (props) => {
 			<View style={styles.icon}>
 				<Icon
 					size={18}
-					name={true ? 'favorite' : 'favorite_bord'}
+					name={props.isFavorite ? 'favorite' : 'favorite-border'}
 					type="material"
 					color={Colours.chocolate}
 					onPress={props.onToggleFavorite}

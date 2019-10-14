@@ -25,7 +25,7 @@ const ProductDetailScreen = (props) => {
 			<View style={styles.icon}>
 				<Icon
 					size={18}
-					name={true ? 'favorite' : 'favorite_bord'}
+					name={true ? 'favorite' : 'favorite-border'}
 					type="material"
 					color={Colours.chocolate}
 					onPress={toggleFavoriteHandler}
