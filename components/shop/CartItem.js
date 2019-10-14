@@ -11,15 +11,19 @@ const CartItem = (props) => {
 			<BoldText style={styles.mainText}>{props.title} </BoldText>
 			<View style={styles.itemData}>
 				<BoldText style={styles.mainText}>{props.amount.toFixed(2)} €</BoldText>
+				<TouchableOpacity onPress={props.onAddProduct}>
+					<Ionicons name={Platform.OS === 'android' ? 'md-add' : 'ios-add'} size={23} color="gray" />
+				</TouchableOpacity>
+
 				<Text style={styles.quantity}>Τεμ. {props.quantity} </Text>
 				{/* deletable is becuase we do not want to render the icon in OrderItem */}
 				{props.deletable && (
-					<TouchableOpacity style={styles.deleteButton} onPress={props.onRemove}>
+					<TouchableOpacity onPress={props.onRemove}>
 						<Ionicons name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'} size={23} color="red" />
 					</TouchableOpacity>
 				)}
 			</View>
-			<Line style={styles.line}/>
+			<Line style={styles.line} />
 		</View>
 	);
 };
@@ -44,11 +48,11 @@ const styles = StyleSheet.create({
 	},
 	mainText: {
 		paddingHorizontal: 10
-    },
-    line: {
-		width: '70%',
-		alignSelf: 'flex-start',		
 	},
+	line: {
+		width: '70%',
+		alignSelf: 'flex-start'
+	}
 });
 
 export default CartItem;

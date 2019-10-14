@@ -22,9 +22,9 @@ const CartScreen = (props) => {
 		for (const key in state.cart.items) {
 			// A cart-item with an additional productId prop.
 			transformedCartItems.push({
-				productId: key,
-				productTitle: state.cart.items[key].productTitle,
-				productPrice: state.cart.items[key].productPrice,
+				id: key,
+				title: state.cart.items[key].title,
+				price: state.cart.items[key].price,
 				quantity: state.cart.items[key].quantity,
 				sum: state.cart.items[key].sum
 			});
@@ -78,14 +78,15 @@ const CartScreen = (props) => {
 			</Card>
 			<FlatList
 				data={cartItems}
-				keyExtractor={(item) => item.productId}
+				keyExtractor={(item) => item.id}
 				renderItem={(itemData) => (
 					<CartItem
 						quantity={itemData.item.quantity}
-						title={itemData.item.productTitle}
+						title={itemData.item.title}
 						amount={itemData.item.sum}
 						deletable // Needed to show the delete button.
-						onRemove={() => dispatch(cartActions.removeFromCart(itemData.item.productId))}
+						onAddProduct={() => dispatch(cartActions.addToCard(itemData.item))}
+						onRemove={() => dispatch(cartActions.removeFromCart(itemData.item.id))}
 					/>
 				)}
 			/>

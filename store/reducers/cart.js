@@ -19,14 +19,19 @@ export default (state = initialState, action) => {
 			let upadtatedOrNewCartItem;
 			// Check if we already have the item in the cart.
 			if (state.items[addedProduct.id]) {
-				upadtatedOrNewCartItem = new CartItemModel(
-					state.items[addedProduct.id].quantity + 1,
-					prodPrice,
-					prodTitle,
-					state.items[addedProduct.id].sum + prodPrice
-				);
+				upadtatedOrNewCartItem = new CartItemModel({
+					quantity: state.items[addedProduct.id].quantity + 1,
+					price: prodPrice,
+					title: prodTitle,
+					sum: state.items[addedProduct.id].sum + prodPrice
+				});
 			} else {
-				upadtatedOrNewCartItem = new CartItemModel(1, prodPrice, prodTitle, prodPrice);
+				upadtatedOrNewCartItem = new CartItemModel({
+					quantity: 1,
+					price: prodPrice,
+					title: prodTitle,
+					sum: prodPrice
+				});
 			}
 			return {
 				...state,
@@ -55,7 +60,7 @@ export default (state = initialState, action) => {
 				items: updatedCartItems,
 				totalAmount: state.totalAmount - selectedCartItem.productPrice
 			};
-		case ADD_ORDER: 
+		case ADD_ORDER:
 			return initialState; // Just clearing the cart!
 		case DELETE_PRODUCT: // Admin !!!
 			// If item doesn't exist...
