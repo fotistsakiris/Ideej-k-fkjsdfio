@@ -25,7 +25,7 @@ const OrderItem = (props) => {
 							key={cartItem.productId}
 							quantity={cartItem.quantity}
 							amount={cartItem.sum}
-							title={cartItem.productTitle}
+							title={cartItem.title}
 						/>
 					))}
 				</View>

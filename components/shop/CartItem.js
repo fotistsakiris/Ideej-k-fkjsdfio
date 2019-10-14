@@ -47,11 +47,6 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		paddingHorizontal: 15
 	},
-	// changeQuantity : {
-	// 	flexDirection: 'row',
-	// 	justifyContent: 'flex-start',
-	// 	alignItems: 'center'
-	// }
 	mainText: {
 		paddingVertical: 5
 	},
