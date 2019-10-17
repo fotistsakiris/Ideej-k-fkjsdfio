@@ -12,15 +12,18 @@ import * as cartActions from '../../store/actions/cart';
 import * as productsActions from '../../store/actions/products';
 
 const ProductsOverviewScreen = (props) => {
-	const [ isLoading, setIsLoading ] = useState(true);
+	const [ isLoading, setIsLoading ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
-	const [ isFav, setIsFav ] = useState(true);
 	const [ isRefresing, setIsRefresing ] = useState(false);
+	// const [ isFav, setIsFav ] = useState(false);
 	const dispatch = useDispatch();
 	const categoryId = props.navigation.getParam('categoryId');
 	const products = useSelector((state) =>
 		state.products.availableProducts.filter((prod) => prod.categoryIds.indexOf(categoryId) >= 0)
 	);
+	const productId = props.navigation.getParam('productId');
+	const isFav = useSelector((state) => state.products.favoriteProducts.some((product) => product.id === productId));
+
 
 	const loadProducts = useCallback(
 		async () => {
@@ -55,15 +58,16 @@ const ProductsOverviewScreen = (props) => {
 		[ dispatch, loadProducts ]
 	);
 
-	const toggleFavoriteHandler = (id) => {
-		dispatch(productsActions.toggleFavorite(id, isFav));
-		setIsFav(prevState => !prevState)
-	} 
+	// const toggleFavoriteHandler = (id) => {
+	// 	setIsFav(prevState => !prevState)
+	// 	dispatch(productsActions.toggleFavorite(id, isFav));
+	// } 
 
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('DetailScreen', {
 			productId: id,
-			productTitle: title
+			productTitle: title,
+			isFav: isFav
 		});
 	};
 
@@ -102,12 +106,12 @@ const ProductsOverviewScreen = (props) => {
 				<ProductItem
 					title={itemData.item.title}
 					image={itemData.item.imageUrl}
-					isFavorite={isFav}
-					onToggleFavorite={() => toggleFavoriteHandler(itemData.item.id)}
+					// isFav={isFav}
+					// onToggleFavorite={() => toggleFavoriteHandler(itemData.item.id, isFav)}
 					onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 				>
 					{Platform.OS === 'android' ? (
-						<View style={styles.actions}>
+						<View style={styles.actions}> 
 							<View>
 								<CustomButton
 									title="Λεπτομέρειες"
@@ -150,6 +154,7 @@ const ProductsOverviewScreen = (props) => {
 ProductsOverviewScreen.navigationOptions = (navData) => {
 	return {
 		headerTitle: navData.navigation.getParam('categoryTitle'),
+		// Needed for side drawer navigation
 		// headerLeft: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item
@@ -162,7 +167,7 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
-					title="card"
+					title="cart"
 					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
 					onPress={() => navData.navigation.navigate({ routeName: 'Cart' })}
 				/>

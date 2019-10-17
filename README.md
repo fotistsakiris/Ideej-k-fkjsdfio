@@ -7,6 +7,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### In UI: the <Line />, <BoldText />
 ### Favorites
 ### A plus and a minus sign to add/subtrack products in the cartScreen.
+### Two option of navigation: 1. Side Drawer or 2. Bottom Tabs.
 
 
 ## TODO

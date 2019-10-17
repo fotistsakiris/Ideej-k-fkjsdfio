@@ -4,7 +4,8 @@ import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { useScreens } from 'react-native-screens';
 
-import EkthesiNavigator from './navigation/EkthesiNavigator';
+// import EkthesisDrawerNavigator from './navigation/EkthesisDrawerNavigator';
+import EkthesisBottomTabNavigator from './navigation/EkthesisBottomTabNavigator';
 import configureStore from './store/configureStore';
 
 useScreens(); 
@@ -29,7 +30,7 @@ export default function App() {
 	}
 	return (
 		<Provider store={store}>
-			<EkthesiNavigator />
+			<EkthesisBottomTabNavigator />
 		</Provider>
 	);
 }

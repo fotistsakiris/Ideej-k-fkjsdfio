@@ -38,6 +38,7 @@ const OrdersScreen = (props) => {
 OrdersScreen.navigationOptions = (navData) => {
 	return {
 		headerTitle: 'Οι παραγγελίες σας',
+		// Needed for side drawer navigation
 		// headerLeft: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item
@@ -46,7 +47,7 @@ OrdersScreen.navigationOptions = (navData) => {
 		// 			onPress={() => navData.navigation.toggleDrawer()}
 		// 		/>
 		// 	</HeaderButtons>
-		// )
+		// ),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item

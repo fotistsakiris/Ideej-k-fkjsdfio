@@ -41,16 +41,16 @@ const CategoriesScreen = (props) => {
 CategoriesScreen.navigationOptions = (navData) => {
 	return {
 		headerTitle: '\`Εκθεσις',
-		// headerLeft: (
-		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-		// 		<Item
-		// 			onPress={() => navData.navigation.toggleDrawer()}
-		// 			title="Menu"
-		// 			iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-		// 			size={23}
-		// 		/>
-		// 	</HeaderButtons>
-		// )
+		headerLeft: (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					onPress={() => navData.navigation.toggleDrawer()}
+					title="Menu"
+					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+					size={23}
+				/>
+			</HeaderButtons>
+		),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item

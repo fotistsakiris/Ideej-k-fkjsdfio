@@ -1,35 +1,60 @@
-import React from 'react';
-import { Platform, View, Text, ScrollView, Image, Button, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Platform, View, Text, TouchableOpacity, ScrollView, Image, Button, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
-import PRODUCTS from '../../data/products';
+// import PRODUCTS from '../../data/products';
 import CustomButton from '../../components/UI/CustomButton';
 import * as cartActions from '../../store/actions/cart';
-import * as productActions from '../../store/actions/products';
+import * as productsActions from '../../store/actions/products';
 
 import Colours from '../../constants/Colours';
-import { Icon } from 'react-native-elements';
 
 const ProductDetailScreen = (props) => {
+	const [ isFav, setIsFav ] = useState(false);
+	const [ error, setError ] = useState(); // error initially is undefined!
+
 	const dispatch = useDispatch();
 
 	const productId = props.navigation.getParam('productId');
-	const selectedProduct = useSelector((state) => state.products.availableProducts.find((prod) => prod.id === productId));
+	const selectedProduct = useSelector((state) =>
+		state.products.availableProducts.find((prod) => prod.id === productId)
+	);
 
-	const toggleFavoriteHandler = () => dispatch(productActions.toggleFavorite(productId));
+	const toggleFavoriteHandler = useCallback(
+		async () => {
+			setError(null);
+			setIsFav((prevState) => !prevState);
+			console.log('isFav inside:', isFav); // On first click I get: false
+			try {
+				await dispatch(productsActions.toggleFavorite(productId, isFav));
+			} catch (err) {
+				setError(err.message);
+			}
+		},
+		[ dispatch, productId, isFav, setIsFav ]
+	);
+	console.log('isFav outside: ', isFav); // On first click I get: false true
+
+	if (error) {
+		return (
+			<View style={styles.centered}>
+				<Text>
+					Σφάλμα στη διαδικασία αποθήκευσης του προϊόντος ως αγαπημένου. Παρακαλώ ελέγξτε τη σύνδεσή σας.
+				</Text>
+				<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.chocolate} />
+			</View>
+		);
+	}
 
 	return (
 		<ScrollView>
 			<View style={styles.icon}>
-				<Icon
-					size={18}
-					name={true ? 'favorite' : 'favorite-border'}
-					type="material"
-					color={Colours.chocolate}
-					onPress={toggleFavoriteHandler}
-				/>
+				<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
+					<MaterialIcons name={isFav ? 'favorite' : 'favorite-border'} size={23} color="red" />
+				</TouchableOpacity>
 			</View>
 			<Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
 			{Platform.OS === 'android' ? (
@@ -58,19 +83,20 @@ const ProductDetailScreen = (props) => {
 ProductDetailScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: navigation.getParam('productTitle'),
+		// Needed for side drawer navigation
 		// headerLeft: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item
 		// 			title="goBack"
 		// 			iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
-		// 			onPress={() => navigation.pop()}
+		// 			onPress={() => navigation.goBack()}
 		// 		/>
 		// 	</HeaderButtons>
 		// ),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
-					title="card"
+					title="cart"
 					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
 					onPress={() => navigation.navigate({ routeName: 'Cart' })}
 				/>

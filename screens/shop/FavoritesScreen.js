@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Text, View, Button, FlatList, StyleSheet, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -14,8 +14,45 @@ import * as productActions from '../../store/actions/products';
 // import DefaultText from '../components/UI/DefaultText';
 
 const FavoritesScreen = (props) => {
+	// const [ isLoading, setIsLoading ] = useState(false);
+	// const [ error, setError ] = useState(); // error initially is undefined!
+	// const [ isRefresing, setIsRefresing ] = useState(false);
 	const dispatch = useDispatch();
 	const favProducts = useSelector((state) => state.products.favoriteProducts);
+
+
+	// const loadFavProducts = useCallback(
+	// 	async () => {
+	// 		setError(null);
+	// 		setIsRefresing(true);
+	// 		try {
+	// 			await dispatch(productsActions.fetchFavProducts());
+	// 		} catch (err) {
+	// 			setError(err.message);
+	// 		}
+	// 		setIsRefresing(false);
+	// 	},
+	// 	[ dispatch, setIsLoading, setError ]
+	// );
+
+	// // loadFavProducts after focusing
+	// useEffect(
+	// 	() => {
+	// 		const willFocusEvent = props.navigation.addListener('willFocus', loadFavProducts);
+	// 		return () => willFocusEvent.remove();
+	// 	},
+	// 	[ loadFavProducts ]
+	// );
+
+	// // loadFavProducts initially...
+	// useEffect(
+	// 	() => {
+	// 		setIsLoading(true);
+	// 		loadFavProducts();
+	// 		setIsLoading(false);
+	// 	},
+	// 	[ dispatch, loadFavProducts ]
+	// );
 
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('DetailScreen', {
@@ -23,8 +60,18 @@ const FavoritesScreen = (props) => {
 			productTitle: title
 		})
 	} 
+
+	// if (error) {
+	// 	return (
+	// 		<View style={styles.centered}>
+	// 			<Text>Σφάλμα στη διαδικασία φορτώσεως των αγαπημένων προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</Text>
+	// 			<Button title="Δοκιμάστε Ξανά" onPress={loadFavProducts} color={Colours.chocolate} />
+	// 		</View>
+	// 	);
+	// }
+
 	// Render something when no favorites are selected.
-	if (favProducts.length === 0 || !favProducts) {
+	if (!favProducts || favProducts.length === 0) {
 		return (
 			<View style={styles.content}>
 				<BoldText
@@ -33,8 +80,18 @@ const FavoritesScreen = (props) => {
 		);
 	}
 
+	// if (isLoading) {
+	// 	return (
+	// 		<View style={styles.centered}>
+	// 			<ActivityIndicator size="large" color={Colours.chocolate} />
+	// 		</View>
+	// 	);
+	// }
+
 	return (
 		<FlatList
+			// onRefresh={loadFavProducts}
+			// refreshing={isRefresing}
 			data={favProducts}
 			keyExtractor={(item) => item.id}
 			renderItem={(itemData) => (
@@ -88,6 +145,7 @@ const FavoritesScreen = (props) => {
 FavoritesScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: 'Αγαπημένα',
+		// Needed for side drawer navigation
 		// headerLeft: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item
@@ -130,6 +188,11 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		width: '50%'
+	},
+	centered: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
 	}
 });
 
