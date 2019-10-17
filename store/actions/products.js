@@ -1,6 +1,7 @@
 export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE';
 export const SET_FILTERS = 'SET_FILTERS';
 export const SET_PRODUCTS = 'SET_PRODUCTS';
+export const SET_FAVORITES = 'SET_FAVORITES';
 
 import Icon from '../../models/icon';
 
@@ -13,7 +14,8 @@ export const toggleFavorite = (id, isFav) => {
 	return async (dispatch) => {
 		try {
 			// If it is a favorite, post it.
-			if (isFav) {
+			// Note it is initially false...
+			if (!isFav) {
 				const response = await fetch('https://ekthesi-7767c.firebaseio.com/favorites.json', {
 					method: 'POST',
 					headers: {
@@ -30,9 +32,13 @@ export const toggleFavorite = (id, isFav) => {
 						'Δυστυχώς η δημιουργία νέου προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
 					);
 				}
+				const resData = await response.json();
+
+				// Note: No `name` property, that's why we use a `for_in` loop
+				// console.log('POST', JSON.stringify(resData));
 
 				dispatch({ type: TOGGLE_FAVORITE, productId: id });
-			} else if (!isFav) {
+			} else if (isFav) {
 				// First get the key in order to delete it in second fetch(...).
 				const response = await fetch(`https://ekthesi-7767c.firebaseio.com/favorites.json`);
 
@@ -45,20 +51,23 @@ export const toggleFavorite = (id, isFav) => {
 				const resData = await response.json();
 
 				// Note: No `name` property, that's why we use a `for_in` loop
-				console.log('JSON.stringify(resData)', JSON.stringify(resData));
+				// console.log('fetch', JSON.stringify(resData));
 
 				for (const key in resData) {
-					await fetch(`https://ekthesi-7767c.firebaseio.com/favorites/${key}.json`, {
-						method: 'DELETE'
-					});
+					console.log('resData[key].id', resData[key].id === id);
+					if (resData[key].id === id) {
+						await fetch(`https://ekthesi-7767c.firebaseio.com/favorites/${key}.json`, {
+							method: 'DELETE'
+						});
 
-					if (!response.ok) {
-						throw new Error(
-							'Δυστυχώς η διαγραφή του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
-						);
+						if (!response.ok) {
+							throw new Error(
+								'Δυστυχώς η διαγραφή του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+							);
+						}
+						// console.log('fetch', JSON.stringify(resData));
+						dispatch({ type: TOGGLE_FAVORITE, productId: id });
 					}
-
-					dispatch({ type: TOGGLE_FAVORITE, productId: id });
 				}
 			}
 		} catch (err) {
@@ -67,6 +76,43 @@ export const toggleFavorite = (id, isFav) => {
 		}
 	};
 };
+
+// export const fetchFavProducts = () => {
+// 	return async (dispatch) => {
+// 		try {
+// 			const FavResponse = await fetch('https://ekthesi-7767c.firebaseio.com/favorites.json');
+
+// 			 // check before unpack the response body
+// 			if (!FavResponse.ok) {
+// 				throw new Error('Δυστυχώς η φόρτωση των αγαπημένων προϊόντων δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
+// 			}
+
+// 			const resFavData = await FavResponse.json();
+// 			console.log(resFavData);
+
+// 			const loadedFavorites = [];
+
+// 			for (const key in resFavData) {
+// 				loadedFavorites.push(
+// 					new Icon({
+// 						id: resFavData[key].id,
+// 						categoryIds: resFavData[key].categoryIds,
+// 						ownerId: resFavData[key].ownerId,
+// 						title: resFavData[key].title,
+// 						imageUrl: resFavData[key].imageUrl,
+// 						price: resFavData[key].price,
+// 						description: resFavData[key].description
+// 					})
+// 				);
+// 			}
+
+// 			dispatch({ type: SET_FAVORITES, FavProducts: loadedFavorites });
+// 		} catch (err) {
+// 			// send to custom analytics server
+// 			throw err;
+// 		}
+// 	};
+// };
 
 export const setFilters = (filterSettings) => {
 	return { type: SET_FILTERS, filters: filterSettings };
@@ -194,7 +240,7 @@ export const updateProduct = (id, title, categoryIds, ownerId, imageUrl, descrip
 				);
 			}
 			const resData = await response.json();
-			console.log('PATCH resData.name: ', resData.name);
+			// console.log('PATCH resData.name: ', resData.name);
 
 			dispatch({
 				type: UPDATE_PRODUCT,

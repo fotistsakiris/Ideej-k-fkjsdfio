@@ -9,7 +9,8 @@ import {
 	TouchableOpacity,
 	TouchableNativeFeedback
 } from 'react-native';
-import { Icon } from 'react-native-elements';
+// import { Icon } from 'react-native-elements';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import Card from '../UI/Card';
 import Line from '../UI/Line';
@@ -25,13 +26,16 @@ const ProductItem = (props) => {
 	return (
 		<Card style={styles.product}>
 			<View style={styles.icon}>
-				<Icon
+				{/* <Icon
 					size={18}
 					name={props.isFavorite ? 'favorite' : 'favorite-border'}
 					type="material"
 					color={Colours.chocolate}
 					onPress={props.onToggleFavorite}
-				/>
+				/> */}
+				{/* <TouchableOpacity style={styles.itemData} onPress={props.onToggleFavorite}>
+					<MaterialIcons name={props.isFav ? 'favorite' : 'favorite-border'} size={23} color="red" />
+				</TouchableOpacity> */}
 			</View>
 			<View style={styles.touchable}>
 				<TouchableComp onPress={props.onSelect} useForground>
@@ -58,7 +62,7 @@ const styles = StyleSheet.create({
 		height: 290,
 		margin: 20,
 		padding: 10,
-		backgroundColor: Colours.lightseagreen 
+		backgroundColor: Colours.lightseagreen
 	},
 	icon: {
 		alignSelf: 'center',

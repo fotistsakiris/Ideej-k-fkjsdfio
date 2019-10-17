@@ -1,9 +1,16 @@
 import PRODUCTS from '../../data/products';
-import { TOGGLE_FAVORITE, DELETE_PRODUCT, CREATE_PRODUCT, UPDATE_PRODUCT, SET_PRODUCTS } from '../actions/products';
+import {
+	TOGGLE_FAVORITE,
+	DELETE_PRODUCT,
+	CREATE_PRODUCT,
+	UPDATE_PRODUCT,
+	SET_PRODUCTS,
+	SET_FAVORITES
+} from '../actions/products';
 import Icon from '../../models/icon';
 
 const initialState = {
-	userProducts:[], // PRODUCTS.filter((prod) => prod.ownerId === 'u1'), // dummy set up
+	userProducts: [], // PRODUCTS.filter((prod) => prod.ownerId === 'u1'), // dummy set up
 	availableProducts: [], // PRODUCTS,
 	favoriteProducts: []
 };
@@ -16,6 +23,11 @@ export default (state = initialState, action) => {
 				availableProducts: action.products,
 				userProducts: action.products.filter((prod) => prod.ownerId === 'u1')
 			};
+		// case SET_FAVORITES:
+		// 	return {
+		// 		...state,
+		// 		favoriteProducts: action.FavProducts
+		// 	};
 		case TOGGLE_FAVORITE:
 			const existingIndex = state.favoriteProducts.findIndex((product) => product.id === action.productId);
 			if (existingIndex >= 0) {
@@ -42,8 +54,8 @@ export default (state = initialState, action) => {
 				ownerId: action.productData.ownerId,
 				title: action.productData.title,
 				imageUrl: action.productData.imageUrl,
-				description: action.productData.description,
-				price: action.productData.price
+				price: action.productData.price,
+				description: action.productData.description
 			});
 			return {
 				...state,
@@ -58,8 +70,8 @@ export default (state = initialState, action) => {
 				ownerId: action.productData.ownerId,
 				title: action.productData.title,
 				imageUrl: action.productData.imageUrl,
-				description: action.productData.description,
-				price: state.userProducts[productIndex].price
+				price: state.userProducts[productIndex].price,
+				description: action.productData.description
 			});
 			const updatedUserProducts = [ ...state.userProducts ];
 			updatedUserProducts[productIndex] = updatedProduct;

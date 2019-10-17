@@ -12,11 +12,11 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 
 ## TODO
 ### fix scrollView when having a lot of items in CartScreen,
-### fix bug: when toggling favorite icon, the icon toggles in all products
-### put a plus/minus sign to add/remove products in the cartScreen.
-### Show an alert in cartScreen if a chosen product is deleted from admin...
-### fix bug: display spinner in ProductsOverviewScreen and AdminProductsScreen and not the 'No products found' when first loading these screens.
-### fix bug: ProductsOverViewScreen shows no products available just before loading them
+### DONE! fix bug: when toggling favorite icon, the icon toggles in all products 
+### DONE! put a plus/minus sign to add/remove products in the cartScreen.
+### DONE! Show an alert in AdminScreen if a chosen product to be deleted is already in the cart of a client. 
+### fix bug: ProductsOverViewScreen and AdminProductsScreen shows no products available just before loading them, while it should show the spinner.
+### fix bug: favorite (in ProductsDetailScreen) snaps back to false if you go back to ProductsOverviewScreen and forth to ProductsDetailScreen.
 
 # Packages installed:
 ### redux react-redux react-navigation react-navigation-stack react-navigation-header-buttons, react-navigation react-navigation-tabs react-navigation react-navigation-drawer 

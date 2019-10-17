@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, Button, FlatList, StyleSheet, SafeAreaView, ActivityIndicator, Platform } from 'react-native';
+import {
+	View,
+	Text,
+	Button,
+	FlatList,
+	StyleSheet,
+	SafeAreaView,
+	Alert,
+	ActivityIndicator,
+	Platform
+} from 'react-native';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -14,10 +24,10 @@ const AdminProductsScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(true);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isRefresing, setIsRefresing ] = useState(false);
-	
+
 	const dispatch = useDispatch();
 	const userProducts = useSelector((state) => state.products.userProducts);
-
+	const productsInCart = useSelector((state) => state.cart.items);
 
 	const loadProducts = useCallback(
 		async () => {
@@ -43,7 +53,7 @@ const AdminProductsScreen = (props) => {
 	);
 
 	// loadProducts initially...
-	
+
 	useEffect(
 		() => {
 			setIsLoading(true);
@@ -57,12 +67,24 @@ const AdminProductsScreen = (props) => {
 	};
 
 	const deleteHandler = (id) => {
-		Alert.alert('Διαγραφή προϊόντος!', 'Θέλετε να διαγράψετε το προϊόν;', [
-			{ text: 'ΟΧΙ', style: 'default' },
-			{ text: 'ΝΑΙ', style: 'destructive', onPress: () => dispatch(productsActions.deleteProduct(id)) }
-		]);
+		if (Object.keys(productsInCart).length === 0) {
+			Alert.alert('Διαγραφή προϊόντος!', 'Θέλετε να διαγράψετε το προϊόν;', [
+				{ text: 'ΟΧΙ', style: 'default' },
+				{ text: 'ΝΑΙ', style: 'destructive', onPress: () => dispatch(productsActions.deleteProduct(id)) }
+			]);
+		} else {
+			for (const key in productsInCart) {
+				if (key === id) {
+					Alert.alert(
+						'Διαγραφή προϊόντος!',
+						'Το προϊόν είναι αυτή τη στιγμή σε καλάθι πελάτη. Παρακαλώ περιμένετε να τελιώσει ο πελάτης την παραγγελία του και δοκιμάστε αργότερα. Ευχαριστώ!',
+						[ { text: 'Εντάξει', style: 'default' } ]
+					);
+				} else {
+				}
+			}
+		}
 	};
-
 
 	if (error) {
 		return (
@@ -90,28 +112,33 @@ const AdminProductsScreen = (props) => {
 	}
 
 	return (
-
-		<SafeAreaView style={{flex: 1}}>
+		<SafeAreaView style={{ flex: 1 }}>
 			{/* <BoldText>Εδώ ο κάθε διαχειριστής, έχει τα προϊόντα του. Προσθέσαμε ήδη τρια χάριν ευκολίας προς δοκιμασίαν της εφαρμογής.</BoldText> */}
-		<FlatList
-		onRefresh={loadProducts}
-		refreshing={isRefresing}
-			data={userProducts}
-			keyExtractor={(item) => item.id}
-			renderItem={(itemData) => (
-				<ProductItem
-					image={itemData.item.imageUrl}
-					title={itemData.item.title}
-					onSelect={() => editProductHandler(itemData.item.id)}
-				>
-                    {Platform.OS === 'android' ? (
+			<FlatList
+				onRefresh={loadProducts}
+				refreshing={isRefresing}
+				data={userProducts}
+				keyExtractor={(item) => item.id}
+				renderItem={(itemData) => (
+					<ProductItem
+						image={itemData.item.imageUrl}
+						title={itemData.item.title}
+						onSelect={() => editProductHandler(itemData.item.id)}
+					>
+						{Platform.OS === 'android' ? (
 							<View style={styles.actions}>
 								<View>
-									<CustomButton title="Επεξεργασίαν" onPress={() => editProductHandler(itemData.item.id)} />
+									<CustomButton
+										title="Επεξεργασίαν"
+										onPress={() => editProductHandler(itemData.item.id)}
+									/>
 								</View>
 								<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
 								<View>
-									<CustomButton title="Διαγραφήν" onPress={deleteHandler.bind(this, itemData.item.id)} />
+									<CustomButton
+										title="Διαγραφήν"
+										onPress={deleteHandler.bind(this, itemData.item.id)}
+									/>
 								</View>
 							</View>
 						) : (
@@ -133,15 +160,15 @@ const AdminProductsScreen = (props) => {
 								</View>
 							</View>
 						)}
-					{/* <Button color={Colours.maroon} title="Edit" onPress={() => editProductHandler(itemData.item.id)} />
+						{/* <Button color={Colours.maroon} title="Edit" onPress={() => editProductHandler(itemData.item.id)} />
 					<Button
 						color={Colours.maroon}
 						title="Delete"
 						onPress={deleteHandler.bind(this, itemData.item.id)}
 					/> */}
-				</ProductItem>
-			)}
-		/>
+					</ProductItem>
+				)}
+			/>
 		</SafeAreaView>
 	);
 };
