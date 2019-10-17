@@ -158,7 +158,7 @@ FavoritesScreen.navigationOptions = ({ navigation }) => {
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
-					title="card"
+					title="cart"
 					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
 					onPress={() => navigation.navigate({ routeName: 'Cart' })}
 				/>

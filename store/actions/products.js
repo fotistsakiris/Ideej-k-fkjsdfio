@@ -54,7 +54,6 @@ export const toggleFavorite = (id, isFav) => {
 				// console.log('fetch', JSON.stringify(resData));
 
 				for (const key in resData) {
-					console.log('resData[key].id', resData[key].id === id);
 					if (resData[key].id === id) {
 						await fetch(`https://ekthesi-7767c.firebaseio.com/favorites/${key}.json`, {
 							method: 'DELETE'

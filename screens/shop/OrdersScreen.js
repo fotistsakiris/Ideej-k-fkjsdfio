@@ -76,7 +76,6 @@ const OrdersScreen = (props) => {
 			</View>
 		);
 	}
-	console.log('ORDERS', orders);
 	
 	return (
 		<FlatList
