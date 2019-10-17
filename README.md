@@ -17,6 +17,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! Show an alert in AdminScreen if a chosen product to be deleted is already in the cart of a client. 
 ### fix bug: ProductsOverViewScreen and AdminProductsScreen shows no products available just before loading them, while it should show the spinner.
 ### fix bug: favorite (in ProductsDetailScreen) snaps back to false if you go back to ProductsOverviewScreen and forth to ProductsDetailScreen.
+### fix bug: in cartScreen the order of the products changes when you change the amount of the second...
 
 # Packages installed:
 ### redux react-redux react-navigation react-navigation-stack react-navigation-header-buttons, react-navigation react-navigation-tabs react-navigation react-navigation-drawer 
