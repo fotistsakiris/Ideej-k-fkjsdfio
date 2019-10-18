@@ -13,7 +13,6 @@ import * as productsActions from '../../store/actions/products';
 import Colours from '../../constants/Colours';
 
 const ProductDetailScreen = (props) => {
-	const [ isFav, setIsFav ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
 
 	const dispatch = useDispatch();
@@ -22,21 +21,20 @@ const ProductDetailScreen = (props) => {
 	const selectedProduct = useSelector((state) =>
 		state.products.availableProducts.find((prod) => prod.id === productId)
 	);
+	const currentProductIsFavorite = useSelector((state) => state.products.favoriteProducts.some((product) => product.id === productId));
+
 
 	const toggleFavoriteHandler = useCallback(
 		async () => {
 			setError(null);
-			setIsFav((prevState) => !prevState);
-			console.log('isFav inside:', isFav); // On first click I get: false
 			try {
-				await dispatch(productsActions.toggleFavorite(productId, isFav));
+				await dispatch(productsActions.toggleFavorite(productId, currentProductIsFavorite));
 			} catch (err) {
 				setError(err.message);
 			}
 		},
-		[ dispatch, productId, isFav, setIsFav ]
+		[ dispatch, productId, currentProductIsFavorite, setIsFav ]
 	);
-	console.log('isFav outside: ', isFav); // On first click I get: false true
 
 	if (error) {
 		return (
@@ -53,7 +51,7 @@ const ProductDetailScreen = (props) => {
 		<ScrollView>
 			<View style={styles.icon}>
 				<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
-					<MaterialIcons name={isFav ? 'favorite' : 'favorite-border'} size={23} color="red" />
+					<MaterialIcons name={currentProductIsFavorite ? 'favorite' : 'favorite-border'} size={23} color="red" />
 				</TouchableOpacity>
 			</View>
 			<Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
