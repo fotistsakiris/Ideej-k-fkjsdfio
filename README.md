@@ -15,8 +15,8 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! fix bug: when toggling favorite icon, the icon toggles in all products 
 ### DONE! put a plus/minus sign to add/remove products in the cartScreen.
 ### DONE! Show an alert in AdminScreen if a chosen product to be deleted is already in the cart of a client. 
-### fix bug: ProductsOverViewScreen and AdminProductsScreen shows no products available just before loading them, while it should show the spinner.
-### fix bug: favorite (in ProductsDetailScreen) snaps back to false if you go back to ProductsOverviewScreen and forth to ProductsDetailScreen.
+### DONE! fix bug: ProductsOverViewScreen and AdminProductsScreen shows no products available just before loading them, while it should show the spinner.
+### DONE! fix bug: favorite (in ProductsDetailScreen) snaps back to false if you go back to ProductsOverviewScreen and forth to ProductsDetailScreen.
 ### fix bug: in cartScreen the order of the products changes when you change the amount of the second...
 
 # Packages installed:
