@@ -4,12 +4,14 @@ import thunk from 'redux-thunk';
 import ProductReducer from './reducers/products';
 import cartReducer from './reducers/cart';
 import ordersReducer from './reducers/orders';
+import authReducer from './reducers/auth';
 
 
 const rootReducer = combineReducers({
     products: ProductReducer,
     cart: cartReducer,
     orders: ordersReducer,
+    auth: authReducer
 });
 
 let composeEnhancers = compose;

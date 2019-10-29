@@ -96,25 +96,25 @@ const OrdersScreen = (props) => {
 	);
 };
 
-OrdersScreen.navigationOptions = (navData) => {
+OrdersScreen.navigationOptions = ({navigation}) => {
 	return {
 		headerTitle: 'Οι παραγγελίες σας',
 		// Needed for side drawer navigation
-		// headerLeft: (
-		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-		// 		<Item
-		// 			title="menu"
-		// 			iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-		// 			onPress={() => navData.navigation.toggleDrawer()}
-		// 		/>
-		// 	</HeaderButtons>
-		// ),
+		headerLeft: (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					title="menu"
+					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+					onPress={() => navigation.toggleDrawer()}
+				/>
+			</HeaderButtons>
+		),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
 					title="cart"
 					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-					onPress={() => navData.navigation.navigate({ routeName: 'Cart' })}
+					onPress={() => navigation.navigate({ routeName: 'Cart' })}
 				/>
 			</HeaderButtons>
 		)

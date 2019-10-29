@@ -146,6 +146,15 @@ FavoritesScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: 'Αγαπημένα',
 		// Needed for side drawer navigation
+		headerLeft: (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					title="menu"
+					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+					onPress={() => navigation.toggleDrawer()}
+				/>
+			</HeaderButtons>
+		),
 		// headerLeft: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item

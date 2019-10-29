@@ -33,7 +33,7 @@ const ProductDetailScreen = (props) => {
 				setError(err.message);
 			}
 		},
-		[ dispatch, productId, currentProductIsFavorite, setIsFav ]
+		[ dispatch, productId, currentProductIsFavorite ]
 	);
 
 	if (error) {
@@ -82,15 +82,15 @@ ProductDetailScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: navigation.getParam('productTitle'),
 		// Needed for side drawer navigation
-		// headerLeft: (
-		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-		// 		<Item
-		// 			title="goBack"
-		// 			iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
-		// 			onPress={() => navigation.goBack()}
-		// 		/>
-		// 	</HeaderButtons>
-		// ),
+		headerLeft: (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					title="goBack"
+					iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
+					onPress={() => navigation.goBack()}
+				/>
+			</HeaderButtons>
+		),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item

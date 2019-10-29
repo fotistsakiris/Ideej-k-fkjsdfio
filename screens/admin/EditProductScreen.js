@@ -237,10 +237,10 @@ const EditProductScreen = (props) => {
 	);
 };
 
-EditProductScreen.navigationOptions = (navData) => {
-	const submitFn = navData.navigation.getParam('submit');
+EditProductScreen.navigationOptions = ({navigation}) => {
+	const submitFn = navigation.getParam('submit');
 	return {
-		headerTitle: navData.navigation.getParam('productId') ? 'Επεξεργασία προϊόντος' : 'Προσθήκη προϊόντος',
+		headerTitle: navigation.getParam('productId') ? 'Επεξεργασία προϊόντος' : 'Προσθήκη προϊόντος',
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item

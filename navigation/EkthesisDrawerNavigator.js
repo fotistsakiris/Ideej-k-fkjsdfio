@@ -1,10 +1,11 @@
 import React from 'react';
-import { Platform, Text } from 'react-native';
+import { Platform, Text, SafeAreaView, Button, View } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
 
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
 
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import Colours from '../constants/Colours';
@@ -15,6 +16,8 @@ import OrdersScreen from '../screens/shop/OrdersScreen';
 import FavoritesScreen from '../screens/shop/FavoritesScreen';
 import AdminProductsScreen from '../screens/admin/AdminProductsScreen';
 import EditProductScreen from '../screens/admin/EditProductScreen';
+import AuthScreen from '../screens/admin/AuthScreen';
+import StartUpScreen from '../screens/StartUpScreen';
 
 const defaultNavOptions = {
 	headerBackTitle: 'Πίσω',
@@ -46,7 +49,7 @@ const EkthesisNavigator = createStackNavigator(
 
 const FavNavigator = createStackNavigator(
 	{
-		Favorites: FavoritesScreen,
+		Favorites: FavoritesScreen
 	},
 	{
 		defaultNavigationOptions: defaultNavOptions
@@ -60,12 +63,11 @@ const OrdersNavigator = createStackNavigator(
 	{
 		// navigationOptions only apply if this Screen here, belongs to another Navigator
 		navigationOptions: {
-			drawerLabel: 'Παραγγελίες',
+			drawerLabel: 'Παραγγελίες'
 		},
 		defaultNavigationOptions: defaultNavOptions
 	}
 );
-
 
 const AdminNavigator = createStackNavigator(
 	{
@@ -132,13 +134,7 @@ const MainNavigator = createDrawerNavigator(
 			screen: AdminNavigator,
 			navigationOptions: {
 				drawerIcon: (tabInfo) => {
-					return (
-						<FontAwesome
-						name='user-o'
-						size={23}
-						color={tabInfo.tintColor}
-					/>
-					);
+					return <FontAwesome name="user-o" size={23} color={tabInfo.tintColor} />;
 				},
 				tabBarColor: Colours.gr_brown,
 				tabBarLabel:
@@ -158,8 +154,46 @@ const MainNavigator = createDrawerNavigator(
 				fontSize: 20
 			}
 		},
+		// This allows you to set your own content instead of the default.
+		// This component could have been created in a separate file
+		contentComponent: (props) => {
+			const dispatch = useDispatch();
+			return (
+				<View style={{ flex: 1, paddingTop: 20 }}>
+					<SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+						{/* These are the default drawer items */}
+						<DrawerNavigatorItems {...props} />
+						{/* Plus our custom button */}
+						<Button
+							title="Logout"
+							color={Colours.chocolate}
+							onPress={() => {
+								dispatch(authActions.logout());
+								// Not needed because we dispatch this navigation in navigationContainer...
+								// props.navigation.navigate('Auth');
+							}}
+						/>
+					</SafeAreaView>
+				</View>
+			);
+		},
 		drawerWidth: 200
 	}
 );
 
-export default createAppContainer(MainNavigator);
+const AuthNavigator = createStackNavigator(
+	{
+		Auth: AuthScreen
+	},
+	{
+		defaultNavigationOptions: defaultNavOptions
+	}
+);
+
+const SwitchNavigator = createSwitchNavigator({
+	StartUp: StartUpScreen,
+	Auth: AuthNavigator,
+	Main: MainNavigator
+});
+
+export default createAppContainer(SwitchNavigator);

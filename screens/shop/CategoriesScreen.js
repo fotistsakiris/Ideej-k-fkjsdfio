@@ -38,13 +38,14 @@ const CategoriesScreen = (props) => {
 	);
 };
 
-CategoriesScreen.navigationOptions = (navData) => {
+CategoriesScreen.navigationOptions = ({navigation}) => {
 	return {
 		headerTitle: '\`Εκθεσις',
+		// Needed for side drawer navigation
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
-					onPress={() => navData.navigation.toggleDrawer()}
+					onPress={() => navigation.toggleDrawer()}
 					title="Menu"
 					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
 					size={23}
@@ -56,7 +57,7 @@ CategoriesScreen.navigationOptions = (navData) => {
 				<Item
 					title="cart"
 					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-					onPress={() => navData.navigation.navigate({routeName: 'Cart'})}
+					onPress={() => navigation.navigate({routeName: 'Cart'})}
 				/>
 			</HeaderButtons>
 		)

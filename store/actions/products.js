@@ -11,12 +11,13 @@ export const CREATE_PRODUCT = 'CREATE_PRODUCT';
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 
 export const toggleFavorite = (id, isFav) => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
 		try {
+			const token = getState().auth.token;
 			// If it is a favorite, post it.
 			// Note it is initially false...
 			if (!isFav) {
-				const response = await fetch('https://ekthesi-7767c.firebaseio.com/favorites.json', {
+				const response = await fetch(`https://ekthesi-7767c.firebaseio.com/favorites.json?auth=${token}`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -40,7 +41,7 @@ export const toggleFavorite = (id, isFav) => {
 				dispatch({ type: TOGGLE_FAVORITE, productId: id });
 			} else if (isFav) {
 				// First get the key in order to delete it in second fetch(...).
-				const response = await fetch(`https://ekthesi-7767c.firebaseio.com/favorites.json`);
+				const response = await fetch(`https://ekthesi-7767c.firebaseio.com/favorites.json?auth=${token}`);
 
 				if (!response.ok) {
 					throw new Error(
@@ -55,7 +56,7 @@ export const toggleFavorite = (id, isFav) => {
 
 				for (const key in resData) {
 					if (resData[key].id === id) {
-						await fetch(`https://ekthesi-7767c.firebaseio.com/favorites/${key}.json`, {
+						await fetch(`https://ekthesi-7767c.firebaseio.com/favorites/${key}.json?auth=${token}`, {
 							method: 'DELETE'
 						});
 
@@ -120,7 +121,8 @@ export const setFilters = (filterSettings) => {
 // Admin
 export const deleteProduct = (productId) => {
 	return async (dispatch) => {
-		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json`, {
+		const token = getState().auth.token;
+		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json?auth=${token}`, {
 			method: 'DELETE'
 		});
 
@@ -136,8 +138,9 @@ export const deleteProduct = (productId) => {
 };
 
 export const fetchProducts = () => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
 		try {
+			const userId = getState().auth.userId;
 			const response = await fetch('https://ekthesi-7767c.firebaseio.com/products.json');
 
 			// check before unpack the response body
@@ -163,7 +166,12 @@ export const fetchProducts = () => {
 				);
 			}
 
-			dispatch({ type: SET_PRODUCTS, products: loadedProducts });
+			dispatch({
+				type: SET_PRODUCTS,
+				products: loadedProducts,
+				// Now we see only the products of the logged in user.
+				userProducts: loadedProducts.filter((prod) => prod.ownerId === userId)
+			});
 		} catch (err) {
 			// send to custom analytics server
 			throw err;
@@ -172,16 +180,18 @@ export const fetchProducts = () => {
 };
 
 export const createProduct = (title, categoryIds, ownerId, imageUrl, price, description) => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
 		try {
-			const response = await fetch('https://ekthesi-7767c.firebaseio.com/products.json', {
+			const token = getState().auth.token;
+			const userId = getState().auth.userId;
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products.json?auth=${token}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
 					categoryIds,
-					ownerId,
+					ownerId: userId,
 					title,
 					imageUrl,
 					price,
@@ -202,7 +212,7 @@ export const createProduct = (title, categoryIds, ownerId, imageUrl, price, desc
 				productData: {
 					id: resData.name,
 					categoryIds,
-					ownerId,
+					ownerId: userId,
 					title,
 					description,
 					imageUrl,
@@ -217,9 +227,10 @@ export const createProduct = (title, categoryIds, ownerId, imageUrl, price, desc
 };
 
 export const updateProduct = (id, title, categoryIds, ownerId, imageUrl, description) => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
 		try {
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${id}.json`, {
+			const token = getState().auth.token;
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${id}.json?auth=${token}`, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json'
@@ -247,7 +258,7 @@ export const updateProduct = (id, title, categoryIds, ownerId, imageUrl, descrip
 				productData: {
 					title,
 					categoryIds,
-					ownerId,
+					ownerId: userId,
 					imageUrl,
 					description
 				}

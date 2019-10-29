@@ -172,25 +172,25 @@ const AdminProductsScreen = (props) => {
 	);
 };
 
-AdminProductsScreen.navigationOptions = (navData) => {
+AdminProductsScreen.navigationOptions = ({navigation}) => {
 	return {
 		headerTitle: 'Τα προϊόντα σας',
 		// For side drawer navigation only.
-		// headerLeft: (
-		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-		// 		<Item
-		// 			title="card"
-		// 			iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-		// 			onPress={() => navData.navigation.toggleDrawer()}
-		// 		/>
-		// 	</HeaderButtons>
-		// ),
+		headerLeft: (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					title="card"
+					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+					onPress={() => navigation.toggleDrawer()}
+				/>
+			</HeaderButtons>
+		),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
 					title="create"
 					iconName={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
-					onPress={() => navData.navigation.navigate('EditProduct')}
+					onPress={() => navigation.navigate('EditProduct')}
 				/>
 			</HeaderButtons>
 		)

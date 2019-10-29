@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				availableProducts: action.products,
-				userProducts: action.products.filter((prod) => prod.ownerId === 'u1')
+				userProducts: action.userProducts
 			};
 		// case SET_FAVORITES:
 		// 	return {

@@ -6,8 +6,10 @@ import Order from '../../models/order'
 export const addOrder = (cartItems, totalAmount) => {
 	return async (dispatch) => {
 		try {
+			const token = getState().auth.token;
+			const userId = getState().auth.userId;
 			const date = new Date();
-			const response = await fetch('https://ekthesi-7767c.firebaseio.com/orders.json', {
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/${userId}.json?auth=${token}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -43,9 +45,10 @@ export const addOrder = (cartItems, totalAmount) => {
 
 
 export const fetchOrders = () => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
 		try {
-			const response = await fetch('https://ekthesi-7767c.firebaseio.com/orders.json');
+			const userId = getState().auth.userId;
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/${userId}.json`);
 
 			// check before unpack the response body
 			if (!response.ok) {
