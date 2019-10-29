@@ -119,7 +119,7 @@ const AuthScreen = (props) => {
 					<ScrollView>
 						<Input
 							id="email"
-							label="Ηλεκτρονική διεύθυνση (e-mail)"
+							label="Ηλεκτρονική διεύθυνση"
 							keyboardType="email-address"
 							required
 							email

@@ -49,7 +49,7 @@ const EditProductScreen = (props) => {
 		inputValues: {
 			title: editedProduct ? editedProduct.title : '',
 			categoryIds: editedProduct ? editedProduct.categoryIds : '',
-			ownerId: editedProduct ? editedProduct.ownerId : '',
+			// ownerId: editedProduct ? editedProduct.ownerId : '',
 			imageUrl: editedProduct ? editedProduct.imageUrl : '',
 			price: '',
 			description: editedProduct ? editedProduct.description : ''
@@ -57,7 +57,7 @@ const EditProductScreen = (props) => {
 		inputValidities: {
 			title: editedProduct ? true : false,
 			categoryIds: editedProduct ? true : false,
-			ownerId: editedProduct ? true : false,
+			// ownerId: editedProduct ? true : false,
 			imageUrl: editedProduct ? true : false,
 			price: editedProduct ? true : false,
 			description: editedProduct ? true : false
@@ -92,7 +92,7 @@ const EditProductScreen = (props) => {
 							prodId,
 							formState.inputValues.title,
 							formState.inputValues.categoryIds,
-							formState.inputValues.ownerId,
+							// formState.inputValues.ownerId,
 							formState.inputValues.imageUrl,
 							formState.inputValues.description
 						)
@@ -102,7 +102,7 @@ const EditProductScreen = (props) => {
 						productsActions.createProduct(
 							formState.inputValues.title,
 							formState.inputValues.categoryIds,
-							formState.inputValues.ownerId,
+							// formState.inputValues.ownerId,
 							formState.inputValues.imageUrl,
 							+formState.inputValues.price,
 							formState.inputValues.description
@@ -167,7 +167,7 @@ const EditProductScreen = (props) => {
 						required
 						autoCapitalize="none"
 					/>
-					<Input
+					{/* <Input
 						id="ownerId"
 						label="Ταυτότητα διαχειριστή"
 						errorText="Παρακαλώ εισαγάγεται έγκυρη ταυτότητα διαχειριστή!"
@@ -178,7 +178,7 @@ const EditProductScreen = (props) => {
 						initiallyValid={!!editedProduct}
 						required
 						autoCapitalize="none"
-					/>
+					/> */}
 
 					<Input
 						id="title"

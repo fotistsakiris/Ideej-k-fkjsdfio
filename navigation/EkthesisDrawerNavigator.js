@@ -19,6 +19,8 @@ import EditProductScreen from '../screens/admin/EditProductScreen';
 import AuthScreen from '../screens/admin/AuthScreen';
 import StartUpScreen from '../screens/StartUpScreen';
 
+import * as authActions from '../store/actions/auth';
+
 const defaultNavOptions = {
 	headerBackTitle: 'Πίσω',
 	headerStyle: {

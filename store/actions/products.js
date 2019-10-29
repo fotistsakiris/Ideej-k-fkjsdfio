@@ -179,7 +179,7 @@ export const fetchProducts = () => {
 	};
 };
 
-export const createProduct = (title, categoryIds, ownerId, imageUrl, price, description) => {
+export const createProduct = (title, categoryIds, imageUrl, price, description) => {
 	return async (dispatch, getState) => {
 		try {
 			const token = getState().auth.token;
@@ -226,9 +226,10 @@ export const createProduct = (title, categoryIds, ownerId, imageUrl, price, desc
 	};
 };
 
-export const updateProduct = (id, title, categoryIds, ownerId, imageUrl, description) => {
+export const updateProduct = (id, title, categoryIds, imageUrl, description) => {
 	return async (dispatch, getState) => {
 		try {
+			const userId = getState().auth.userId;
 			const token = getState().auth.token;
 			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${id}.json?auth=${token}`, {
 				method: 'PATCH',
@@ -238,7 +239,6 @@ export const updateProduct = (id, title, categoryIds, ownerId, imageUrl, descrip
 				body: JSON.stringify({
 					title,
 					categoryIds,
-					ownerId,
 					imageUrl,
 					description
 				})

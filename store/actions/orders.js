@@ -4,7 +4,7 @@ export const SET_ORDERS = 'SET_ORDERS';
 import Order from '../../models/order'
 
 export const addOrder = (cartItems, totalAmount) => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
 		try {
 			const token = getState().auth.token;
 			const userId = getState().auth.userId;
