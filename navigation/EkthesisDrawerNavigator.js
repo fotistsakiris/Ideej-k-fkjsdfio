@@ -64,9 +64,9 @@ const OrdersNavigator = createStackNavigator(
 	},
 	{
 		// navigationOptions only apply if this Screen here, belongs to another Navigator
-		navigationOptions: {
-			drawerLabel: 'Παραγγελίες'
-		},
+		// navigationOptions: {
+		// 	drawerLabel: 'Παραγγελίες'
+		// },
 		defaultNavigationOptions: defaultNavOptions
 	}
 );
@@ -87,11 +87,11 @@ const MainNavigator = createDrawerNavigator(
 			screen: EkthesisNavigator,
 			navigationOptions: {
 				drawerLabel: 'Εκθεσις',
-				drawerIcon: (drawerConfig) => (
+				drawerIcon: (tabInfo) => (
 					<Ionicons
 						name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
 						size={23}
-						color={drawerConfig.tintColor}
+						color={tabInfo.tintColor}
 					/>
 				)
 			}
@@ -99,21 +99,16 @@ const MainNavigator = createDrawerNavigator(
 		Favorites: {
 			screen: FavNavigator,
 			navigationOptions: {
+				drawerLabel: 'Αγαπημένα',
 				drawerIcon: (tabInfo) => {
 					return <MaterialIcons name="favorite" size={25} color={tabInfo.tintColor} />;
 				},
-				tabBarColor: Colours.gr_brown,
-				drawerLabel:
-					Platform.OS === 'android' ? (
-						<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Αγαπημένα</Text>
-					) : (
-						'Αγαπημένα'
-					)
 			}
 		},
 		Orders: {
 			screen: OrdersNavigator,
 			navigationOptions: {
+				drawerLabel: 'Παραγγελίες',
 				drawerIcon: (tabInfo) => {
 					return (
 						<Ionicons
@@ -123,28 +118,15 @@ const MainNavigator = createDrawerNavigator(
 						/>
 					);
 				},
-				tabBarColor: Colours.gr_brown,
-				tabBarLabel:
-					Platform.OS === 'android' ? (
-						<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Παραγγελίες</Text>
-					) : (
-						'Παραγγελίες'
-					)
 			}
 		},
 		Admin: {
 			screen: AdminNavigator,
 			navigationOptions: {
+				drawerLabel: 'Διαχειριστής',
 				drawerIcon: (tabInfo) => {
 					return <FontAwesome name="user-o" size={23} color={tabInfo.tintColor} />;
 				},
-				tabBarColor: Colours.gr_brown,
-				tabBarLabel:
-					Platform.OS === 'android' ? (
-						<Text style={{ fontFamily: 'GFSNeohellenic-Bold' }}>Παραγγελίες</Text>
-					) : (
-						'Παραγγελίες'
-					)
 			}
 		}
 	},
@@ -179,7 +161,7 @@ const MainNavigator = createDrawerNavigator(
 				</View>
 			);
 		},
-		drawerWidth: 200
+		drawerWidth: 220
 	}
 );
 
