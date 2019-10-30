@@ -3,7 +3,7 @@ import {
 	View,
 	KeyboardAvoidingView,
 	ScrollView,
-	Text,
+	Keyboard,
 	ActivityIndicator,
 	Image,
 	Button,
@@ -75,6 +75,9 @@ const AuthScreen = (props) => {
 
 	const authHandler = useCallback(
 		async () => {
+			Keyboard.dismiss();
+        blurAll={lostFocusHandler}
+			props.blurAll = true;
 			let action;
 			if (isSignUp) {
 				action = authActions.signup(formState.inputValues.email, formState.inputValues.password);
