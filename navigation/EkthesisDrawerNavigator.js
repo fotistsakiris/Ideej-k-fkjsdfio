@@ -24,7 +24,7 @@ import * as authActions from '../store/actions/auth';
 const defaultNavOptions = {
 	headerBackTitle: 'Πίσω',
 	headerStyle: {
-		backgroundColor: Platform.OS === 'android' ? Colours.gr_brown : ''
+		backgroundColor: Platform.OS === 'android' ? Colours.gr_brown : Colours.lightseagreen 
 	},
 	headerTitleStyle: {
 		fontFamily: 'GFSNeohellenic-Bold',

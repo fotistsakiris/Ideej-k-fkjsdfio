@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, Button, StyleSheet, ActivityIndicator, Platform } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -31,7 +32,6 @@ const CartScreen = (props) => {
 		}
 		// return transformedCartItems.sort((a, b) => (a.productId > b.productId ? 1 : -1));
 		return transformedCartItems;
-
 	});
 
 	const sendOrderHandler = async () => {
@@ -47,53 +47,80 @@ const CartScreen = (props) => {
 		// props.navigation.navigate('Orders');
 	};
 
-
 	if (error) {
 		return (
 			<View style={styles.centered}>
 				<BoldText>Σφάλμα στη διαδικασία αποστολής της παραγγελίας. Παρακαλώ ελέγξτε τη σύνδεσή σας.</BoldText>
-				<Button title="Δοκιμάστε Ξανά" 
-				onPress={() => dispatch(ordersActions.addOrder(cartItems, cartTotalAmount))} color={Colours.chocolate} />
+				<Button
+					title="Δοκιμάστε Ξανά"
+					onPress={() => dispatch(ordersActions.addOrder(cartItems, cartTotalAmount))}
+					color={Colours.chocolate}
+				/>
 			</View>
 		);
 	}
 
 	return (
 		<View style={styles.screen}>
-			<Card style={styles.summary}>
-				<BoldText style={styles.summaryText}>
-					{/* Use Math.round etc to remove the -0... */}
-					Σύνολο:{' '}
-					<BoldText style={styles.amount}>{Math.round(cartTotalAmount.toFixed(2) * 100) / 100} €</BoldText>
-				</BoldText>
-				{/* NOTE: cartItems is an array!!! (Because of the FlatList down below) */}
-				{isLoading ? (
-					<ActivityIndicator size="large" color={Colours.chocolate} />
-				) : (
-					<Button
-						color={Colours.chocolate}
-						title="Εκτέλεση παραγγελίας"
-						disabled={cartItems.length === 0}
-						onPress={sendOrderHandler}
-					/>
-				)}
-			</Card>
-			<FlatList
-				data={cartItems}
-				keyExtractor={(item) => item.id}
-				renderItem={(itemData) => (
-					<CartItem
-						quantity={itemData.item.quantity}
-						price={itemData.item.price}
-						title={itemData.item.title}
-						amount={itemData.item.sum}
-						changeQuantity // Needed to show the plus/minus buttons.
-						onAddProduct={() => dispatch(cartActions.addToCard(itemData.item))}
-						onRemoveProduct={() => dispatch(cartActions.removeFromCart(itemData.item.id))}
-						// onRemoveAll={() => dispatch(cartActions.removeFromCart(itemData.item.id))}
-					/>
-				)}
-			/>
+			<LinearGradient
+				colors={[ Colours.lightseagreen , Colours.chocolate, Colours.maroon ]}
+				start={{ x: 0, y: 1 }}
+				end={{ x: 0, y: 0 }}
+				style={styles.gradient}
+			>
+				<View style={styles.flatListContainer}>
+					<Card style={styles.summary}>
+						<BoldText style={styles.summaryText}>
+							{/* Use Math.round etc to remove the -0... */}
+							Σύνολο:{' '}
+							<BoldText style={styles.amount}>
+								{Math.round(cartTotalAmount.toFixed(2) * 100) / 100} €
+							</BoldText>
+						</BoldText>
+						{/* NOTE: cartItems is an array!!! (Because of the FlatList down below) */}
+						{isLoading ? (
+							<ActivityIndicator size="large" color={Colours.chocolate} />
+						) : (
+							<Button
+								color={Colours.chocolate}
+								title="Εκτέλεση παραγγελίας"
+								disabled={cartItems.length === 0}
+								onPress={sendOrderHandler}
+							/>
+						)}
+					</Card>
+					<View style={styles.screen}>
+						<LinearGradient
+							colors={[ Colours.lightseagreen , Colours.chocolate, Colours.maroon ]}
+							start={{ x: 0, y: 1 }}
+							end={{ x: 0, y: 0 }}
+							style={styles.gradient}
+						>
+							<View style={styles.flatListContainer}>
+								<FlatList
+									data={cartItems}
+									keyExtractor={(item) => item.id}
+									renderItem={(itemData) => (
+										<Card style={styles.summary}>
+											<CartItem
+												quantity={itemData.item.quantity}
+												price={itemData.item.price}
+												title={itemData.item.title}
+												amount={itemData.item.sum}
+												changeQuantity // Needed to show the plus/minus buttons.
+												onAddProduct={() => dispatch(cartActions.addToCard(itemData.item))}
+												onRemoveProduct={() =>
+													dispatch(cartActions.removeFromCart(itemData.item.id))}
+												// onRemoveAll={() => dispatch(cartActions.removeFromCart(itemData.item.id))}
+											/>
+										</Card>
+									)}
+								/>
+							</View>
+						</LinearGradient>
+					</View>
+				</View>
+			</LinearGradient>
 		</View>
 	);
 };
@@ -125,14 +152,31 @@ CartScreen.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		margin: 20
+		// margin: 20,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	gradient: {
+		flex: 1,
+		width: '100%',
+		height: '100%',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	flatListContainer: {
+		flex: 1,
+		width: '100%',
+		maxWidth: '100%',
+		maxHeight: '100%'
+		// padding: 20
 	},
 	summary: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
-		marginBottom: 20,
-		padding: 10
+		margin: 10,
+		padding: 10,
+		
 	},
 	summaryText: {
 		fontSize: 18,

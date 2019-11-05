@@ -4,6 +4,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Line from '../UI/Line';
 import BoldText from '../UI/BoldText';
+import Colours from '../../constants/Colours';
 
 const CartItem = (props) => {
 	return (
@@ -37,7 +38,8 @@ const styles = StyleSheet.create({
 		paddingTop: 10,
 		backgroundColor: 'white',
 		justifyContent: 'flex-start',
-		marginHorizontal: 20
+		marginHorizontal: 20,
+		backgroundColor: Colours.lightseagreen
 	},
 	itemData: {
 		flexDirection: 'row',

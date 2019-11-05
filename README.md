@@ -21,7 +21,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### fix bug: in cartScreen the order of the products changes when you change the amount of the second...
 ### refresh the token so the user doesn't get automatic logged out after 1 hour.
 ### put LinearGradient in all screens
-
+### fix UI for small screens
 
 # Packages installed:
 ### redux react-redux react-navigation react-navigation-stack react-navigation-header-buttons, react-navigation react-navigation-tabs react-navigation react-navigation-drawer 

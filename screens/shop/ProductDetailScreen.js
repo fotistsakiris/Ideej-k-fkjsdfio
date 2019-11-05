@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Platform, View, Text, TouchableOpacity, ScrollView, Image, Button, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { LinearGradient } from 'expo-linear-gradient';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -50,40 +51,52 @@ const ProductDetailScreen = (props) => {
 	}
 
 	return (
-		<ScrollView>
-			<View style={styles.icon}>
-				<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
-					<MaterialIcons
-						name={currentProductIsFavorite ? 'favorite' : 'favorite-border'}
-						size={23}
-						color="red"
-					/>
-				</TouchableOpacity>
-			</View>
-			<Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
-			{Platform.OS === 'android' ? (
-				<View style={styles.button}>
-					<CustomButton
-						title="Προσθήκη στο καλάθι"
-						onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
-					/>
-				</View>
-			) : (
-				<View style={styles.button}>
-					<Button
-						color={Colours.gr_brown_light}
-						title="Προσθήκη στο καλάθι"
-						onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
-					/>
-				</View>
-			)}
+		<View style={styles.screen}>
+			<LinearGradient
+				colors={[ 'white', Colours.chocolate, Colours.maroon ]}
+				start={{ x: 0, y: 1 }}
+				end={{ x: 0, y: 0 }}
+				style={styles.gradient}
+			>
+				<View style={styles.flatListContainer}>
+					<ScrollView>
+						<View style={styles.icon}>
+							<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
+								<MaterialIcons
+									name={currentProductIsFavorite ? 'favorite' : 'favorite-border'}
+									size={23}
+									color="white"
+								/>
+							</TouchableOpacity>
+						</View>
+						<Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
+						{Platform.OS === 'android' ? (
+							<View style={styles.button}>
+								<CustomButton
+									style={Colours.chocolate}
+									title="Προσθήκη στο καλάθι"
+									onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
+								/>
+							</View>
+						) : (
+							<View style={styles.button}>
+								<Button
+									color='white'
+									title="Προσθήκη στο καλάθι"
+									onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
+								/>
+							</View>
+						)}
 
-			<BoldText style={styles.price}>
-				{selectedProduct.price.toFixed(2)}
-				<Text style={styles.euro}> €</Text>
-			</BoldText>
-			<Text style={styles.description}>{selectedProduct.description}</Text>
-		</ScrollView>
+						<BoldText style={styles.price}>
+							{selectedProduct.price.toFixed(2)}
+							<Text style={styles.euro}> €</Text>
+						</BoldText>
+						<Text style={styles.description}>{selectedProduct.description}</Text>
+					</ScrollView>
+				</View>
+			</LinearGradient>
+		</View>
 	);
 };
 
@@ -113,6 +126,25 @@ ProductDetailScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+	screen: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	gradient: {
+		flex: 1,
+		width: '100%',
+		height: '100%',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	flatListContainer: {
+		flex: 1,
+		width: '100%',
+		maxWidth: '100%',
+		maxHeight: '100%',
+		padding: 20
+	},
 	icon: {
 		alignSelf: 'center',
 		margin: 2
@@ -125,13 +157,13 @@ const styles = StyleSheet.create({
 	},
 	price: {
 		fontSize: 18,
-		color: '#888',
+		color: 'white',
 		textAlign: 'center',
 		marginVertical: 2
 	},
 	euro: {
 		fontSize: 14,
-		color: '#888'
+		color: 'white'
 	},
 	description: {
 		fontSize: 20,
@@ -141,7 +173,7 @@ const styles = StyleSheet.create({
 	button: {
 		marginHorizontal: 5,
 		alignSelf: 'center'
-	}
+	},
 });
 
 export default ProductDetailScreen;

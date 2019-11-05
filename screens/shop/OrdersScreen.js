@@ -2,13 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, Button, StyleSheet, FlatList, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import OrderItem from '../../components/shop/OrderItem';
 import BoldText from '../../components/UI/BoldText';
 import * as ordersActions from '../../store/actions/orders';
 import Colours from '../../constants/Colours';
-
 
 const OrdersScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
@@ -24,8 +24,8 @@ const OrdersScreen = (props) => {
 			try {
 				await dispatch(ordersActions.fetchOrders());
 			} catch (err) {
-				console.log((err.message));
-				
+				console.log(err.message);
+
 				setError(err.message);
 			}
 			setIsRefresing(false);
@@ -46,7 +46,7 @@ const OrdersScreen = (props) => {
 	useEffect(
 		() => {
 			setIsLoading(true);
-			loadedOrders(); 
+			loadedOrders();
 			setIsLoading(false);
 		},
 		[ dispatch, loadedOrders ]
@@ -55,7 +55,9 @@ const OrdersScreen = (props) => {
 	if (error) {
 		return (
 			<View style={styles.centered}>
-				<BoldText>{error.message}Σφάλμα στη διαδικασία φορτώσεως των παραγγελιών. Παρακαλώ ελέγξτε τη σύνδεσή σας.</BoldText>
+				<BoldText>
+					{error.message}Σφάλμα στη διαδικασία φορτώσεως των παραγγελιών. Παρακαλώ ελέγξτε τη σύνδεσή σας.
+				</BoldText>
 				<Button title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />
 			</View>
 		);
@@ -76,27 +78,38 @@ const OrdersScreen = (props) => {
 			</View>
 		);
 	}
-	
+
 	return (
-		<FlatList
-			onRefresh={loadedOrders}
-			refreshing={isRefresing}
-			data={orders}
-			keyExtractor={(item) => item.id}
-			renderItem={(itemData) => {
-				return (
-					<OrderItem
-						totalAmount={itemData.item.totalAmount}
-						date={itemData.item.readableDate}
-						items={itemData.item.items}
+		<View style={styles.screen}>
+			<LinearGradient
+				colors={[ Colours.lightseagreen, Colours.chocolate, Colours.maroon ]}
+				// start={{ x: 0, y: 1 }}
+				// end={{ x: 0, y: 0 }}
+				style={styles.gradient}
+			>
+				<View style={styles.flatListContainer}>
+					<FlatList
+						onRefresh={loadedOrders}
+						refreshing={isRefresing}
+						data={orders}
+						keyExtractor={(item) => item.id}
+						renderItem={(itemData) => {
+							return (
+								<OrderItem
+									totalAmount={itemData.item.totalAmount}
+									date={itemData.item.readableDate}
+									items={itemData.item.items}
+								/>
+							);
+						}}
 					/>
-				);
-			}}
-		/>
+				</View>
+			</LinearGradient>
+		</View>
 	);
 };
 
-OrdersScreen.navigationOptions = ({navigation}) => {
+OrdersScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: 'Οι παραγγελίες σας',
 		// Needed for side drawer navigation
@@ -122,6 +135,25 @@ OrdersScreen.navigationOptions = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+	screen: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	gradient: {
+		flex: 1,
+		width: '100%',
+		height: '100%',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	flatListContainer: {
+		flex: 1,
+		width: '100%',
+		maxWidth: '100%',
+		maxHeight: '100%',
+		padding: 20
+	},
 	content: {
 		flex: 1,
 		justifyContent: 'center',
