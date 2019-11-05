@@ -9,8 +9,12 @@ const CartItem = (props) => {
 	return (
 		<View style={styles.cartItem}>
 			<BoldText style={styles.mainText}>{props.title} </BoldText>
+			<BoldText style={styles.mainText}>Τιμή: {props.price} 
+			<Text style={styles.euro}> €</Text>
+			</BoldText>
 			<View style={styles.itemData}>
-				<BoldText style={styles.mainText}>{props.amount.toFixed(2)} €</BoldText>
+				<BoldText style={styles.mainText}>{props.amount.toFixed(2)}
+				<Text style={styles.euro}> €</Text></BoldText>
 				<Text style={styles.quantity}>Τεμ. {props.quantity} </Text>
 				{props.changeQuantity && (
 					<View style={styles.itemData} >
@@ -40,6 +44,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 		paddingRight: 15
+	},
+	euro: {
+		fontSize: 14,
+		color: '#888'
 	},
 	quantity: {
 		fontFamily: 'GFSNeohellenic-Regular',

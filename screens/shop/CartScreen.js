@@ -29,7 +29,9 @@ const CartScreen = (props) => {
 				sum: state.cart.items[key].sum
 			});
 		}
-		return transformedCartItems.sort((a, b) => (a.productId > b.productId ? 1 : -1));
+		// return transformedCartItems.sort((a, b) => (a.productId > b.productId ? 1 : -1));
+		return transformedCartItems;
+
 	});
 
 	const sendOrderHandler = async () => {
@@ -82,12 +84,13 @@ const CartScreen = (props) => {
 				renderItem={(itemData) => (
 					<CartItem
 						quantity={itemData.item.quantity}
+						price={itemData.item.price}
 						title={itemData.item.title}
 						amount={itemData.item.sum}
 						changeQuantity // Needed to show the plus/minus buttons.
 						onAddProduct={() => dispatch(cartActions.addToCard(itemData.item))}
 						onRemoveProduct={() => dispatch(cartActions.removeFromCart(itemData.item.id))}
-						onRemoveAll={() => dispatch(cartActions.removeFromCart(itemData.item.id))}
+						// onRemoveAll={() => dispatch(cartActions.removeFromCart(itemData.item.id))}
 					/>
 				)}
 			/>
