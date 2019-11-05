@@ -5,7 +5,7 @@ import {
 	ScrollView,
 	Keyboard,
 	ActivityIndicator,
-	Image,
+	Platform,
 	Button,
 	StyleSheet,
 	Alert
@@ -15,6 +15,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import Card from '../../components/UI/Card';
 import Input from '../../components/UI/Input';
+import CustomButton from '../../components/UI/CustomButton';
 import Colours from '../../constants/Colours';
 import * as authActions from '../../store/actions/auth';
 
@@ -86,11 +87,11 @@ const AuthScreen = (props) => {
 			setIsLoading(true);
 			try {
 				await dispatch(action);
-				props.navigation.navigate('Categories')
+				props.navigation.navigate('Categories');
 			} catch (err) {
 				setError(err.message);
 				//Note: only if we have an error we stay in this screen...
-				setIsLoading(false); 
+				setIsLoading(false);
 			}
 		},
 		[ dispatch, formState, dispatchFormState ]
@@ -145,6 +146,14 @@ const AuthScreen = (props) => {
 					<View style={styles.buttonContainer}>
 						{isLoading ? (
 							<ActivityIndicator size="large" color={Colours.chocolate} />
+						) : Platform.OS === 'android' ? (
+							<View style={styles.buttonSignup}>
+							<CustomButton
+								title={isSignUp ? 'Εγγραφή' : 'Σύνδεση'}
+								color={Colours.chocolate}
+								onPress={authHandler}
+							/>
+							</View>
 						) : (
 							<Button
 								title={isSignUp ? 'Εγγραφή' : 'Σύνδεση'}
@@ -154,11 +163,15 @@ const AuthScreen = (props) => {
 						)}
 					</View>
 					<View style={styles.buttonContainer}>
-						<Button
+						{Platform.OS === 'android' ? <CustomButton
 							title={`Αλλαγή σε ${isSignUp ? 'Σύνδεση' : 'Εγγραφή'}`}
 							color={Colours.maroon}
 							onPress={() => setIsSignUp(!isSignUp)}
-						/>
+						/> : <Button
+						title={`Αλλαγή σε ${isSignUp ? 'Σύνδεση' : 'Εγγραφή'}`}
+						color={Colours.maroon}
+						onPress={() => setIsSignUp(!isSignUp)}
+					/>}
 					</View>
 				</Card>
 			</LinearGradient>
@@ -191,6 +204,10 @@ const styles = StyleSheet.create({
 	},
 	buttonContainer: {
 		marginTop: 10
+	},
+	buttonSignup: {
+		width: '50%',
+		alignSelf: 'center'
 	}
 });
 

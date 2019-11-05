@@ -24,7 +24,6 @@ const ProductsOverviewScreen = (props) => {
 	const productId = props.navigation.getParam('productId');
 	const isFav = useSelector((state) => state.products.favoriteProducts.some((product) => product.id === productId));
 
-
 	const loadProducts = useCallback(
 		async () => {
 			setError(null);
@@ -60,7 +59,7 @@ const ProductsOverviewScreen = (props) => {
 	// const toggleFavoriteHandler = (id) => {
 	// 	setIsFav(prevState => !prevState)
 	// 	dispatch(productsActions.toggleFavorite(id, isFav));
-	// } 
+	// }
 
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('DetailScreen', {
@@ -110,15 +109,19 @@ const ProductsOverviewScreen = (props) => {
 					onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 				>
 					{Platform.OS === 'android' ? (
-						<View style={styles.actions}> 
-							<View>
+						<View style={styles.actions}>
+							<View style={styles.customButton}>
 								<CustomButton
 									title="Λεπτομέρειες"
 									onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 								/>
 							</View>
-							<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
-							<View>
+
+							<BoldText style={styles.price}>
+								{itemData.item.price.toFixed(2)}
+								<Text style={styles.euro}>€</Text>
+							</BoldText>
+							<View style={styles.customButton}>
 								<CustomButton
 									title="... στο καλάθι"
 									onPress={() => dispatch(cartActions.addToCard(itemData.item))}
@@ -134,7 +137,10 @@ const ProductsOverviewScreen = (props) => {
 									onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 								/>
 							</View>
-							<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
+							<BoldText style={styles.price}>
+								{itemData.item.price.toFixed(2)}
+								<Text style={styles.euro}> €</Text>
+							</BoldText>
 							<View style={styles.button}>
 								<Button
 									color={Colours.gr_brown_light}
@@ -150,7 +156,7 @@ const ProductsOverviewScreen = (props) => {
 	);
 };
 
-ProductsOverviewScreen.navigationOptions = ({navigation}) => {
+ProductsOverviewScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: navigation.getParam('categoryTitle'),
 		// Needed for side drawer navigation
@@ -179,13 +185,21 @@ const styles = StyleSheet.create({
 	price: {
 		fontSize: 18,
 		color: '#888'
+		// marginHorizontal: 1
+	},
+	euro: {
+		fontSize: 14,
+		color: '#888'
 	},
 	actions: {
 		flexDirection: 'row',
 		alignSelf: 'center',
 		alignItems: 'center',
 		height: '18%',
-		paddingHorizontal: 20
+		marginHorizontal: 2
+	},
+	customButton: {
+		marginHorizontal: -2
 	},
 	button: {
 		width: '50%'

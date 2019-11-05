@@ -7,6 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 // import PRODUCTS from '../../data/products';
 import CustomButton from '../../components/UI/CustomButton';
+import BoldText from '../../components/UI/BoldText';
 import * as cartActions from '../../store/actions/cart';
 import * as productsActions from '../../store/actions/products';
 
@@ -21,8 +22,9 @@ const ProductDetailScreen = (props) => {
 	const selectedProduct = useSelector((state) =>
 		state.products.availableProducts.find((prod) => prod.id === productId)
 	);
-	const currentProductIsFavorite = useSelector((state) => state.products.favoriteProducts.some((product) => product.id === productId));
-
+	const currentProductIsFavorite = useSelector((state) =>
+		state.products.favoriteProducts.some((product) => product.id === productId)
+	);
 
 	const toggleFavoriteHandler = useCallback(
 		async () => {
@@ -51,7 +53,11 @@ const ProductDetailScreen = (props) => {
 		<ScrollView>
 			<View style={styles.icon}>
 				<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
-					<MaterialIcons name={currentProductIsFavorite ? 'favorite' : 'favorite-border'} size={23} color="red" />
+					<MaterialIcons
+						name={currentProductIsFavorite ? 'favorite' : 'favorite-border'}
+						size={23}
+						color="red"
+					/>
 				</TouchableOpacity>
 			</View>
 			<Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
@@ -72,7 +78,10 @@ const ProductDetailScreen = (props) => {
 				</View>
 			)}
 
-			<Text style={styles.price}>€ {selectedProduct.price.toFixed(2)}</Text>
+			<BoldText style={styles.price}>
+				{selectedProduct.price.toFixed(2)}
+				<Text style={styles.euro}> €</Text>
+			</BoldText>
 			<Text style={styles.description}>{selectedProduct.description}</Text>
 		</ScrollView>
 	);
@@ -119,6 +128,10 @@ const styles = StyleSheet.create({
 		color: '#888',
 		textAlign: 'center',
 		marginVertical: 2
+	},
+	euro: {
+		fontSize: 14,
+		color: '#888'
 	},
 	description: {
 		fontSize: 20,

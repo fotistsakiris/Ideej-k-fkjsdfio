@@ -41,6 +41,10 @@ export const signup = (email, password) => {
 			let message = 'Σφάλμα κατά την διαδικασία εγγραφής!';
 			if (errorId === 'EMAIL_EXISTS') {
 				message = 'Αυτή η ηλεκτρονική διεύθυνση ήδη υπάρχει!';
+			} else if (errorId === 'OPERATION_NOT_ALLOWED') {
+				message = 'Η δυνατότητα σύνδεσης με ηλεκτρονική διεύθυνση έχει απενεργοποιηθεί!';
+			} else if (errorId === 'TOO_MANY_ATTEMPTS_TRY_LATER') {
+				message = 'Έχουν μπλοκαριστεί όλες οι προσπάθειες από αυτή την συσκευή, λόγω ασυνήθηστων ενεργειών!';
 			}
 			throw new Error(message);
 		}
@@ -79,6 +83,8 @@ export const login = (email, password) => {
 					message = 'Η ηλεκτρονική διεύθυνση δεν βρέθηκε!';
 				} else if (errorId === 'INVALID_PASSWORD') {
 					message = 'Αυτός ο κωδικός είναι άκυρος!';
+				} else if (errorId === 'USER_DISABLED') {
+					message = 'Ο λογαριασμός σας έχει απενεργοποιηθεί!';
 				}
 				throw new Error(message);
 			}
