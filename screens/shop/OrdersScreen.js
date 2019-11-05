@@ -94,12 +94,23 @@ const OrdersScreen = (props) => {
 						data={orders}
 						keyExtractor={(item) => item.id}
 						renderItem={(itemData) => {
+							const date = new Date(itemData.item.date);
+							const options = {
+								weekday: 'long',
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric',
+								// hour: 'numeric',
+								// minute: 'numeric'
+							};
 							return (
-								<OrderItem
-									totalAmount={itemData.item.totalAmount}
-									date={itemData.item.readableDate}
-									items={itemData.item.items}
-								/>
+								<View style={styles.content}>
+									<OrderItem
+										totalAmount={itemData.item.totalAmount}
+										date={date.toLocaleString('el-GR', options)}
+										items={itemData.item.items}
+									/>
+								</View>
 							);
 						}}
 					/>
@@ -159,7 +170,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: '100%',
-		margin: 12
+		margin: 12,
+		padding: 12
 	},
 	centered: {
 		flex: 1,

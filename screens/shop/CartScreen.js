@@ -44,7 +44,7 @@ const CartScreen = (props) => {
 			setError(err.message);
 		}
 		setIsLoading(false);
-		// props.navigation.navigate('Orders');
+		props.navigation.navigate('Orders');
 	};
 
 	if (error) {
@@ -63,7 +63,7 @@ const CartScreen = (props) => {
 	return (
 		<View style={styles.screen}>
 			<LinearGradient
-				colors={[ Colours.lightseagreen , Colours.chocolate, Colours.maroon ]}
+				colors={[ Colours.lightseagreen, Colours.chocolate, Colours.maroon ]}
 				start={{ x: 0, y: 1 }}
 				end={{ x: 0, y: 0 }}
 				style={styles.gradient}
@@ -91,7 +91,7 @@ const CartScreen = (props) => {
 					</Card>
 					<View style={styles.screen}>
 						<LinearGradient
-							colors={[ Colours.lightseagreen , Colours.chocolate, Colours.maroon ]}
+							colors={[ Colours.lightseagreen, Colours.chocolate, Colours.maroon ]}
 							start={{ x: 0, y: 1 }}
 							end={{ x: 0, y: 0 }}
 							style={styles.gradient}
@@ -175,8 +175,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		margin: 10,
-		padding: 10,
-		
+		padding: 10
 	},
 	summaryText: {
 		fontSize: 18,

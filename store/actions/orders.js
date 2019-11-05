@@ -64,7 +64,7 @@ export const fetchOrders = () => {
 					id: key,
 					items: resData[key].cartItems,
 					totalAmount: resData[key].totalAmount,
-					date: resData[key].date 
+					date: resData[key].date
 					})
 				);
 			}

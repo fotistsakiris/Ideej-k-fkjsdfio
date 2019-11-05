@@ -40,11 +40,13 @@ const styles = StyleSheet.create({
 	orderItem: {
 		margin: 20,
 		padding: 10,
-		alignItems: 'center',
+		alignSelf: 'center',
+		width: '90%',
+		justifyContent: 'center',
 	},
 	summary: {
 		justifyContent: 'space-around',
-		alignItems: 'center',
+		alignItems: 'flex-start',
 		width: '80%'
 	},
 	totalAmount: {

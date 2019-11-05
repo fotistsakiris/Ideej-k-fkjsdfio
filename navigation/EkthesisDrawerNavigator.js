@@ -149,7 +149,7 @@ const MainNavigator = createDrawerNavigator(
 						<DrawerNavigatorItems {...props} />
 						{/* Plus our custom button */}
 						<Button
-							title="Logout"
+							title="Έξοδος"
 							color={Colours.chocolate}
 							onPress={() => {
 								dispatch(authActions.logout());
