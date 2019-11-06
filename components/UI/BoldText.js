@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, Dimensions } from 'react-native';
 
 const BoldText = (props) => {
-	return <Text style={{...styles.text, ...props.style}}>{props.children}</Text>;
+	const width = Dimensions.get('window').width; // to set fontSize according to screen size...
+	return <Text style={{fontSize: 0.05 * width, ...styles.text, ...props.style}}>{props.children}</Text>;
 };
 
 const styles = StyleSheet.create({
 	text: {
-		fontSize: 20, 
 		fontFamily: 'GFSNeohellenic-Bold',
 		textAlign: 'left',
 	}

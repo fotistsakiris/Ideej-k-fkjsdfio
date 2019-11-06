@@ -4,7 +4,7 @@ import {
 	Text,
 	Platform,
 	Image,
-	Button,
+	Dimensions ,
 	StyleSheet,
 	TouchableOpacity,
 	TouchableNativeFeedback
@@ -19,12 +19,17 @@ import CustomButton from '../UI/CustomButton';
 import BoldText from '../UI/BoldText';
 
 const ProductItem = (props) => {
+	const width = Dimensions.get('window').width; // Set the height of ProductItem bigger for small screens
 	let TouchableComp = TouchableOpacity;
 	if (Platform.OS === 'android' && Platform.Version >= 21) {
 		TouchableComp = TouchableNativeFeedback;
 	}
+	let cardHeight = 290;
+	if (width < 400) {
+		cardHeight = 390
+	} 
 	return (
-		<Card style={styles.product}>
+		<Card style={{height: cardHeight, ...styles.product}}>
 			<View style={styles.icon}>
 				{/* <Icon
 					size={18}
@@ -40,11 +45,11 @@ const ProductItem = (props) => {
 			<View style={styles.touchable}>
 				<TouchableComp onPress={props.onSelect} useForground>
 					<View>
-						<View style={styles.imageContainer}>
+						<View style={width < 400 ? styles.imageContainerSmall : styles.imageContainer}>
 							<Image style={styles.image} source={{ uri: props.image }} />
 						</View>
 
-						<View style={styles.textContainer}>
+						<View style={width < 400 ? styles.textContainerSmall :styles.textContainer}>
 							<BoldText style={styles.title}>{props.title}</BoldText>
 						</View>
 
@@ -59,8 +64,7 @@ const ProductItem = (props) => {
 
 const styles = StyleSheet.create({
 	product: {
-		height: 290,
-		margin: 20,
+		margin: 10,
 		padding: 10,
 		backgroundColor: Colours.lightseagreen
 	},
@@ -72,6 +76,10 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 		borderRadius: 10
 	},
+	imageContainerSmall: {
+		width: '100%',
+		height: '48%'
+	},
 	imageContainer: {
 		width: '100%',
 		height: '62%'
@@ -82,9 +90,14 @@ const styles = StyleSheet.create({
 		resizeMode: 'contain',
 		margin: 2
 	},
+	textContainerSmall: {
+		alignItems: 'center',
+		height: '10%',
+		padding: 2
+	},
 	textContainer: {
 		alignItems: 'center',
-		height: '15%',
+		height: '18%',
 		padding: 2
 	},
 	title: {
@@ -94,13 +107,13 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		color: '#888'
 	},
-	actions: {
-		flexDirection: 'row',
-		alignSelf: 'center',
-		alignItems: 'center',
-		height: '18%',
-		paddingHorizontal: 20
-	},
+	// actions: {
+	// 	flexDirection: 'row',
+	// 	alignSelf: 'center',
+	// 	alignItems: 'center',
+	// 	height: '30%',
+	// 	paddingHorizontal: 20,
+	// },
 	button: {
 		width: '50%'
 	}

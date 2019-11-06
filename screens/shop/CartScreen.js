@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
+import CustomButton from '../../components/UI/CustomButton';
 import CartItem from '../../components/shop/CartItem';
 import * as cartActions from '../../store/actions/cart';
 import * as ordersActions from '../../store/actions/orders';
@@ -25,7 +26,7 @@ const CartScreen = (props) => {
 			const index = state.cart.items[key].index;
 			// Use splice to keep the order when adding/subtracting
 			transformedCartItems.splice(index, 0, {
-				id: key, 
+				id: key,
 				index: state.cart.items[key].index,
 				title: state.cart.items[key].title,
 				price: state.cart.items[key].price,
@@ -67,8 +68,8 @@ const CartScreen = (props) => {
 		<View style={styles.screen}>
 			<LinearGradient
 				colors={[ Colours.lightseagreen, Colours.chocolate, Colours.maroon ]}
-				start={{ x: 0, y: 1 }}
-				end={{ x: 0, y: 0 }}
+				// start={{ x: 0, y: 1 }}
+				// end={{ x: 0, y: 0 }}
 				style={styles.gradient}
 			>
 				<View style={styles.flatListContainer}>
@@ -81,8 +82,19 @@ const CartScreen = (props) => {
 							</BoldText>
 						</BoldText>
 						{/* NOTE: cartItems is an array!!! (Because of the FlatList down below) */}
-						{isLoading ? (
+						{cartItems.length === 0 ? (
+							<BoldText>Το καλάθι σας είναι άδειο...</BoldText>
+						) : isLoading ? (
 							<ActivityIndicator size="large" color={Colours.chocolate} />
+						) : Platform.OS === 'android' ? (
+							<CustomButton
+								// color={cartItems.length === 0 ? 'gray' : ''}
+								style={styles.customButton}
+								textStyle={styles.buttonText}
+								title="Εκτέλεση παραγγελίας"
+								disabled={cartItems.length === 0}
+								onPress={sendOrderHandler}
+							/>
 						) : (
 							<Button
 								color={Colours.chocolate}
@@ -92,40 +104,29 @@ const CartScreen = (props) => {
 							/>
 						)}
 					</Card>
-					<View style={styles.screen}>
-						<LinearGradient
-							colors={[ Colours.lightseagreen, Colours.chocolate, Colours.maroon ]}
-							// start={{ x: 0, y: 1 }}
-							// end={{ x: 0, y: 0 }}
-							style={styles.gradient}
-						>
-							<View style={styles.flatListContainer}>
-								<FlatList
-									data={cartItems}
-									keyExtractor={(item) => item.id}
-									renderItem={(itemData) => (
-										<Card style={styles.summary}>
-											<CartItem
-												quantity={itemData.item.quantity}
-												price={itemData.item.price}
-												title={itemData.item.title}
-												amount={itemData.item.sum}
-												changeQuantity // Needed to show the plus/minus buttons.
-												onAddProduct={() => {
-													dispatch(cartActions.addToCard(itemData.item));
-												}}
-												onRemoveProduct={() => {
-													dispatch(cartActions.removeFromCart(itemData.item.id));
-												}}
+					<FlatList
+						data={cartItems}
+						keyExtractor={(item) => item.id}
+						renderItem={(itemData) => (
+							<Card style={styles.summary}>
+								<CartItem
+									quantity={itemData.item.quantity}
+									price={itemData.item.price}
+									title={itemData.item.title}
+									amount={itemData.item.sum}
+									changeQuantity // Needed to show the plus/minus buttons.
+									onAddProduct={() => {
+										dispatch(cartActions.addToCard(itemData.item));
+									}}
+									onRemoveProduct={() => {
+										dispatch(cartActions.removeFromCart(itemData.item.id));
+									}}
 
-												// onRemoveAll={() => dispatch(cartActions.removeFromCart(itemData.item.id))}
-											/>
-										</Card>
-									)}
+									// onRemoveAll={() => dispatch(cartActions.removeFromCart(itemData.item.id))}
 								/>
-							</View>
-						</LinearGradient>
-					</View>
+							</Card>
+						)}
+					/>
 				</View>
 			</LinearGradient>
 		</View>
@@ -190,6 +191,13 @@ const styles = StyleSheet.create({
 	},
 	amount: {
 		color: Colours.chocolate
+	},
+	customButton: {
+		width: '40%',
+		height: 50,
+	},
+	buttonText: {
+		paddingLeft: 7
 	},
 	centered: {
 		flex: 1,

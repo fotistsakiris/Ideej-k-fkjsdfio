@@ -8,7 +8,7 @@ export default (CustomButton = (props) => {
 	return (
 		<TouchableNativeFeedback onPress={props.onPress} style={{ ...styles.buttonStyle, ...props.style }}>
 			<View onPress={props.onPress} style={{ ...styles.buttonStyle, ...props.style }}>
-				<BoldText style={{ ...styles.text, ...props.style }}>{props.title}</BoldText>
+				<BoldText style={{ ...styles.text, ...props.textStyle }}>{props.title}</BoldText>
 			</View>
 		</TouchableNativeFeedback>
 	);

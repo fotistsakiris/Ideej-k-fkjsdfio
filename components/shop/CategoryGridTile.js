@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Platform, View, Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
+import { TouchableOpacity, Platform, View, StyleSheet, TouchableNativeFeedback } from 'react-native';
 
 import BoldText from '../UI/BoldText';
 
@@ -36,8 +36,7 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.6,
 		shadowOffset: { width: 0, height: 2 },
 		shadowRadius: 10,
-		
-		padding: 10,
+		padding: 5,
 		justifyContent: 'center',
 		alignItems: 'center'
 	}

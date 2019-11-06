@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, Button, FlatList, StyleSheet, ActivityIndicator, Platform } from 'react-native';
+import { View, Text, Button, FlatList, Dimensions, StyleSheet, ActivityIndicator, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import ProductItem from '../../components/shop/ProductItem';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
+import CustomButton from '../../components/UI/CustomButton';
 import BoldText from '../../components//UI/BoldText';
 import Colours from '../../constants/Colours';
 
@@ -13,6 +14,7 @@ import * as cartActions from '../../store/actions/cart';
 import * as productsActions from '../../store/actions/products';
 
 const ProductsOverviewScreen = (props) => {
+	const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isRefresing, setIsRefresing ] = useState(false);
@@ -107,12 +109,10 @@ const ProductsOverviewScreen = (props) => {
 							<ProductItem
 								title={itemData.item.title}
 								image={itemData.item.imageUrl}
-								// isFav={isFav}
-								// onToggleFavorite={() => toggleFavoriteHandler(itemData.item.id, isFav)}
 								onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 							>
 								{Platform.OS === 'android' ? (
-									<View style={styles.actions}>
+									<View style={width < 400 ? styles.actionsSmall : styles.actions}>
 										<View style={styles.customButton}>
 											<CustomButton
 												title="Λεπτομέρειες"
@@ -225,6 +225,13 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: '#888'
 	},
+	actionsSmall: {
+		// flexDirection: 'row',
+		alignSelf: 'center',
+		alignItems: 'center',
+		height: '42%',
+		marginHorizontal: 2
+	},
 	actions: {
 		flexDirection: 'row',
 		alignSelf: 'center',
@@ -233,7 +240,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 2
 	},
 	customButton: {
-		marginHorizontal: -2
+		marginHorizontal: -2,
 	},
 	button: {
 		width: '40%',

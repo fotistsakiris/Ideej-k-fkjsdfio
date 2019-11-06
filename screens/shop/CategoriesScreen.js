@@ -14,6 +14,7 @@ import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import Colours from '../../constants/Colours';
 
 const CategoriesScreen = (props) => {
+	
 	const renderGridItem = (itemData) => {
 		return (
 			<CategoryGridTile

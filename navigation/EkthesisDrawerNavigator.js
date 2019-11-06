@@ -19,6 +19,8 @@ import EditProductScreen from '../screens/admin/EditProductScreen';
 import AuthScreen from '../screens/admin/AuthScreen';
 import StartUpScreen from '../screens/StartUpScreen';
 
+import CustomButton from '../components/UI/CustomButton';
+
 import * as authActions from '../store/actions/auth';
 
 const defaultNavOptions = {
@@ -148,9 +150,8 @@ const MainNavigator = createDrawerNavigator(
 						{/* These are the default drawer items */}
 						<DrawerNavigatorItems {...props} />
 						{/* Plus our custom button */}
-						<Button
+						<CustomButton
 							title="Έξοδος"
-							color={Colours.chocolate}
 							onPress={() => {
 								dispatch(authActions.logout());
 								// Not needed because we dispatch this navigation in navigationContainer...

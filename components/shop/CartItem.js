@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 5
 	},
 	line: {
-		width: '70%',
+		width: '80%',
 		alignSelf: 'flex-start'
 	}
 });

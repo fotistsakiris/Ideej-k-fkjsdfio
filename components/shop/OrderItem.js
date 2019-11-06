@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Platform, Button, StyleSheet } from 'react-native';
 
 import CartItem from './CartItem';
 import Colours from '../../constants/Colours';
 import Card from '../UI/Card';
+import CustomButton from '../UI/CustomButton';
 
 const OrderItem = (props) => {
 	const [ showDetails, setShowDetails ] = useState(false);
@@ -13,11 +14,20 @@ const OrderItem = (props) => {
 			<View style={styles.summary}>
 				<Text style={styles.date}>{props.date}</Text>
 				<Text style={styles.totalAmount}>Σύνολο: {props.totalAmount.toFixed(2)}</Text>
-				<Button
-					title={showDetails ? 'Απόκρυψη παραγγελίας' : 'Εμφάνιση παραγγελίας'}
-					color={Colours.chocolate}
-					onPress={() => setShowDetails((prevState) => !prevState)}
-				/>
+				{Platform.OS === 'android' ? (
+					<CustomButton
+						style={styles.customButton}
+						textStyle={styles.buttonText}
+						title={showDetails ? 'Απόκρυψη παραγγελίας' : 'Εμφάνιση παραγγελίας'}
+						onPress={() => setShowDetails((prevState) => !prevState)}
+					/>
+				) : (
+					<Button
+						color={Colours.chocolate}
+						title={showDetails ? 'Απόκρυψη παραγγελίας' : 'Εμφάνιση παραγγελίας'}
+						onPress={() => setShowDetails((prevState) => !prevState)}
+					/>
+				)}
 			</View>
 			{showDetails && (
 				<View style={styles.detailItems}>
@@ -55,6 +65,14 @@ const styles = StyleSheet.create({
 		fontFamily: 'GFSNeohellenic-Bold',
 		fontSize: 22,
 		paddingVertical: 10
+	},
+	customButton: {
+		width: '75%',
+		height: 50
+	},
+	buttonText: {
+		paddingLeft: 7,
+		alignItems: 'center',
 	},
 	date: {
 		fontFamily: 'GFSNeohellenic-Regular',
