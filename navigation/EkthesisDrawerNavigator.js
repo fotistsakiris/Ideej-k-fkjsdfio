@@ -175,8 +175,8 @@ const AuthNavigator = createStackNavigator(
 );
 
 const SwitchNavigator = createSwitchNavigator({
-	StartUp: StartUpScreen,
-	Auth: AuthNavigator,
+	// StartUp: StartUpScreen,
+	// Auth: AuthNavigator,
 	Main: MainNavigator
 });
 

@@ -7,25 +7,25 @@ import Card from '../UI/Card';
 
 const OrderItem = (props) => {
 	const [ showDetails, setShowDetails ] = useState(false);
-	
-	
+
 	return (
 		<Card style={styles.orderItem}>
 			<View style={styles.summary}>
 				<Text style={styles.date}>{props.date}</Text>
 				<Text style={styles.totalAmount}>Σύνολο: {props.totalAmount.toFixed(2)}</Text>
+				<Button
+					title={showDetails ? 'Απόκρυψη παραγγελίας' : 'Εμφάνιση παραγγελίας'}
+					color={Colours.chocolate}
+					onPress={() => setShowDetails((prevState) => !prevState)}
+				/>
 			</View>
-			<Button
-				title={showDetails ? 'Απόκρυψη παραγγελίας' : 'Εμφάνιση παραγγελίας'}
-				color={Colours.chocolate}
-				onPress={() => setShowDetails((prevState) => !prevState)}
-			/>
 			{showDetails && (
 				<View style={styles.detailItems}>
 					{props.items.map((cartItem, index) => (
 						<CartItem
 							key={index}
 							quantity={cartItem.quantity}
+							price={cartItem.price}
 							amount={cartItem.sum}
 							title={cartItem.title}
 						/>
@@ -38,16 +38,18 @@ const OrderItem = (props) => {
 
 const styles = StyleSheet.create({
 	orderItem: {
-		margin: 20,
+		// margin: 20,
+		// padding: 10,
 		padding: 10,
-		alignSelf: 'center',
+		alignItems: 'center',
 		width: '90%',
-		justifyContent: 'center',
+		justifyContent: 'center'
 	},
 	summary: {
 		justifyContent: 'space-around',
-		alignItems: 'flex-start',
-		width: '80%'
+		alignItems: 'center',
+		width: '80%',
+		padding: 10
 	},
 	totalAmount: {
 		fontFamily: 'GFSNeohellenic-Bold',
@@ -58,10 +60,11 @@ const styles = StyleSheet.create({
 		fontFamily: 'GFSNeohellenic-Regular',
 		fontSize: 16,
 		color: '#888',
-		paddingVertical: 10
+		paddingTop: 10
 	},
 	detailItems: {
-		width: '80%'
+		width: '80%',
+		paddingBottom: 12
 	}
 });
 
