@@ -8,6 +8,7 @@
 // }
 
 function CartItemModel (info) {
+	this.index = info.index;
 	this.quantity = info.quantity;
 	this.sum = info.sum;
 	this.id = info.id;

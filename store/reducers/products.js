@@ -49,6 +49,7 @@ export default (state = initialState, action) => {
 			};
 		case CREATE_PRODUCT:
 			const newProduct = new Icon({
+				index: action.productData.index,
 				id: action.productData.id,
 				categoryIds: action.productData.categoryIds,
 				ownerId: action.productData.ownerId,
@@ -57,6 +58,8 @@ export default (state = initialState, action) => {
 				price: action.productData.price,
 				description: action.productData.description
 			});
+			console.log('action.productData.index', action.productData.index);
+			
 			return {
 				...state,
 				availableProducts: state.availableProducts.concat(newProduct),

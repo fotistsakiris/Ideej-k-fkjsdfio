@@ -17,13 +17,20 @@ const CartScreen = (props) => {
 	const [ error, setError ] = useState();
 	const dispatch = useDispatch();
 	const cartTotalAmount = useSelector((state) => state.cart.totalAmount);
+
 	const cartItems = useSelector((state) => {
 		// TRANSFORM AN OBJECT INTO AN ARRAY
+
 		const transformedCartItems = [];
 		for (const key in state.cart.items) {
+			// const index = state.cart.items[key].index;
+			const index = state.cart.items[key].index;
+			console.log('index', index);
 			// A cart-item with an additional productId prop.
-			transformedCartItems.push({
-				id: key,
+			// Use splice to keep the order when adding/subtracting
+			transformedCartItems.splice(index, 0, {
+				id: key, 
+				index: state.cart.items[key].index,
 				title: state.cart.items[key].title,
 				price: state.cart.items[key].price,
 				quantity: state.cart.items[key].quantity,
@@ -33,6 +40,23 @@ const CartScreen = (props) => {
 		// return transformedCartItems.sort((a, b) => (a.productId > b.productId ? 1 : -1));
 		return transformedCartItems;
 	});
+
+	// const cartItems = useSelector((state) => {
+	// 	// TRANSFORM AN OBJECT INTO AN ARRAY
+	// 	const transformedCartItems = [];
+	// 	for (const key in state.cart.items) {
+	// 		// A cart-item with an additional productId prop.
+	// 		transformedCartItems.push({
+	// 			id: key,
+	// 			title: state.cart.items[key].title,
+	// 			price: state.cart.items[key].price,
+	// 			quantity: state.cart.items[key].quantity,
+	// 			sum: state.cart.items[key].sum
+	// 		});
+	// 	}
+	// 	// return transformedCartItems.sort((a, b) => (a.productId > b.productId ? 1 : -1));
+	// 	return transformedCartItems.sort((a, b) => (a.title - b.title));
+	// });
 
 	const sendOrderHandler = async () => {
 		setError(null);
@@ -92,8 +116,8 @@ const CartScreen = (props) => {
 					<View style={styles.screen}>
 						<LinearGradient
 							colors={[ Colours.lightseagreen, Colours.chocolate, Colours.maroon ]}
-							start={{ x: 0, y: 1 }}
-							end={{ x: 0, y: 0 }}
+							// start={{ x: 0, y: 1 }}
+							// end={{ x: 0, y: 0 }}
 							style={styles.gradient}
 						>
 							<View style={styles.flatListContainer}>
@@ -108,9 +132,13 @@ const CartScreen = (props) => {
 												title={itemData.item.title}
 												amount={itemData.item.sum}
 												changeQuantity // Needed to show the plus/minus buttons.
-												onAddProduct={() => dispatch(cartActions.addToCard(itemData.item))}
-												onRemoveProduct={() =>
-													dispatch(cartActions.removeFromCart(itemData.item.id))}
+												onAddProduct={() => {
+													dispatch(cartActions.addToCard(itemData.item));
+												}}
+												onRemoveProduct={() => {
+													dispatch(cartActions.removeFromCart(itemData.item.id));
+												}}
+
 												// onRemoveAll={() => dispatch(cartActions.removeFromCart(itemData.item.id))}
 											/>
 										</Card>

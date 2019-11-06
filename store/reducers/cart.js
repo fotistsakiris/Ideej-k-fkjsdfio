@@ -14,12 +14,14 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 		case ADD_TO_CARD:
 			const addedProduct = action.product;
+			const prodIndex = addedProduct.index;
 			const prodPrice = addedProduct.price;
 			const prodTitle = addedProduct.title;
 			let upadtatedOrNewCartItem;
 			// Check if we already have the item in the cart.
 			if (state.items[addedProduct.id]) {
 				upadtatedOrNewCartItem = new CartItemModel({
+					index: prodIndex,
 					quantity: state.items[addedProduct.id].quantity + 1,
 					price: prodPrice,
 					title: prodTitle,
@@ -27,6 +29,7 @@ export default (state = initialState, action) => {
 				});
 			} else {
 				upadtatedOrNewCartItem = new CartItemModel({
+					index: prodIndex,
 					quantity: 1,
 					price: prodPrice,
 					title: prodTitle,
@@ -45,6 +48,7 @@ export default (state = initialState, action) => {
 			if (currentQty > 1) {
 				// need to reduce it not erase it
 				const updatedCartItem = new CartItemModel({
+					index: selectedCartItem.index,
 					quantity: selectedCartItem.quantity - 1,
 					price: selectedCartItem.price,
 					title: selectedCartItem.title,

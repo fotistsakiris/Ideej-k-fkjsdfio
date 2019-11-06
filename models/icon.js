@@ -1,4 +1,3 @@
-
 // class Icon {
 //     constructor(id, categoryIds, ownerId, title, imageUrl, description, price) {
 //         this.id = id;
@@ -14,15 +13,15 @@
 
 // export default Icon;
 
-
-function Icon (info) {
-        this.id = info.id;
-        this.categoryIds = info.categoryIds;
-        this.ownerId = info.ownerId;
-        this.title = info.title;
-        this.imageUrl = info.imageUrl;
-        this.price = info.price;
-        this.description = info.description;
-    }
+function Icon(info) {
+	this.index = info.index;
+	this.id = info.id;
+	this.categoryIds = info.categoryIds;
+	this.ownerId = info.ownerId;
+	this.title = info.title;
+	this.imageUrl = info.imageUrl;
+	this.price = info.price;
+	this.description = info.description;
+}
 
 export default Icon;

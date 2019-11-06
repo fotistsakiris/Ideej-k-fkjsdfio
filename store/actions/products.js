@@ -122,7 +122,9 @@ export const setFilters = (filterSettings) => {
 export const deleteProduct = (productId) => {
 	return async (dispatch) => {
 		const token = getState().auth.token;
-		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json?auth=${token}`, {
+		//testing
+		// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json?auth=${token}`, {
+		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json`, {
 			method: 'DELETE'
 		});
 
@@ -151,10 +153,12 @@ export const fetchProducts = () => {
 			const resData = await response.json();
 			// console.log('fetchProducts resData.name: ', resData.name); // Why is this undefined?
 			const loadedProducts = [];
+console.log('resData', resData);
 
 			for (const key in resData) {
 				loadedProducts.push(
 					new Icon({
+						index: resData[key].index,
 						id: key,
 						categoryIds: resData[key].categoryIds,
 						ownerId: resData[key].ownerId,
@@ -170,7 +174,9 @@ export const fetchProducts = () => {
 				type: SET_PRODUCTS,
 				products: loadedProducts,
 				// Now we see only the products of the logged in user.
-				userProducts: loadedProducts.filter((prod) => prod.ownerId === userId)
+				//testing
+				// userProducts: loadedProducts.filter((prod) => prod.ownerId === userId)
+				userProducts: loadedProducts.filter((prod) => prod.ownerId === 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1')
 			});
 		} catch (err) {
 			// send to custom analytics server
@@ -182,16 +188,40 @@ export const fetchProducts = () => {
 export const createProduct = (title, categoryIds, imageUrl, price, description) => {
 	return async (dispatch, getState) => {
 		try {
+
+			// Set an index so in CartScreen you can splice the transformedCartItems,
+			// so the order of the cartItems will not change when adding/subtracting
+			const res = await fetch('https://ekthesi-7767c.firebaseio.com/products.json');
+			const resD = await res.json();
+			const loadedIndexes = [];
+			for (const key in resD) {
+				loadedIndexes.push(resD[key].index);
+			}
+			const arrayForIndexes = [...loadedIndexes]
+			let lastIndex = arrayForIndexes.pop();
+
+			if (typeof lastIndex === 'undefined') {
+				lastIndex = -1
+			}
+
+			console.log('lastIndex', lastIndex);
+			
+
 			const token = getState().auth.token;
 			const userId = getState().auth.userId;
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products.json?auth=${token}`, {
+			// testing
+			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products.json?auth=${token}`, {
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products.json`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
+					index: lastIndex + 1,
 					categoryIds,
-					ownerId: userId,
+					//testing
+					// ownerId: userId,
+					ownerId: 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1',
 					title,
 					imageUrl,
 					price,
@@ -210,9 +240,12 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 			dispatch({
 				type: CREATE_PRODUCT,
 				productData: {
+					index: lastIndex + 1,
 					id: resData.name,
 					categoryIds,
-					ownerId: userId,
+					// testing
+					// ownerId: userId,
+					ownerId: 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1',
 					title,
 					description,
 					imageUrl,
@@ -231,18 +264,23 @@ export const updateProduct = (id, title, categoryIds, imageUrl, description) => 
 		try {
 			const userId = getState().auth.userId;
 			const token = getState().auth.token;
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${id}.json?auth=${token}`, {
-				method: 'PATCH',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					title,
-					categoryIds,
-					imageUrl,
-					description
-				})
-			});
+			// testing
+			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${id}.json?auth=${token}`, {
+			const response = await fetch(
+				`https://ekthesi-7767c.firebaseio.com/products/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json?`,
+				{
+					method: 'PATCH',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						title,
+						categoryIds,
+						imageUrl,
+						description
+					})
+				}
+			);
 
 			if (!response.ok) {
 				throw new Error(
