@@ -5,15 +5,15 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### The configureStore file.
 ### Using an object in the Models.
 ### In UI: the <Line />, <BoldText />
-### Favorites
+### Favorites...
 ### A plus and a minus sign to add/subtrack products in the cartScreen.
 ### Two option of navigation: 1. Side Drawer or 2. Bottom Tabs.
+### Show an alert in AdminScreen if a chosen product to be deleted is already in the cart of a client.
 
 
 ## TODO
 ### DONE! fix scrollView when having a lot of items in CartScreen,
 ### DONE! fix bug: When logging or singing in you need to click back to the email input field other wise the passward in ommited...
-### DONE! fix bug: when toggling favorite icon, the icon toggles in all products 
 ### DONE! put a plus/minus sign to add/remove products in the cartScreen.
 ### DONE! Show an alert in AdminScreen if a chosen product to be deleted is already in the cart of a client. 
 ### DONE! fix bug: ProductsOverViewScreen and AdminProductsScreen shows no products available just before loading them, while it should show the spinner.
@@ -26,6 +26,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### upload picture for product into firebase
 ### add some code for github security...
 ### change back commented code in firebase, ...Navigator and actions/orders to need token and get AuthScreen... find 'testing'
+### Use pictures in CategoriesScreen in the Card. This, is actually taken from the Meals app.
 
 # Packages installed:
 ### redux react-redux react-navigation react-navigation-stack react-navigation-header-buttons, react-navigation react-navigation-tabs react-navigation react-navigation-drawer 

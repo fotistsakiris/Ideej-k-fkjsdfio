@@ -153,7 +153,6 @@ export const fetchProducts = () => {
 			const resData = await response.json();
 			// console.log('fetchProducts resData.name: ', resData.name); // Why is this undefined?
 			const loadedProducts = [];
-console.log('resData', resData);
 
 			for (const key in resData) {
 				loadedProducts.push(

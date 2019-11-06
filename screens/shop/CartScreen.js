@@ -23,7 +23,6 @@ const CartScreen = (props) => {
 		const transformedCartItems = [];
 		for (const key in state.cart.items) {
 			const index = state.cart.items[key].index;
-			console.log('index', index);
 			// Use splice to keep the order when adding/subtracting
 			transformedCartItems.splice(index, 0, {
 				id: key, 

@@ -16,7 +16,6 @@ const ProductsOverviewScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isRefresing, setIsRefresing ] = useState(false);
-	// const [ isFav, setIsFav ] = useState(false);
 	const dispatch = useDispatch();
 	const categoryId = props.navigation.getParam('categoryId');
 	const products = useSelector((state) =>
@@ -56,11 +55,6 @@ const ProductsOverviewScreen = (props) => {
 		},
 		[ dispatch, loadProducts ]
 	);
-
-	// const toggleFavoriteHandler = (id) => {
-	// 	setIsFav(prevState => !prevState)
-	// 	dispatch(productsActions.toggleFavorite(id, isFav));
-	// }
 
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('DetailScreen', {
@@ -242,7 +236,8 @@ const styles = StyleSheet.create({
 		marginHorizontal: -2
 	},
 	button: {
-		width: '50%'
+		width: '40%',
+		paddingHorizontal: -5
 	},
 	centered: {
 		flex: 1,

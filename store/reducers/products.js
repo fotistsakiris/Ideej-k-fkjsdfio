@@ -58,8 +58,6 @@ export default (state = initialState, action) => {
 				price: action.productData.price,
 				description: action.productData.description
 			});
-			console.log('action.productData.index', action.productData.index);
-			
 			return {
 				...state,
 				availableProducts: state.availableProducts.concat(newProduct),
