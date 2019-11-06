@@ -20,13 +20,10 @@ const CartScreen = (props) => {
 
 	const cartItems = useSelector((state) => {
 		// TRANSFORM AN OBJECT INTO AN ARRAY
-
 		const transformedCartItems = [];
 		for (const key in state.cart.items) {
-			// const index = state.cart.items[key].index;
 			const index = state.cart.items[key].index;
 			console.log('index', index);
-			// A cart-item with an additional productId prop.
 			// Use splice to keep the order when adding/subtracting
 			transformedCartItems.splice(index, 0, {
 				id: key, 
@@ -40,23 +37,6 @@ const CartScreen = (props) => {
 		// return transformedCartItems.sort((a, b) => (a.productId > b.productId ? 1 : -1));
 		return transformedCartItems;
 	});
-
-	// const cartItems = useSelector((state) => {
-	// 	// TRANSFORM AN OBJECT INTO AN ARRAY
-	// 	const transformedCartItems = [];
-	// 	for (const key in state.cart.items) {
-	// 		// A cart-item with an additional productId prop.
-	// 		transformedCartItems.push({
-	// 			id: key,
-	// 			title: state.cart.items[key].title,
-	// 			price: state.cart.items[key].price,
-	// 			quantity: state.cart.items[key].quantity,
-	// 			sum: state.cart.items[key].sum
-	// 		});
-	// 	}
-	// 	// return transformedCartItems.sort((a, b) => (a.productId > b.productId ? 1 : -1));
-	// 	return transformedCartItems.sort((a, b) => (a.title - b.title));
-	// });
 
 	const sendOrderHandler = async () => {
 		setError(null);

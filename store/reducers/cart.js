@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
 				});
 			} else {
 				upadtatedOrNewCartItem = new CartItemModel({
-					index: prodIndex,
+					index: prodIndex, // for keeping the order in cartScreen
 					quantity: 1,
 					price: prodPrice,
 					title: prodTitle,
@@ -48,7 +48,7 @@ export default (state = initialState, action) => {
 			if (currentQty > 1) {
 				// need to reduce it not erase it
 				const updatedCartItem = new CartItemModel({
-					index: selectedCartItem.index,
+					index: selectedCartItem.index, // for keeping the order in cartScreen
 					quantity: selectedCartItem.quantity - 1,
 					price: selectedCartItem.price,
 					title: selectedCartItem.title,

@@ -8,7 +8,7 @@
 // }
 
 function CartItemModel (info) {
-	this.index = info.index;
+	this.index = info.index; // for keeping the order in cartScreen
 	this.quantity = info.quantity;
 	this.sum = info.sum;
 	this.id = info.id;

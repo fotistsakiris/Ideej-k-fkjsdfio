@@ -158,7 +158,7 @@ console.log('resData', resData);
 			for (const key in resData) {
 				loadedProducts.push(
 					new Icon({
-						index: resData[key].index,
+						index: resData[key].index, // for keeping the order in cartScreen
 						id: key,
 						categoryIds: resData[key].categoryIds,
 						ownerId: resData[key].ownerId,
@@ -189,6 +189,7 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 	return async (dispatch, getState) => {
 		try {
 
+			// SET INDEX
 			// Set an index so in CartScreen you can splice the transformedCartItems,
 			// so the order of the cartItems will not change when adding/subtracting
 			const res = await fetch('https://ekthesi-7767c.firebaseio.com/products.json');
@@ -204,9 +205,7 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 				lastIndex = -1
 			}
 
-			console.log('lastIndex', lastIndex);
-			
-
+			// CREATE PRODUCT
 			const token = getState().auth.token;
 			const userId = getState().auth.userId;
 			// testing
@@ -217,7 +216,7 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
-					index: lastIndex + 1,
+					index: lastIndex + 1, // for keeping the order in cartScreen
 					categoryIds,
 					//testing
 					// ownerId: userId,
@@ -240,7 +239,7 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 			dispatch({
 				type: CREATE_PRODUCT,
 				productData: {
-					index: lastIndex + 1,
+					index: lastIndex + 1, // for keeping the order in cartScreen
 					id: resData.name,
 					categoryIds,
 					// testing
@@ -287,7 +286,7 @@ export const updateProduct = (id, title, categoryIds, imageUrl, description) => 
 					'Δυστυχώς η ανανέωση των πληροφωριών του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
 				);
 			}
-			const resData = await response.json();
+			// const resData = await response.json();
 			// console.log('PATCH resData.name: ', resData.name);
 
 			dispatch({

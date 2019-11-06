@@ -14,7 +14,7 @@
 // export default Icon;
 
 function Icon(info) {
-	this.index = info.index;
+	this.index = info.index; // for keeping the order in cartScreen
 	this.id = info.id;
 	this.categoryIds = info.categoryIds;
 	this.ownerId = info.ownerId;
