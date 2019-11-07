@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 	product: {
 		margin: 10,
 		padding: 10,
-		backgroundColor: Colours.lightseagreen
+		backgroundColor: Colours.moccasin_light
 	},
 	icon: {
 		alignSelf: 'center',

@@ -94,7 +94,7 @@ const ProductsOverviewScreen = (props) => {
 	return (
 		<View style={styles.screen}>
 			<LinearGradient
-				colors={[ Colours.lightseagreen , Colours.chocolate, Colours.maroon ]}
+				colors={[ Colours.moccasin_light , Colours.chocolate, Colours.maroon ]}
 				// start={{ x: 0, y: 1 }}
 				// end={{ x: 0, y: 0 }}
 				style={styles.gradient}

@@ -18,11 +18,11 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! Show an alert in AdminScreen if a chosen product to be deleted is already in the cart of a client. 
 ### DONE! fix bug: ProductsOverViewScreen and AdminProductsScreen shows no products available just before loading them, while it should show the spinner.
 ### DONE! put LinearGradient in all screens
+### DONE! fix UI for small screens
 ### DONE! fix bug: favorite (in ProductsDetailScreen) snaps back to false if you go back to ProductsOverviewScreen and forth to ProductsDetailScreen.
 ### DONE! fix bug: in cartScreen the order of the products changes when you change the amount of the second...
 ### refresh the token so the user doesn't get automatic logged out after 1 hour.
-### fix UI for small screens
-### diferent signups/logins for admis and users + hide admin button in users sidedrawer
+### Authentication with roles: diferent signups/logins for admis and users + hide admin button in users sidedrawer
 ### upload picture for product into firebase
 ### add some code for github security...
 ### change back commented code in firebase, ...Navigator and actions/orders to need token and get AuthScreen... find 'testing'

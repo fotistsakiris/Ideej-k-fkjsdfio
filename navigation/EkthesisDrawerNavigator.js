@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, Text, SafeAreaView, Button, View } from 'react-native';
+import { Platform, Text, SafeAreaView, Button, Dimensions, View } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 
@@ -17,16 +17,21 @@ import FavoritesScreen from '../screens/shop/FavoritesScreen';
 import AdminProductsScreen from '../screens/admin/AdminProductsScreen';
 import EditProductScreen from '../screens/admin/EditProductScreen';
 import AuthScreen from '../screens/admin/AuthScreen';
+import DeveloperScreen from '../screens/admin/DeveloperScreen';
 import StartUpScreen from '../screens/StartUpScreen';
 
 import CustomButton from '../components/UI/CustomButton';
-
+import BoldText from '../components/UI/BoldText';
 import * as authActions from '../store/actions/auth';
+
+const width = (props) => {
+	return Dimensions.get('window').width; // for putting the buttons in column for small screens
+};
 
 const defaultNavOptions = {
 	headerBackTitle: 'Πίσω',
 	headerStyle: {
-		backgroundColor: Platform.OS === 'android' ? Colours.gr_brown : Colours.lightseagreen 
+		backgroundColor: Platform.OS === 'android' ? Colours.gr_brown : Colours.moccasin_light
 	},
 	headerTitleStyle: {
 		fontFamily: 'GFSNeohellenic-Bold',
@@ -83,12 +88,25 @@ const AdminNavigator = createStackNavigator(
 	}
 );
 
+const DeveloperNavigator = createStackNavigator(
+	{
+		Developer: DeveloperScreen
+	},
+	{
+		defaultNavigationOptions: defaultNavOptions
+	}
+);
+
 const MainNavigator = createDrawerNavigator(
 	{
 		Ekthesis: {
 			screen: EkthesisNavigator,
 			navigationOptions: {
-				drawerLabel: 'Εκθεσις',
+				drawerLabel: (
+					<View style={{ paddingVertical: 10 }}>
+						<BoldText>'Eκθεσις</BoldText>
+					</View>
+				),
 				drawerIcon: (tabInfo) => (
 					<Ionicons
 						name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
@@ -101,16 +119,24 @@ const MainNavigator = createDrawerNavigator(
 		Favorites: {
 			screen: FavNavigator,
 			navigationOptions: {
-				drawerLabel: 'Αγαπημένα',
+				drawerLabel: (
+					<View style={{ paddingVertical: 10 }}>
+						<BoldText>Αγαπημένα</BoldText>
+					</View>
+				),
 				drawerIcon: (tabInfo) => {
 					return <MaterialIcons name="favorite" size={25} color={tabInfo.tintColor} />;
-				},
+				}
 			}
 		},
 		Orders: {
 			screen: OrdersNavigator,
 			navigationOptions: {
-				drawerLabel: 'Παραγγελίες',
+				drawerLabel: (
+					<View style={{ paddingVertical: 10 }}>
+						<BoldText>Παραγγελίες</BoldText>
+					</View>
+				),
 				drawerIcon: (tabInfo) => {
 					return (
 						<Ionicons
@@ -119,26 +145,44 @@ const MainNavigator = createDrawerNavigator(
 							color={tabInfo.tintColor}
 						/>
 					);
-				},
+				}
 			}
 		},
 		Admin: {
 			screen: AdminNavigator,
 			navigationOptions: {
-				drawerLabel: 'Διαχειριστής',
+				drawerLabel: (
+					<View style={{ paddingVertical: 10 }}>
+						<BoldText>Διαχειριστής</BoldText>
+					</View>
+				),
 				drawerIcon: (tabInfo) => {
 					return <FontAwesome name="user-o" size={23} color={tabInfo.tintColor} />;
-				},
+				}
+			}
+		},
+		Developer: {
+			screen: DeveloperNavigator,
+			navigationOptions: {
+				drawerLabel: (
+					<View style={{ paddingVertical: 10 }}>
+						<BoldText>Προγραμματιστής</BoldText>
+					</View>
+				),
+				drawerIcon: (tabInfo) => {
+					return <MaterialIcons name="developer-mode" size={23} color={tabInfo.tintColor} />;
+				}
 			}
 		}
 	},
 	{
 		contentOptions: {
 			activeTintColor: Colours.gr_brown,
-			labelStyle: {
-				fontFamily: 'GFSNeohellenic-Bold',
-				fontSize: 20
-			}
+			// Not needed, we use View and Text...
+			// labelStyle: {
+			// 	fontFamily: 'GFSNeohellenic-Bold',
+			// 	fontSize: 20
+			// }
 		},
 		// This allows you to set your own content instead of the default.
 		// This component could have been created in a separate file
@@ -150,19 +194,33 @@ const MainNavigator = createDrawerNavigator(
 						{/* These are the default drawer items */}
 						<DrawerNavigatorItems {...props} />
 						{/* Plus our custom button */}
-						<CustomButton
-							title="Έξοδος"
-							onPress={() => {
-								dispatch(authActions.logout());
-								// Not needed because we dispatch this navigation in navigationContainer...
-								// props.navigation.navigate('Auth');
-							}}
-						/>
+						{Platform.OS === 'android' ? (
+							<CustomButton
+								title="Έξοδος"
+								onPress={() => {
+									dispatch(authActions.logout());
+									// Not needed because we dispatch this navigation in navigationContainer...
+									// props.navigation.navigate('Auth');
+								}}
+							/>
+						) : (
+							<Button
+								title="Έξοδος"
+								color={Colours.maroon}
+								onPress={() => {
+									dispatch(authActions.logout());
+									// Not needed because we dispatch this navigation in navigationContainer...
+									// props.navigation.navigate('Auth');
+								}}
+							/>
+						)}
 					</SafeAreaView>
 				</View>
 			);
 		},
-		drawerWidth: 220
+		drawerWidth: 230,
+		drawerBackgroundColor: Colours.moccasin_light,
+		overlayColor: Colours.chocolateRGBA
 	}
 );
 
