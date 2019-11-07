@@ -42,10 +42,15 @@ const ProductDetailScreen = (props) => {
 	if (error) {
 		return (
 			<View style={styles.centered}>
-				<Text>
+				<BoldText>
 					Σφάλμα στη διαδικασία αποθήκευσης του προϊόντος ως αγαπημένου. Παρακαλώ ελέγξτε τη σύνδεσή σας.
-				</Text>
-				<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.chocolate} />
+				</BoldText>
+
+				{Platform.OS === 'android' ? (
+					<CustomButton title="Δοκιμάστε Ξανά" onPress={toggleFavoriteHandler} color={Colours.chocolate} />
+				) : (
+					<Button title="Δοκιμάστε Ξανά" onPress={toggleFavoriteHandler} color={Colours.chocolate} />
+				)}
 			</View>
 		);
 	}
@@ -81,7 +86,7 @@ const ProductDetailScreen = (props) => {
 						) : (
 							<View style={styles.button}>
 								<Button
-									color='white'
+									color="white"
 									title="Προσθήκη στο καλάθι"
 									onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
 								/>
@@ -174,6 +179,11 @@ const styles = StyleSheet.create({
 		marginHorizontal: 5,
 		alignSelf: 'center'
 	},
+	centered: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
+	}
 });
 
 export default ProductDetailScreen;

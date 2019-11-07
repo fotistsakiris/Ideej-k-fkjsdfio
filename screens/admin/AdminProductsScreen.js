@@ -10,11 +10,13 @@ import {
 	ActivityIndicator,
 	Platform
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
+import CustomButton from '../../components/UI/CustomButton';
 import ProductItem from '../../components/shop/ProductItem';
 import BoldText from '../../components/UI/BoldText';
 import Colours from '../../constants/Colours';
@@ -88,8 +90,12 @@ const AdminProductsScreen = (props) => {
 	if (error) {
 		return (
 			<View style={styles.centered}>
-				<Text>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</Text>
-				<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.chocolate} />
+				<BoldText>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</BoldText>
+				{Platform.OS === 'android' ? (
+					<CustomButton title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.chocolate} />
+				) : (
+					<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.chocolate} />
+				)}
 			</View>
 		);
 	}
@@ -111,68 +117,79 @@ const AdminProductsScreen = (props) => {
 	}
 
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
-			{/* <BoldText>Εδώ ο κάθε διαχειριστής, έχει τα προϊόντα του. Προσθέσαμε ήδη τρια χάριν ευκολίας προς δοκιμασίαν της εφαρμογής.</BoldText> */}
-			<FlatList
-				onRefresh={loadProducts}
-				refreshing={isRefresing}
-				data={userProducts}
-				keyExtractor={(item) => item.id}
-				renderItem={(itemData) => (
-					<ProductItem
-						image={itemData.item.imageUrl}
-						title={itemData.item.title}
-						onSelect={() => editProductHandler(itemData.item.id)}
-					>
-						{Platform.OS === 'android' ? (
-							<View style={styles.actions}>
-								<View>
-									<CustomButton
-										title="Επεξεργασίαν"
-										onPress={() => editProductHandler(itemData.item.id)}
-									/>
-								</View>
-								<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
-								<View>
-									<CustomButton
-										title="Διαγραφήν"
-										onPress={deleteHandler.bind(this, itemData.item.id)}
-									/>
-								</View>
-							</View>
-						) : (
-							<View style={styles.actions}>
-								<View style={styles.button}>
-									<Button
-										color={Colours.gr_brown_light}
-										title="Επεξεργασίαν"
-										onPress={() => editProductHandler(itemData.item.id)}
-									/>
-								</View>
-								<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
-								<View style={styles.button}>
-									<Button
-										color={Colours.gr_brown_light}
-										title="Διαγραφήν"
-										onPress={() => dispatch(deleteHandler.bind(this, itemData.item.id))}
-									/>
-								</View>
-							</View>
-						)}
-						{/* <Button color={Colours.maroon} title="Edit" onPress={() => editProductHandler(itemData.item.id)} />
+		<View style={styles.screen}>
+			<LinearGradient
+				colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
+				// start={{ x: 0, y: 1 }}
+				// end={{ x: 0, y: 0 }}
+				style={styles.gradient}
+			>
+				<View style={styles.flatListContainer}>
+					<SafeAreaView style={{ flex: 1 }}>
+						{/* <BoldText>Εδώ ο κάθε διαχειριστής, έχει τα προϊόντα του. Προσθέσαμε ήδη τρια χάριν ευκολίας προς δοκιμασίαν της εφαρμογής.</BoldText> */}
+						<FlatList
+							onRefresh={loadProducts}
+							refreshing={isRefresing}
+							data={userProducts}
+							keyExtractor={(item) => item.id}
+							renderItem={(itemData) => (
+								<ProductItem
+									image={itemData.item.imageUrl}
+									title={itemData.item.title}
+									onSelect={() => editProductHandler(itemData.item.id)}
+								>
+									{Platform.OS === 'android' ? (
+										<View style={styles.actions}>
+											<View>
+												<CustomButton
+													title="Επεξεργασίαν"
+													onPress={() => editProductHandler(itemData.item.id)}
+												/>
+											</View>
+											<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
+											<View>
+												<CustomButton
+													title="Διαγραφήν"
+													onPress={deleteHandler.bind(this, itemData.item.id)}
+												/>
+											</View>
+										</View>
+									) : (
+										<View style={styles.actions}>
+											<View style={styles.button}>
+												<Button
+													color={Colours.gr_brown_light}
+													title="Επεξεργασίαν"
+													onPress={() => editProductHandler(itemData.item.id)}
+												/>
+											</View>
+											<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
+											<View style={styles.button}>
+												<Button
+													color={Colours.gr_brown_light}
+													title="Διαγραφήν"
+													onPress={() => dispatch(deleteHandler.bind(this, itemData.item.id))}
+												/>
+											</View>
+										</View>
+									)}
+									{/* <Button color={Colours.maroon} title="Edit" onPress={() => editProductHandler(itemData.item.id)} />
 					<Button
 						color={Colours.maroon}
 						title="Delete"
 						onPress={deleteHandler.bind(this, itemData.item.id)}
 					/> */}
-					</ProductItem>
-				)}
-			/>
-		</SafeAreaView>
+								</ProductItem>
+							)}
+						/>
+					</SafeAreaView>
+				</View>
+			</LinearGradient>
+		</View>
 	);
 };
 
-AdminProductsScreen.navigationOptions = ({navigation}) => {
+AdminProductsScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: 'Τα προϊόντα σας',
 		// For side drawer navigation only.
@@ -198,6 +215,25 @@ AdminProductsScreen.navigationOptions = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+	screen: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	gradient: {
+		flex: 1,
+		width: '100%',
+		height: '100%',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	flatListContainer: {
+		flex: 1,
+		width: '100%',
+		maxWidth: '100%',
+		maxHeight: '100%',
+		padding: 20
+	},
 	price: {
 		fontSize: 18,
 		color: '#888'

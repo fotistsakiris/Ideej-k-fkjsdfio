@@ -55,11 +55,19 @@ const CartScreen = (props) => {
 		return (
 			<View style={styles.centered}>
 				<BoldText>Σφάλμα στη διαδικασία αποστολής της παραγγελίας. Παρακαλώ ελέγξτε τη σύνδεσή σας.</BoldText>
-				<Button
-					title="Δοκιμάστε Ξανά"
-					onPress={() => dispatch(ordersActions.addOrder(cartItems, cartTotalAmount))}
-					color={Colours.chocolate}
-				/>
+				{Platform.OS === 'android' ? (
+					<CustomButton
+						title="Δοκιμάστε Ξανά"
+						onPress={() => dispatch(ordersActions.addOrder(cartItems, cartTotalAmount))}
+						color={Colours.chocolate}
+					/>
+				) : (
+					<Button
+						title="Δοκιμάστε Ξανά"
+						onPress={() => dispatch(ordersActions.addOrder(cartItems, cartTotalAmount))}
+						color={Colours.chocolate}
+					/>
+				)}
 			</View>
 		);
 	}
@@ -194,7 +202,7 @@ const styles = StyleSheet.create({
 	},
 	customButton: {
 		width: '40%',
-		height: 50,
+		height: 50
 	},
 	buttonText: {
 		paddingLeft: 7

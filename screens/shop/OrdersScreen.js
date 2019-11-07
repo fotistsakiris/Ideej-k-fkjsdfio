@@ -5,6 +5,8 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
+import CustomButton from '../../components/UI/CustomButton';
+
 import OrderItem from '../../components/shop/OrderItem';
 import BoldText from '../../components/UI/BoldText';
 import * as ordersActions from '../../store/actions/orders';
@@ -56,9 +58,10 @@ const OrdersScreen = (props) => {
 		return (
 			<View style={styles.centered}>
 				<BoldText>
-					{error.message}Σφάλμα στη διαδικασία φορτώσεως των παραγγελιών. Παρακαλώ ελέγξτε τη σύνδεσή σας.
+					{error.message} Σφάλμα στη διαδικασία φορτώσεως των παραγγελιών. Παρακαλώ ελέγξτε τη σύνδεσή σας.
 				</BoldText>
-				<Button title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />
+				{Platform.OS === 'android' ? <CustomButton title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />
+				: <Button title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />}
 			</View>
 		);
 	}
