@@ -27,6 +27,9 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### add some code for github security...
 ### change back commented code in firebase, ...Navigator and actions/orders to need token and get AuthScreen... find 'testing'
 ### Use pictures in CategoriesScreen in the Card. This, is actually taken from the Meals app.
+### fix bug: email link doesn't open the email app in iOS
+
+
 
 # Packages installed:
 ### redux react-redux react-navigation react-navigation-stack react-navigation-header-buttons, react-navigation react-navigation-tabs react-navigation react-navigation-drawer 

@@ -220,8 +220,10 @@ const MainNavigator = createDrawerNavigator(
 		},
 		drawerWidth: 230,
 		drawerBackgroundColor: Colours.moccasin_light,
-		overlayColor: Colours.chocolateRGBA
-	}
+		overlayColor: Colours.chocolateRGBA,
+		
+	},
+	
 );
 
 const AuthNavigator = createStackNavigator(
