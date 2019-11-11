@@ -120,11 +120,11 @@ export const setFilters = (filterSettings) => {
 
 // Admin
 export const deleteProduct = (productId) => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
 		const token = getState().auth.token;
 		//testing
-		// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json?auth=${token}`, {
-		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json`, {
+		// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json`, {
+		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json?auth=${token}`, {
 			method: 'DELETE'
 		});
 
@@ -174,8 +174,8 @@ export const fetchProducts = () => {
 				products: loadedProducts,
 				// Now we see only the products of the logged in user.
 				//testing
-				// userProducts: loadedProducts.filter((prod) => prod.ownerId === userId)
-				userProducts: loadedProducts.filter((prod) => prod.ownerId === 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1')
+				// userProducts: loadedProducts.filter((prod) => prod.ownerId === 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1')
+				userProducts: loadedProducts.filter((prod) => prod.ownerId === userId)
 			});
 		} catch (err) {
 			// send to custom analytics server
@@ -208,8 +208,8 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 			const token = getState().auth.token;
 			const userId = getState().auth.userId;
 			// testing
-			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products.json?auth=${token}`, {
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products.json`, {
+			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products.json`, {
+				const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products.json?auth=${token}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -218,8 +218,8 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 					index: lastIndex + 1, // for keeping the order in cartScreen
 					categoryIds,
 					//testing
-					// ownerId: userId,
-					ownerId: 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1',
+					// ownerId: 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1',
+					ownerId: userId,
 					title,
 					imageUrl,
 					price,
@@ -242,8 +242,8 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 					id: resData.name,
 					categoryIds,
 					// testing
-					// ownerId: userId,
-					ownerId: 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1',
+					// ownerId: 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1',
+					ownerId: userId,
 					title,
 					description,
 					imageUrl,
@@ -263,10 +263,10 @@ export const updateProduct = (id, title, categoryIds, imageUrl, description) => 
 			const userId = getState().auth.userId;
 			const token = getState().auth.token;
 			// testing
-			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${id}.json?auth=${token}`, {
-			const response = await fetch(
-				`https://ekthesi-7767c.firebaseio.com/products/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json?`,
-				{
+			// const response = await fetch(
+				// `https://ekthesi-7767c.firebaseio.com/products/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json?`,
+				// {
+				const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${id}.json?auth=${token}`, {
 					method: 'PATCH',
 					headers: {
 						'Content-Type': 'application/json'

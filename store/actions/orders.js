@@ -10,8 +10,8 @@ export const addOrder = (cartItems, totalAmount) => {
 			const userId = getState().auth.userId;
 			const date = new Date();
 			// testing
-			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/${userId}.json?auth=${token}`, {
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json`, {
+			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json`, {
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/${userId}.json?auth=${token}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -51,8 +51,8 @@ export const fetchOrders = () => {
 		try {
 			const userId = getState().auth.userId;
 			//testing
-			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/${userId}.json`);
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json`);
+			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json`);
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/${userId}.json`);
 
 
 			// check before unpack the response body

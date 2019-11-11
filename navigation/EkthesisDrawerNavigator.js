@@ -17,7 +17,7 @@ import FavoritesScreen from '../screens/shop/FavoritesScreen';
 import AdminProductsScreen from '../screens/admin/AdminProductsScreen';
 import EditProductScreen from '../screens/admin/EditProductScreen';
 import AuthScreen from '../screens/admin/AuthScreen';
-import DeveloperScreen from '../screens/admin/DeveloperScreen';
+import ShopInfoScreen from '../screens/admin/ShopInfoScreen';
 import StartUpScreen from '../screens/StartUpScreen';
 
 import CustomButton from '../components/UI/CustomButton';
@@ -88,9 +88,9 @@ const AdminNavigator = createStackNavigator(
 	}
 );
 
-const DeveloperNavigator = createStackNavigator(
+const ShopInfoNavigator = createStackNavigator(
 	{
-		Developer: DeveloperScreen
+		ShopInfo: ShopInfoScreen
 	},
 	{
 		defaultNavigationOptions: defaultNavOptions
@@ -161,8 +161,8 @@ const MainNavigator = createDrawerNavigator(
 				}
 			}
 		},
-		Developer: {
-			screen: DeveloperNavigator,
+		ShopInfo: {
+			screen: ShopInfoNavigator,
 			navigationOptions: {
 				drawerLabel: (
 					<View style={{ paddingVertical: 10 }}>
@@ -236,8 +236,8 @@ const AuthNavigator = createStackNavigator(
 );
 
 const SwitchNavigator = createSwitchNavigator({
-	// StartUp: StartUpScreen,
-	// Auth: AuthNavigator,
+	StartUp: StartUpScreen,
+	Auth: AuthNavigator,
 	Main: MainNavigator
 });
 
