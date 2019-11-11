@@ -146,7 +146,10 @@ const AdminProductsScreen = (props) => {
 													onPress={() => editProductHandler(itemData.item.id)}
 												/>
 											</View>
-											<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
+											<BoldText style={styles.price}>
+												{itemData.item.price.toFixed(2)}
+												<Text style={styles.euro}> €</Text>
+											</BoldText>
 											<View>
 												<CustomButton
 													title="Διαγραφήν"
@@ -163,7 +166,11 @@ const AdminProductsScreen = (props) => {
 													onPress={() => editProductHandler(itemData.item.id)}
 												/>
 											</View>
-											<BoldText style={styles.price}>€ {itemData.item.price}</BoldText>
+											<BoldText style={styles.price}>
+												{itemData.item.price.toFixed(2)}
+												<Text style={styles.euro}> €</Text>
+											</BoldText>
+											{/* <BoldText style={styles.price}>€ {itemData.item.price}</BoldText> */}
 											<View style={styles.button}>
 												<Button
 													color={Colours.gr_brown_light}
@@ -236,6 +243,11 @@ const styles = StyleSheet.create({
 	},
 	price: {
 		fontSize: 18,
+		color: '#888'
+		// marginHorizontal: 1
+	},
+	euro: {
+		fontSize: 14,
 		color: '#888'
 	},
 	actions: {
