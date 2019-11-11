@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, Text, SafeAreaView, Button, Dimensions, View } from 'react-native';
-import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
@@ -103,7 +103,7 @@ const MainNavigator = createDrawerNavigator(
 			screen: EkthesisNavigator,
 			navigationOptions: {
 				drawerLabel: (
-					<View style={{ paddingVertical: 10 }}>
+					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
 						<BoldText>'Eκθεσις</BoldText>
 					</View>
 				),
@@ -120,7 +120,7 @@ const MainNavigator = createDrawerNavigator(
 			screen: FavNavigator,
 			navigationOptions: {
 				drawerLabel: (
-					<View style={{ paddingVertical: 10 }}>
+					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
 						<BoldText>Αγαπημένα</BoldText>
 					</View>
 				),
@@ -133,7 +133,7 @@ const MainNavigator = createDrawerNavigator(
 			screen: OrdersNavigator,
 			navigationOptions: {
 				drawerLabel: (
-					<View style={{ paddingVertical: 10 }}>
+					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
 						<BoldText>Παραγγελίες</BoldText>
 					</View>
 				),
@@ -152,7 +152,7 @@ const MainNavigator = createDrawerNavigator(
 			screen: AdminNavigator,
 			navigationOptions: {
 				drawerLabel: (
-					<View style={{ paddingVertical: 10 }}>
+					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
 						<BoldText>Διαχειριστής</BoldText>
 					</View>
 				),
@@ -165,12 +165,12 @@ const MainNavigator = createDrawerNavigator(
 			screen: ShopInfoNavigator,
 			navigationOptions: {
 				drawerLabel: (
-					<View style={{ paddingVertical: 10 }}>
-						<BoldText>Προγραμματιστής</BoldText>
+					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+						<BoldText>Κατάστημα</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
-					return <MaterialIcons name="developer-mode" size={23} color={tabInfo.tintColor} />;
+					return <FontAwesome5 name="warehouse" size={20} color={tabInfo.tintColor} />;
 				}
 			}
 		}

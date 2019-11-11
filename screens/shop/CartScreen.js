@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, FlatList, Button, StyleSheet, ActivityIndicator, Platform } from 'react-native';
+import { View, Text, SafeAreaView, FlatList, Button, StyleSheet, ActivityIndicator, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -73,46 +73,48 @@ const CartScreen = (props) => {
 	}
 
 	return (
-		<View style={styles.screen}>
-			<LinearGradient
-				colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
-				// start={{ x: 0, y: 1 }}
-				// end={{ x: 0, y: 0 }}
-				style={styles.gradient}
-			>
-				<View style={styles.flatListContainer}>
-					<Card style={styles.summary}>
-						<BoldText style={styles.summaryText}>
-							{/* Use Math.round etc to remove the -0... */}
-							Σύνολο:{' '}
-							<BoldText style={styles.amount}>
-								{Math.round(cartTotalAmount.toFixed(2) * 100) / 100} €
-							</BoldText>
-						</BoldText>
-						{/* NOTE: cartItems is an array!!! (Because of the FlatList down below) */}
-						{cartItems.length === 0 ? (
-							<BoldText>Το καλάθι σας είναι άδειο...</BoldText>
-						) : isLoading ? (
-							<ActivityIndicator size="large" color={Colours.chocolate} />
-						) : Platform.OS === 'android' ? (
-							<CustomButton
-								// color={cartItems.length === 0 ? 'gray' : ''}
-								style={styles.customButton}
-								textStyle={styles.buttonText}
-								title="Εκτέλεση παραγγελίας"
-								disabled={cartItems.length === 0}
-								onPress={sendOrderHandler}
-							/>
-						) : (
-							<Button
-								color={Colours.chocolate}
-								title="Εκτέλεση παραγγελίας"
-								disabled={cartItems.length === 0}
-								onPress={sendOrderHandler}
-							/>
-						)}
-					</Card>
+		<LinearGradient
+			colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
+			// start={{ x: 0, y: 1 }}
+			// end={{ x: 0, y: 0 }}
+			style={styles.gradient}
+		>
+			<Card style={styles.summary}>
+				<BoldText style={styles.summaryText}>
+					{/* Use Math.round etc to remove the -0... */}
+					Σύνολο:{' '}
+					<BoldText style={styles.amount}>
+						{Math.round(cartTotalAmount.toFixed(2) * 100) / 100}
+						<Text style={styles.euro}> €</Text>
+					</BoldText>
+				</BoldText>
+				{/* NOTE: cartItems is an array!!! (Because of the FlatList down below) */}
+				{cartItems.length === 0 ? (
+					<BoldText style={styles.amount}>Το καλάθι σας είναι άδειο...</BoldText>
+				) : isLoading ? (
+					<ActivityIndicator size="large" color={Colours.chocolate} />
+				) : Platform.OS === 'android' ? (
+					<CustomButton
+						// color={cartItems.length === 0 ? 'gray' : ''}
+						style={styles.customButton}
+						textStyle={styles.buttonText}
+						title="Εκτέλεση παραγγελίας"
+						disabled={cartItems.length === 0}
+						onPress={sendOrderHandler}
+					/>
+				) : (
+					<Button
+						color={Colours.chocolate}
+						title="Εκτέλεση παραγγελίας"
+						disabled={cartItems.length === 0}
+						onPress={sendOrderHandler}
+					/>
+				)}
+			</Card>
+			{/* <SafeAreaView style={styles.screen}> */}
+				<SafeAreaView style={styles.flatListContainer}>
 					<FlatList
+					 contentContainerStyle={styles.flatListStyle}
 						data={cartItems}
 						keyExtractor={(item) => item.id}
 						renderItem={(itemData) => (
@@ -135,9 +137,9 @@ const CartScreen = (props) => {
 							</Card>
 						)}
 					/>
-				</View>
-			</LinearGradient>
-		</View>
+				{/* </View> */}
+			</SafeAreaView>
+		</LinearGradient>
 	);
 };
 
@@ -166,25 +168,31 @@ CartScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-	screen: {
-		flex: 1,
-		// margin: 20,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
 	gradient: {
 		flex: 1,
-		width: '100%',
-		height: '100%',
-		justifyContent: 'center',
-		alignItems: 'center'
+		// width: '100%',
+		// height: '100%',
+		// justifyContent: 'center',
+		// alignItems: 'center'
 	},
+	// screen: {
+	// 	flex: 1,
+	// 	// margin: 20,
+	// 	justifyContent: 'center',
+	// 	alignItems: 'center'
+	// },
+
 	flatListContainer: {
 		flex: 1,
 		width: '100%',
 		maxWidth: '100%',
-		maxHeight: '100%'
+		maxHeight: '100%',
+		justifyContent: 'center',
+		alignItems: 'center'
 		// padding: 20
+	},
+	flatListStyle: {
+		paddingBottom: 50
 	},
 	summary: {
 		flexDirection: 'row',
@@ -198,7 +206,13 @@ const styles = StyleSheet.create({
 		color: Colours.chocolate
 	},
 	amount: {
-		color: Colours.chocolate
+		fontSize: 18,
+		color: Colours.chocolate,
+		paddingLeft: 5 
+	},
+	euro: {
+		fontSize: 14,
+		color: '#888'
 	},
 	customButton: {
 		width: '40%',
