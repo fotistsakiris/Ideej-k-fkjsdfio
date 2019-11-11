@@ -11,7 +11,7 @@ export const CATEGORIES = [
 	new Category('c5', 'Ορθόδοξη Βιβλιοθήκη', moccasin), // moccasin
 	new Category('c6', 'Είδη δώρων - Αναμνηστικά', moccasin), // lightsteelblue
 	new Category('c7', 'Προτεινόμενα προϊόντα', moccasin), // moccasin_light
-	new Category('c8', 'Κατάστημα', moccasin), // ivory
+	// new Category('c8', 'Κατάστημα', moccasin), // ivory
 ];
 
 

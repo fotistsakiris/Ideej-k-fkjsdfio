@@ -1,6 +1,3 @@
-// Here you can select the thema/category of the books,
-// e.g. Biblical, Dogmatic, History etc
-
 import React from 'react';
 import { FlatList, View, Platform, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';

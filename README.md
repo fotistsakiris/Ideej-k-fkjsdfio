@@ -21,14 +21,18 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! fix UI for small screens
 ### DONE! fix bug: favorite (in ProductsDetailScreen) snaps back to false if you go back to ProductsOverviewScreen and forth to ProductsDetailScreen.
 ### DONE! fix bug: in cartScreen the order of the products changes when you change the amount of the second...
+### DONE! change back commented code in firebase, ...Navigator and actions/orders to need token and get AuthScreen... find 'testing'
 ### refresh the token so the user doesn't get automatic logged out after 1 hour.
 ### Authentication with roles: diferent signups/logins for admis and users + hide admin button in users sidedrawer
-### upload picture for product into firebase
 ### add some code for github security...
-### change back commented code in firebase, ...Navigator and actions/orders to need token and get AuthScreen... find 'testing'
 ### Use pictures in CategoriesScreen in the Card. This, is actually taken from the Meals app.
 ### fix bug: email link doesn't open the email app in iOS
-
+### fix bug: It logs out the user if restart the app (if user leaves the app)
+### Add an alert with the categoryIds in the EditProductScreen
+### Delete product file and everything else it's not needed.
+### Add a categories sceen also to adminsScreen...
+### show dots ... when the title is to long.
+### add to price validation that it doesn have commas but fullstops...
 
 
 # Packages installed:

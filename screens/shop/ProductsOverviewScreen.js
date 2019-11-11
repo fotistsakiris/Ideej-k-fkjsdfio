@@ -15,16 +15,19 @@ import * as productsActions from '../../store/actions/products';
 
 const ProductsOverviewScreen = (props) => {
 	const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
+	
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isRefresing, setIsRefresing ] = useState(false);
+	
 	const dispatch = useDispatch();
+	
 	const categoryId = props.navigation.getParam('categoryId');
 	const products = useSelector((state) =>
 		state.products.availableProducts.filter((prod) => prod.categoryIds.indexOf(categoryId) >= 0)
 	);
-	const productId = props.navigation.getParam('productId');
-	const isFav = useSelector((state) => state.products.favoriteProducts.some((product) => product.id === productId));
+	// const productId = props.navigation.getParam('productId');
+	// const isFav = useSelector((state) => state.products.favoriteProducts.some((product) => product.id === productId));
 
 	const loadProducts = useCallback(
 		async () => {
@@ -62,7 +65,7 @@ const ProductsOverviewScreen = (props) => {
 		props.navigation.navigate('DetailScreen', {
 			productId: id,
 			productTitle: title,
-			isFav: isFav
+			// isFav: isFav
 		});
 	};
 
