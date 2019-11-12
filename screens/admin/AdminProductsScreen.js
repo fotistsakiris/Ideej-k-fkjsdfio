@@ -110,8 +110,17 @@ const AdminProductsScreen = (props) => {
 
 	if (!isLoading && userProducts.length === 0) {
 		return (
-			<View style={styles.centered}>
-				<Text>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</Text>
+			<View style={styles.screen}>
+				<LinearGradient
+					colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
+					// start={{ x: 0, y: 1 }}
+					// end={{ x: 0, y: 0 }}
+					style={styles.gradient}
+				>
+					<View style={styles.centered}>
+						<Text>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</Text>
+					</View>
+				</LinearGradient>
 			</View>
 		);
 	}

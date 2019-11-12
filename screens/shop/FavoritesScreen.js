@@ -73,9 +73,17 @@ const FavoritesScreen = (props) => {
 	// Render something when no favorites are selected.
 	if (!favProducts || favProducts.length === 0) {
 		return (
-			<View style={styles.content}>
-				<BoldText
-				>{`Ακόμη δεν έχετε επιλέξει αγαπημένα. \nΠαρακαλώ κάντε τις επιλογές σας.\nΘα χαρούμε να σας εξυπηρετήσουμε!`}</BoldText>
+			<View style={styles.screen}>
+				<LinearGradient
+					colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
+					// start={{ x: 0, y: 1 }}
+					// end={{ x: 0, y: 0 }}
+					style={styles.gradient}
+				>
+					<View style={styles.content}>
+						<BoldText>Ακόμη δεν έχετε επιλέξει αγαπημένα.</BoldText>
+					</View>
+				</LinearGradient>
 			</View>
 		);
 	}

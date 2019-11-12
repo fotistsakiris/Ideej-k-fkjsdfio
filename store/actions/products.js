@@ -143,7 +143,7 @@ export const fetchProducts = () => {
 	return async (dispatch, getState) => {
 		try {
 			const userId = getState().auth.userId;
-			const response = await fetch('https://ekthesi-7767c.firebaseio.com/products.json');
+			const response = await fetch('https://ekthesi-7767c.firebaseio.com/products.jsn');
 
 			// check before unpack the response body
 			if (!response.ok) {

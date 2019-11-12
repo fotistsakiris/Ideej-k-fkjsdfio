@@ -243,7 +243,8 @@ const styles = StyleSheet.create({
 		marginHorizontal: 2
 	},
 	customButton: {
-		marginHorizontal: -2,
+		marginHorizontal: -7,
+		marginVertical: -2,
 	},
 	button: {
 		width: '40%',

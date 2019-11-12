@@ -24,9 +24,9 @@ const ProductItem = (props) => {
 	if (Platform.OS === 'android' && Platform.Version >= 21) {
 		TouchableComp = TouchableNativeFeedback;
 	}
-	let cardHeight = 290;
+	let cardHeight = 350;
 	if (width < 400) {
-		cardHeight = 390
+		cardHeight = 400
 	} 
 	return (
 		<Card style={{height: cardHeight, ...styles.product}}>

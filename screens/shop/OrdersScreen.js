@@ -9,6 +9,7 @@ import CustomButton from '../../components/UI/CustomButton';
 
 import OrderItem from '../../components/shop/OrderItem';
 import BoldText from '../../components/UI/BoldText';
+import Card from '../../components/UI/Card';
 import * as ordersActions from '../../store/actions/orders';
 import Colours from '../../constants/Colours';
 
@@ -60,24 +61,38 @@ const OrdersScreen = (props) => {
 				<BoldText>
 					{error.message} Σφάλμα στη διαδικασία φορτώσεως των παραγγελιών. Παρακαλώ ελέγξτε τη σύνδεσή σας.
 				</BoldText>
-				{Platform.OS === 'android' ? <CustomButton title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />
-				: <Button title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />}
+				{Platform.OS === 'android' ? (
+					<CustomButton title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />
+				) : (
+					<Button title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />
+				)}
 			</View>
 		);
 	}
 
 	if (isLoading) {
 		return (
-			<View style={styles.centered}>
-				<ActivityIndicator size="large" color={Colours.chocolate} />
-			</View>
+			<Card>
+				<View style={styles.centered}>
+					<ActivityIndicator size="large" color={Colours.chocolate} />
+				</View>
+			</Card>
 		);
 	}
 
 	if (!isLoading && orders.length === 0) {
 		return (
-			<View style={styles.centered}>
-				<BoldText>Δεν βρέθηκαν παραγγελίες στη βάση δεδομένων!</BoldText>
+			<View style={styles.screen}>
+				<LinearGradient
+					colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
+					// start={{ x: 0, y: 1 }}
+					// end={{ x: 0, y: 0 }}
+					style={styles.gradient}
+				>
+					<View style={styles.centered}>
+						<BoldText>Δεν βρέθηκαν παραγγελίες στη βάση δεδομένων!</BoldText>
+					</View>
+				</LinearGradient>
 			</View>
 		);
 	}
@@ -102,7 +117,7 @@ const OrdersScreen = (props) => {
 								weekday: 'long',
 								year: 'numeric',
 								month: 'long',
-								day: 'numeric',
+								day: 'numeric'
 								// hour: 'numeric',
 								// minute: 'numeric'
 							};
