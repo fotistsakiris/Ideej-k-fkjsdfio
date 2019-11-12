@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		justifyContent: 'center',
 		alignItems: 'center',
-		color: 'white',
+		color: Colours.moccasin_light,
 		backgroundColor: 'gray',
 
 		// shadowColor: '#2AC062',

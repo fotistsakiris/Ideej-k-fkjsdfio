@@ -93,9 +93,9 @@ const AdminProductsScreen = (props) => {
 				<View style={styles.centered}>
 					<BoldText>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</BoldText>
 					{Platform.OS === 'android' ? (
-						<CustomButton title="Δοκιμάστε Ξανά" onPress={loadProducts} color='white' />
+						<CustomButton title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.moccasin_light} />
 					) : (
-						<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color='white' />
+						<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.moccasin_light} />
 					)}
 				</View>
 			</CustomLinearGradient>

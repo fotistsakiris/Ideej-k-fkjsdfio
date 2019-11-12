@@ -74,7 +74,7 @@ const ProductsOverviewScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.centered}>
 					<BoldText>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</BoldText>
-					<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color="white" />
+					<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.moccasin_light} />
 				</View>
 			</CustomLinearGradient>
 		);

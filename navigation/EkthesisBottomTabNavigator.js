@@ -30,7 +30,7 @@ const defaultNavOptions = {
 		fontFamily: 'GFSNeohellenic-Regular',
 		fontSize: 22
 	},
-	headerTintColor: Platform.OS === 'android' ? 'white' : Colours.gr_brown
+	headerTintColor: Platform.OS === 'android' ? Colours.moccasin_light : Colours.gr_brown
 };
 
 const EkthesisNavigator = createStackNavigator(
@@ -163,7 +163,7 @@ const MultiTabNavigator =
 	Platform.OS === 'android'
 		? createMaterialBottomTabNavigator(tabScreenConfig, {
 				// NO tabBarOptions...
-				activeTintColor: 'white',
+				activeTintColor: {Colours.moccasin_light},
 				shifting: true,
 				barStyle: {
 					backgroundColor: Colours.gr_brown

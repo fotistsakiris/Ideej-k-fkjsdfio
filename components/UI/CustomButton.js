@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 		elevation: 7,
 	},
 	text: {
-		color: 'white',
+		color: Colours.moccasin_light,
         // textDecorationColor: Colours.chocolateRGBA,
 	}
 });

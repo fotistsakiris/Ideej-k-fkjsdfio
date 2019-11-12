@@ -9,7 +9,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### A plus and a minus sign to add/subtrack products in the cartScreen.
 ### Two option of navigation: 1. Side Drawer or 2. Bottom Tabs.
 ### Show an alert in AdminScreen if a chosen product to be deleted is already in the cart of a client.
-
+### Added CustomLinearGradient
 
 ## TODO
 ### DONE! fix scrollView when having a lot of items in CartScreen,

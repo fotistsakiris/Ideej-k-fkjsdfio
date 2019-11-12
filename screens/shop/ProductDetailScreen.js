@@ -54,7 +54,7 @@ const ProductDetailScreen = (props) => {
 							color={Colours.chocolate}
 						/>
 					) : (
-						<Button title="Δοκιμάστε Ξανά" onPress={toggleFavoriteHandler} color='white' />
+						<Button title="Δοκιμάστε Ξανά" onPress={toggleFavoriteHandler} color={Colours.moccasin_light} />
 					)}
 				</View>
 			</CustomLinearGradient>
@@ -86,7 +86,7 @@ const ProductDetailScreen = (props) => {
 					) : (
 						<View style={styles.button}>
 							<Button
-								color="white"
+								color={Colours.moccasin_light}
 								title="Προσθήκη στο καλάθι"
 								onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
 							/>
@@ -149,13 +149,13 @@ const styles = StyleSheet.create({
 	},
 	price: {
 		fontSize: 18,
-		color: 'white',
+		color: Colours.moccasin_light,
 		textAlign: 'center',
 		marginVertical: 2
 	},
 	euro: {
 		fontSize: 14,
-		color: 'white'
+		color: Colours.moccasin_light
 	},
 	description: {
 		fontSize: 20,

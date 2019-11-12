@@ -7,7 +7,7 @@ import Colours from '../../constants/Colours';
 
 const CustomHeaderButton = (props) => {
     return ( 
-        <HeaderButton {...props} IconComponent={Ionicons} iconSize={23} color={Platform.OS === 'android' ? 'white' : Colours.maroon} />
+        <HeaderButton {...props} IconComponent={Ionicons} iconSize={23} color={Platform.OS === 'android' ? Colours.moccasin_light : Colours.maroon} />
      );
 }
  

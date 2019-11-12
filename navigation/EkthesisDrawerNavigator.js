@@ -41,7 +41,7 @@ const defaultNavOptions = {
 		fontFamily: 'GFSNeohellenic-Regular',
 		fontSize: 22
 	},
-	headerTintColor: Platform.OS === 'android' ? 'white' : Colours.gr_brown
+	headerTintColor: Platform.OS === 'android' ? Colours.moccasin_light : Colours.gr_brown
 };
 
 const EkthesisNavigator = createStackNavigator(
