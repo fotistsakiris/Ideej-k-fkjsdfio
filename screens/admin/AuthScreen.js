@@ -18,6 +18,7 @@ import Input from '../../components/UI/Input';
 import CustomButton from '../../components/UI/CustomButton';
 import Colours from '../../constants/Colours';
 import * as authActions from '../../store/actions/auth';
+import BoldText from '../../components/UI/BoldText';
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
@@ -146,16 +147,20 @@ const AuthScreen = (props) => {
 					<View style={styles.buttonContainer}>
 						{isLoading ? (
 							<ActivityIndicator size="large" color={Colours.chocolate} />
-						) : Platform.OS === 'android' ? (
+						) : Platform.OS === 'android' ? !formState.formIsValid ? (
+							<BoldText style={styles.buttonStyle}> {isSignUp ? 'Εγγραφή' : 'Σύνδεση'} </BoldText>
+						) : (
 							<View style={styles.buttonSignup}>
-							<CustomButton
-								title={isSignUp ? 'Εγγραφή' : 'Σύνδεση'}
-								color={Colours.chocolate}
-								onPress={authHandler}
-							/>
+								<CustomButton
+									disabled={!formState.formIsValid}
+									title={isSignUp ? 'Εγγραφή' : 'Σύνδεση'}
+									color={Colours.chocolate}
+									onPress={authHandler}
+								/>
 							</View>
 						) : (
 							<Button
+								disabled={!formState.formIsValid}
 								title={isSignUp ? 'Εγγραφή' : 'Σύνδεση'}
 								color={Colours.chocolate}
 								onPress={authHandler}
@@ -163,15 +168,19 @@ const AuthScreen = (props) => {
 						)}
 					</View>
 					<View style={styles.buttonContainer}>
-						{Platform.OS === 'android' ? <CustomButton
-							title={`Αλλαγή σε ${isSignUp ? 'Σύνδεση' : 'Εγγραφή'}`}
-							color={Colours.chocolate}
-							onPress={() => setIsSignUp(!isSignUp)}
-						/> : <Button
-						title={`Αλλαγή σε ${isSignUp ? 'Σύνδεση' : 'Εγγραφή'}`}
-						color={Colours.chocolate}
-						onPress={() => setIsSignUp(!isSignUp)}
-					/>}
+						{Platform.OS === 'android' ? (
+							<CustomButton
+								title={`Αλλαγή σε ${isSignUp ? 'Σύνδεση' : 'Εγγραφή'}`}
+								color={Colours.chocolate}
+								onPress={() => setIsSignUp(!isSignUp)}
+							/>
+						) : (
+							<Button
+								title={`Αλλαγή σε ${isSignUp ? 'Σύνδεση' : 'Εγγραφή'}`}
+								color={Colours.chocolate}
+								onPress={() => setIsSignUp(!isSignUp)}
+							/>
+						)}
 					</View>
 				</Card>
 			</LinearGradient>
@@ -201,6 +210,29 @@ const styles = StyleSheet.create({
 		maxWidth: 400,
 		maxHeight: 400,
 		padding: 20
+	},
+	buttonStyle: {
+		height: 37,
+		// width: '80%',
+		marginHorizontal: 20,
+		marginVertical: 10,
+		paddingBottom: 7,
+		paddingTop: 2,
+		paddingLeft: 7,
+		paddingRight: 7,
+		borderRadius: 15,
+		alignSelf: 'center',
+		justifyContent: 'center',
+		alignItems: 'center',
+		color: 'white',
+		backgroundColor: 'gray',
+
+		// shadowColor: '#2AC062',
+		// shadowOpacity: 0.7,
+		// shadowOffset: { height: 10, width: 5 },
+		// shadowRadius: 20,
+
+		elevation: 7
 	},
 	buttonContainer: {
 		marginTop: 10
