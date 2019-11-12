@@ -11,7 +11,6 @@ import {
 	Alert
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { LinearGradient } from 'expo-linear-gradient';
 
 import Card from '../../components/UI/Card';
 import Input from '../../components/UI/Input';
@@ -19,7 +18,7 @@ import CustomButton from '../../components/UI/CustomButton';
 import Colours from '../../constants/Colours';
 import * as authActions from '../../store/actions/auth';
 import BoldText from '../../components/UI/BoldText';
-
+import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
 const formReducer = (state, action) => {
@@ -111,13 +110,8 @@ const AuthScreen = (props) => {
 	);
 
 	return (
-		<KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={styles.screen}>
-			<LinearGradient
-				colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
-				// start={{ x: 0, y: 1 }}
-				// end={{ x: 0, y: 0 }}
-				style={styles.gradient}
-			>
+		<CustomLinearGradient>
+			<KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={styles.screen}>
 				<Card style={styles.authContainer}>
 					<ScrollView>
 						<Input
@@ -183,8 +177,8 @@ const AuthScreen = (props) => {
 						)}
 					</View>
 				</Card>
-			</LinearGradient>
-		</KeyboardAvoidingView>
+			</KeyboardAvoidingView>
+		</CustomLinearGradient>
 	);
 };
 
@@ -193,20 +187,8 @@ AuthScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-	screen: {
-		flex: 1
-		// justifyContent: 'center',
-		// alignItems: 'center'
-	},
-	gradient: {
-		// width: '100%',
-		// height: '100%',
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
 	authContainer: {
-		width: '80%',
+		width: '90%',
 		maxWidth: 400,
 		maxHeight: 400,
 		padding: 20

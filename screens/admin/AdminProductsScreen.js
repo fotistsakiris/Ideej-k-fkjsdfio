@@ -10,7 +10,6 @@ import {
 	ActivityIndicator,
 	Platform
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -20,6 +19,7 @@ import CustomButton from '../../components/UI/CustomButton';
 import ProductItem from '../../components/shop/ProductItem';
 import BoldText from '../../components/UI/BoldText';
 import Colours from '../../constants/Colours';
+import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 import * as productsActions from '../../store/actions/products';
 
 const AdminProductsScreen = (props) => {
@@ -89,119 +89,109 @@ const AdminProductsScreen = (props) => {
 
 	if (error) {
 		return (
-			<View style={styles.centered}>
-				<BoldText>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</BoldText>
-				{Platform.OS === 'android' ? (
-					<CustomButton title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.chocolate} />
-				) : (
-					<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.chocolate} />
-				)}
-			</View>
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<BoldText>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</BoldText>
+					{Platform.OS === 'android' ? (
+						<CustomButton title="Δοκιμάστε Ξανά" onPress={loadProducts} color='white' />
+					) : (
+						<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color='white' />
+					)}
+				</View>
+			</CustomLinearGradient>
 		);
 	}
 
 	if (isLoading) {
 		return (
-			<View style={styles.centered}>
-				<ActivityIndicator size="large" color={Colours.chocolate} />
-			</View>
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<ActivityIndicator size="large" color={Colours.moccasin_light} />
+				</View>
+			</CustomLinearGradient>
 		);
 	}
 
 	if (!isLoading && userProducts.length === 0) {
 		return (
-			<View style={styles.screen}>
-				<LinearGradient
-					colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
-					// start={{ x: 0, y: 1 }}
-					// end={{ x: 0, y: 0 }}
-					style={styles.gradient}
-				>
-					<View style={styles.centered}>
-						<Text>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</Text>
-					</View>
-				</LinearGradient>
-			</View>
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<BoldText>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</BoldText>
+				</View>
+			</CustomLinearGradient>
 		);
 	}
 
 	return (
-		<View style={styles.screen}>
-			<LinearGradient
-				colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
-				// start={{ x: 0, y: 1 }}
-				// end={{ x: 0, y: 0 }}
-				style={styles.gradient}
-			>
-				<View style={styles.flatListContainer}>
-					<SafeAreaView style={{ flex: 1 }}>
-						{/* <BoldText>Εδώ ο κάθε διαχειριστής, έχει τα προϊόντα του. Προσθέσαμε ήδη τρια χάριν ευκολίας προς δοκιμασίαν της εφαρμογής.</BoldText> */}
-						<FlatList
-							onRefresh={loadProducts}
-							refreshing={isRefresing}
-							data={userProducts}
-							keyExtractor={(item) => item.id}
-							renderItem={(itemData) => (
-								<ProductItem
-									image={itemData.item.imageUrl}
-									title={itemData.item.title}
-									onSelect={() => editProductHandler(itemData.item.id)}
-								>
-									{Platform.OS === 'android' ? (
-										<View style={styles.actions}>
-											<View>
-												<CustomButton
-													title="Επεξεργασίαν"
-													onPress={() => editProductHandler(itemData.item.id)}
-												/>
-											</View>
-											<BoldText style={styles.price}>
-												{itemData.item.price.toFixed(2)}
-												<Text style={styles.euro}> €</Text>
-											</BoldText>
-											<View>
-												<CustomButton
-													title="Διαγραφήν"
-													onPress={deleteHandler.bind(this, itemData.item.id)}
-												/>
-											</View>
+		<CustomLinearGradient>
+			<View style={styles.flatListContainer}>
+				<SafeAreaView style={{ flex: 1 }}>
+					{/* <BoldText>Εδώ ο κάθε διαχειριστής, έχει τα προϊόντα του. Προσθέσαμε ήδη τρια χάριν ευκολίας προς δοκιμασίαν της εφαρμογής.</BoldText> */}
+					<FlatList
+						onRefresh={loadProducts}
+						refreshing={isRefresing}
+						data={userProducts}
+						keyExtractor={(item) => item.id}
+						renderItem={(itemData) => (
+							<ProductItem
+								image={itemData.item.imageUrl}
+								title={itemData.item.title}
+								onSelect={() => editProductHandler(itemData.item.id)}
+							>
+								{Platform.OS === 'android' ? (
+									<View style={styles.actions}>
+										<View>
+											<CustomButton
+												title="Επεξεργασίαν"
+												onPress={() => editProductHandler(itemData.item.id)}
+											/>
 										</View>
-									) : (
-										<View style={styles.actions}>
-											<View style={styles.button}>
-												<Button
-													color={Colours.gr_brown_light}
-													title="Επεξεργασίαν"
-													onPress={() => editProductHandler(itemData.item.id)}
-												/>
-											</View>
-											<BoldText style={styles.price}>
-												{itemData.item.price.toFixed(2)}
-												<Text style={styles.euro}> €</Text>
-											</BoldText>
-											{/* <BoldText style={styles.price}>€ {itemData.item.price}</BoldText> */}
-											<View style={styles.button}>
-												<Button
-													color={Colours.gr_brown_light}
-													title="Διαγραφήν"
-													onPress={() => dispatch(deleteHandler.bind(this, itemData.item.id))}
-												/>
-											</View>
+										<BoldText style={styles.price}>
+											{itemData.item.price.toFixed(2)}
+											<Text style={styles.euro}> €</Text>
+										</BoldText>
+										<View>
+											<CustomButton
+												title="Διαγραφήν"
+												onPress={deleteHandler.bind(this, itemData.item.id)}
+											/>
 										</View>
-									)}
-									{/* <Button color={Colours.maroon} title="Edit" onPress={() => editProductHandler(itemData.item.id)} />
+									</View>
+								) : (
+									<View style={styles.actions}>
+										<View style={styles.button}>
+											<Button
+												color={Colours.gr_brown_light}
+												title="Επεξεργασίαν"
+												onPress={() => editProductHandler(itemData.item.id)}
+											/>
+										</View>
+										<BoldText style={styles.price}>
+											{itemData.item.price.toFixed(2)}
+											<Text style={styles.euro}> €</Text>
+										</BoldText>
+										{/* <BoldText style={styles.price}>€ {itemData.item.price}</BoldText> */}
+										<View style={styles.button}>
+											<Button
+												color={Colours.gr_brown_light}
+												title="Διαγραφήν"
+												onPress={() => dispatch(deleteHandler.bind(this, itemData.item.id))}
+											/>
+										</View>
+									</View>
+								)}
+								{/* <Button color={Colours.maroon} title="Edit" onPress={() => editProductHandler(itemData.item.id)} />
 					<Button
 						color={Colours.maroon}
 						title="Delete"
 						onPress={deleteHandler.bind(this, itemData.item.id)}
 					/> */}
-								</ProductItem>
-							)}
-						/>
-					</SafeAreaView>
-				</View>
-			</LinearGradient>
-		</View>
+							</ProductItem>
+						)}
+					/>
+				</SafeAreaView>
+			</View>
+		</CustomLinearGradient>
 	);
 };
 
@@ -231,18 +221,6 @@ AdminProductsScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-	screen: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	gradient: {
-		flex: 1,
-		width: '100%',
-		height: '100%',
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
 	flatListContainer: {
 		flex: 1,
 		width: '100%',

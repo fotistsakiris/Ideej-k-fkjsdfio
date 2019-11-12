@@ -15,8 +15,8 @@ import {
 } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
+import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
-import { LinearGradient } from 'expo-linear-gradient';
 import BoldText from '../../components/UI/BoldText';
 import Card from '../../components/UI/Card';
 
@@ -51,12 +51,7 @@ const ShopInfoScreen = (props) => {
 	};
 
 	return (
-		<LinearGradient
-			colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
-			// start={{ x: 0, y: 1 }}
-			// end={{ x: 0, y: 0 }}
-			style={styles.gradient}
-		>
+		<CustomLinearGradient>
 			<SafeAreaView style={styles.screen}>
 				<ScrollView contentContainerStyle={styles.scrollViewStyle}>
 					{/* <SafeAreaView style={{ flex: 1 }}> */}
@@ -112,7 +107,7 @@ const ShopInfoScreen = (props) => {
 					{/* </SafeAreaView> */}
 				</ScrollView>
 			</SafeAreaView>
-		</LinearGradient>
+		</CustomLinearGradient>
 	);
 };
 
@@ -151,18 +146,6 @@ ShopInfoScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-	screen: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	gradient: {
-		flex: 1,
-		width: '100%',
-		height: '100%',
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
 	scrollViewStyle: {
 		justifyContent: 'center',
 		alignItems: 'center',

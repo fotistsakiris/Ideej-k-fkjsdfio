@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import { Platform, View, Text, TouchableOpacity, ScrollView, Image, Button, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { LinearGradient } from 'expo-linear-gradient';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
-// import PRODUCTS from '../../data/products';
+import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
+
 import CustomButton from '../../components/UI/CustomButton';
 import BoldText from '../../components/UI/BoldText';
 import * as cartActions from '../../store/actions/cart';
@@ -41,67 +41,66 @@ const ProductDetailScreen = (props) => {
 
 	if (error) {
 		return (
-			<View style={styles.centered}>
-				<BoldText>
-					Σφάλμα στη διαδικασία αποθήκευσης του προϊόντος ως αγαπημένου. Παρακαλώ ελέγξτε τη σύνδεσή σας.
-				</BoldText>
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<BoldText>
+						Σφάλμα στη διαδικασία αποθήκευσης του προϊόντος ως αγαπημένου. Παρακαλώ ελέγξτε τη σύνδεσή σας.
+					</BoldText>
 
-				{Platform.OS === 'android' ? (
-					<CustomButton title="Δοκιμάστε Ξανά" onPress={toggleFavoriteHandler} color={Colours.chocolate} />
-				) : (
-					<Button title="Δοκιμάστε Ξανά" onPress={toggleFavoriteHandler} color={Colours.chocolate} />
-				)}
-			</View>
+					{Platform.OS === 'android' ? (
+						<CustomButton
+							title="Δοκιμάστε Ξανά"
+							onPress={toggleFavoriteHandler}
+							color={Colours.chocolate}
+						/>
+					) : (
+						<Button title="Δοκιμάστε Ξανά" onPress={toggleFavoriteHandler} color='white' />
+					)}
+				</View>
+			</CustomLinearGradient>
 		);
 	}
 
 	return (
-		<View style={styles.screen}>
-			<LinearGradient
-				colors={[ 'white', Colours.chocolate, Colours.maroon ]}
-				start={{ x: 0, y: 1 }}
-				end={{ x: 0, y: 0 }}
-				style={styles.gradient}
-			>
-				<View style={styles.flatListContainer}>
-					<ScrollView>
-						<View style={styles.icon}>
-							<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
-								<MaterialIcons
-									name={currentProductIsFavorite ? 'favorite' : 'favorite-border'}
-									size={23}
-									color="white"
-								/>
-							</TouchableOpacity>
+		<CustomLinearGradient>
+			<View style={styles.flatListContainer}>
+				<ScrollView>
+					<View style={styles.icon}>
+						<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
+							<MaterialIcons
+								name={currentProductIsFavorite ? 'favorite' : 'favorite-border'}
+								size={23}
+								color={Colours.maroon}
+							/>
+						</TouchableOpacity>
+					</View>
+					<Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
+					{Platform.OS === 'android' ? (
+						<View style={styles.button}>
+							<CustomButton
+								style={Colours.chocolate}
+								title="Προσθήκη στο καλάθι"
+								onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
+							/>
 						</View>
-						<Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
-						{Platform.OS === 'android' ? (
-							<View style={styles.button}>
-								<CustomButton
-									style={Colours.chocolate}
-									title="Προσθήκη στο καλάθι"
-									onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
-								/>
-							</View>
-						) : (
-							<View style={styles.button}>
-								<Button
-									color="white"
-									title="Προσθήκη στο καλάθι"
-									onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
-								/>
-							</View>
-						)}
+					) : (
+						<View style={styles.button}>
+							<Button
+								color="white"
+								title="Προσθήκη στο καλάθι"
+								onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
+							/>
+						</View>
+					)}
 
-						<BoldText style={styles.price}>
-							{selectedProduct.price.toFixed(2)}
-							<Text style={styles.euro}> €</Text>
-						</BoldText>
-						<Text style={styles.description}>{selectedProduct.description}</Text>
-					</ScrollView>
-				</View>
-			</LinearGradient>
-		</View>
+					<BoldText style={styles.price}>
+						{selectedProduct.price.toFixed(2)}
+						<Text style={styles.euro}> €</Text>
+					</BoldText>
+					<Text style={styles.description}>{selectedProduct.description}</Text>
+				</ScrollView>
+			</View>
+		</CustomLinearGradient>
 	);
 };
 
@@ -131,18 +130,6 @@ ProductDetailScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-	screen: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	gradient: {
-		flex: 1,
-		width: '100%',
-		height: '100%',
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
 	flatListContainer: {
 		flex: 1,
 		width: '100%',

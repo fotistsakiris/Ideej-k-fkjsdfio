@@ -1,17 +1,15 @@
 import React from 'react';
 import { FlatList, View, Platform, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { CATEGORIES } from '../../data/categories';
 import CategoryGridTile from '../../components/shop/CategoryGridTile';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
-
+import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 import Colours from '../../constants/Colours';
 
 const CategoriesScreen = (props) => {
-	
 	const renderGridItem = (itemData) => {
 		return (
 			<CategoryGridTile
@@ -30,23 +28,16 @@ const CategoriesScreen = (props) => {
 		);
 	};
 	return (
-		<View style={styles.screen}>
-			<LinearGradient
-				colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
-				// start={{ x: 0, y: 1 }}
-				// end={{ x: 0, y: 0 }}
-				style={styles.gradient}
-			>
-				<View style={styles.flatListContainer}>
-					<FlatList
-						numColumns={2}
-						keyExtractor={(item, index) => item.id}
-						data={CATEGORIES}
-						renderItem={renderGridItem}
-					/>
-				</View>
-			</LinearGradient>
-		</View>
+		<CustomLinearGradient>
+			<View style={styles.flatListContainer}>
+				<FlatList
+					numColumns={2}
+					keyExtractor={(item, index) => item.id}
+					data={CATEGORIES}
+					renderItem={renderGridItem}
+				/>
+			</View>
+		</CustomLinearGradient>
 	);
 };
 
@@ -77,18 +68,6 @@ CategoriesScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-	screen: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	gradient: {
-		flex: 1,
-		width: '100%',
-		height: '100%',
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
 	flatListContainer: {
 		flex: 1,
 		width: '100%',

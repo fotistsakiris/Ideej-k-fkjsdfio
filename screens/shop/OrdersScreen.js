@@ -2,10 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, Button, StyleSheet, FlatList, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { LinearGradient } from 'expo-linear-gradient';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomButton from '../../components/UI/CustomButton';
+import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
 import OrderItem from '../../components/shop/OrderItem';
 import BoldText from '../../components/UI/BoldText';
@@ -57,84 +57,73 @@ const OrdersScreen = (props) => {
 
 	if (error) {
 		return (
-			<View style={styles.centered}>
-				<BoldText>
-					{error.message} Σφάλμα στη διαδικασία φορτώσεως των παραγγελιών. Παρακαλώ ελέγξτε τη σύνδεσή σας.
-				</BoldText>
-				{Platform.OS === 'android' ? (
-					<CustomButton title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />
-				) : (
-					<Button title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />
-				)}
-			</View>
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<BoldText>
+						{error.message} Σφάλμα στη διαδικασία φορτώσεως των παραγγελιών. Παρακαλώ ελέγξτε τη σύνδεσή
+						σας.
+					</BoldText>
+					{Platform.OS === 'android' ? (
+						<CustomButton title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />
+					) : (
+						<Button title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />
+					)}
+				</View>
+			</CustomLinearGradient>
 		);
 	}
 
 	if (isLoading) {
 		return (
-			<Card>
-				<View style={styles.centered}>
-					<ActivityIndicator size="large" color={Colours.chocolate} />
-				</View>
-			</Card>
+			<CustomLinearGradient>
+					<View style={styles.centered}>
+						<ActivityIndicator size="large" color={Colours.moccasin_light} />
+					</View>
+			</CustomLinearGradient>
 		);
 	}
 
 	if (!isLoading && orders.length === 0) {
 		return (
-			<View style={styles.screen}>
-				<LinearGradient
-					colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
-					// start={{ x: 0, y: 1 }}
-					// end={{ x: 0, y: 0 }}
-					style={styles.gradient}
-				>
-					<View style={styles.centered}>
-						<BoldText>Δεν βρέθηκαν παραγγελίες στη βάση δεδομένων!</BoldText>
-					</View>
-				</LinearGradient>
-			</View>
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<BoldText>Δεν βρέθηκαν παραγγελίες στη βάση δεδομένων!</BoldText>
+				</View>
+			</CustomLinearGradient>
 		);
 	}
 
 	return (
-		<View style={styles.screen}>
-			<LinearGradient
-				colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
-				// start={{ x: 0, y: 1 }}
-				// end={{ x: 0, y: 0 }}
-				style={styles.gradient}
-			>
-				<View style={styles.flatListContainer}>
-					<FlatList
-						onRefresh={loadedOrders}
-						refreshing={isRefresing}
-						data={orders}
-						keyExtractor={(item) => item.id}
-						renderItem={(itemData) => {
-							const date = new Date(itemData.item.date);
-							const options = {
-								weekday: 'long',
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric'
-								// hour: 'numeric',
-								// minute: 'numeric'
-							};
-							return (
-								<View style={styles.content}>
-									<OrderItem
-										totalAmount={itemData.item.totalAmount}
-										date={date.toLocaleString('el-GR', options)}
-										items={itemData.item.items}
-									/>
-								</View>
-							);
-						}}
-					/>
-				</View>
-			</LinearGradient>
-		</View>
+		<CustomLinearGradient>
+			<View style={styles.flatListContainer}>
+				<FlatList
+					onRefresh={loadedOrders}
+					refreshing={isRefresing}
+					data={orders}
+					keyExtractor={(item) => item.id}
+					renderItem={(itemData) => {
+						const date = new Date(itemData.item.date);
+						const options = {
+							weekday: 'long',
+							year: 'numeric',
+							month: 'long',
+							day: 'numeric'
+							// hour: 'numeric',
+							// minute: 'numeric'
+						};
+						return (
+							<View style={styles.content}>
+								<OrderItem
+									totalAmount={itemData.item.totalAmount}
+									date={date.toLocaleString('el-GR', options)}
+									items={itemData.item.items}
+								/>
+							</View>
+						);
+					}}
+				/>
+			</View>
+		</CustomLinearGradient>
 	);
 };
 
@@ -164,18 +153,6 @@ OrdersScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-	screen: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	gradient: {
-		flex: 1,
-		width: '100%',
-		height: '100%',
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
 	flatListContainer: {
 		flex: 1,
 		width: '100%',

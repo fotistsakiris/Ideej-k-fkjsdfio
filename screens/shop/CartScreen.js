@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, SafeAreaView, FlatList, Button, StyleSheet, ActivityIndicator, Platform } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -12,7 +11,7 @@ import * as ordersActions from '../../store/actions/orders';
 import Card from '../../components/UI/Card';
 import Colours from '../../constants/Colours';
 import BoldText from '../../components/UI/BoldText';
-
+import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 const CartScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ error, setError ] = useState();
@@ -96,41 +95,24 @@ const CartScreen = (props) => {
 	// NOTE: cartItems is an array!!! (Because of the FlatList down below)
 	if (cartItems.length === 0) {
 		return (
-			<LinearGradient
-				colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
-				// start={{ x: 0, y: 1 }}
-				// end={{ x: 0, y: 0 }}
-				style={styles.gradient}
-			>
+			<CustomLinearGradient>
 				<Card style={styles.summary}>
 					<BoldText style={styles.centered}> Το καλάθι σας είναι άδειο...</BoldText>
 				</Card>
-			</LinearGradient>
+			</CustomLinearGradient>
 		);
 	}
 
 	if (isLoading) {
 		return (
-			<LinearGradient
-				colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
-				// start={{ x: 0, y: 1 }}
-				// end={{ x: 0, y: 0 }}
-				style={styles.gradient}
-			>
-				<Card style={styles.summary}>
-					<ActivityIndicator size="large" color={Colours.chocolate} />
-				</Card>
-			</LinearGradient>
+			<CustomLinearGradient>
+					<ActivityIndicator size="large" color={Colours.moccasin_light} />
+			</CustomLinearGradient>
 		);
 	}
 
 	return (
-		<LinearGradient
-			colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
-			// start={{ x: 0, y: 1 }}
-			// end={{ x: 0, y: 0 }}
-			style={styles.gradient}
-		>
+		<CustomLinearGradient>
 			<Card style={styles.summary}>
 				<BoldText style={styles.summaryText}>
 					{/* Use Math.round etc to remove the -0... */}
@@ -163,7 +145,7 @@ const CartScreen = (props) => {
 					renderItem={renderCardItem}
 				/>
 			</SafeAreaView>
-		</LinearGradient>
+		</CustomLinearGradient>
 	);
 };
 
@@ -192,13 +174,6 @@ CartScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-	gradient: {
-		flex: 1,
-		width: '100%',
-		height: '100%',
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
 	flatListContainer: {
 		flex: 1,
 		width: '100%',

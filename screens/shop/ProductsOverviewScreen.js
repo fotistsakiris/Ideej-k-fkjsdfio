@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, Button, FlatList, Dimensions, StyleSheet, ActivityIndicator, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { LinearGradient } from 'expo-linear-gradient';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import ProductItem from '../../components/shop/ProductItem';
@@ -12,16 +11,17 @@ import Colours from '../../constants/Colours';
 
 import * as cartActions from '../../store/actions/cart';
 import * as productsActions from '../../store/actions/products';
+import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
 const ProductsOverviewScreen = (props) => {
 	const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
-	
+
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isRefresing, setIsRefresing ] = useState(false);
-	
+
 	const dispatch = useDispatch();
-	
+
 	const categoryId = props.navigation.getParam('categoryId');
 	const products = useSelector((state) =>
 		state.products.availableProducts.filter((prod) => prod.categoryIds.indexOf(categoryId) >= 0)
@@ -64,104 +64,103 @@ const ProductsOverviewScreen = (props) => {
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('DetailScreen', {
 			productId: id,
-			productTitle: title,
+			productTitle: title
 			// isFav: isFav
 		});
 	};
 
 	if (error) {
 		return (
-			<View style={styles.centered}>
-				<Text>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</Text>
-				<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.chocolate} />
-			</View>
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<BoldText>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</BoldText>
+					<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color="white" />
+				</View>
+			</CustomLinearGradient>
 		);
 	}
 
 	if (isLoading) {
 		return (
-			<View style={styles.centered}>
-				<ActivityIndicator size="large" color={Colours.chocolate} />
-			</View>
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<ActivityIndicator size="large" color={Colours.moccasin_light} />
+				</View>
+			</CustomLinearGradient>
 		);
 	}
 
 	if (!isLoading && products.length === 0) {
 		return (
-			<View style={styles.centered}>
-				<Text>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</Text>
-			</View>
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<BoldText>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</BoldText>
+				</View>
+			</CustomLinearGradient>
 		);
 	}
 
 	return (
-		<View style={styles.screen}>
-			<LinearGradient
-				colors={[ Colours.moccasin_light , Colours.chocolate, Colours.maroon ]}
-				// start={{ x: 0, y: 1 }}
-				// end={{ x: 0, y: 0 }}
-				style={styles.gradient}
-			>
-				<View style={styles.flatListContainer}>
-					<FlatList
-						onRefresh={loadProducts}
-						refreshing={isRefresing}
-						data={products}
-						keyExtractor={(item) => item.id}
-						renderItem={(itemData) => (
-							<ProductItem
-								title={itemData.item.title}
-								image={itemData.item.imageUrl}
-								onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
-							>
-								{Platform.OS === 'android' ? (
-									<View style={width < 400 ? styles.actionsSmall : styles.actions}>
-										<View style={styles.customButton}>
-											<CustomButton
-												title="Λεπτομέρειες"
-												onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
-											/>
-										</View>
+		<CustomLinearGradient>
+			<View style={styles.flatListContainer}>
+				<FlatList
+					onRefresh={loadProducts}
+					refreshing={isRefresing}
+					data={products}
+					keyExtractor={(item) => item.id}
+					renderItem={(itemData) => (
+						<ProductItem
+							title={itemData.item.title}
+							image={itemData.item.imageUrl}
+							onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
+						>
+							{Platform.OS === 'android' ? (
+								<View style={width < 400 ? styles.actionsSmall : styles.actions}>
+									<View style={styles.customButton}>
+										<CustomButton
+											title="Λεπτομέρειες"
+											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
+										/>
+									</View>
 
-										<BoldText style={styles.price}>
-											{itemData.item.price.toFixed(2)}
-											<Text style={styles.euro}>€</Text>
-										</BoldText>
-										<View style={styles.customButton}>
-											<CustomButton
-												title="... στο καλάθι"
-												onPress={() => dispatch(cartActions.addToCard(itemData.item))}
-											/>
-										</View>
+									<BoldText style={styles.price}>
+										{itemData.item.price.toFixed(2)}
+										<Text style={styles.euro}>€</Text>
+									</BoldText>
+									<View style={styles.customButton}>
+										<CustomButton
+											title="... στο καλάθι"
+											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
+										/>
 									</View>
-								) : (
-									<View style={styles.actions}>
-										<View style={styles.button}>
-											<Button
-												color={Colours.gr_brown_light}
-												title="Λεπτομέρειες"
-												onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
-											/>
-										</View>
-										<BoldText style={styles.price}>
-											{itemData.item.price.toFixed(2)}
-											<Text style={styles.euro}> €</Text>
-										</BoldText>
-										<View style={styles.button}>
-											<Button
-												color={Colours.gr_brown_light}
-												title="... στο καλάθι"
-												onPress={() => dispatch(cartActions.addToCard(itemData.item))}
-											/>
-										</View>
+								</View>
+							) : (
+								<View style={styles.actions}>
+									<View style={styles.button}>
+										<Button
+											color={Colours.gr_brown_light}
+											title="Λεπτομέρειες"
+											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
+										/>
 									</View>
-								)}
-							</ProductItem>
-						)}
-					/>
-				</View>
-			</LinearGradient>
-		</View>
+									<BoldText style={styles.price}>
+										{itemData.item.price.toFixed(2)}
+										<Text style={styles.euro}> €</Text>
+									</BoldText>
+									<View style={styles.button}>
+										<Button
+											color={Colours.gr_brown_light}
+											title="... στο καλάθι"
+											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
+										/>
+									</View>
+								</View>
+							)}
+						</ProductItem>
+					)}
+				/>
+			</View>
+		</CustomLinearGradient>
 	);
 };
 
@@ -200,18 +199,6 @@ ProductsOverviewScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-	screen: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	gradient: {
-		flex: 1,
-		width: '100%',
-		height: '100%',
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
 	flatListContainer: {
 		flex: 1,
 		width: '100%',
@@ -244,7 +231,7 @@ const styles = StyleSheet.create({
 	},
 	customButton: {
 		marginHorizontal: -7,
-		marginVertical: -2,
+		marginVertical: -2
 	},
 	button: {
 		width: '40%',

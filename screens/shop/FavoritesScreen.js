@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Text, View, Button, FlatList, StyleSheet, Platform } from 'react-native';
+import React from 'react';
+import { View, Button, FlatList, StyleSheet, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { LinearGradient } from 'expo-linear-gradient';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import ProductItem from '../../components/shop/ProductItem';
 import BoldText from '../../components/UI/BoldText';
 import Colours from '../../constants/Colours';
+import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
 import * as cartActions from '../../store/actions/cart';
 import * as productActions from '../../store/actions/products';
@@ -73,18 +73,11 @@ const FavoritesScreen = (props) => {
 	// Render something when no favorites are selected.
 	if (!favProducts || favProducts.length === 0) {
 		return (
-			<View style={styles.screen}>
-				<LinearGradient
-					colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
-					// start={{ x: 0, y: 1 }}
-					// end={{ x: 0, y: 0 }}
-					style={styles.gradient}
-				>
-					<View style={styles.content}>
-						<BoldText>Ακόμη δεν έχετε επιλέξει αγαπημένα.</BoldText>
-					</View>
-				</LinearGradient>
-			</View>
+			<CustomLinearGradient>
+				<View style={styles.content}>
+					<BoldText>Ακόμη δεν έχετε επιλέξει αγαπημένα.</BoldText>
+				</View>
+			</CustomLinearGradient>
 		);
 	}
 
@@ -97,67 +90,60 @@ const FavoritesScreen = (props) => {
 	// }
 
 	return (
-		<View style={styles.screen}>
-			<LinearGradient
-				colors={[ Colours.moccasin_light, Colours.chocolate, Colours.maroon ]}
-				// start={{ x: 0, y: 1 }}
-				// end={{ x: 0, y: 0 }}
-				style={styles.gradient}
-			>
-				<View style={styles.flatListContainer}>
-					<FlatList
-						// onRefresh={loadFavProducts}
-						// refreshing={isRefresing}
-						data={favProducts}
-						keyExtractor={(item) => item.id}
-						renderItem={(itemData) => (
-							<ProductItem
-								title={itemData.item.title}
-								image={itemData.item.imageUrl}
-								onToggleFavorite={() => dispatch(productActions.toggleFavorite(itemData.item.id))}
-								onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
-							>
-								{Platform.OS === 'android' ? (
-									<View style={styles.actions}>
-										<View>
-											<CustomButton
-												title="Λεπτομέρειες"
-												onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
-											/>
-										</View>
-										<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
-										<View>
-											<CustomButton
-												title="... στο καλάθι"
-												onPress={() => dispatch(cartActions.addToCard(itemData.item))}
-											/>
-										</View>
+		<CustomLinearGradient>
+			<View style={styles.flatListContainer}>
+				<FlatList
+					// onRefresh={loadFavProducts}
+					// refreshing={isRefresing}
+					data={favProducts}
+					keyExtractor={(item) => item.id}
+					renderItem={(itemData) => (
+						<ProductItem
+							title={itemData.item.title}
+							image={itemData.item.imageUrl}
+							onToggleFavorite={() => dispatch(productActions.toggleFavorite(itemData.item.id))}
+							onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
+						>
+							{Platform.OS === 'android' ? (
+								<View style={styles.actions}>
+									<View>
+										<CustomButton
+											title="Λεπτομέρειες"
+											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
+										/>
 									</View>
-								) : (
-									<View style={styles.actions}>
-										<View style={styles.button}>
-											<Button
-												color={Colours.gr_brown_light}
-												title="Λεπτομέρειες"
-												onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
-											/>
-										</View>
-										<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
-										<View style={styles.button}>
-											<Button
-												color={Colours.gr_brown_light}
-												title="... στο καλάθι"
-												onPress={() => dispatch(cartActions.addToCard(itemData.item))}
-											/>
-										</View>
+									<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
+									<View>
+										<CustomButton
+											title="... στο καλάθι"
+											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
+										/>
 									</View>
-								)}
-							</ProductItem>
-						)}
-					/>
-				</View>
-			</LinearGradient>
-		</View>
+								</View>
+							) : (
+								<View style={styles.actions}>
+									<View style={styles.button}>
+										<Button
+											color={Colours.gr_brown_light}
+											title="Λεπτομέρειες"
+											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
+										/>
+									</View>
+									<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
+									<View style={styles.button}>
+										<Button
+											color={Colours.gr_brown_light}
+											title="... στο καλάθι"
+											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
+										/>
+									</View>
+								</View>
+							)}
+						</ProductItem>
+					)}
+				/>
+			</View>
+		</CustomLinearGradient>
 	);
 };
 
@@ -196,18 +182,6 @@ FavoritesScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-	screen: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	gradient: {
-		flex: 1,
-		width: '100%',
-		height: '100%',
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
 	flatListContainer: {
 		flex: 1,
 		width: '100%',
