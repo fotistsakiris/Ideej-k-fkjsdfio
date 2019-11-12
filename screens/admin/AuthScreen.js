@@ -165,11 +165,11 @@ const AuthScreen = (props) => {
 					<View style={styles.buttonContainer}>
 						{Platform.OS === 'android' ? <CustomButton
 							title={`Αλλαγή σε ${isSignUp ? 'Σύνδεση' : 'Εγγραφή'}`}
-							color={Colours.maroon}
+							color={Colours.chocolate}
 							onPress={() => setIsSignUp(!isSignUp)}
 						/> : <Button
 						title={`Αλλαγή σε ${isSignUp ? 'Σύνδεση' : 'Εγγραφή'}`}
-						color={Colours.maroon}
+						color={Colours.chocolate}
 						onPress={() => setIsSignUp(!isSignUp)}
 					/>}
 					</View>

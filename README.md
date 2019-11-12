@@ -24,9 +24,6 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! change back commented code in firebase, ...Navigator and actions/orders to need token and get AuthScreen... find 'testing'
 ### refresh the token so the user doesn't get automatic logged out after 1 hour.
 ### Authentication with roles: diferent signups/logins for admis and users + hide admin button in users sidedrawer
-### add some code for github security...
-### Use pictures in CategoriesScreen in the Card. This, is actually taken from the Meals app.
-### fix bug: email link doesn't open the email app in iOS
 ### fix bug: It logs out the user if restart the app (if user leaves the app)
 ### Add an alert with the categoryIds in the EditProductScreen
 ### Delete product file and everything else it's not needed.
@@ -34,6 +31,9 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### show dots ... when the title is to long.
 ### add to price validation that it doesn have commas but fullstops...
 
+### fix bug: email link doesn't open the email app in iOS
+### add some code for github security...
+### Use pictures in CategoriesScreen in the Card. This, is actually taken from the Meals app.
 
 # Packages installed:
 ### redux react-redux react-navigation react-navigation-stack react-navigation-header-buttons, react-navigation react-navigation-tabs react-navigation react-navigation-drawer 

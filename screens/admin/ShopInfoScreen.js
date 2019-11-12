@@ -118,7 +118,7 @@ const ShopInfoScreen = (props) => {
 
 ShopInfoScreen.navigationOptions = ({ navigation }) => {
 	return {
-		headerTitle: navigation.getParam('categoryTitle'),
+		headerTitle: 'ΚΑΤ΄ ΕΙΚΟΝΑ',
 		// Needed for side drawer navigation
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
@@ -128,7 +128,7 @@ ShopInfoScreen.navigationOptions = ({ navigation }) => {
 					onPress={() => navigation.toggleDrawer()}
 				/>
 			</HeaderButtons>
-		)
+		),
 		// headerLeft: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item
@@ -138,15 +138,15 @@ ShopInfoScreen.navigationOptions = ({ navigation }) => {
 		// 		/>
 		// 	</HeaderButtons>
 		// ),
-		// headerRight: (
-		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-		// 		<Item
-		// 			title="cart"
-		// 			iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-		// 			onPress={() => navigation.navigate({ routeName: 'Cart' })}
-		// 		/>
-		// 	</HeaderButtons>
-		// )
+		headerRight: (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					title="cart"
+					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+					onPress={() => navigation.navigate({ routeName: 'Cart' })}
+				/>
+			</HeaderButtons>
+		)
 	};
 };
 
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
 		textAlign: 'left'
 	},
 	boldText: {
-		color: Colours.chocolate,
+		color: Colours.maroon,
 		padding: 7,
 		fontFamily: 'GFSNeohellenic-Regular',
 		textAlign: 'left'

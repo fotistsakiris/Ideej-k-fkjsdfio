@@ -10,60 +10,60 @@ const CartItem = (props) => {
 	return (
 		<View style={styles.cartItem}>
 			<BoldText style={styles.mainText}>{props.title} </BoldText>
-			<BoldText style={styles.mainText}>Τιμή: {props.price} 
-			<Text style={styles.euro}> €</Text>
+			{/* <Line style={styles.line} /> */}
+			<BoldText style={styles.mainText}>
+				Τιμή: {props.price}
+				<Text style={styles.euro}> €</Text>
 			</BoldText>
 			<View style={styles.itemData}>
-				<BoldText style={styles.mainText}>{props.amount.toFixed(2)}
-				<Text style={styles.euro}> €</Text></BoldText>
-				<Text style={styles.quantity}>Τεμ. {props.quantity} </Text>
+				<BoldText>Τεμ. {props.quantity} </BoldText>
 				{props.changeQuantity && (
-					<View style={styles.itemData} >
+					<View style={styles.itemData}>
 						<TouchableOpacity style={styles.itemData} onPress={props.onAddProduct}>
-							<Ionicons name={Platform.OS === 'android' ? 'md-add' : 'ios-add'} size={23} color="gray" />
+							<Ionicons
+								name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
+								size={23}
+								color={Colours.chocolate}
+							/>
 						</TouchableOpacity>
 						<TouchableOpacity style={styles.itemData} onPress={props.onRemoveProduct}>
-							<MaterialCommunityIcons name="minus" size={23} color="gray" />
+							<MaterialCommunityIcons name="minus" size={23} color={Colours.chocolate} />
 						</TouchableOpacity>
 					</View>
 				)}
 			</View>
-			<Line style={styles.line} />
+			<BoldText style={styles.mainText}>
+				Σύνολο: {props.amount.toFixed(2)}
+				<Text style={styles.euro}> €</Text>
+			</BoldText>
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
 	cartItem: {
-		paddingTop: 10,
-		backgroundColor: 'white',
+		paddingTop: 2,
 		justifyContent: 'flex-start',
-		marginHorizontal: 20,
+		paddingHorizontal: 2,
 		backgroundColor: Colours.moccasin_light
+	},
+	summary: {
+		justifyContent: 'flex-start',
+		alignItems: 'flex-start'
 	},
 	itemData: {
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
-		paddingRight: 15
+		paddingRight: 2
 	},
 	euro: {
 		fontSize: 14,
 		color: '#888'
 	},
-	quantity: {
-		fontFamily: 'GFSNeohellenic-Regular',
-		color: '#888',
-		fontSize: 20,
-		paddingHorizontal: 15
-	},
 	mainText: {
 		paddingVertical: 5
 	},
-	line: {
-		width: '80%',
-		alignSelf: 'flex-start'
-	}
 });
 
 export default CartItem;

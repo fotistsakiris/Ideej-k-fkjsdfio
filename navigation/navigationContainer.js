@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 
-import EkthesisDrawerContainer from './ekthesisDrawerNavigator';
+import EkthesisDrawerContainer from './EkthesisDrawerNavigator';
 
 const NavigationContainer = (props) => {
 	// !! to force it to be true/false
