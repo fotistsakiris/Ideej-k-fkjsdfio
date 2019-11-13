@@ -117,6 +117,19 @@ const AdminProductsScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.centered}>
 					<BoldText>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</BoldText>
+					{Platform.OS === 'android' ? (
+						<CustomButton
+							title="Έκθεσις"
+							onPress={() => props.navigation.navigate('Main')}
+							color={Colours.moccasin_light}
+						/>
+					) : (
+						<Button
+							title="Έκθεσις"
+							onPress={() => props.navigation.navigate('Main')}
+							color={Colours.moccasin_light}
+						/>
+					)}
 				</View>
 			</CustomLinearGradient>
 		);
@@ -126,7 +139,19 @@ const AdminProductsScreen = (props) => {
 		<CustomLinearGradient>
 			<View style={styles.flatListContainer}>
 				<SafeAreaView style={{ flex: 1 }}>
-					{/* <BoldText>Εδώ ο κάθε διαχειριστής, έχει τα προϊόντα του. Προσθέσαμε ήδη τρια χάριν ευκολίας προς δοκιμασίαν της εφαρμογής.</BoldText> */}
+					{Platform.OS === 'android' ? (
+						<CustomButton
+							title="Έκθεσις"
+							onPress={() => props.navigation.navigate('Main')}
+							color={Colours.maroon}
+						/>
+					) : (
+						<Button
+							title="Έκθεσις"
+							onPress={() => props.navigation.navigate('Main')}
+							color={Colours.maroon}
+						/>
+					)}
 					<FlatList
 						onRefresh={loadProducts}
 						refreshing={isRefresing}
@@ -199,12 +224,21 @@ AdminProductsScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: 'Τα προϊόντα σας',
 		// For side drawer navigation only.
+		// headerLeft: (
+		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+		// 		<Item
+		// 			title="card"
+		// 			iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+		// 			onPress={() => navigation.toggleDrawer()}
+		// 		/>
+		// 	</HeaderButtons>
+		// ),
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
-					title="card"
-					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-					onPress={() => navigation.toggleDrawer()}
+					title="goBack"
+					iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
+					onPress={() => navigation.goBack()}
 				/>
 			</HeaderButtons>
 		),

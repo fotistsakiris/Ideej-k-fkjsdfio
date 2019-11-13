@@ -80,15 +80,7 @@ const OrdersNavigator = createStackNavigator(
 	}
 );
 
-const AdminNavigator = createStackNavigator(
-	{
-		Admin: AdminProductsScreen,
-		EditProduct: EditProductScreen
-	},
-	{
-		defaultNavigationOptions: defaultNavOptions
-	}
-);
+
 
 const ShopInfoNavigator = createStackNavigator(
 	{
@@ -228,11 +220,7 @@ const MainNavigator = createDrawerNavigator(
 						{adminId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' ? Platform.OS === 'android' ? (
 							<CustomButton
 								title="Διαχειριστής"
-								onPress={() => {
-									dispatch(authActions.logout());
-									// Not needed because we dispatch this navigation in navigationContainer...
-									// props.navigation.navigate('Auth');
-								}}
+								onPress={() => props.navigation.navigate('Admin')}
 							/>
 						) : (
 							<Button
@@ -251,6 +239,16 @@ const MainNavigator = createDrawerNavigator(
 	}
 );
 
+const AdminNavigator = createStackNavigator(
+	{
+		Admin: AdminProductsScreen,
+		EditProduct: EditProductScreen
+	},
+	{
+		defaultNavigationOptions: defaultNavOptions
+	}
+);
+
 const AuthNavigator = createStackNavigator(
 	{
 		Auth: AuthScreen
@@ -263,7 +261,8 @@ const AuthNavigator = createStackNavigator(
 const SwitchNavigator = createSwitchNavigator({
 	StartUp: StartUpScreen,
 	Auth: AuthNavigator,
-	Main: MainNavigator
+	Main: MainNavigator,
+	Admin: AdminNavigator
 });
 
 export default createAppContainer(SwitchNavigator);
