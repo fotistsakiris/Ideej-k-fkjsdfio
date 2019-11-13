@@ -10,6 +10,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### Two option of navigation: 1. Side Drawer or 2. Bottom Tabs.
 ### Show an alert in AdminScreen if a chosen product to be deleted is already in the cart of a client.
 ### Added CustomLinearGradient
+### Put login/singup in sidedrawer and hide the adminScreen from normal users...
 
 ## TODO
 ### DONE! fix scrollView when having a lot of items in CartScreen,
@@ -19,6 +20,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! fix bug: ProductsOverViewScreen and AdminProductsScreen shows no products available just before loading them, while it should show the spinner.
 ### DONE! put LinearGradient in all screens
 ### DONE! fix UI for small screens
+### DONE! Put login/singup in sidedrawer and hide the adminScreen from normal users...
 ### DONE! fix bug: favorite (in ProductsDetailScreen) snaps back to false if you go back to ProductsOverviewScreen and forth to ProductsDetailScreen.
 ### DONE! fix bug: in cartScreen the order of the products changes when you change the amount of the second...
 ### DONE! change back commented code in firebase, ...Navigator and actions/orders to need token and get AuthScreen... find 'testing'
@@ -30,7 +32,6 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### Add a categories screen also to adminsScreen...
 ### show dots ... when the title is to long.
 ### add to price validation that it doesn't have commas but fullstops...
-### Put login/singup in sidedrawer and hide the adminScreen from normal users...
 
 ### fix bug: email link doesn't open the email app in iOS
 ### add some code for github security...

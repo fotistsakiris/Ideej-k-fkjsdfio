@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 		borderRadius: 15,
 		alignSelf: 'center',
 		alignItems: 'center',
-		backgroundColor: Colours.gr_brown_light,
+		backgroundColor: Colours.chocolate,
 
 		// shadowColor: '#2AC062',
 		// shadowOpacity: 0.7,

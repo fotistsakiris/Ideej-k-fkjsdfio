@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Platform, Text, SafeAreaView, Button, Dimensions, View } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
+
+import { AsyncStorage } from 'react-native';
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -24,9 +26,9 @@ import CustomButton from '../components/UI/CustomButton';
 import BoldText from '../components/UI/BoldText';
 import * as authActions from '../store/actions/auth';
 
-const width = (props) => {
-	return Dimensions.get('window').width; // for putting the buttons in column for small screens
-};
+// const width = (props) => {
+// 	return Dimensions.get('window').width; // for putting the buttons in column for small screens
+// };
 
 const defaultNavOptions = {
 	headerBackTitle: 'Πίσω',
@@ -148,19 +150,19 @@ const MainNavigator = createDrawerNavigator(
 				}
 			}
 		},
-		Admin: {
-			screen: AdminNavigator,
-			navigationOptions: {
-				drawerLabel: (
-					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-						<BoldText>Διαχειριστής</BoldText>
-					</View>
-				),
-				drawerIcon: (tabInfo) => {
-					return <FontAwesome name="user-o" size={23} color={tabInfo.tintColor} />;
-				}
-			}
-		},
+		// Admin: {
+		// 	screen: AdminNavigator,
+		// 	navigationOptions: {
+		// 		drawerLabel: (
+		// 			<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+		// 				<BoldText>Διαχειριστής</BoldText>
+		// 			</View>
+		// 		),
+		// 		drawerIcon: (tabInfo) => {
+		// 			return <FontAwesome name="user-o" size={23} color={tabInfo.tintColor} />;
+		// 		}
+		// 	}
+		// },
 		ShopInfo: {
 			screen: ShopInfoNavigator,
 			navigationOptions: {
@@ -177,7 +179,7 @@ const MainNavigator = createDrawerNavigator(
 	},
 	{
 		contentOptions: {
-			activeTintColor: Colours.gr_brown,
+			activeTintColor: Colours.gr_brown
 			// Not needed, we use View and Text...
 			// labelStyle: {
 			// 	fontFamily: 'GFSNeohellenic-Bold',
@@ -188,6 +190,15 @@ const MainNavigator = createDrawerNavigator(
 		// This component could have been created in a separate file
 		contentComponent: (props) => {
 			const dispatch = useDispatch();
+			const [ adminId, setAdmidId ] = useState(null);
+			const getAdminsUserId = async () => {
+				const userData = await AsyncStorage.getItem('userData');
+				const transformedData = JSON.parse(userData);
+				const { userId } = transformedData;
+				setAdmidId(userId);
+			};
+			getAdminsUserId();
+
 			return (
 				<View style={{ flex: 1, paddingTop: 20 }}>
 					<SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
@@ -206,7 +217,7 @@ const MainNavigator = createDrawerNavigator(
 						) : (
 							<Button
 								title="Έξοδος"
-								color={Colours.maroon}
+								color={Colours.chocolate}
 								onPress={() => {
 									dispatch(authActions.logout());
 									// Not needed because we dispatch this navigation in navigationContainer...
@@ -214,16 +225,30 @@ const MainNavigator = createDrawerNavigator(
 								}}
 							/>
 						)}
+						{adminId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' ? Platform.OS === 'android' ? (
+							<CustomButton
+								title="Διαχειριστής"
+								onPress={() => {
+									dispatch(authActions.logout());
+									// Not needed because we dispatch this navigation in navigationContainer...
+									// props.navigation.navigate('Auth');
+								}}
+							/>
+						) : (
+							<Button
+								title="Διαχειριστής"
+								color={Colours.chocolate}
+								onPress={() => props.navigation.navigate('Admin')}
+							/>
+						) : null}
 					</SafeAreaView>
 				</View>
 			);
 		},
 		drawerWidth: 230,
 		drawerBackgroundColor: Colours.moccasin_light,
-		overlayColor: Colours.chocolateRGBA,
-		
-	},
-	
+		overlayColor: Colours.chocolateRGBA
+	}
 );
 
 const AuthNavigator = createStackNavigator(
