@@ -4,7 +4,8 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 
-import EkthesisDrawerContainer from './EkthesisDrawerNavigator';
+// import EkthesisDrawerNavigator from './EkthesisDrawerNavigator';
+import EkthesisDrawerNavigator from './EkthesisDrawerNavigator';
 
 const NavigationContainer = (props) => {
 	// !! to force it to be true/false
@@ -18,7 +19,7 @@ const NavigationContainer = (props) => {
 		},
 		[ isAuth ]
 	);
-	return <EkthesisDrawerContainer ref={navRef} />;
+	return <EkthesisDrawerNavigator ref={navRef} />;
 };
 
 export default NavigationContainer;

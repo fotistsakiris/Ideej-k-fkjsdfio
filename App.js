@@ -6,7 +6,7 @@ import { useScreens } from 'react-native-screens';
 
 // import EkthesisDrawerNavigator from './navigation/ekthesisDrawerNavigator';
 // import EkthesisBottomTabNavigator from './navigation/ekthesisBottomTabNavigator';
-import NavigationContainer from './navigation/navigationContainer';
+import NavigationContainer from './navigation/NavigationContainer';
 import configureStore from './store/configureStore';
 
 useScreens(); 
