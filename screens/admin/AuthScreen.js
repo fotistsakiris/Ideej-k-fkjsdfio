@@ -111,6 +111,27 @@ const AuthScreen = (props) => {
 
 	return (
 		<CustomLinearGradient>
+			{/* <Card style={styles.authContainer}> */}
+				<View style={styles.buttonContainerEtrance}>
+					<BoldText> Είσοδος στην Έκθεση </BoldText>
+					{Platform.OS === 'android' ? (
+						<View style={styles.buttonSignup}>
+							<CustomButton
+								title="Είσοδος"
+								color={Colours.moccasin_light}
+								onPress={() => props.navigation.navigate('Main')}
+							/>
+						</View>
+					) : (
+						<Button
+							title="Είσοδος"
+							color={Colours.moccasin_light}
+							onPress={() => props.navigation.navigate('Categories')}
+						/>
+					)}
+				</View>
+			{/* </Card> */}
+
 			<KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={styles.screen}>
 				<Card style={styles.authContainer}>
 					<ScrollView>
@@ -218,6 +239,10 @@ const styles = StyleSheet.create({
 	},
 	buttonContainer: {
 		marginTop: 10
+	},
+	buttonContainerEtrance: {
+		marginTop: 10,
+		marginBottom: 10
 	},
 	buttonSignup: {
 		width: '50%',

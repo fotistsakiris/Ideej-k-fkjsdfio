@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Platform, Text, SafeAreaView, Button, Dimensions, View } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AsyncStorage } from 'react-native';
 
@@ -80,11 +80,18 @@ const OrdersNavigator = createStackNavigator(
 	}
 );
 
-
-
 const ShopInfoNavigator = createStackNavigator(
 	{
 		ShopInfo: ShopInfoScreen
+	},
+	{
+		defaultNavigationOptions: defaultNavOptions
+	}
+);
+
+const AuthNavigator = createStackNavigator(
+	{
+		Auth: AuthScreen
 	},
 	{
 		defaultNavigationOptions: defaultNavOptions
@@ -142,6 +149,25 @@ const MainNavigator = createDrawerNavigator(
 				}
 			}
 		},
+		Auth: {
+			screen: AuthNavigator,
+			navigationOptions: {
+				drawerLabel: (
+					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+						<BoldText>Σύνδεση/Εγγραφή</BoldText>
+					</View>
+				),
+				drawerIcon: (tabInfo) => {
+					return (
+						<Ionicons
+							name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+							size={25}
+							color={tabInfo.tintColor}
+						/>
+					);
+				}
+			}
+		},
 		// Admin: {
 		// 	screen: AdminNavigator,
 		// 	navigationOptions: {
@@ -183,13 +209,17 @@ const MainNavigator = createDrawerNavigator(
 		contentComponent: (props) => {
 			const dispatch = useDispatch();
 			const [ adminId, setAdmidId ] = useState(null);
-			const getAdminsUserId = async () => {
-				const userData = await AsyncStorage.getItem('userData');
-				const transformedData = JSON.parse(userData);
-				const { userId } = transformedData;
-				setAdmidId(userId);
-			};
-			getAdminsUserId();
+			const userIdExists = useSelector((state) => state.auth.userId);
+
+			if (userIdExists) {
+				const getAdminsUserId = async () => {
+					const userData = await AsyncStorage.getItem('userData');
+					const transformedData = JSON.parse(userData);
+					const { userId } = transformedData;
+					setAdmidId(userId);
+				};
+				getAdminsUserId();
+			}
 
 			return (
 				<View style={{ flex: 1, paddingTop: 20 }}>
@@ -218,10 +248,7 @@ const MainNavigator = createDrawerNavigator(
 							/>
 						)}
 						{adminId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' ? Platform.OS === 'android' ? (
-							<CustomButton
-								title="Διαχειριστής"
-								onPress={() => props.navigation.navigate('Admin')}
-							/>
+							<CustomButton title="Διαχειριστής" onPress={() => props.navigation.navigate('Admin')} />
 						) : (
 							<Button
 								title="Διαχειριστής"
@@ -243,15 +270,6 @@ const AdminNavigator = createStackNavigator(
 	{
 		Admin: AdminProductsScreen,
 		EditProduct: EditProductScreen
-	},
-	{
-		defaultNavigationOptions: defaultNavOptions
-	}
-);
-
-const AuthNavigator = createStackNavigator(
-	{
-		Auth: AuthScreen
 	},
 	{
 		defaultNavigationOptions: defaultNavOptions
