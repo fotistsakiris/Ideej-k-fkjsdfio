@@ -27,6 +27,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### refresh the token so the user doesn't get automatic logged out after 1 hour.
 ### Authentication with roles: diferent signups/logins for admis and users + hide admin button in users sidedrawer
 ### Add an alert with the categoryIds in the EditProductScreen
+### Add user's name on the headerTitle.
 ### Delete product file and everything else it's not needed.
 ### Add a categories screen also to adminsScreen...
 ### show dots ... when the title is to long.

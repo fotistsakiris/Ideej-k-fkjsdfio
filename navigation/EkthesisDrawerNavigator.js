@@ -211,7 +211,7 @@ const MainNavigator = createDrawerNavigator(
 			const [ adminId, setAdmidId ] = useState(null);
 			const userIdExists = useSelector((state) => state.auth.userId);
 
-			if (userIdExists) {
+			if (userIdExists === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2') {
 				const getAdminsUserId = async () => {
 					const userData = await AsyncStorage.getItem('userData');
 					const transformedData = JSON.parse(userData);

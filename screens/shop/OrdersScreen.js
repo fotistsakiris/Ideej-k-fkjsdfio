@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Button, StyleSheet, FlatList, Platform } from 'react-native';
+import { View, Button, ActivityIndicator, StyleSheet, FlatList, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -19,11 +19,14 @@ const OrdersScreen = (props) => {
 	const [ isRefresing, setIsRefresing ] = useState(false);
 	const dispatch = useDispatch();
 	const orders = useSelector((state) => state.orders.orders);
+	const userIdExists = useSelector((state) => state.auth.userId);
 
 	const loadedOrders = useCallback(
 		async () => {
 			setError(null);
 			setIsRefresing(true);
+			setIsLoading(true);
+
 			try {
 				await dispatch(ordersActions.fetchOrders());
 			} catch (err) {
@@ -32,6 +35,7 @@ const OrdersScreen = (props) => {
 				setError(err.message);
 			}
 			setIsRefresing(false);
+			setIsLoading(false);
 		},
 		[ dispatch, setIsLoading, setError ]
 	);
@@ -39,7 +43,9 @@ const OrdersScreen = (props) => {
 	// loadedOrders after focusing
 	useEffect(
 		() => {
+			setIsLoading(true);
 			const willFocusEvent = props.navigation.addListener('willFocus', loadedOrders);
+			setIsLoading(false);
 			return () => willFocusEvent.remove();
 		},
 		[ loadedOrders ]
@@ -48,9 +54,9 @@ const OrdersScreen = (props) => {
 	// loadedOrders initially...
 	useEffect(
 		() => {
-			setIsLoading(true);
+			// setIsLoading(true);
 			loadedOrders();
-			setIsLoading(false);
+			// setIsLoading(false);
 		},
 		[ dispatch, loadedOrders ]
 	);
@@ -76,14 +82,43 @@ const OrdersScreen = (props) => {
 	if (isLoading) {
 		return (
 			<CustomLinearGradient>
-					<View style={styles.centered}>
-						<ActivityIndicator size="large" color={Colours.moccasin_light} />
-					</View>
+				<View style={styles.centered}>
+					<ActivityIndicator size="large" color={Colours.maroon} />
+				</View>
 			</CustomLinearGradient>
 		);
 	}
 
-	if (!isLoading && orders.length === 0) {
+	if (!userIdExists) {
+		return (
+			<CustomLinearGradient>
+				<View style={styles.content}>
+					<BoldText>
+						Προκειμένου να δείτε τις παραγγελίες σας, σας παρακαλώ συνδεθείτε ή προχωρήσθε σε εγγραφή.
+					</BoldText>
+					<View style={styles.buttonContainerEntrance}>
+						{Platform.OS === 'android' ? (
+							<View style={styles.buttonSignup}>
+								<CustomButton
+									title="Πιστοποίηση στοιχείων"
+									color={Colours.moccasin_light}
+									onPress={() => props.navigation.navigate('Auth')}
+								/>
+							</View>
+						) : (
+							<Button
+								title="Πιστοποίηση στοιχείων"
+								color={Colours.moccasin_light}
+								onPress={() => props.navigation.navigate('Auth')}
+							/>
+						)}
+					</View>
+				</View>
+			</CustomLinearGradient>
+		);
+	}
+
+	if (orders.length === 0) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>

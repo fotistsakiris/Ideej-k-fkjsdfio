@@ -19,6 +19,7 @@ const FavoritesScreen = (props) => {
 	// const [ error, setError ] = useState(); // error initially is undefined!
 	// const [ isRefresing, setIsRefresing ] = useState(false);
 	const dispatch = useDispatch();
+	const userIdExists = useSelector((state) => state.auth.userId);
 	const favProducts = useSelector((state) => state.products.favoriteProducts);
 
 	// const loadFavProducts = useCallback(
@@ -69,13 +70,38 @@ const FavoritesScreen = (props) => {
 	// 		</View>
 	// 	);
 	// }
-
-	// Render something when no favorites are selected.
-	if (!favProducts || favProducts.length === 0) {
+	if (!!userIdExists) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.content}>
 					<BoldText>Ακόμη δεν έχετε επιλέξει αγαπημένα.</BoldText>
+				</View>
+			</CustomLinearGradient>
+		);
+	}
+
+	if (!userIdExists || !favProducts || favProducts.length === 0) {
+		return (
+			<CustomLinearGradient>
+				<View style={styles.content}>
+					<BoldText>Παρακαλώ συνδεθείτε ή προχωρήσθε σε εγγραφή προς χρήση των αγαπημένων.</BoldText>
+					<View style={styles.buttonContainerEntrance}>
+						{Platform.OS === 'android' ? (
+							<View style={styles.buttonSignup}>
+								<CustomButton
+									title="Πιστοποίηση στοιχείων"
+									color={Colours.moccasin_light}
+									onPress={() => props.navigation.navigate('Auth')}
+								/>
+							</View>
+						) : (
+							<Button
+								title="Πιστοποίηση στοιχείων"
+								color={Colours.moccasin_light}
+								onPress={() => props.navigation.navigate('Auth')}
+							/>
+						)}
+					</View>
 				</View>
 			</CustomLinearGradient>
 		);
@@ -182,6 +208,10 @@ FavoritesScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+	buttonContainerEntrance: {
+		marginTop: 10,
+		marginBottom: 10
+	},
 	flatListContainer: {
 		flex: 1,
 		width: '100%',

@@ -112,24 +112,24 @@ const AuthScreen = (props) => {
 	return (
 		<CustomLinearGradient>
 			{/* <Card style={styles.authContainer}> */}
-				<View style={styles.buttonContainerEtrance}>
-					<BoldText> Είσοδος στην Έκθεση </BoldText>
-					{Platform.OS === 'android' ? (
-						<View style={styles.buttonSignup}>
-							<CustomButton
-								title="Είσοδος"
-								color={Colours.moccasin_light}
-								onPress={() => props.navigation.navigate('Main')}
-							/>
-						</View>
-					) : (
-						<Button
+			<View style={styles.buttonContainerEntrance}>
+				<BoldText> Είσοδος στην Έκθεση </BoldText>
+				{Platform.OS === 'android' ? (
+					<View style={styles.buttonSignup}>
+						<CustomButton
 							title="Είσοδος"
 							color={Colours.moccasin_light}
 							onPress={() => props.navigation.navigate('Categories')}
 						/>
-					)}
-				</View>
+					</View>
+				) : (
+					<Button
+						title="Είσοδος"
+						color={Colours.moccasin_light}
+						onPress={() => props.navigation.navigate('Categories')}
+					/>
+				)}
+			</View>
 			{/* </Card> */}
 
 			<KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={styles.screen}>
@@ -185,6 +185,7 @@ const AuthScreen = (props) => {
 					<View style={styles.buttonContainer}>
 						{Platform.OS === 'android' ? (
 							<CustomButton
+								style={{ width: '100%' }}
 								title={`Αλλαγή σε ${isSignUp ? 'Σύνδεση' : 'Εγγραφή'}`}
 								color={Colours.chocolate}
 								onPress={() => setIsSignUp(!isSignUp)}
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		marginTop: 10
 	},
-	buttonContainerEtrance: {
+	buttonContainerEntrance: {
 		marginTop: 10,
 		marginBottom: 10
 	},
