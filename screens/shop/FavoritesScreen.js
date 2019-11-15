@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Button, FlatList, StyleSheet, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -10,50 +10,52 @@ import Colours from '../../constants/Colours';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
 import * as cartActions from '../../store/actions/cart';
-import * as productActions from '../../store/actions/products';
+import * as productsActions from '../../store/actions/products';
 
 // import DefaultText from '../components/UI/DefaultText';
 
 const FavoritesScreen = (props) => {
-	// const [ isLoading, setIsLoading ] = useState(false);
-	// const [ error, setError ] = useState(); // error initially is undefined!
-	// const [ isRefresing, setIsRefresing ] = useState(false);
+	const [ isLoading, setIsLoading ] = useState(false);
+	const [ error, setError ] = useState(); // error initially is undefined!
+	const [ isRefresing, setIsRefresing ] = useState(false);
 	const dispatch = useDispatch();
 	const userIdExists = useSelector((state) => state.auth.userId);
 	const favProducts = useSelector((state) => state.products.favoriteProducts);
 
-	// const loadFavProducts = useCallback(
-	// 	async () => {
-	// 		setError(null);
-	// 		setIsRefresing(true);
-	// 		try {
-	// 			await dispatch(productsActions.fetchFavProducts());
-	// 		} catch (err) {
-	// 			setError(err.message);
-	// 		}
-	// 		setIsRefresing(false);
-	// 	},
-	// 	[ dispatch, setIsLoading, setError ]
-	// );
+	// console.log('favProducts', favProducts);
 
-	// // loadFavProducts after focusing
-	// useEffect(
-	// 	() => {
-	// 		const willFocusEvent = props.navigation.addListener('willFocus', loadFavProducts);
-	// 		return () => willFocusEvent.remove();
-	// 	},
-	// 	[ loadFavProducts ]
-	// );
+	const loadFavProducts = useCallback(
+		async () => {
+			setError(null);
+			setIsRefresing(true);
+			try {
+				await dispatch(productsActions.fetchFavProducts());
+			} catch (err) {
+				setError(err.message);
+			}
+			setIsRefresing(false);
+		},
+		[ dispatch, setIsLoading, setError ]
+	);
 
-	// // loadFavProducts initially...
-	// useEffect(
-	// 	() => {
-	// 		setIsLoading(true);
-	// 		loadFavProducts();
-	// 		setIsLoading(false);
-	// 	},
-	// 	[ dispatch, loadFavProducts ]
-	// );
+	// loadFavProducts after focusing
+	useEffect(
+		() => {
+			const willFocusEvent = props.navigation.addListener('willFocus', loadFavProducts);
+			return () => willFocusEvent.remove();
+		},
+		[ loadFavProducts ]
+	);
+
+	// loadFavProducts initially...
+	useEffect(
+		() => {
+			setIsLoading(true);
+			loadFavProducts();
+			setIsLoading(false);
+		},
+		[ dispatch, loadFavProducts ]
+	);
 
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('DetailScreen', {
@@ -62,15 +64,19 @@ const FavoritesScreen = (props) => {
 		});
 	};
 
-	// if (error) {
-	// 	return (
-	// 		<View style={styles.centered}>
-	// 			<Text>Σφάλμα στη διαδικασία φορτώσεως των αγαπημένων προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</Text>
-	// 			<Button title="Δοκιμάστε Ξανά" onPress={loadFavProducts} color={Colours.chocolate} />
-	// 		</View>
-	// 	);
-	// }
-	if (!!userIdExists) {
+	if (error) {
+		return (
+			<View style={styles.centered}>
+				<BoldText>
+					Σφάλμα στη διαδικασία φορτώσεως των αγαπημένων προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.
+				</BoldText>
+				{/* <Button title="Δοκιμάστε Ξανά" onPress={() => dispatch(productsActions.fetchFavProducts())} color={Colours.chocolate} /> */}
+				<Button title="Δοκιμάστε Ξανά" onPress={loadFavProducts} color={Colours.chocolate} />
+			</View>
+		);
+	}
+
+	if ((!!userIdExists && !favProducts) || favProducts.length === 0) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.content}>
@@ -80,7 +86,7 @@ const FavoritesScreen = (props) => {
 		);
 	}
 
-	if (!userIdExists || !favProducts || favProducts.length === 0) {
+	if ((!userIdExists && !favProducts) || favProducts.length === 0) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.content}>
@@ -107,27 +113,26 @@ const FavoritesScreen = (props) => {
 		);
 	}
 
-	// if (isLoading) {
-	// 	return (
-	// 		<View style={styles.centered}>
-	// 			<ActivityIndicator size="large" color={Colours.chocolate} />
-	// 		</View>
-	// 	);
-	// }
+	if (isLoading) {
+		return (
+			<View style={styles.centered}>
+				<ActivityIndicator size="large" color={Colours.chocolate} />
+			</View>
+		);
+	}
 
 	return (
 		<CustomLinearGradient>
 			<View style={styles.flatListContainer}>
 				<FlatList
-					// onRefresh={loadFavProducts}
-					// refreshing={isRefresing}
+					onRefresh={loadFavProducts}
+					refreshing={isRefresing}
 					data={favProducts}
 					keyExtractor={(item) => item.id}
 					renderItem={(itemData) => (
 						<ProductItem
 							title={itemData.item.title}
 							image={itemData.item.imageUrl}
-							onToggleFavorite={() => dispatch(productActions.toggleFavorite(itemData.item.id))}
 							onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 						>
 							{Platform.OS === 'android' ? (
@@ -138,7 +143,9 @@ const FavoritesScreen = (props) => {
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
+									<BoldText style={styles.price}>
+										€ {itemData.item.price.toFixed(2)}
+									</BoldText>
 									<View>
 										<CustomButton
 											title="... στο καλάθι"
@@ -155,11 +162,13 @@ const FavoritesScreen = (props) => {
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
+									<BoldText style={styles.price}>
+										€ {itemData.item.price.toFixed(2)}
+									</BoldText>
 									<View style={styles.button}>
 										<Button
 											color={Colours.gr_brown_light}
-											title="... στο καλάθι"
+											title="+ καλάθι"
 											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
 										/>
 									</View>

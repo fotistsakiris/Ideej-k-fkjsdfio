@@ -23,21 +23,23 @@ export default (state = initialState, action) => {
 				availableProducts: action.products,
 				userProducts: action.userProducts
 			};
-		// case SET_FAVORITES:
-		// 	return {
-		// 		...state,
-		// 		favoriteProducts: action.FavProducts
-		// 	};
+		case SET_FAVORITES:
+			return {
+				...state,
+				favoriteProducts: action.FavProducts
+			};
 		case TOGGLE_FAVORITE:
 			const existingIndex = state.favoriteProducts.findIndex((product) => product.id === action.productId);
 			if (existingIndex >= 0) {
 				// Remove a favorite product.
 				const updatedFavProducts = [ ...state.favoriteProducts ];
+				// console.log('updatedFavProducts', updatedFavProducts)
 				updatedFavProducts.splice(existingIndex, 1);
 				return { ...state, favoriteProducts: updatedFavProducts };
 			} else {
 				// Add a favorite product.
 				const product = state.availableProducts.find((product) => product.id === action.productId);
+				// console.log(product);
 				return { ...state, favoriteProducts: state.favoriteProducts.concat(product) };
 			}
 		case DELETE_PRODUCT:

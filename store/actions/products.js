@@ -10,42 +10,49 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 
-export const toggleFavorite = (id, isFav) => {
+export const toggleFavorite = (id, isFav, selectedProduct) => {
 	return async (dispatch, getState) => {
 		try {
 			const token = getState().auth.token;
+			const userId = getState().auth.userId;
 			// If it is a favorite, post it.
 			// Note it is initially false...
 			if (!isFav) {
-				const response = await fetch(`https://ekthesi-7767c.firebaseio.com/favorites.json?auth=${token}`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						id,
-						isFav
-					})
-				});
+				const response = await fetch(
+					`https://ekthesi-7767c.firebaseio.com/favorites/${userId}.json?auth=${token}`,
+					{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							id,
+							isFav,
+							selectedProduct
+						})
+					}
+				);
 
 				if (!response.ok) {
 					throw new Error(
 						'Δυστυχώς η δημιουργία νέου προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
 					);
 				}
-				const resData = await response.json();
+				// const resData = await response.json();
 
 				// Note: No `name` property, that's why we use a `for_in` loop
 				// console.log('POST', JSON.stringify(resData));
 
-				dispatch({ type: TOGGLE_FAVORITE, productId: id });
+				dispatch({ type: TOGGLE_FAVORITE, productId: id, selectedProduct: selectedProduct });
 			} else if (isFav) {
 				// First get the key in order to delete it in second fetch(...).
-				const response = await fetch(`https://ekthesi-7767c.firebaseio.com/favorites.json?auth=${token}`);
+				const response = await fetch(
+					`https://ekthesi-7767c.firebaseio.com/favorites/${userId}.json?auth=${token}`
+				);
 
 				if (!response.ok) {
 					throw new Error(
-						'Δυστυχώς η διαγραφή του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+						'Δυστυχώς η διαγραφή του προϊόντος από τα αγαπημένα, δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
 					);
 				}
 
@@ -56,17 +63,20 @@ export const toggleFavorite = (id, isFav) => {
 
 				for (const key in resData) {
 					if (resData[key].id === id) {
-						await fetch(`https://ekthesi-7767c.firebaseio.com/favorites/${key}.json?auth=${token}`, {
-							method: 'DELETE'
-						});
+						await fetch(
+							`https://ekthesi-7767c.firebaseio.com/favorites/${userId}/${key}.json?auth=${token}`,
+							{
+								method: 'DELETE'
+							}
+						);
 
 						if (!response.ok) {
 							throw new Error(
-								'Δυστυχώς η διαγραφή του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+								'Δυστυχώς η διαγραφή του προϊόντος από τα αγαπημένα, δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
 							);
 						}
 						// console.log('fetch', JSON.stringify(resData));
-						dispatch({ type: TOGGLE_FAVORITE, productId: id });
+						dispatch({ type: TOGGLE_FAVORITE, productId: id, selectedProduct: selectedProduct });
 					}
 				}
 			}
@@ -77,42 +87,51 @@ export const toggleFavorite = (id, isFav) => {
 	};
 };
 
-// export const fetchFavProducts = () => {
-// 	return async (dispatch) => {
-// 		try {
-// 			const FavResponse = await fetch('https://ekthesi-7767c.firebaseio.com/favorites.json');
+export const fetchFavProducts = () => {
+	return async (dispatch, getState) => {
+		try {
+			const userId = getState().auth.userId;
+			const FavResponse = await fetch(`https://ekthesi-7767c.firebaseio.com/favorites/${userId}.json`);
 
-// 			 // check before unpack the response body
-// 			if (!FavResponse.ok) {
-// 				throw new Error('Δυστυχώς η φόρτωση των αγαπημένων προϊόντων δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
-// 			}
+			// check before unpack the response body
+			if (!FavResponse.ok) {
+				throw new Error(
+					'Δυστυχώς η φόρτωση των αγαπημένων προϊόντων δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+				);
+			}
 
-// 			const resFavData = await FavResponse.json();
-// 			console.log(resFavData);
+			const resFavData = await FavResponse.json();
 
-// 			const loadedFavorites = [];
+			let selectedProduct = null;
+			for (const key in resFavData) {
+				selectedProduct = resFavData[key].selectedProduct;
+			}
 
-// 			for (const key in resFavData) {
-// 				loadedFavorites.push(
-// 					new Icon({
-// 						id: resFavData[key].id,
-// 						categoryIds: resFavData[key].categoryIds,
-// 						ownerId: resFavData[key].ownerId,
-// 						title: resFavData[key].title,
-// 						imageUrl: resFavData[key].imageUrl,
-// 						price: resFavData[key].price,
-// 						description: resFavData[key].description
-// 					})
-// 				);
-// 			}
+			const loadedFavorites = [];
+			loadedFavorites.push(
+				new Icon({
+					id: selectedProduct.id,
+					categoryIds: selectedProduct.categoryIds,
+					ownerId: selectedProduct.ownerId,
+					index: selectedProduct.index,
+					title: selectedProduct.title,
+					imageUrl: selectedProduct.imageUrl,
+					price: selectedProduct.price,
+					description: selectedProduct.description
+				})
+			);
 
-// 			dispatch({ type: SET_FAVORITES, FavProducts: loadedFavorites });
-// 		} catch (err) {
-// 			// send to custom analytics server
-// 			throw err;
-// 		}
-// 	};
-// };
+			// console.log('selectedProduct', selectedProduct.id);
+			console.log('loadedFavorites', loadedFavorites);
+			dispatch({ type: SET_FAVORITES, FavProducts: loadedFavorites });
+		} catch (err) {
+			// send to custom analytics server
+			console.log(err);
+
+			throw err;
+		}
+	};
+};
 
 export const setFilters = (filterSettings) => {
 	return { type: SET_FILTERS, filters: filterSettings };
@@ -154,6 +173,8 @@ export const fetchProducts = () => {
 			// console.log('fetchProducts resData.name: ', resData.name); // Why is this undefined?
 			const loadedProducts = [];
 
+			// console.log('resData', resData);
+
 			for (const key in resData) {
 				loadedProducts.push(
 					new Icon({
@@ -187,7 +208,6 @@ export const fetchProducts = () => {
 export const createProduct = (title, categoryIds, imageUrl, price, description) => {
 	return async (dispatch, getState) => {
 		try {
-
 			// SET INDEX
 			// Set an index so in CartScreen you can splice the transformedCartItems,
 			// so the order of the cartItems will not change when adding/subtracting
@@ -197,11 +217,11 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 			for (const key in resD) {
 				loadedIndexes.push(resD[key].index);
 			}
-			const arrayForIndexes = [...loadedIndexes]
+			const arrayForIndexes = [ ...loadedIndexes ];
 			let lastIndex = arrayForIndexes.pop();
 
 			if (typeof lastIndex === 'undefined') {
-				lastIndex = -1
+				lastIndex = -1;
 			}
 
 			// CREATE PRODUCT
@@ -209,7 +229,7 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 			const userId = getState().auth.userId;
 			// testing
 			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products.json`, {
-				const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products.json?auth=${token}`, {
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products.json?auth=${token}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -264,21 +284,20 @@ export const updateProduct = (id, title, categoryIds, imageUrl, description) => 
 			const token = getState().auth.token;
 			// testing
 			// const response = await fetch(
-				// `https://ekthesi-7767c.firebaseio.com/products/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json?`,
-				// {
-				const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${id}.json?auth=${token}`, {
-					method: 'PATCH',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						title,
-						categoryIds,
-						imageUrl,
-						description
-					})
-				}
-			);
+			// `https://ekthesi-7767c.firebaseio.com/products/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json?`,
+			// {
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${id}.json?auth=${token}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					title,
+					categoryIds,
+					imageUrl,
+					description
+				})
+			});
 
 			if (!response.ok) {
 				throw new Error(

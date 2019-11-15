@@ -31,7 +31,7 @@ const ProductDetailScreen = (props) => {
 		async () => {
 			setError(null);
 			try {
-				await dispatch(productsActions.toggleFavorite(productId, currentProductIsFavorite));
+				await dispatch(productsActions.toggleFavorite(productId, currentProductIsFavorite, selectedProduct));
 			} catch (err) {
 				setError(err.message);
 			}
