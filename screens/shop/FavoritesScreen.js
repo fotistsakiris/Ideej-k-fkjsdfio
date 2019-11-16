@@ -76,13 +76,13 @@ const FavoritesScreen = (props) => {
 	if (error) {
 		return (
 			<CustomLinearGradient>
-			<View style={styles.centered}>
-				<BoldText>
-					Σφάλμα στη διαδικασία φορτώσεως των αγαπημένων προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.
-				</BoldText>
-				{/* <Button title="Δοκιμάστε Ξανά" onPress={() => dispatch(productsActions.fetchFavProducts())} color={Colours.chocolate} /> */}
-				<Button title="Δοκιμάστε Ξανά" onPress={loadFavProducts} color={Colours.chocolate} />
-			</View>
+				<View style={styles.centered}>
+					<BoldText>
+						Σφάλμα στη διαδικασία φορτώσεως των αγαπημένων προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.
+					</BoldText>
+					{/* <Button title="Δοκιμάστε Ξανά" onPress={() => dispatch(productsActions.fetchFavProducts())} color={Colours.chocolate} /> */}
+					<Button title="Δοκιμάστε Ξανά" onPress={loadFavProducts} color={Colours.chocolate} />
+				</View>
 			</CustomLinearGradient>
 		);
 	}
@@ -127,9 +127,9 @@ const FavoritesScreen = (props) => {
 	if (isLoading) {
 		return (
 			<CustomLinearGradient>
-			<View style={styles.centered}>
-				<ActivityIndicator size="large" color={Colours.chocolate} />
-			</View>
+				<View style={styles.centered}>
+					<ActivityIndicator size="large" color={Colours.chocolate} />
+				</View>
 			</CustomLinearGradient>
 		);
 	}
@@ -192,16 +192,25 @@ const FavoritesScreen = (props) => {
 };
 
 FavoritesScreen.navigationOptions = ({ navigation }) => {
-	return {
+	const navigatingFromDetailsScreen = navigation.getParam('navigatingFromDetailsScreen');
+ 	return {
 		headerTitle: 'Αγαπημένα',
 		// Needed for side drawer navigation
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-				<Item
-					title="menu"
-					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-					onPress={() => navigation.toggleDrawer()}
-				/>
+				{navigatingFromDetailsScreen ? (
+					<Item
+						title="goBack"
+						iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
+						onPress={() => navigation.pop()}
+					/>
+				) : (
+					<Item
+						title="menu"
+						iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+						onPress={() => navigation.toggleDrawer()}
+					/>
+				)}
 			</HeaderButtons>
 		),
 		// headerLeft: (

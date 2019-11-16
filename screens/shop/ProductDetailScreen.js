@@ -65,15 +65,6 @@ const ProductDetailScreen = (props) => {
 	return (
 		<CustomLinearGradient>
 			<View style={styles.flatListContainer}>
-			{Platform.OS === 'android' ? (
-						<CustomButton
-							title="Αγαπημένα"
-							onPress={() => props.navigation.navigate('Favorites')}
-							color={Colours.marron}
-						/>
-					) : (
-						<Button title="Αγαπημένα" onPress={() => props.navigation.navigate('Favorites')} color={Colours.maroon} />
-					)}
 				<ScrollView>
 					<View style={styles.icon}>
 						<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
@@ -132,7 +123,14 @@ ProductDetailScreen.navigationOptions = ({ navigation }) => {
 				<Item
 					title="goBack"
 					iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
-					onPress={() => navigation.goBack()}
+					//  onPress={() => navigation.goBack()}
+					onPress={() =>
+						navigation.navigate('Favorites', {
+							// needed for FavScreen to render different headerButton, 
+							// becuase of bug with jumping from sideDrawer Screens
+							// to Ekthesis Screens
+							navigatingFromDetailsScreen: true
+						})}
 				/>
 			</HeaderButtons>
 		),
