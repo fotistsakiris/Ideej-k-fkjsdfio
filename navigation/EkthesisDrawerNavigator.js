@@ -51,7 +51,7 @@ const EkthesisNavigator = createStackNavigator(
 	{
 		Categories: CategoriesScreen,
 		ProductsOverview: ProductsOverviewScreen,
-		Favorites: FavoritesScreen, // So user can go back to favorites from DetailsScreen
+		// Favorites: FavoritesScreen, // So user can go back to favorites from DetailsScreen
 		DetailScreen: ProductDetailScreen,
 		Cart: CartScreen
 	},

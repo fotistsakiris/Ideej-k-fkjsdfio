@@ -65,6 +65,15 @@ const ProductDetailScreen = (props) => {
 	return (
 		<CustomLinearGradient>
 			<View style={styles.flatListContainer}>
+			{Platform.OS === 'android' ? (
+						<CustomButton
+							title="Αγαπημένα"
+							onPress={() => props.navigation.navigate('Favorites')}
+							color={Colours.marron}
+						/>
+					) : (
+						<Button title="Αγαπημένα" onPress={() => props.navigation.navigate('Favorites')} color={Colours.maroon} />
+					)}
 				<ScrollView>
 					<View style={styles.icon}>
 						<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
@@ -109,24 +118,24 @@ ProductDetailScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: navigation.getParam('productTitle'),
 		// Needed for side drawer navigation
-		headerLeft: (
-			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-				<Item
-					title="menu"
-					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-					onPress={() => navigation.toggleDrawer()}
-				/>
-			</HeaderButtons>
-		),
 		// headerLeft: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item
-		// 			title="goBack"
-		// 			iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
-		// 			onPress={() => navigation.goBack()}
+		// 			title="menu"
+		// 			iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+		// 			onPress={() => navigation.toggleDrawer()}
 		// 		/>
 		// 	</HeaderButtons>
 		// ),
+		headerLeft: (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					title="goBack"
+					iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
+					onPress={() => navigation.goBack()}
+				/>
+			</HeaderButtons>
+		),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
