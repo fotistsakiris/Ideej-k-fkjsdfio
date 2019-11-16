@@ -24,6 +24,8 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! fix bug: favorite (in ProductsDetailScreen) snaps back to false if you go back to ProductsOverviewScreen and forth to ProductsDetailScreen.
 ### DONE! fix bug: in cartScreen the order of the products changes when you change the amount of the second...
 ### DONE! change back commented code in firebase, ...Navigator and actions/orders to need token and get AuthScreen... find 'testing'
+### DONE! Fix bug: Load all products when from favoritesScreen,
+### user clicks to go to DetailesScreen> Other wise the app can not find wich of the availabelProducts to show.
 ### refresh the token so the user doesn't get automatic logged out after 1 hour.
 ### Authentication with roles: diferent signups/logins for admis and users + hide admin button in users sidedrawer
 ### Add an alert with the categoryIds in the EditProductScreen
@@ -56,3 +58,4 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### react-native-screens
 ### react-native-elements
 ### expo-linear-gradient
+### react-navigation-transitions

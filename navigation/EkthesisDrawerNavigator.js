@@ -8,6 +8,7 @@ import { AsyncStorage } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
+import { fadeIn } from 'react-navigation-transitions';
 
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import Colours from '../constants/Colours';
@@ -50,11 +51,13 @@ const EkthesisNavigator = createStackNavigator(
 	{
 		Categories: CategoriesScreen,
 		ProductsOverview: ProductsOverviewScreen,
+		Favorites: FavoritesScreen, // So user can go back to favorites from DetailsScreen
 		DetailScreen: ProductDetailScreen,
 		Cart: CartScreen
 	},
 	{
-		defaultNavigationOptions: defaultNavOptions
+		defaultNavigationOptions: defaultNavOptions,
+		transitionConfig: () => fadeIn()
 	}
 );
 

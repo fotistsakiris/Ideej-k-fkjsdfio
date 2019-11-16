@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Button, FlatList, StyleSheet, Platform } from 'react-native';
+import { View, Button, ActivityIndicator, FlatList, StyleSheet, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -57,15 +57,25 @@ const FavoritesScreen = (props) => {
 		[ dispatch, loadFavProducts ]
 	);
 
-	const selectItemHandler = (id, title) => {
-		props.navigation.navigate('DetailScreen', {
-			productId: id,
-			productTitle: title
-		});
-	};
+	const { navigate } = props;
+	const fetchProducts = productsActions.fetchProducts();
+	const selectItemHandler = useCallback(
+		async (id, title) => {
+			// Load all products... Other wise if logged in user visits the favorites
+			// and from clicks to go to DetailesScreen,
+			// the app can not find wich of the availabelProducts to show...
+			await dispatch(productsActions.fetchProducts());
+			props.navigation.navigate('DetailScreen', {
+				productId: id,
+				productTitle: title
+			});
+		},
+		[ dispatch, fetchProducts, navigate ]
+	);
 
 	if (error) {
 		return (
+			<CustomLinearGradient>
 			<View style={styles.centered}>
 				<BoldText>
 					Σφάλμα στη διαδικασία φορτώσεως των αγαπημένων προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.
@@ -73,10 +83,11 @@ const FavoritesScreen = (props) => {
 				{/* <Button title="Δοκιμάστε Ξανά" onPress={() => dispatch(productsActions.fetchFavProducts())} color={Colours.chocolate} /> */}
 				<Button title="Δοκιμάστε Ξανά" onPress={loadFavProducts} color={Colours.chocolate} />
 			</View>
+			</CustomLinearGradient>
 		);
 	}
 
-	if ((!!userIdExists && !favProducts) || favProducts.length === 0) {
+	if ((!!userIdExists && !isLoading && !favProducts) || favProducts.length === 0) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.content}>
@@ -115,9 +126,11 @@ const FavoritesScreen = (props) => {
 
 	if (isLoading) {
 		return (
+			<CustomLinearGradient>
 			<View style={styles.centered}>
 				<ActivityIndicator size="large" color={Colours.chocolate} />
 			</View>
+			</CustomLinearGradient>
 		);
 	}
 
@@ -143,9 +156,7 @@ const FavoritesScreen = (props) => {
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									<BoldText style={styles.price}>
-										€ {itemData.item.price.toFixed(2)}
-									</BoldText>
+									<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
 									<View>
 										<CustomButton
 											title="... στο καλάθι"
@@ -162,9 +173,7 @@ const FavoritesScreen = (props) => {
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									<BoldText style={styles.price}>
-										€ {itemData.item.price.toFixed(2)}
-									</BoldText>
+									<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
 									<View style={styles.button}>
 										<Button
 											color={Colours.gr_brown_light}

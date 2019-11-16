@@ -120,9 +120,6 @@ export const fetchFavProducts = () => {
 					description: selectedProduct.description
 				})
 			);
-
-			// console.log('selectedProduct', selectedProduct.id);
-			console.log('loadedFavorites', loadedFavorites);
 			dispatch({ type: SET_FAVORITES, FavProducts: loadedFavorites });
 		} catch (err) {
 			// send to custom analytics server

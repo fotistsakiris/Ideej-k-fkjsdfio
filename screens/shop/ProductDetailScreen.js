@@ -23,6 +23,7 @@ const ProductDetailScreen = (props) => {
 	const selectedProduct = useSelector((state) =>
 		state.products.availableProducts.find((prod) => prod.id === productId)
 	);
+
 	const currentProductIsFavorite = useSelector((state) =>
 		state.products.favoriteProducts.some((product) => product.id === productId)
 	);
@@ -111,12 +112,21 @@ ProductDetailScreen.navigationOptions = ({ navigation }) => {
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
-					title="goBack"
-					iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
-					onPress={() => navigation.goBack()}
+					title="menu"
+					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+					onPress={() => navigation.toggleDrawer()}
 				/>
 			</HeaderButtons>
 		),
+		// headerLeft: (
+		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+		// 		<Item
+		// 			title="goBack"
+		// 			iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
+		// 			onPress={() => navigation.goBack()}
+		// 		/>
+		// 	</HeaderButtons>
+		// ),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
