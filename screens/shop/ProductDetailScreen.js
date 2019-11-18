@@ -109,31 +109,16 @@ ProductDetailScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: navigation.getParam('productTitle'),
 		// Needed for side drawer navigation
-		// headerLeft: (
-		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-		// 		<Item
-		// 			title="menu"
-		// 			iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-		// 			onPress={() => navigation.toggleDrawer()}
-		// 		/>
-		// 	</HeaderButtons>
-		// ),
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
-					title="goBack"
-					iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
-					//  onPress={() => navigation.goBack()}
-					onPress={() =>
-						navigation.navigate('Favorites', {
-							// needed for FavScreen to render different headerButton, 
-							// becuase of bug with jumping from sideDrawer Screens
-							// to Ekthesis Screens
-							navigatingFromDetailsScreen: true
-						})}
+					title="menu"
+					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+					onPress={() => navigation.toggleDrawer()}
 				/>
 			</HeaderButtons>
 		),
+		
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item

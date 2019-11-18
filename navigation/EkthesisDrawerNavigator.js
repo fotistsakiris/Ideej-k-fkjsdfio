@@ -51,9 +51,9 @@ const EkthesisNavigator = createStackNavigator(
 	{
 		Categories: CategoriesScreen,
 		ProductsOverview: ProductsOverviewScreen,
-		Favorites: FavoritesScreen, // So we do not get to see a snapshop of Categories when navigating from FavoritesScreen to DetailsScreen
+		// Favorites: FavoritesScreen, // So we do not get to see a snapshop of Categories when navigating from FavoritesScreen to DetailsScreen
 		DetailScreen: ProductDetailScreen,
-		Cart: CartScreen
+		Cart: CartScreen,
 	},
 	{
 		defaultNavigationOptions: defaultNavOptions,

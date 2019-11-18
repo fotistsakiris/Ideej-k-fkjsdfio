@@ -27,6 +27,8 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! Fix bug: Load all products when from favoritesScreen,
 ### user clicks to go to DetailesScreen Other wise the app can not find wich of the availabelProducts to show.
 ### DONE! Hide admin button for normal users in sidedrawer...
+### DONE! Fix bug: Jumping between different navigation groups. i.e. From FavoritesScreen to DetailsScreen.
+
 ### Authentication with roles: diferent signups/logins for admis and users.
 ### Add an alert with the categoryIds in the EditProductScreen
 ### Add user's name on the headerTitle.

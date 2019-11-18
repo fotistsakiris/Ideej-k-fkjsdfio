@@ -16,6 +16,7 @@ import * as productsActions from '../../store/actions/products';
 
 const FavoritesScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
+	const [ isLoadingDetailsScreen, setIsLoadingDetailsScreen ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isRefresing, setIsRefresing ] = useState(false);
 	const dispatch = useDispatch();
@@ -23,13 +24,16 @@ const FavoritesScreen = (props) => {
 	const favProducts = useSelector((state) => state.products.favoriteProducts);
 
 	// console.log('favProducts', favProducts);
-
 	const loadFavProducts = useCallback(
 		async () => {
 			setError(null);
 			setIsRefresing(true);
 			try {
 				await dispatch(productsActions.fetchFavProducts());
+				// Load all products... Other wise if logged in user visits the favorites
+				// and then clicks to go to DetailesScreen,
+				// the app can not find wich of the availabelProducts to show...
+				await dispatch(productsActions.fetchProducts());
 			} catch (err) {
 				setError(err.message);
 			}
@@ -57,21 +61,14 @@ const FavoritesScreen = (props) => {
 		[ dispatch, loadFavProducts ]
 	);
 
-	const { navigate } = props;
-	const fetchProducts = productsActions.fetchProducts();
-	const selectItemHandler = useCallback(
-		async (id, title) => {
-			// Load all products... Other wise if logged in user visits the favorites
-			// and from clicks to go to DetailesScreen,
-			// the app can not find wich of the availabelProducts to show...
-			await dispatch(productsActions.fetchProducts());
-			props.navigation.navigate('DetailScreen', {
-				productId: id,
-				productTitle: title
-			});
-		},
-		[ dispatch, fetchProducts, navigate ]
-	);
+	const selectItemHandler = (id, title) => {
+		setIsLoadingDetailsScreen(true)
+		props.navigation.navigate('DetailScreen', {
+			productId: id,
+			productTitle: title
+		});
+		setIsLoadingDetailsScreen(false)
+	};
 
 	if (error) {
 		return (
@@ -125,6 +122,16 @@ const FavoritesScreen = (props) => {
 	}
 
 	if (isLoading) {
+		return (
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<ActivityIndicator size="large" color={Colours.chocolate} />
+				</View>
+			</CustomLinearGradient>
+		);
+	}
+
+	if (isLoadingDetailsScreen) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
@@ -192,25 +199,16 @@ const FavoritesScreen = (props) => {
 };
 
 FavoritesScreen.navigationOptions = ({ navigation }) => {
-	const navigatingFromDetailsScreen = navigation.getParam('navigatingFromDetailsScreen');
- 	return {
+	return {
 		headerTitle: 'Αγαπημένα',
 		// Needed for side drawer navigation
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-				{navigatingFromDetailsScreen ? (
-					<Item
-						title="goBack"
-						iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
-						onPress={() => navigation.pop()}
-					/>
-				) : (
-					<Item
-						title="menu"
-						iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-						onPress={() => navigation.toggleDrawer()}
-					/>
-				)}
+				<Item
+					title="menu"
+					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+					onPress={() => navigation.toggleDrawer()}
+				/>
 			</HeaderButtons>
 		),
 		// headerLeft: (
