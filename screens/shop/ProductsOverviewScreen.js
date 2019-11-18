@@ -182,7 +182,7 @@ ProductsOverviewScreen.navigationOptions = ({ navigation }) => {
 				<Item
 					title="goBack"
 					iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
-					onPress={() => navigation.pop()}
+					onPress={() => navigation.goBack()}
 				/>
 			</HeaderButtons>
 		),

@@ -62,12 +62,11 @@ const FavoritesScreen = (props) => {
 	);
 
 	const selectItemHandler = (id, title) => {
-		setIsLoadingDetailsScreen(true)
+		props.navigation.pop()
 		props.navigation.navigate('DetailScreen', {
 			productId: id,
-			productTitle: title
+			productTitle: title,
 		});
-		setIsLoadingDetailsScreen(false)
 	};
 
 	if (error) {
@@ -78,7 +77,17 @@ const FavoritesScreen = (props) => {
 						Σφάλμα στη διαδικασία φορτώσεως των αγαπημένων προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.
 					</BoldText>
 					{/* <Button title="Δοκιμάστε Ξανά" onPress={() => dispatch(productsActions.fetchFavProducts())} color={Colours.chocolate} /> */}
-					<Button title="Δοκιμάστε Ξανά" onPress={loadFavProducts} color={Colours.chocolate} />
+					{Platform.OS === 'android' ? (
+						<View style={styles.buttonSignup}>
+							<CustomButton
+								title="Δοκιμάστε Ξανά"
+								color={Colours.chocolate}
+								onPress={loadFavProducts}
+							/>
+						</View>
+					) : (
+						<Button title="Δοκιμάστε Ξανά" onPress={loadFavProducts} color={Colours.chocolate} />
+					)}
 				</View>
 			</CustomLinearGradient>
 		);

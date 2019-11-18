@@ -112,13 +112,13 @@ ProductDetailScreen.navigationOptions = ({ navigation }) => {
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
-					title="menu"
-					iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-					onPress={() => navigation.toggleDrawer()}
+					title="goBack"
+					iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
+					onPress={() => navigation.goBack()}
 				/>
 			</HeaderButtons>
 		),
-		
+
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
