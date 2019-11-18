@@ -175,7 +175,7 @@ const FavoritesScreen = (props) => {
 									<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
 									<View>
 										<CustomButton
-											title="... στο καλάθι"
+											title="+ καλάθι"
 											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
 										/>
 									</View>

@@ -129,7 +129,7 @@ const ProductsOverviewScreen = (props) => {
 									</BoldText>
 									<View style={styles.customButton}>
 										<CustomButton
-											title="... στο καλάθι"
+											title="+ καλάθι"
 											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
 										/>
 									</View>
@@ -150,7 +150,7 @@ const ProductsOverviewScreen = (props) => {
 									<View style={styles.button}>
 										<Button
 											color={Colours.gr_brown_light}
-											title="... στο καλάθι"
+											title="+ καλάθι"
 											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
 										/>
 									</View>
