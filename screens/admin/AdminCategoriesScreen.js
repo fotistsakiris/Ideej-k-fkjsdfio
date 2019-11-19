@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View, Button, Platform, StyleSheet } from 'react-native';
+import { FlatList, View, Button, Alert, Platform, StyleSheet } from 'react-native';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -58,16 +58,21 @@ AdminCategoriesScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: 'Τα προϊόντα σας',
 		// Needed for side drawer navigation
-		// headerLeft: (
-		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-		// 		<Item
-		// 			onPress={() => navigation.toggleDrawer()}
-		// 			title="Menu"
-		// 			iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-		// 			size={23}
-		// 		/>
-		// 	</HeaderButtons>
-		// ),
+		headerLeft: (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					onPress={() => {
+						Alert.alert(`Κατηγορίες προϊόντων`,
+					   `Εικόνες - Αγιογραφίες: c1\nΕργόχειρα: c2\nΜοναστηριακά προϊόντα.: c3\nΕκκλησιαστικά Είδη: c4\nΟρθόδοξη Βιβλιοθήκη.: c5\nΕίδη δώρων - Αναμνηστικά.: c6\nΠροτεινόμενα προϊόντα: c7\n`, [
+							{ text: 'Εντάξη', style: 'default' },
+						]);
+					}}
+					title="categories"
+					iconName={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+					size={23}
+				/>
+			</HeaderButtons>
+		),
 		// headerLeft: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item
