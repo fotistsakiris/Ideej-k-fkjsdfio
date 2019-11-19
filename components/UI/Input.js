@@ -44,6 +44,7 @@ const Input = (props) => {
 
 	const textChangeHandler = (text) => {
 		const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const priceRegex = /^\d+(,\d{3})*(\.\d{1,2})?$/gm
 		let isValid = true;
 		if (props.required && text.trim().length === 0) {
 			isValid = false;
@@ -52,6 +53,9 @@ const Input = (props) => {
 			isValid = false;
 		}
 		if (props.min != null && +text < props.min) {
+			isValid = false;
+		}
+		if (props.noComma && !priceRegex.test(text.toLowerCase())) {
 			isValid = false;
 		}
 		if (props.max != null && +text > props.max) {

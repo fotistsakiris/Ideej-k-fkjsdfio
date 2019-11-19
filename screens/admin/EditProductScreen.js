@@ -208,11 +208,12 @@ const EditProductScreen = (props) => {
 						<Input
 							id="price"
 							label="Τιμή"
-							errorText="Παρακαλώ εισαγάγεται μία έγκυρη τιμή!"
+							errorText="Παρακαλώ εισαγάγεται μία έγκυρη τιμή και χρησιμοποιείτε τελεία αντί για κόμμα"
 							keyboardType="decimal-pad"
 							returnKeyType="next"
 							onInputChange={inputChangeHandler}
 							required
+							noComma
 							min={0.1}
 						/>
 					)}
