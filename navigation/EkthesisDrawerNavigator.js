@@ -205,7 +205,7 @@ const MainNavigator = createDrawerNavigator(
 			const [ adminId, setAdmidId ] = useState(null);
 			const userIdExists = useSelector((state) => state.auth.userId);
 
-			if (userIdExists === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2') {
+			if (userIdExists === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' || userIdExists === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2') {
 				const getAdminsUserId = async () => {
 					const userData = await AsyncStorage.getItem('userData');
 					const transformedData = JSON.parse(userData);
@@ -221,7 +221,7 @@ const MainNavigator = createDrawerNavigator(
 						{/* These are the default drawer items */}
 						<DrawerNavigatorItems {...props} />
 						{/* Plus our custom buttons */}
-						{adminId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' ? Platform.OS === 'android' ? (
+						{adminId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' ||  adminId === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2' ? Platform.OS === 'android' ? (
 							<CustomButton title="Διαχειριστής" onPress={() => props.navigation.navigate('AdminCategories')} />
 						) : (
 							<Button
