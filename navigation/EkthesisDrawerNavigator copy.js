@@ -24,9 +24,9 @@ import CustomButton from '../components/UI/CustomButton';
 import BoldText from '../components/UI/BoldText';
 import * as authActions from '../store/actions/auth';
 
-const width = (props) => {
-	return Dimensions.get('window').width; // for putting the buttons in column for small screens
-};
+// const width = (props) => {
+// 	return Dimensions.get('window').width; // for putting the buttons in column for small screens
+// };
 
 const defaultNavOptions = {
 	headerBackTitle: 'Πίσω',

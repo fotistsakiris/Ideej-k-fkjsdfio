@@ -20,7 +20,7 @@ import FavoritesScreen from '../screens/shop/FavoritesScreen';
 import AdminProductsScreen from '../screens/admin/AdminProductsScreen';
 import EditProductScreen from '../screens/admin/EditProductScreen';
 import AuthScreen from '../screens/admin/AuthScreen';
-import ShopInfoScreen from '../screens/admin/ShopInfoScreen';
+import ShopInfoScreen from '../screens/shop/ShopInfoScreen';
 import StartUpScreen from '../screens/StartUpScreen';
 
 import CustomButton from '../components/UI/CustomButton';
@@ -152,6 +152,19 @@ const MainNavigator = createDrawerNavigator(
 				}
 			}
 		},
+		ShopInfo: {
+			screen: ShopInfoNavigator,
+			navigationOptions: {
+				drawerLabel: (
+					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+						<BoldText>Κατάστημα</BoldText>
+					</View>
+				),
+				drawerIcon: (tabInfo) => {
+					return <FontAwesome5 name="warehouse" size={20} color={tabInfo.tintColor} />;
+				}
+			}
+		},
 		Auth: {
 			screen: AuthNavigator,
 			navigationOptions: {
@@ -171,32 +184,6 @@ const MainNavigator = createDrawerNavigator(
 				}
 			}
 		},
-		// Admin: {
-		// 	screen: AdminNavigator,
-		// 	navigationOptions: {
-		// 		drawerLabel: (
-		// 			<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-		// 				<BoldText>Διαχειριστής</BoldText>
-		// 			</View>
-		// 		),
-		// 		drawerIcon: (tabInfo) => {
-		// 			return <FontAwesome name="user-o" size={23} color={tabInfo.tintColor} />;
-		// 		}
-		// 	}
-		// },
-		ShopInfo: {
-			screen: ShopInfoNavigator,
-			navigationOptions: {
-				drawerLabel: (
-					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-						<BoldText>Κατάστημα</BoldText>
-					</View>
-				),
-				drawerIcon: (tabInfo) => {
-					return <FontAwesome5 name="warehouse" size={20} color={tabInfo.tintColor} />;
-				}
-			}
-		}
 	},
 	{
 		contentOptions: {
