@@ -147,7 +147,7 @@ const EditProductScreen = (props) => {
 	}
 
 	return (
-		<KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={100}>
+		<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={100}>
 			<ScrollView>
 				<View style={styles.form}>
 					<Input
@@ -254,8 +254,14 @@ EditProductScreen.navigationOptions = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+	screen: {
+		flex: 1,
+		backgroundColor: Colours.moccasin_light,
+
+	},
 	form: {
-		margin: 20
+		margin: 20,
+		
 	},
 	centered: {
 		flex: 1,

@@ -22,14 +22,19 @@ import Colours from '../../constants/Colours';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 import * as productsActions from '../../store/actions/products';
 
-const AdminProductsScreen = (props) => {
+const AdminProductsOverview = (props) => {
 	const [ isLoading, setIsLoading ] = useState(true);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isRefresing, setIsRefresing ] = useState(false);
 
 	const dispatch = useDispatch();
-	const userProducts = useSelector((state) => state.products.userProducts);
+	// const userProducts = useSelector((state) => state.products.userProducts);
 	const productsInCart = useSelector((state) => state.cart.items);
+
+	const AdminCategoryId = props.navigation.getParam('AdminCategoryId');
+	const userProducts = useSelector((state) =>
+		state.products.userProducts.filter((prod) => prod.categoryIds.indexOf(AdminCategoryId) >= 0)
+	);
 
 	const loadProducts = useCallback(
 		async () => {
@@ -119,13 +124,13 @@ const AdminProductsScreen = (props) => {
 					<BoldText>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</BoldText>
 					{Platform.OS === 'android' ? (
 						<CustomButton
-							title="Έκθεσις"
+							title="Έκθεση"
 							onPress={() => props.navigation.navigate('Main')}
 							color={Colours.moccasin_light}
 						/>
 					) : (
 						<Button
-							title="Έκθεσις"
+							title="Έκθεση"
 							onPress={() => props.navigation.navigate('Main')}
 							color={Colours.moccasin_light}
 						/>
@@ -139,19 +144,6 @@ const AdminProductsScreen = (props) => {
 		<CustomLinearGradient>
 			<View style={styles.flatListContainer}>
 				<SafeAreaView style={{ flex: 1 }}>
-					{Platform.OS === 'android' ? (
-						<CustomButton
-							title="Έκθεσις"
-							onPress={() => props.navigation.navigate('Main')}
-							color={Colours.maroon}
-						/>
-					) : (
-						<Button
-							title="Έκθεσις"
-							onPress={() => props.navigation.navigate('Main')}
-							color={Colours.maroon}
-						/>
-					)}
 					<FlatList
 						onRefresh={loadProducts}
 						refreshing={isRefresing}
@@ -220,9 +212,10 @@ const AdminProductsScreen = (props) => {
 	);
 };
 
-AdminProductsScreen.navigationOptions = ({ navigation }) => {
+AdminProductsOverview.navigationOptions = ({ navigation }) => {
 	return {
-		headerTitle: 'Τα προϊόντα σας',
+		headerTitle: navigation.getParam('AdminCategoryTitle'),
+		// headerTitle: 'Τα προϊόντα σας',
 		// For side drawer navigation only.
 		// headerLeft: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
@@ -289,4 +282,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default AdminProductsScreen;
+export default AdminProductsOverview;

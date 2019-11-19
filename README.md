@@ -17,7 +17,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! fix bug: When logging or singing in you need to click back to the email input field other wise the passward in ommited...
 ### DONE! put a plus/minus sign to add/remove products in the cartScreen.
 ### DONE! Show an alert in AdminScreen if a chosen product to be deleted is already in the cart of a client. 
-### DONE! fix bug: ProductsOverViewScreen and AdminProductsScreen shows no products available just before loading them, while it should show the spinner.
+### DONE! fix bug: ProductsOverViewScreen and AdminProductsOverview shows no products available just before loading them, while it should show the spinner.
 ### DONE! put LinearGradient in all screens
 ### DONE! fix UI for small screens
 ### DONE! Put login/singup in sidedrawer and hide the adminScreen from normal users...

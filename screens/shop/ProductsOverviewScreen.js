@@ -65,7 +65,6 @@ const ProductsOverviewScreen = (props) => {
 		props.navigation.navigate('DetailScreen', {
 			productId: id,
 			productTitle: title
-			// isFav: isFav
 		});
 	};
 
@@ -166,7 +165,7 @@ const ProductsOverviewScreen = (props) => {
 
 ProductsOverviewScreen.navigationOptions = ({ navigation }) => {
 	return {
-		headerTitle: navigation.getParam('categoryTitle'),
+		headerTitle: navigation.getParam('AdminCategoryTitle'),
 		// Needed for side drawer navigation
 		// headerLeft: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>

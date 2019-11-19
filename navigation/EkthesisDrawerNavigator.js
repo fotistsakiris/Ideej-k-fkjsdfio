@@ -17,7 +17,8 @@ import CategoriesScreen from '../screens/shop/CategoriesScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 import FavoritesScreen from '../screens/shop/FavoritesScreen';
-import AdminProductsScreen from '../screens/admin/AdminProductsScreen';
+import AdminCategoriesScreen from '../screens/admin/AdminCategoriesScreen';
+import AdminProductsOverview from '../screens/admin/AdminProductsOverview';
 import EditProductScreen from '../screens/admin/EditProductScreen';
 import AuthScreen from '../screens/admin/AuthScreen';
 import ShopInfoScreen from '../screens/shop/ShopInfoScreen';
@@ -52,7 +53,9 @@ const EkthesisNavigator = createStackNavigator(
 		Categories: CategoriesScreen,
 		ProductsOverview: ProductsOverviewScreen,
 		DetailScreen: ProductDetailScreen,
-		Cart: CartScreen
+		Cart: CartScreen,
+		// AdminCategories: AdminCategoriesScreen,
+
 	},
 	{
 		defaultNavigationOptions: defaultNavOptions,
@@ -108,7 +111,7 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-						<BoldText>'Eκθεσις</BoldText>
+						<BoldText>'Eκθεση</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => (
@@ -175,15 +178,16 @@ const MainNavigator = createDrawerNavigator(
 				),
 				drawerIcon: (tabInfo) => {
 					return (
-						<Ionicons
-							name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+						<FontAwesome
+							name='user'
+							// name={Platform.OS === 'android' ? 'user-plus' : 'ios-list'}
 							size={25}
 							color={tabInfo.tintColor}
 						/>
 					);
 				}
 			}
-		},
+		}
 	},
 	{
 		contentOptions: {
@@ -216,7 +220,16 @@ const MainNavigator = createDrawerNavigator(
 					<SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
 						{/* These are the default drawer items */}
 						<DrawerNavigatorItems {...props} />
-						{/* Plus our custom button */}
+						{/* Plus our custom buttons */}
+						{adminId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' ? Platform.OS === 'android' ? (
+							<CustomButton title="Διαχειριστής" onPress={() => props.navigation.navigate('AdminCategories')} />
+						) : (
+							<Button
+								title="Διαχειριστής"
+								color={Colours.chocolate}
+								onPress={() => props.navigation.navigate('AdminCategories')}
+							/>
+						) : null}
 						{Platform.OS === 'android' ? (
 							<CustomButton
 								title="Έξοδος"
@@ -237,15 +250,6 @@ const MainNavigator = createDrawerNavigator(
 								}}
 							/>
 						)}
-						{adminId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' ? Platform.OS === 'android' ? (
-							<CustomButton title="Διαχειριστής" onPress={() => props.navigation.navigate('Admin')} />
-						) : (
-							<Button
-								title="Διαχειριστής"
-								color={Colours.chocolate}
-								onPress={() => props.navigation.navigate('Admin')}
-							/>
-						) : null}
 					</SafeAreaView>
 				</View>
 			);
@@ -258,7 +262,8 @@ const MainNavigator = createDrawerNavigator(
 
 const AdminNavigator = createStackNavigator(
 	{
-		Admin: AdminProductsScreen,
+		AdminCategories: AdminCategoriesScreen,
+		AdminProducts: AdminProductsOverview,
 		EditProduct: EditProductScreen
 	},
 	{
