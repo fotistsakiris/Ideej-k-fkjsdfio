@@ -53,30 +53,32 @@ const CartScreen = (props) => {
 		setIsLoading(true);
 		try {
 			// Note on the server, 1 cartItems is 0, 2 = 1 etc...
-			if (!!userIdExists) {
-				await dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
-			} else {
+			if (!userIdExists) {
 				Alert.alert(
 					'Ευχαριστούμε για την προτίμησή σας.',
 					'Σας Παρακαλούμε συνδεθείτε ή δημιουργήστε ένα λογαριασμό, προκειμένου να προχωρήσετε με την παραγγελίας σας. Ευχαριστούμε! ',
 					[ { text: 'Εντάξει', style: 'default' } ]
 				);
+			} else {
+				await dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
 			}
 		} catch (err) {
 			setError(err.message);
 		}
 		setIsLoading(false);
-		if (!!userIdExists) {
-			props.navigation.navigate('Orders');
-		} else {
+		if (!userIdExists) {
 			props.navigation.navigate('Auth');
+		} else {
+			props.navigation.navigate('Orders');
 		}
 	};
 
 	if (error) {
 		return (
 			<View style={styles.centered}>
-				<BoldText>Σφάλμα στη διαδικασία αποστολής της παραγγελίας. Παρακαλούμε ελέγξτε τη σύνδεσή σας.</BoldText>
+				<BoldText>
+					Σφάλμα στη διαδικασία αποστολής της παραγγελίας. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
+				</BoldText>
 				{Platform.OS === 'android' ? (
 					<CustomButton
 						title="Δοκιμάστε Ξανά"

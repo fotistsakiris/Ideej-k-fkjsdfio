@@ -94,7 +94,7 @@ const OrdersScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.content}>
 					<BoldText>
-						Προκειμένου να δείτε τις παραγγελίες σας, σας Παρακαλούμε συνδεθείτε ή προχωρήσθε σε εγγραφή.
+						Προκειμένου να δείτε τις παραγγελίες σας, σας παρακαλούμε συνδεθείτε ή προχωρήσθε σε εγγραφή.
 					</BoldText>
 					<View style={styles.buttonContainerEntrance}>
 						{Platform.OS === 'android' ? (
