@@ -7,7 +7,7 @@ import {
 	SET_PRODUCTS,
 	SET_FAVORITES
 } from '../actions/products';
-import Icon from '../../models/icon';
+import Product from '../../models/icon';
 
 const initialState = {
 	userProducts: [], // PRODUCTS.filter((prod) => prod.ownerId === 'u1'), // dummy set up
@@ -50,7 +50,7 @@ export default (state = initialState, action) => {
 				favoriteProducts: state.favoriteProducts.filter((product) => product.id !== action.pid)
 			};
 		case CREATE_PRODUCT:
-			const newProduct = new Icon({
+			const newProduct = new Product({
 				index: action.productData.index,
 				id: action.productData.id,
 				categoryIds: action.productData.categoryIds,
@@ -67,7 +67,7 @@ export default (state = initialState, action) => {
 			};
 		case UPDATE_PRODUCT:
 			const productIndex = state.userProducts.findIndex((prod) => prod.id === action.pid);
-			const updatedProduct = new Icon({
+			const updatedProduct = new Product({
 				id: action.pid,
 				categoryIds: state.userProducts[productIndex].categoryIds,
 				ownerId: action.productData.ownerId,

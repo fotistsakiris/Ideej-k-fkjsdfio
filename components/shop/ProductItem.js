@@ -9,7 +9,7 @@ import {
 	TouchableOpacity,
 	TouchableNativeFeedback
 } from 'react-native';
-// import { Icon } from 'react-native-elements';
+// import { Product } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import Card from '../UI/Card';
@@ -31,7 +31,7 @@ const ProductItem = (props) => {
 	return (
 		<Card style={{height: cardHeight, ...styles.product}}>
 			<View style={styles.icon}>
-				{/* <Icon
+				{/* <Product
 					size={18}
 					name={props.isFavorite ? 'favorite' : 'favorite-border'}
 					type="material"

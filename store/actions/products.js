@@ -3,7 +3,7 @@ export const SET_FILTERS = 'SET_FILTERS';
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 export const SET_FAVORITES = 'SET_FAVORITES';
 
-import Icon from '../../models/icon';
+import Product from '../../models/icon';
 
 // Admin
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
@@ -109,7 +109,7 @@ export const fetchFavProducts = () => {
 
 			const loadedFavorites = [];
 			loadedFavorites.push(
-				new Icon({
+				new Product({
 					id: selectedProduct.id,
 					categoryIds: selectedProduct.categoryIds,
 					ownerId: selectedProduct.ownerId,
@@ -174,7 +174,7 @@ export const fetchProducts = () => {
 
 			for (const key in resData) {
 				loadedProducts.push(
-					new Icon({
+					new Product({
 						index: resData[key].index, // for keeping the order in cartScreen
 						id: key,
 						categoryIds: resData[key].categoryIds,

@@ -1,7 +1,7 @@
-// import Icon from '../models/icon';
+// import Product from '../models/icon';
 
 // const PRODUCTS = [
-//   new Icon({
+//   new Product({
 //     id: 'icon_1',
 //     categoryIds: ['c1'],
 //     ownerId: 'u1',
@@ -11,7 +11,7 @@
 //     Πηγή: https://www.pemptousia.gr/2011/05/to-theovadiston-oros-sina/`,
 //     price: 1.50
 //   }),
-//   new Icon({
+//   new Product({
 //     id: 'icon_2',
 //     categoryIds: ['c1'],
 //     ownerId: 'u1',
@@ -28,7 +28,7 @@
 //     Πηγή: https://www.iellada.gr/thriskeia/i-thaymatoyrgi-eikona-tis-panagias-tis-glykofiloysas`,
 //     price: 1.20
 //   }),
-//   new Icon({
+//   new Product({
 //     id: 'icon_3',
 //     categoryIds: ['c1'],
 //     ownerId: 'u3',
@@ -41,7 +41,7 @@
 //     `,
 //     price: 5.6
 //   }),
-//   new Icon({
+//   new Product({
 //     id: 'icon_4',
 //     categoryIds: ['c1'],
 //     ownerId: 'u3',
@@ -51,7 +51,7 @@
 //     Πηγή: https://el.orthodoxwiki.org/%CE%A6%CF%8E%CF%84%CE%B9%CE%BF%CF%82_%CE%91%CE%84_%CE%BF_%CE%9C%CE%AD%CE%B3%CE%B1%CF%82`,
 //     price: 2.23
 //   }),
-//   new Icon({
+//   new Product({
 //     id: 'icon_5',
 //     categoryIds: ['c1'],
 //     ownerId: 'u1',

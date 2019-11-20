@@ -1,4 +1,4 @@
-// class Icon {
+// class Product {
 //     constructor(id, categoryIds, ownerId, title, imageUrl, description, price) {
 //         this.id = id;
 //         this.categoryIds = categoryIds;
@@ -11,9 +11,9 @@
 
 // }
 
-// export default Icon;
+// export default Product;
 
-function Icon(info) {
+function Product(info) {
 	this.index = info.index; // for keeping the order in cartScreen
 	this.id = info.id;
 	this.categoryIds = info.categoryIds;
@@ -24,4 +24,4 @@ function Icon(info) {
 	this.description = info.description;
 }
 
-export default Icon;
+export default Product;
