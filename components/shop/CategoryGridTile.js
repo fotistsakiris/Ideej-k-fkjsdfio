@@ -1,34 +1,38 @@
 import React from 'react';
-import { TouchableOpacity, Platform, View, StyleSheet, TouchableNativeFeedback } from 'react-native';
+import { TouchableOpacity, Text, Platform, View, StyleSheet, Dimensions, TouchableNativeFeedback } from 'react-native';
 
-import BoldText from '../UI/BoldText';
+// import BoldText from '../UI/BoldText';
 
 const CategoryGridTile = (props) => {
-    let TouchComp = Platform.OS === 'android' && Platform.Version >= 21 
-    ? TouchableNativeFeedback : TouchableOpacity;
-    
-    return (
-        <View style={styles.gridItem} >
-		<TouchComp style={{flex: 1}} onPress={props.onSelect}>
-			<View style={{ ...styles.container, ...{ backgroundColor: props.color } }}>
-				<BoldText numberOfLines={2} >
-					{props.title}
-				</BoldText>
-			</View>
-		</TouchComp>
-        </View>
+	const width = Dimensions.get('window').width; // to set fontSize according to screen size...
+	let TouchComp = Platform.OS === 'android' && Platform.Version >= 21 ? TouchableNativeFeedback : TouchableOpacity;
+
+	return (
+		<View style={styles.gridItem}>
+			<TouchComp style={{ flex: 1 }} onPress={props.onSelect}>
+				<View style={{ ...styles.container, ...{ backgroundColor: props.color } }}>
+					<Text style={{fontSize: 0.05 * width, ...styles.text}} numberOfLines={2}>
+						{props.title}
+					</Text>
+				</View>
+			</TouchComp>
+		</View>
 	);
 };
 
 const styles = StyleSheet.create({
+	text: {
+		fontFamily: 'GFSNeohellenic-Bold',
+		textAlign: 'left'
+	},
 	gridItem: {
 		flex: 1,
 		marginVertical: 15,
 		marginHorizontal: 15,
-        height: 70,
-        elevation: 5,
-        borderRadius: 10,
-        overflow: Platform.OS === 'android' ? 'hidden' : 'visible'
+		height: 70,
+		elevation: 5,
+		borderRadius: 10,
+		overflow: Platform.OS === 'android' ? 'hidden' : 'visible'
 	},
 	container: {
 		flex: 1,
