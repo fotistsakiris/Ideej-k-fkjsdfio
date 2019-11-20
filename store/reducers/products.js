@@ -7,7 +7,7 @@ import {
 	SET_PRODUCTS,
 	SET_FAVORITES
 } from '../actions/products';
-import Product from '../../models/icon';
+import Product from '../../models/product';
 
 const initialState = {
 	userProducts: [], // PRODUCTS.filter((prod) => prod.ownerId === 'u1'), // dummy set up

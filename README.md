@@ -35,9 +35,9 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! Add price validation that it doesn't have commas but fullstops...
 ### DONE! Load products etc per admin user...
 
-### Add user's name on the headerTitle.
-### show dots ... when the title is to long.
 ### Add posibility to delete orders...
+### show dots ... when the title is to long.
+### Add a user's Screen with name on the sidedrawer.
 ### Delete product file and everything else it's not needed.
 
 ### Authentication with roles: diferent signups/logins for admis and users.
@@ -61,3 +61,4 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### react-native-elements
 ### expo-linear-gradient
 ### react-navigation-transitions
+### react-native-icons

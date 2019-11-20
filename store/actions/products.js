@@ -3,7 +3,7 @@ export const SET_FILTERS = 'SET_FILTERS';
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 export const SET_FAVORITES = 'SET_FAVORITES';
 
-import Product from '../../models/icon';
+import Product from '../../models/product';
 
 // Admin
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
