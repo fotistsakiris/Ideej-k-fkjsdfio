@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, SafeAreaView, FlatList, Button, StyleSheet, ActivityIndicator, Platform } from 'react-native';
+import {
+	View,
+	Text,
+	SafeAreaView,
+	Alert,
+	FlatList,
+	Button,
+	StyleSheet,
+	ActivityIndicator,
+	Platform
+} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -17,6 +27,7 @@ const CartScreen = (props) => {
 	const [ error, setError ] = useState();
 	const dispatch = useDispatch();
 	const cartTotalAmount = useSelector((state) => state.cart.totalAmount);
+	const userIdExists = useSelector((state) => state.auth.userId);
 
 	const cartItems = useSelector((state) => {
 		// TRANSFORM AN OBJECT INTO AN ARRAY
@@ -42,18 +53,30 @@ const CartScreen = (props) => {
 		setIsLoading(true);
 		try {
 			// Note on the server, 1 cartItems is 0, 2 = 1 etc...
-			await dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
+			if (!!userIdExists) {
+				await dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
+			} else {
+				Alert.alert(
+					'Ευχαριστούμε για την προτίμησή σας.',
+					'Σας Παρακαλούμε συνδεθείτε ή δημιουργήστε ένα λογαριασμό, προκειμένου να προχωρήσετε με την παραγγελίας σας. Ευχαριστούμε! ',
+					[ { text: 'Εντάξει', style: 'default' } ]
+				);
+			}
 		} catch (err) {
 			setError(err.message);
 		}
 		setIsLoading(false);
-		props.navigation.navigate('Orders');
+		if (!!userIdExists) {
+			props.navigation.navigate('Orders');
+		} else {
+			props.navigation.navigate('Auth');
+		}
 	};
 
 	if (error) {
 		return (
 			<View style={styles.centered}>
-				<BoldText>Σφάλμα στη διαδικασία αποστολής της παραγγελίας. Παρακαλώ ελέγξτε τη σύνδεσή σας.</BoldText>
+				<BoldText>Σφάλμα στη διαδικασία αποστολής της παραγγελίας. Παρακαλούμε ελέγξτε τη σύνδεσή σας.</BoldText>
 				{Platform.OS === 'android' ? (
 					<CustomButton
 						title="Δοκιμάστε Ξανά"
@@ -106,7 +129,7 @@ const CartScreen = (props) => {
 	if (isLoading) {
 		return (
 			<CustomLinearGradient>
-					<ActivityIndicator size="large" color={Colours.moccasin_light} />
+				<ActivityIndicator size="large" color={Colours.moccasin_light} />
 			</CustomLinearGradient>
 		);
 	}

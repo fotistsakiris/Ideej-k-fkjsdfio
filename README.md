@@ -37,10 +37,11 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! Load products etc per admin user...
 ### DONE! show dots ... when the title is to long.
 
+### Add alert that visitor needs to create an account in order to make an order.
+
 ### Add posibility to delete orders...
 ### Add a user's Screen with name on the sidedrawer.
 ### Delete product file and everything else it's not needed.
-
 ### Authentication with roles: diferent signups/logins for admis and users.
 ### add some code for github security...
 ### Use pictures in CategoriesScreen in the Card. This, is actually taken from the Meals app.

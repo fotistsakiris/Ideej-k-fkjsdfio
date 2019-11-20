@@ -66,7 +66,7 @@ const OrdersScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.centered}>
 					<BoldText>
-						{error.message} Σφάλμα στη διαδικασία φορτώσεως των παραγγελιών. Παρακαλώ ελέγξτε τη σύνδεσή
+						{error.message} Σφάλμα στη διαδικασία φορτώσεως των παραγγελιών. Παρακαλούμε ελέγξτε τη σύνδεσή
 						σας.
 					</BoldText>
 					{Platform.OS === 'android' ? (
@@ -94,7 +94,7 @@ const OrdersScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.content}>
 					<BoldText>
-						Προκειμένου να δείτε τις παραγγελίες σας, σας παρακαλώ συνδεθείτε ή προχωρήσθε σε εγγραφή.
+						Προκειμένου να δείτε τις παραγγελίες σας, σας Παρακαλούμε συνδεθείτε ή προχωρήσθε σε εγγραφή.
 					</BoldText>
 					<View style={styles.buttonContainerEntrance}>
 						{Platform.OS === 'android' ? (

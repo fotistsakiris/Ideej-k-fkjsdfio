@@ -83,7 +83,7 @@ const AdminProductsOverview = (props) => {
 				if (key === id) {
 					Alert.alert(
 						'Διαγραφή προϊόντος!',
-						'Το προϊόν είναι αυτή τη στιγμή σε καλάθι πελάτη. Παρακαλώ περιμένετε να τελιώσει ο πελάτης την παραγγελία του και δοκιμάστε αργότερα. Ευχαριστώ!',
+						'Το προϊόν είναι αυτή τη στιγμή σε καλάθι πελάτη. Παρακαλούμε περιμένετε να τελιώσει ο πελάτης την παραγγελία του και δοκιμάστε αργότερα. Ευχαριστούμε!',
 						[ { text: 'Εντάξει', style: 'default' } ]
 					);
 				} else {
@@ -96,7 +96,7 @@ const AdminProductsOverview = (props) => {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
-					<BoldText>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.</BoldText>
+					<BoldText>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.</BoldText>
 					{Platform.OS === 'android' ? (
 						<CustomButton title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.moccasin_light} />
 					) : (

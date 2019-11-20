@@ -142,7 +142,7 @@ const AuthScreen = (props) => {
 							required
 							email
 							autoCapitalize="none"
-							errorText="Παρακαλώ εισάγετε μία έγκυρη ηλεκτρονική διεύθυνση."
+							errorText="Παρακαλούμε εισάγετε μία έγκυρη ηλεκτρονική διεύθυνση."
 							onInputChange={inputChangeHandler}
 							initialValue=""
 						/>
@@ -154,7 +154,7 @@ const AuthScreen = (props) => {
 							required
 							minLength={5}
 							autoCapitalize="none"
-							errorText="Παρακαλώ εισάγεται ένα έγκυρο κωδικό."
+							errorText="Παρακαλούμε εισάγεται ένα έγκυρο κωδικό."
 							onInputChange={inputChangeHandler}
 							initialValue=""
 						/>

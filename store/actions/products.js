@@ -35,7 +35,7 @@ export const toggleFavorite = (id, isFav, selectedProduct) => {
 
 				if (!response.ok) {
 					throw new Error(
-						'Δυστυχώς η δημιουργία νέου προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+						'Δυστυχώς η δημιουργία νέου προϊόντος δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 					);
 				}
 				// const resData = await response.json();
@@ -52,7 +52,7 @@ export const toggleFavorite = (id, isFav, selectedProduct) => {
 
 				if (!response.ok) {
 					throw new Error(
-						'Δυστυχώς η διαγραφή του προϊόντος από τα αγαπημένα, δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+						'Δυστυχώς η διαγραφή του προϊόντος από τα αγαπημένα, δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 					);
 				}
 
@@ -72,7 +72,7 @@ export const toggleFavorite = (id, isFav, selectedProduct) => {
 
 						if (!response.ok) {
 							throw new Error(
-								'Δυστυχώς η διαγραφή του προϊόντος από τα αγαπημένα, δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+								'Δυστυχώς η διαγραφή του προϊόντος από τα αγαπημένα, δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 							);
 						}
 						// console.log('fetch', JSON.stringify(resData));
@@ -96,7 +96,7 @@ export const fetchFavProducts = () => {
 			// check before unpack the response body
 			if (!FavResponse.ok) {
 				throw new Error(
-					'Δυστυχώς η φόρτωση των αγαπημένων προϊόντων δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+					'Δυστυχώς η φόρτωση των αγαπημένων προϊόντων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
 
@@ -145,7 +145,7 @@ export const deleteProduct = (productId) => {
 		});
 
 		if (!response.ok) {
-			throw new Error('Δυστυχώς η διαγραφή του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
+			throw new Error('Δυστυχώς η διαγραφή του προϊόντος δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.');
 		}
 
 		dispatch({
@@ -163,7 +163,7 @@ export const fetchProducts = () => {
 
 			// check before unpack the response body
 			if (!response.ok) {
-				throw new Error('Δυστυχώς η φόρτωση των προϊόντων δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
+				throw new Error('Δυστυχώς η φόρτωση των προϊόντων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.');
 			}
 
 			const resData = await response.json();
@@ -246,7 +246,7 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 
 			if (!response.ok) {
 				throw new Error(
-					'Δυστυχώς η δημιουργία νέου προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+					'Δυστυχώς η δημιουργία νέου προϊόντος δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
 
@@ -298,7 +298,7 @@ export const updateProduct = (id, title, categoryIds, imageUrl, description) => 
 
 			if (!response.ok) {
 				throw new Error(
-					'Δυστυχώς η ανανέωση των πληροφωριών του προϊόντος δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+					'Δυστυχώς η ανανέωση των πληροφωριών του προϊόντος δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
 			// const resData = await response.json();

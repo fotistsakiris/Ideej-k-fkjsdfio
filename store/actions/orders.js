@@ -25,7 +25,7 @@ export const addOrder = (cartItems, totalAmount) => {
 			// check before unpack the response body
 			if (!response.ok) {
 				throw new Error(
-					'Δυστυχώς η προσθήκη της παραγγελίας δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.'
+					'Δυστυχώς η προσθήκη της παραγγελίας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
 			const resData = await response.json();
@@ -57,7 +57,7 @@ export const fetchOrders = () => {
 
 			// check before unpack the response body
 			if (!response.ok) {
-				throw new Error('Δυστυχώς η φόρτωση των παραγγελιών δεν ήταν δυνατή! Παρακαλώ ελέγξτε τη σύνδεσή σας.');
+				throw new Error('Δυστυχώς η φόρτωση των παραγγελιών δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.');
 			}
 
 			const resData = await response.json();

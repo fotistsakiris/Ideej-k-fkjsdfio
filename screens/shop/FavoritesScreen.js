@@ -74,7 +74,7 @@ const FavoritesScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.centered}>
 					<BoldText>
-						Σφάλμα στη διαδικασία φορτώσεως των αγαπημένων προϊόντων. Παρακαλώ ελέγξτε τη σύνδεσή σας.
+						Σφάλμα στη διαδικασία φορτώσεως των αγαπημένων προϊόντων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
 					</BoldText>
 					{/* <Button title="Δοκιμάστε Ξανά" onPress={() => dispatch(productsActions.fetchFavProducts())} color={Colours.chocolate} /> */}
 					{Platform.OS === 'android' ? (
@@ -107,7 +107,7 @@ const FavoritesScreen = (props) => {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.content}>
-					<BoldText>Παρακαλώ συνδεθείτε ή προχωρήσθε σε εγγραφή προς χρήση των αγαπημένων.</BoldText>
+					<BoldText>Παρακαλούμε συνδεθείτε ή προχωρήσθε σε εγγραφή προς χρήση των αγαπημένων.</BoldText>
 					<View style={styles.buttonContainerEntrance}>
 						{Platform.OS === 'android' ? (
 							<View style={styles.buttonSignup}>

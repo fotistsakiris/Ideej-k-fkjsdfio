@@ -203,6 +203,7 @@ const MainNavigator = createDrawerNavigator(
 		contentComponent: (props) => {
 			const dispatch = useDispatch();
 			const [ adminId, setAdmidId ] = useState(null);
+			// This is for showing the Admin screen link, if user is an admin.
 			const userIdExists = useSelector((state) => state.auth.userId);
 
 			if (userIdExists === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' || userIdExists === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2') {

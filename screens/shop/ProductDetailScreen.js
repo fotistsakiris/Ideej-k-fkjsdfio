@@ -45,7 +45,7 @@ const ProductDetailScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.centered}>
 					<BoldText>
-						Σφάλμα στη διαδικασία αποθήκευσης του προϊόντος ως αγαπημένου. Παρακαλώ ελέγξτε τη σύνδεσή σας.
+						Σφάλμα στη διαδικασία αποθήκευσης του προϊόντος ως αγαπημένου. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
 					</BoldText>
 
 					{Platform.OS === 'android' ? (

@@ -78,7 +78,7 @@ const EditProductScreen = (props) => {
 	const submitHandler = useCallback(
 		async () => {
 			if (!formState.formIsValid) {
-				Alert.alert('Σφάλμα στην εισαγωγή δεδομένων!', 'Παρακαλώ ελέγξτε τις ειδοποιήσεις!', [
+				Alert.alert('Σφάλμα στην εισαγωγή δεδομένων!', 'Παρακαλούμε ελέγξτε τις ειδοποιήσεις!', [
 					{ text: 'Εντάξει!' }
 				]);
 				return;
@@ -153,7 +153,7 @@ const EditProductScreen = (props) => {
 					<Input
 						id="categoryIds"
 						label="Κατηγορίες"
-						errorText="Παρακαλώ εισαγάγεται έγκυρες κατηγορίες!"
+						errorText="Παρακαλούμε εισαγάγεται έγκυρες κατηγορίες!"
 						keyboardType="default"
 						autoCapitalize="sentences"
 						autoCorrect
@@ -170,7 +170,7 @@ const EditProductScreen = (props) => {
 					{/* <Input
 						id="ownerId"
 						label="Ταυτότητα διαχειριστή"
-						errorText="Παρακαλώ εισαγάγεται έγκυρη ταυτότητα διαχειριστή!"
+						errorText="Παρακαλούμε εισαγάγεται έγκυρη ταυτότητα διαχειριστή!"
 						keyboardType="default"
 						returnKeyType="next"
 						onInputChange={inputChangeHandler}
@@ -183,7 +183,7 @@ const EditProductScreen = (props) => {
 					<Input
 						id="title"
 						label="Τίτλος"
-						errorText="Παρακαλώ εισαγάγεται ένα έγκυρο τίτλο!"
+						errorText="Παρακαλούμε εισαγάγεται ένα έγκυρο τίτλο!"
 						keyboardType="default"
 						autoCapitalize="sentences"
 						autoCorrect
@@ -196,7 +196,7 @@ const EditProductScreen = (props) => {
 					<Input
 						id="imageUrl"
 						label="Σύνδεσμος Φωτογραφίας"
-						errorText="Παρακαλώ εισαγάγεται ένα έγκυρο σύνδεσμο Φωτογραφίας!"
+						errorText="Παρακαλούμε εισαγάγεται ένα έγκυρο σύνδεσμο Φωτογραφίας!"
 						keyboardType="default"
 						returnKeyType="next"
 						onInputChange={inputChangeHandler}
@@ -208,7 +208,7 @@ const EditProductScreen = (props) => {
 						<Input
 							id="price"
 							label="Τιμή"
-							errorText="Παρακαλώ εισαγάγεται μία έγκυρη τιμή και χρησιμοποιείτε τελεία αντί για κόμμα"
+							errorText="Παρακαλούμε εισαγάγεται μία έγκυρη τιμή και χρησιμοποιείτε τελεία αντί για κόμμα"
 							keyboardType="number-pad"
 							returnKeyType="next"
 							onInputChange={inputChangeHandler}
@@ -220,7 +220,7 @@ const EditProductScreen = (props) => {
 					<Input
 						id="description"
 						label="Περιγραφή"
-						errorText="Παρακαλώ εισαγάγεται μία έγκυρη περιγραφή!"
+						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη περιγραφή!"
 						keyboardType="default"
 						autoCapitalize="sentences"
 						autoCorrect
