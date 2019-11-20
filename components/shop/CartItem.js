@@ -15,19 +15,19 @@ const CartItem = (props) => {
 				Τιμή: {props.price}
 				<Text style={styles.euro}> €</Text>
 			</BoldText>
-			<View style={styles.itemData}>
+			<View style={styles.itemDataSummary}>
 				<BoldText>Τεμ. {props.quantity} </BoldText>
 				{props.changeQuantity && (
 					<View style={styles.itemData}>
 						<TouchableOpacity style={styles.itemData} onPress={props.onAddProduct}>
 							<Ionicons
 								name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
-								size={23}
+								size={28}
 								color={Colours.chocolate}
 							/>
 						</TouchableOpacity>
 						<TouchableOpacity style={styles.itemData} onPress={props.onRemoveProduct}>
-							<MaterialCommunityIcons name="minus" size={23} color={Colours.chocolate} />
+							<MaterialCommunityIcons name="minus" size={27} color={Colours.chocolate} />
 						</TouchableOpacity>
 					</View>
 				)}
@@ -51,11 +51,18 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start'
 	},
+	itemDataSummary: {
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+		paddingRight: 7
+	},
 	itemData: {
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
-		paddingRight: 2
+		paddingRight: 7,
+		marginHorizontal: 16
 	},
 	euro: {
 		fontSize: 14,
@@ -63,7 +70,7 @@ const styles = StyleSheet.create({
 	},
 	mainText: {
 		paddingVertical: 5
-	},
+	}
 });
 
 export default CartItem;

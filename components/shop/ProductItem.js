@@ -4,7 +4,7 @@ import {
 	Text,
 	Platform,
 	Image,
-	Dimensions ,
+	Dimensions,
 	StyleSheet,
 	TouchableOpacity,
 	TouchableNativeFeedback
@@ -26,10 +26,10 @@ const ProductItem = (props) => {
 	}
 	let cardHeight = 350;
 	if (width < 400) {
-		cardHeight = 400
-	} 
+		cardHeight = 400;
+	}
 	return (
-		<Card style={{height: cardHeight, ...styles.product}}>
+		<Card style={{ height: cardHeight, ...styles.product }}>
 			<View style={styles.icon}>
 				{/* <Product
 					size={18}
@@ -49,8 +49,11 @@ const ProductItem = (props) => {
 							<Image style={styles.image} source={{ uri: props.image }} />
 						</View>
 
-						<View style={width < 400 ? styles.textContainerSmall :styles.textContainer}>
-							<BoldText style={styles.title}>{props.title}</BoldText>
+						<View style={width < 400 ? styles.textContainerSmall : styles.textContainer}>
+							<Text style={{ fontSize: 0.05 * width, ...styles.title }} numberOfLines={2}>
+								{props.title}
+							</Text>
+							{/* <BoldText style={styles.title}>{props.title}</BoldText> */}
 						</View>
 
 						<Line />
@@ -101,7 +104,9 @@ const styles = StyleSheet.create({
 		padding: 2
 	},
 	title: {
-		marginVertical: 6
+		marginVertical: 6,
+		fontFamily: 'GFSNeohellenic-Bold',
+		textAlign: 'left',
 	},
 	price: {
 		fontSize: 18,

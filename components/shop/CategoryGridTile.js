@@ -1,19 +1,17 @@
 import React from 'react';
 import { TouchableOpacity, Text, Platform, View, StyleSheet, Dimensions, TouchableNativeFeedback } from 'react-native';
 
-// import BoldText from '../UI/BoldText';
+import BoldText from '../UI/BoldText';
 
 const CategoryGridTile = (props) => {
-	const width = Dimensions.get('window').width; // to set fontSize according to screen size...
+	// const width = Dimensions.get('window').width; // to set fontSize according to screen size...
 	let TouchComp = Platform.OS === 'android' && Platform.Version >= 21 ? TouchableNativeFeedback : TouchableOpacity;
 
 	return (
 		<View style={styles.gridItem}>
 			<TouchComp style={{ flex: 1 }} onPress={props.onSelect}>
 				<View style={{ ...styles.container, ...{ backgroundColor: props.color } }}>
-					<Text style={{fontSize: 0.05 * width, ...styles.text}} numberOfLines={2}>
-						{props.title}
-					</Text>
+					<BoldText>{props.title}</BoldText>
 				</View>
 			</TouchComp>
 		</View>

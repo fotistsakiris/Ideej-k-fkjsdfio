@@ -11,6 +11,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### Show an alert in AdminScreen if a chosen product to be deleted is already in the cart of a client.
 ### Added CustomLinearGradient
 ### Put login/singup in sidedrawer and hide the adminScreen from normal users...
+### Added GFSNeohellenic Fonts
 
 ## TODO
 ### DONE! fix scrollView when having a lot of items in CartScreen,
@@ -34,14 +35,13 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! Add an alert with the categoryIds in the EditProductScreen
 ### DONE! Add price validation that it doesn't have commas but fullstops...
 ### DONE! Load products etc per admin user...
+### DONE! show dots ... when the title is to long.
 
 ### Add posibility to delete orders...
-### show dots ... when the title is to long.
 ### Add a user's Screen with name on the sidedrawer.
 ### Delete product file and everything else it's not needed.
 
 ### Authentication with roles: diferent signups/logins for admis and users.
-### fix bug: email link doesn't open the email app in iOS
 ### add some code for github security...
 ### Use pictures in CategoriesScreen in the Card. This, is actually taken from the Meals app.
 ### refresh the token so the user doesn't get automatic logged out after 1 hour.
