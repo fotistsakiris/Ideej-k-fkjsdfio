@@ -38,8 +38,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! Load products etc per admin user...
 ### DONE! show dots ... when the title is to long.
 ### DONE! Add a user's Screen with email.
-
-### Add alert that visitor needs to create an account in order to make an order.
+### DONE! Add alert that visitor needs to create an account in order to make an order.
 
 ### Fix the card's dimentions everywhere you use it.
 ### Add posibility to change password...
