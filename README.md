@@ -12,6 +12,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### Added CustomLinearGradient
 ### Put login/singup in sidedrawer and hide the adminScreen from normal users...
 ### Added GFSNeohellenic Fonts
+### User's Screen with email.
 
 ## TODO
 ### DONE! fix scrollView when having a lot of items in CartScreen,
@@ -36,13 +37,13 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! Add price validation that it doesn't have commas but fullstops...
 ### DONE! Load products etc per admin user...
 ### DONE! show dots ... when the title is to long.
+### DONE! Add a user's Screen with email.
 
 ### Add alert that visitor needs to create an account in order to make an order.
 
 ### Fix the card's dimentions everywhere you use it.
 ### Add posibility to change password...
 ### Add posibility to delete orders...
-### Add a user's Screen with name on the sidedrawer.
 ### Delete product file and everything else it's not needed.
 ### Authentication with roles: diferent signups/logins for admis and users.
 ### add some code for github security...
