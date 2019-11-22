@@ -41,11 +41,11 @@ const defaultNavOptions = {
 	},
 	headerTitleStyle: {
 		fontFamily: 'GFSNeohellenic-Bold',
-		fontSize: 22
+		fontSize: 0.05 * width
 	},
 	headerBackTitleStyle: {
 		fontFamily: 'GFSNeohellenic-Regular',
-		fontSize: 22
+		fontSize: 0.05 * width
 	},
 	headerTintColor: Platform.OS === 'android' ? Colours.moccasin_light : Colours.gr_brown
 };
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
 	exodos: {
 		fontFamily: 'GFSNeohellenic-Bold',
 		textAlign: 'left',
-		fontSize: 22
+		fontSize: 0.05 * width
 	}
 });
 

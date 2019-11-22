@@ -40,9 +40,8 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! Add a user's Screen with email.
 ### DONE! Add alert that visitor needs to create an account in order to make an order.
 
-### Fix the card's dimentions everywhere you use it.
+### Fix the card's dimensions everywhere you use it.
 ### Add posibility to change password...
-### Add posibility to delete orders...
 ### Delete product file and everything else it's not needed.
 ### Authentication with roles: diferent signups/logins for admis and users.
 ### add some code for github security...
