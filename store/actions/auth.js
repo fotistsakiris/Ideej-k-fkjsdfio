@@ -4,7 +4,7 @@ export const AUTHENTICATE = 'AUTHENTICATE';
 export const LOG_OUT = 'LOG_OUT';
 
 let timer;
-const API_KEY = 'AIzaSyCEGJvfv5i9KQVYrH4igYDAmnupTPCDDC8'
+const API_KEY = 'AIzaSyCEGJvfv5i9KQVYrH4igYDAmnupTPCDDC8';
 export const authenticate = (token, userId, expiryTime) => {
 	return (dispatch) => {
 		dispatch(setLogoutTimer(expiryTime));
@@ -18,20 +18,17 @@ export const authenticate = (token, userId, expiryTime) => {
 
 export const signup = (email, password) => {
 	return async (dispatch) => {
-		const response = await fetch(
-			'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + API_KEY,
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					email: email,
-					password: password,
-					returnSecureToken: true
-				})
-			}
-		);
+		const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + API_KEY, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				email: email,
+				password: password,
+				returnSecureToken: true
+			})
+		});
 
 		if (!response.ok) {
 			const errorResData = await response.json();
@@ -51,7 +48,7 @@ export const signup = (email, password) => {
 		dispatch(authenticate(resData.idToken, resData.localId, parseInt(resData.expiresIn) * 1000));
 		// The first new Date converts the second's huge number of miliseconds in a concrete date.
 		const expirationDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
-		saveDataToStorage(resData.idToken, resData.localId, expirationDate);
+		saveDataToStorage(resData.idToken, resData.localId, expirationDate, resData.email);
 	};
 };
 
@@ -87,11 +84,11 @@ export const login = (email, password) => {
 				throw new Error(message);
 			}
 			const resData = await response.json(); // transforms the data from json to javascript object
-			
+
 			dispatch(authenticate(resData.idToken, resData.localId, parseInt(resData.expiresIn) * 1000));
 			// The first new Date converts the second's huge number of miliseconds in a concrete date.
 			const expirationDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
-			saveDataToStorage(resData.idToken, resData.localId, expirationDate);
+			saveDataToStorage(resData.idToken, resData.localId, expirationDate, resData.email);
 		} catch (error) {
 			throw error;
 		}
@@ -99,12 +96,11 @@ export const login = (email, password) => {
 };
 
 export const logout = () => {
-	return async dispatch => {
+	return async (dispatch) => {
 		await AsyncStorage.removeItem('userData');
 		clearLogoutTimer();
 		dispatch({ type: LOG_OUT });
-	}
-
+	};
 };
 
 const clearLogoutTimer = () => {
@@ -123,15 +119,23 @@ const setLogoutTimer = (expirationTime) => {
 	};
 };
 
-const saveDataToStorage = (token, userId, expirationDate) => {
-	// data must be in string format!
-	AsyncStorage.setItem(
-		'userData',
-		// stringify converts an object to a string
-		JSON.stringify({
-			token: token,
-			userId: userId,
-			expiryDate: expirationDate.toISOString() // convert it to a string in a standardize format
-		})
-	);
+const saveDataToStorage = (token, userId, expirationDate, email) => {
+	_storeData = async () => {
+		try {
+			// data must be in string format!
+			await AsyncStorage.setItem(
+				'userData',
+				// stringify converts an object to a string
+				JSON.stringify({
+					token: token,
+					userId: userId,
+					expiryDate: expirationDate.toISOString(), // convert it to a string in a standardize format
+					userEmail: email // for showing on every screen
+				})
+			);
+		} catch (error) {
+			// Error saving data
+		}
+	};
+	_storeData();
 };

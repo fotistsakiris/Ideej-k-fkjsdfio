@@ -7,6 +7,7 @@ import { CATEGORIES } from '../../data/categories';
 import CategoryGridTile from '../../components/shop/CategoryGridTile';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
+
 import Colours from '../../constants/Colours';
 
 const CategoriesScreen = (props) => {

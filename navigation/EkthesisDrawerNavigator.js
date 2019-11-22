@@ -10,20 +10,21 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
 import { fadeIn } from 'react-navigation-transitions';
 
-import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
-import Colours from '../constants/Colours';
-import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 import CategoriesScreen from '../screens/shop/CategoriesScreen';
-import CartScreen from '../screens/shop/CartScreen';
-import OrdersScreen from '../screens/shop/OrdersScreen';
+import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import FavoritesScreen from '../screens/shop/FavoritesScreen';
+import OrdersScreen from '../screens/shop/OrdersScreen';
+import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
+import UsersScreen from '../screens/shop/UsersScreen';
+import ShopInfoScreen from '../screens/shop/ShopInfoScreen';
+import CartScreen from '../screens/shop/CartScreen';
 import AdminCategoriesScreen from '../screens/admin/AdminCategoriesScreen';
 import AdminProductsOverview from '../screens/admin/AdminProductsOverview';
 import EditProductScreen from '../screens/admin/EditProductScreen';
 import AuthScreen from '../screens/admin/AuthScreen';
-import ShopInfoScreen from '../screens/shop/ShopInfoScreen';
 import StartUpScreen from '../screens/StartUpScreen';
 
+import Colours from '../constants/Colours';
 import CustomButton from '../components/UI/CustomButton';
 import BoldText from '../components/UI/BoldText';
 import * as authActions from '../store/actions/auth';
@@ -53,9 +54,8 @@ const EkthesisNavigator = createStackNavigator(
 		Categories: CategoriesScreen,
 		ProductsOverview: ProductsOverviewScreen,
 		DetailScreen: ProductDetailScreen,
-		Cart: CartScreen,
+		Cart: CartScreen
 		// AdminCategories: AdminCategoriesScreen,
-
 	},
 	{
 		defaultNavigationOptions: defaultNavOptions,
@@ -82,6 +82,15 @@ const OrdersNavigator = createStackNavigator(
 		// navigationOptions: {
 		// 	drawerLabel: 'Παραγγελίες'
 		// },
+		defaultNavigationOptions: defaultNavOptions
+	}
+);
+
+const UserNavigator = createStackNavigator(
+	{
+		User: UsersScreen
+	},
+	{
 		defaultNavigationOptions: defaultNavOptions
 	}
 );
@@ -168,6 +177,26 @@ const MainNavigator = createDrawerNavigator(
 				}
 			}
 		},
+		User: {
+			screen: UserNavigator,
+			navigationOptions: {
+				drawerLabel: (
+					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+						<BoldText>Χρήστης</BoldText>
+					</View>
+				),
+				drawerIcon: (tabInfo) => {
+					return (
+						<FontAwesome
+							name="user"
+							// name={Platform.OS === 'android' ? 'user-plus' : 'ios-list'}
+							size={25}
+							color={tabInfo.tintColor}
+						/>
+					);
+				}
+			}
+		},
 		Auth: {
 			screen: AuthNavigator,
 			navigationOptions: {
@@ -178,8 +207,8 @@ const MainNavigator = createDrawerNavigator(
 				),
 				drawerIcon: (tabInfo) => {
 					return (
-						<FontAwesome
-							name='user'
+						<Ionicons
+							name="ios-log-in"
 							// name={Platform.OS === 'android' ? 'user-plus' : 'ios-list'}
 							size={25}
 							color={tabInfo.tintColor}
@@ -203,6 +232,7 @@ const MainNavigator = createDrawerNavigator(
 		contentComponent: (props) => {
 			const dispatch = useDispatch();
 			const [ adminId, setAdmidId ] = useState(null);
+
 			// This is for showing the Admin screen link, if user is an admin.
 			const userIdExists = useSelector((state) => state.auth.userId);
 
@@ -211,6 +241,7 @@ const MainNavigator = createDrawerNavigator(
 					const userData = await AsyncStorage.getItem('userData');
 					const transformedData = JSON.parse(userData);
 					const { userId } = transformedData;
+
 					setAdmidId(userId);
 				};
 				getAdminsUserId();
@@ -222,8 +253,15 @@ const MainNavigator = createDrawerNavigator(
 						{/* These are the default drawer items */}
 						<DrawerNavigatorItems {...props} />
 						{/* Plus our custom buttons */}
-						{adminId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' ||  adminId === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2' ? Platform.OS === 'android' ? (
-							<CustomButton title="Διαχειριστής" onPress={() => props.navigation.navigate('AdminCategories')} />
+						{/* Button for Admin. It shows up, only if user is Admin */}
+						{adminId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' ||
+						adminId === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2' ? Platform.OS === 'android' ? (
+							<CustomButton
+								title="Διαχειριστής"
+								onPress={() => {
+									props.navigation.navigate('AdminCategories')
+								} }
+							/>
 						) : (
 							<Button
 								title="Διαχειριστής"
@@ -231,6 +269,7 @@ const MainNavigator = createDrawerNavigator(
 								onPress={() => props.navigation.navigate('AdminCategories')}
 							/>
 						) : null}
+						{/* Button for logging out */}
 						{Platform.OS === 'android' ? (
 							<CustomButton
 								title="Έξοδος"
