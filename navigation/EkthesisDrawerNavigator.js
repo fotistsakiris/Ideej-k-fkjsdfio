@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Platform, Text, SafeAreaView, Button, Dimensions, View } from 'react-native';
-import { Ionicons, MaterialIcons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
+import { Platform, Text, SafeAreaView, Button, StyleSheet, View } from 'react-native';
+import { Ionicons, MaterialIcons, FontAwesome5, SimpleLineIcons, FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AsyncStorage } from 'react-native';
@@ -119,8 +119,8 @@ const MainNavigator = createDrawerNavigator(
 			screen: EkthesisNavigator,
 			navigationOptions: {
 				drawerLabel: (
-					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-						<BoldText>'Eκθεση</BoldText>
+					<View>
+						<BoldText style={{ paddingVertical: 5, paddingHorizontal: 1 }}>'Eκθεση</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => (
@@ -136,8 +136,8 @@ const MainNavigator = createDrawerNavigator(
 			screen: FavNavigator,
 			navigationOptions: {
 				drawerLabel: (
-					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-						<BoldText>Αγαπημένα</BoldText>
+					<View>
+						<BoldText style={{ paddingVertical: 5, paddingHorizontal: 1 }}>Αγαπημένα</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -149,8 +149,8 @@ const MainNavigator = createDrawerNavigator(
 			screen: OrdersNavigator,
 			navigationOptions: {
 				drawerLabel: (
-					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-						<BoldText>Παραγγελίες</BoldText>
+					<View>
+						<BoldText style={{ paddingVertical: 5, paddingHorizontal: 1 }}>Παραγγελίες</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -168,8 +168,8 @@ const MainNavigator = createDrawerNavigator(
 			screen: ShopInfoNavigator,
 			navigationOptions: {
 				drawerLabel: (
-					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-						<BoldText>Κατάστημα</BoldText>
+					<View>
+						<BoldText style={{ paddingVertical: 5, paddingHorizontal: 1 }}>Κατάστημα</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -181,8 +181,8 @@ const MainNavigator = createDrawerNavigator(
 			screen: UserNavigator,
 			navigationOptions: {
 				drawerLabel: (
-					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-						<BoldText>Χρήστης</BoldText>
+					<View>
+						<BoldText style={{ paddingVertical: 5, paddingHorizontal: 1 }}>Χρήστης</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -201,8 +201,8 @@ const MainNavigator = createDrawerNavigator(
 			screen: AuthNavigator,
 			navigationOptions: {
 				drawerLabel: (
-					<View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-						<BoldText>Σύνδεση/Εγγραφή</BoldText>
+					<View>
+						<BoldText style={{ paddingVertical: 5, paddingHorizontal: 1 }}>Σύνδεση/Εγγραφή</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -259,8 +259,8 @@ const MainNavigator = createDrawerNavigator(
 							<CustomButton
 								title="Διαχειριστής"
 								onPress={() => {
-									props.navigation.navigate('AdminCategories')
-								} }
+									props.navigation.navigate('AdminCategories');
+								}}
 							/>
 						) : (
 							<Button
@@ -270,26 +270,20 @@ const MainNavigator = createDrawerNavigator(
 							/>
 						) : null}
 						{/* Button for logging out */}
-						{Platform.OS === 'android' ? (
-							<CustomButton
-								title="Έξοδος"
-								onPress={() => {
-									dispatch(authActions.logout());
-									// Not needed because we dispatch this navigation in navigationContainer...
-									// props.navigation.navigate('Auth');
-								}}
-							/>
-						) : (
-							<Button
-								title="Έξοδος"
-								color={Colours.chocolate}
-								onPress={() => {
-									dispatch(authActions.logout());
-									// Not needed because we dispatch this navigation in navigationContainer...
-									// props.navigation.navigate('Auth');
-								}}
-							/>
-						)}
+						<SimpleLineIcons.Button
+							name="logout"
+							backgroundColor={Colours.moccasin_light}
+							size={23}
+							iconStyle={{ marginHorizontal: 7 }}
+							color="#888"
+							onPress={() => {
+								dispatch(authActions.logout());
+								// Not needed because we dispatch this navigation in navigationContainer...
+								// props.navigation.navigate('Auth');
+							}}
+						>
+							<Text style={styles.exodos}> Έξοδος</Text>
+						</SimpleLineIcons.Button>
 					</SafeAreaView>
 				</View>
 			);
@@ -316,6 +310,14 @@ const SwitchNavigator = createSwitchNavigator({
 	Auth: AuthNavigator,
 	Main: MainNavigator,
 	Admin: AdminNavigator
+});
+
+const styles = StyleSheet.create({
+	exodos: {
+		fontFamily: 'GFSNeohellenic-Bold',
+		textAlign: 'left',
+		fontSize: 22
+	}
 });
 
 export default createAppContainer(SwitchNavigator);
