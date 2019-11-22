@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Platform, Text, SafeAreaView, Button, StyleSheet, View } from 'react-native';
-import { Ionicons, MaterialIcons, FontAwesome5, SimpleLineIcons, FontAwesome } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons, FontAwesome5, Octicons, Feather, SimpleLineIcons, FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AsyncStorage } from 'react-native';
@@ -155,8 +155,8 @@ const MainNavigator = createDrawerNavigator(
 				),
 				drawerIcon: (tabInfo) => {
 					return (
-						<Ionicons
-							name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+						<Octicons
+							name='list-unordered'
 							size={25}
 							color={tabInfo.tintColor}
 						/>
@@ -186,16 +186,10 @@ const MainNavigator = createDrawerNavigator(
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
-					return (
-						<FontAwesome
-							name="user"
-							size={25}
-							color={tabInfo.tintColor}
-						/>
-					);
+					return <FontAwesome name="user" size={25} color={tabInfo.tintColor} />;
 				}
 			}
-		},
+		}
 		// Auth: {
 		// 	screen: AuthNavigator,
 		// 	navigationOptions: {
@@ -246,27 +240,27 @@ const MainNavigator = createDrawerNavigator(
 				getAdminsUserId();
 			}
 
-			// This is for hidding the login/signup screen, if user is already logged in.
-			console.log(userIdExists );
-			
-
 			return (
 				<View style={{ flex: 1, paddingTop: 20 }}>
 					<SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
 						{/* These are the default drawer items */}
 						<DrawerNavigatorItems {...props} />
 						{/* Plus our custom buttons */}
-						{/* Button for logging/signing in/up */}
-						{!userIdExists ? <SimpleLineIcons.Button
-							name="login"
-							backgroundColor={Colours.moccasin_light}
-							size={23}
-							iconStyle={{ marginHorizontal: 7 }}
-							color="#888"
-							onPress={() => props.navigation.navigate('Auth')}
-						>
-							<Text style={styles.exodos}> Σύνδεση/Εγγραφή</Text>
-						</SimpleLineIcons.Button> : null}
+						{/* Button for logging/signing in/up.
+						 This is for hidding the login/signup screen, if user is already logged in.
+						 */}
+						{!userIdExists ? (
+							<SimpleLineIcons.Button
+								name="login"
+								backgroundColor={Colours.moccasin_light}
+								size={23}
+								iconStyle={{ marginHorizontal: 7 }}
+								color="#888"
+								onPress={() => props.navigation.navigate('Auth')}
+							>
+								<Text style={styles.exodos}> Σύνδεση/Εγγραφή</Text>
+							</SimpleLineIcons.Button>
+						) : null}
 						{/* Button for logging out */}
 						<SimpleLineIcons.Button
 							name="logout"
@@ -283,20 +277,17 @@ const MainNavigator = createDrawerNavigator(
 							<Text style={styles.exodos}> Έξοδος</Text>
 						</SimpleLineIcons.Button>
 						{/* Button for Admin. It shows up, only if user is Admin */}
-						{adminId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' ||
-						adminId === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2' ? Platform.OS === 'android' ? (
-							<CustomButton
-								title="Διαχειριστής"
-								onPress={() => {
-									props.navigation.navigate('AdminCategories');
-								}}
-							/>
-						) : (
-							<Button
-								title="Διαχειριστής"
-								color={Colours.chocolate}
+						{adminId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' || adminId === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2' ? (
+							<Feather.Button
+								name="user"
+								backgroundColor={Colours.moccasin_light}
+								size={23}
+								iconStyle={{ marginHorizontal: 7 }}
+								color="#888"
 								onPress={() => props.navigation.navigate('AdminCategories')}
-							/>
+							>
+								<Text style={styles.exodos}> Διαχειριστής</Text>
+							</Feather.Button>
 						) : null}
 					</SafeAreaView>
 				</View>
