@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Platform, Text, SafeAreaView, Button, StyleSheet, View } from 'react-native';
+import { Platform, Text, SafeAreaView, Dimensions, StyleSheet, View } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome5, Octicons, Feather, SimpleLineIcons, FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -32,6 +32,7 @@ import * as authActions from '../store/actions/auth';
 // const width = (props) => {
 // 	return Dimensions.get('window').width; // for putting the buttons in column for small screens
 // };
+const width = Dimensions.get('window').width; 
 
 const defaultNavOptions = {
 	headerBackTitle: 'Πίσω',
@@ -293,7 +294,7 @@ const MainNavigator = createDrawerNavigator(
 				</View>
 			);
 		},
-		drawerWidth: 230,
+		drawerWidth: 0.6 * width,
 		drawerBackgroundColor: Colours.moccasin_light,
 		overlayColor: Colours.chocolateRGBA
 	}
