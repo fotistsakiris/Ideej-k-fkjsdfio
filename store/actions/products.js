@@ -102,24 +102,29 @@ export const fetchFavProducts = () => {
 
 			const resFavData = await FavResponse.json();
 
-			let selectedProduct = null;
-			for (const key in resFavData) {
-				selectedProduct = resFavData[key].selectedProduct;
+			const loadedFavorites = [];
+			// If resFavData is not null then create a product...
+			// Other wise we get an error in FavoritesScreen!
+			if (!!resFavData) {
+				let selectedProduct = null;
+				for (const key in resFavData) {
+					selectedProduct = resFavData[key].selectedProduct;
+				}
+				
+				loadedFavorites.push(
+					new Product({
+						id: selectedProduct.id,
+						categoryIds: selectedProduct.categoryIds,
+						ownerId: selectedProduct.ownerId,
+						index: selectedProduct.index,
+						title: selectedProduct.title,
+						imageUrl: selectedProduct.imageUrl,
+						price: selectedProduct.price,
+						description: selectedProduct.description
+					})
+				);
 			}
 
-			const loadedFavorites = [];
-			loadedFavorites.push(
-				new Product({
-					id: selectedProduct.id,
-					categoryIds: selectedProduct.categoryIds,
-					ownerId: selectedProduct.ownerId,
-					index: selectedProduct.index,
-					title: selectedProduct.title,
-					imageUrl: selectedProduct.imageUrl,
-					price: selectedProduct.price,
-					description: selectedProduct.description
-				})
-			);
 			dispatch({ type: SET_FAVORITES, FavProducts: loadedFavorites });
 		} catch (err) {
 			// send to custom analytics server
@@ -163,7 +168,9 @@ export const fetchProducts = () => {
 
 			// check before unpack the response body
 			if (!response.ok) {
-				throw new Error('Δυστυχώς η φόρτωση των προϊόντων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.');
+				throw new Error(
+					'Δυστυχώς η φόρτωση των προϊόντων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+				);
 			}
 
 			const resData = await response.json();

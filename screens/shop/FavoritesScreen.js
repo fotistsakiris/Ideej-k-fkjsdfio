@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Button, ActivityIndicator, FlatList, StyleSheet, Platform } from 'react-native';
+import { View, Button, ActivityIndicator, FlatList, Dimensions, StyleSheet, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -15,6 +15,8 @@ import * as productsActions from '../../store/actions/products';
 // import DefaultText from '../components/UI/DefaultText';
 
 const FavoritesScreen = (props) => {
+	const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
+
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ isLoadingDetailsScreen, setIsLoadingDetailsScreen ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
@@ -23,7 +25,6 @@ const FavoritesScreen = (props) => {
 	const userIdExists = useSelector((state) => state.auth.userId);
 	const favProducts = useSelector((state) => state.products.favoriteProducts);
 
-	// console.log('favProducts', favProducts);
 	const loadFavProducts = useCallback(
 		async () => {
 			setError(null);
@@ -81,12 +82,12 @@ const FavoritesScreen = (props) => {
 						<View style={styles.buttonSignup}>
 							<CustomButton
 								title="Δοκιμάστε Ξανά"
-								color={Colours.chocolate}
+								color={Colours.moccasin_light}
 								onPress={loadFavProducts}
 							/>
 						</View>
 					) : (
-						<Button title="Δοκιμάστε Ξανά" onPress={loadFavProducts} color={Colours.chocolate} />
+						<Button title="Δοκιμάστε Ξανά" onPress={loadFavProducts} color={Colours.moccasin_light} />
 					)}
 				</View>
 			</CustomLinearGradient>
@@ -165,7 +166,8 @@ const FavoritesScreen = (props) => {
 							onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 						>
 							{Platform.OS === 'android' ? (
-								<View style={styles.actions}>
+								<View style={width < 400 ? styles.actionsSmall : styles.actions}>
+								
 									<View>
 										<CustomButton
 											title="Λεπτομέρειες"
@@ -263,6 +265,13 @@ const styles = StyleSheet.create({
 	price: {
 		fontSize: 18,
 		color: '#888'
+	},
+	actionsSmall: {
+		// flexDirection: 'row',
+		alignSelf: 'center',
+		alignItems: 'center',
+		height: '42%',
+		marginHorizontal: 2
 	},
 	actions: {
 		flexDirection: 'row',

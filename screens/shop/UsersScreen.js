@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, AsyncStorage, StyleSheet } from 'react-native';
+import { View, AsyncStorage, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
@@ -8,7 +8,7 @@ import BoldText from '../../components/UI/BoldText';
 
 const UsersScreen = (props) => {
 const [ email, setEmail ] = useState('')
-	// Check the AsyncStorage for a valid token
+
 	useEffect(
 		() => {
 			const getEmail = async () => {
@@ -19,18 +19,12 @@ const [ email, setEmail ] = useState('')
 				const transformedData = JSON.parse(userData);
 				const { userEmail } = transformedData;
 				setEmail(userEmail)
-				console.log(userEmail);
 				props.navigation.setParams({'userEmail': userEmail} )
-				
 			};
-
 			getEmail();
 		},
 		[]
 	);
-
-	console.log('email', email);
-	
 
 	return (
 		<CustomLinearGradient>
@@ -43,8 +37,6 @@ const [ email, setEmail ] = useState('')
 
 
 UsersScreen.navigationOptions = ({ navigation }) => {
-
-
 	return {
 		headerTitle: navigation.getParam('userEmail'),
 		headerLeft: (

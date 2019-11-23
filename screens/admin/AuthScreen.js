@@ -22,8 +22,6 @@ import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
 const formReducer = (state, action) => {
-	// console.log('state, action', state, action);
-
 	if (action.type === FORM_INPUT_UPDATE) {
 		const updatedValues = {
 			...state.inputValues,
