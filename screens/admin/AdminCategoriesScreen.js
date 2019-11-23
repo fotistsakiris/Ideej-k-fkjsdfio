@@ -58,7 +58,7 @@ AdminCategoriesScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: 'Τα προϊόντα σας',
 		// Needed for side drawer navigation
-		headerLeft: (
+		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
 					onPress={() => {
@@ -73,15 +73,15 @@ AdminCategoriesScreen.navigationOptions = ({ navigation }) => {
 				/>
 			</HeaderButtons>
 		),
-		// headerLeft: (
-		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-		// 		<Item
-		// 			title="goBack"
-		// 			iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
-		// 			onPress={() => navigation.goBack()}
-		// 		/>
-		// 	</HeaderButtons>
-		// ),
+		headerLeft: (
+			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+				<Item
+					title="goBack"
+					iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
+					onPress={() => navigation.navigate('Categories')}
+				/>
+			</HeaderButtons>
+		),
 		// headerRight: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item

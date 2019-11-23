@@ -8,7 +8,8 @@ import {
 	SafeAreaView,
 	Alert,
 	ActivityIndicator,
-	Platform
+	Platform,
+	Dimensions
 } from 'react-native';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -23,6 +24,8 @@ import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 import * as productsActions from '../../store/actions/products';
 
 const AdminProductsOverview = (props) => {
+	const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
+
 	const [ isLoading, setIsLoading ] = useState(true);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isRefresing, setIsRefresing ] = useState(false);
@@ -124,13 +127,13 @@ const AdminProductsOverview = (props) => {
 					<BoldText>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</BoldText>
 					{Platform.OS === 'android' ? (
 						<CustomButton
-							title="Έκθεση"
+							title="Διαχειριστής"
 							onPress={() => props.navigation.navigate('Main')}
 							color={Colours.moccasin_light}
 						/>
 					) : (
 						<Button
-							title="Έκθεση"
+							title="Διαχειριστής"
 							onPress={() => props.navigation.navigate('Main')}
 							color={Colours.moccasin_light}
 						/>
@@ -156,10 +159,10 @@ const AdminProductsOverview = (props) => {
 								onSelect={() => editProductHandler(itemData.item.id)}
 							>
 								{Platform.OS === 'android' ? (
-									<View style={styles.actions}>
-										<View>
+								<View style={width < 400 ? styles.actionsSmall : styles.actions}>
+									<View style={styles.customButton}>
 											<CustomButton
-												title="Επεξεργασίαν"
+												title="Επεξεργασία"
 												onPress={() => editProductHandler(itemData.item.id)}
 											/>
 										</View>
@@ -167,9 +170,9 @@ const AdminProductsOverview = (props) => {
 											{itemData.item.price.toFixed(2)}
 											<Text style={styles.euro}> €</Text>
 										</BoldText>
-										<View>
+										<View style={styles.customButton}>
 											<CustomButton
-												title="Διαγραφήν"
+												title="Διαγραφή"
 												onPress={deleteHandler.bind(this, itemData.item.id)}
 											/>
 										</View>
@@ -179,7 +182,7 @@ const AdminProductsOverview = (props) => {
 										<View style={styles.button}>
 											<Button
 												color={Colours.gr_brown_light}
-												title="Επεξεργασίαν"
+												title="Επεξεργασία"
 												onPress={() => editProductHandler(itemData.item.id)}
 											/>
 										</View>
@@ -191,7 +194,7 @@ const AdminProductsOverview = (props) => {
 										<View style={styles.button}>
 											<Button
 												color={Colours.gr_brown_light}
-												title="Διαγραφήν"
+												title="Διαγραφή"
 												onPress={() => dispatch(deleteHandler.bind(this, itemData.item.id))}
 											/>
 										</View>
@@ -264,12 +267,23 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: '#888'
 	},
+	actionsSmall: {
+		// flexDirection: 'row',
+		alignSelf: 'center',
+		alignItems: 'center',
+		height: '42%',
+		marginHorizontal: 2
+	},
 	actions: {
 		flexDirection: 'row',
 		alignSelf: 'center',
 		alignItems: 'center',
 		height: '18%',
-		paddingHorizontal: 20
+		marginHorizontal: 2
+	},
+	customButton: {
+		marginHorizontal: -7,
+		marginVertical: -2
 	},
 	button: {
 		width: '50%'
