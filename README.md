@@ -64,3 +64,6 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### expo-linear-gradient
 ### react-navigation-transitions
 ### react-native-icons
+
+### expo publish
+### expo build:android -t app-bundle  
