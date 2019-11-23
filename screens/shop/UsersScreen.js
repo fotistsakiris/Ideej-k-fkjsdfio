@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, AsyncStorage, StyleSheet } from 'react-native';
+import { View, AsyncStorage, Platform, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
@@ -29,7 +29,7 @@ const [ email, setEmail ] = useState('')
 	return (
 		<CustomLinearGradient>
 			<View style={styles.centered}>
-				<BoldText>{email}</BoldText>
+				<BoldText style={styles.email} >{email}</BoldText>
 			</View>
 		</CustomLinearGradient>
 	);
@@ -65,6 +65,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		padding: 12
+	},
+	email: {
+		fontSize: 30
 	}
 });
 

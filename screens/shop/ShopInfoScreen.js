@@ -29,7 +29,7 @@ const ShopInfoScreen = (props) => {
 	let cardHeight = 250;
 	let cardWidth = 300;
 	if (width < 400) {
-		cardHeight = 200;
+		cardHeight = 220;
 		cardWidth = 250;
 	}
 
