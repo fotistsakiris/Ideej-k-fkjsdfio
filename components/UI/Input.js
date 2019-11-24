@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
 		width: '100%'
 	},
 	label: {
-		marginVertical: 8
+		marginVertical: 8,
+		textAlign: 'left'
 	},
 	input: {
 		fontSize: 16,

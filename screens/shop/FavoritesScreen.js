@@ -18,7 +18,6 @@ const FavoritesScreen = (props) => {
 	const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
 
 	const [ isLoading, setIsLoading ] = useState(false);
-	const [ isLoadingDetailsScreen, setIsLoadingDetailsScreen ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isRefresing, setIsRefresing ] = useState(false);
 	const dispatch = useDispatch();
@@ -27,8 +26,10 @@ const FavoritesScreen = (props) => {
 
 	const loadFavProducts = useCallback(
 		async () => {
+			
 			setError(null);
 			setIsRefresing(true);
+			setIsLoading(true);
 			try {
 				await dispatch(productsActions.fetchFavProducts());
 				// Load all products... Other wise if logged in user visits the favorites
@@ -39,6 +40,8 @@ const FavoritesScreen = (props) => {
 				setError(err.message);
 			}
 			setIsRefresing(false);
+			setIsLoading(false);
+
 		},
 		[ dispatch, setIsLoading, setError ]
 	);
@@ -55,20 +58,28 @@ const FavoritesScreen = (props) => {
 	// loadFavProducts initially...
 	useEffect(
 		() => {
-			setIsLoading(true);
 			loadFavProducts();
-			setIsLoading(false);
 		},
 		[ dispatch, loadFavProducts ]
 	);
 
 	const selectItemHandler = (id, title) => {
-		props.navigation.pop()
+		props.navigation.pop();
 		props.navigation.navigate('DetailScreen', {
 			productId: id,
-			productTitle: title,
+			productTitle: title
 		});
 	};
+
+	if (isLoading) {
+		return (
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<ActivityIndicator size="large" color={Colours.maroon} />
+				</View>
+			</CustomLinearGradient>
+		);
+	}
 
 	if (error) {
 		return (
@@ -94,17 +105,7 @@ const FavoritesScreen = (props) => {
 		);
 	}
 
-	if ((!!userIdExists && !isLoading && !favProducts) || favProducts.length === 0) {
-		return (
-			<CustomLinearGradient>
-				<View style={styles.content}>
-					<BoldText>Ακόμη δεν έχετε επιλέξει αγαπημένα.</BoldText>
-				</View>
-			</CustomLinearGradient>
-		);
-	}
-
-	if ((!userIdExists && !favProducts) || favProducts.length === 0) {
+	if (!userIdExists) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.content}>
@@ -131,21 +132,11 @@ const FavoritesScreen = (props) => {
 		);
 	}
 
-	if (isLoading) {
+	if ((!!userIdExists && !isLoading && !favProducts) || favProducts.length === 0) {
 		return (
 			<CustomLinearGradient>
-				<View style={styles.centered}>
-					<ActivityIndicator size="large" color={Colours.maroon} />
-				</View>
-			</CustomLinearGradient>
-		);
-	}
-
-	if (isLoadingDetailsScreen) {
-		return (
-			<CustomLinearGradient>
-				<View style={styles.centered}>
-					<ActivityIndicator size="large" color={Colours.maroon} />
+				<View style={styles.content}>
+					<BoldText>Ακόμη δεν έχετε επιλέξει αγαπημένα.</BoldText>
 				</View>
 			</CustomLinearGradient>
 		);
@@ -167,7 +158,6 @@ const FavoritesScreen = (props) => {
 						>
 							{Platform.OS === 'android' ? (
 								<View style={width < 400 ? styles.actionsSmall : styles.actions}>
-								
 									<View>
 										<CustomButton
 											title="Λεπτομέρειες"

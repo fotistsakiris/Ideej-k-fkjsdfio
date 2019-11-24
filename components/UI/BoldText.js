@@ -10,7 +10,7 @@ const BoldText = (props) => {
 const styles = StyleSheet.create({
 	text: {
 		fontFamily: 'GFSNeohellenic-Bold',
-		textAlign: 'left',
+		textAlign: 'center',
 	}
 });
 

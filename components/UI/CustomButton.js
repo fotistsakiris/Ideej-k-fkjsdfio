@@ -1,13 +1,15 @@
 import React from 'react';
-import { View, TouchableNativeFeedback, StyleSheet, Text } from 'react-native';
+import { View, TouchableNativeFeedback, StyleSheet, Dimensions } from 'react-native';
 
 import Colours from '../../constants/Colours';
 import BoldText from '../UI/BoldText';
 
 export default (CustomButton = (props) => {
+	const width = Dimensions.get('window').width; // Set the height of ProductItem bigger for small screens
+
 	return (
 		<TouchableNativeFeedback onPress={props.onPress} style={{ ...props.touchableStyle }}>
-			<View onPress={props.onPress} style={{ ...styles.buttonStyle, ...props.style }}>
+			<View onPress={props.onPress} style={{ height: width * 0.09, width: width * 0.3,  ...styles.buttonStyle, ...props.style }}>
 				<BoldText style={{ ...styles.text, ...props.textStyle }}>{props.title}</BoldText>
 			</View>
 		</TouchableNativeFeedback>
@@ -16,14 +18,12 @@ export default (CustomButton = (props) => {
 
 const styles = StyleSheet.create({
 	buttonStyle: {
-		height: 37,
-		width: '80%',
+		// height: 37,
+		// width: '80%',
 		marginHorizontal: 20,
 		marginVertical: 10,
-        paddingBottom: 7,
-        paddingTop: 2,
-        paddingLeft: 7,
-        paddingRight: 7,
+        // paddingVertical: 3,
+        paddingHorizontal: 7,
 		borderRadius: 15,
 		alignSelf: 'center',
 		alignItems: 'center',

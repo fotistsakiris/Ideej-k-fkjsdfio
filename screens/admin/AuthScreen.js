@@ -163,14 +163,12 @@ const AuthScreen = (props) => {
 						) : Platform.OS === 'android' ? !formState.formIsValid ? (
 							<BoldText style={styles.buttonStyle}> {isSignUp ? 'Εγγραφή' : 'Σύνδεση'} </BoldText>
 						) : (
-							<View style={styles.buttonSignup}>
 								<CustomButton
 									disabled={!formState.formIsValid}
 									title={isSignUp ? 'Εγγραφή' : 'Σύνδεση'}
 									color={Colours.maroon}
 									onPress={authHandler}
 								/>
-							</View>
 						) : (
 							<Button
 								disabled={!formState.formIsValid}
@@ -183,7 +181,7 @@ const AuthScreen = (props) => {
 					<View style={styles.buttonContainer}>
 						{Platform.OS === 'android' ? (
 							<CustomButton
-								style={{ width: '100%' }}
+								style={styles.customButtonStyle}
 								title={`Αλλαγή σε ${isSignUp ? 'Σύνδεση' : 'Εγγραφή'}`}
 								color={Colours.maroon}
 								onPress={() => setIsSignUp(!isSignUp)}
@@ -214,7 +212,7 @@ const styles = StyleSheet.create({
 		padding: 20
 	},
 	buttonStyle: {
-		height: 37,
+		// height: 37,
 		// width: '80%',
 		marginHorizontal: 20,
 		marginVertical: 10,
@@ -236,17 +234,21 @@ const styles = StyleSheet.create({
 
 		elevation: 7
 	},
+	customButtonStyle: {
+		width: '100%'
+	},
 	buttonContainer: {
 		marginTop: 10
 	},
 	buttonContainerEntrance: {
 		marginTop: 10,
-		marginBottom: 10
+		marginBottom: 10,
+		zIndex: 0
 	},
-	buttonSignup: {
-		width: '50%',
-		alignSelf: 'center'
-	}
+	// buttonSignup: {
+	// 	width: '50%',
+	// 	alignSelf: 'center'
+	// }
 });
 
 export default AuthScreen;
