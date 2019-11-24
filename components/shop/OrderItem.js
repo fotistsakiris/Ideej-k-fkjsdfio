@@ -23,10 +23,10 @@ const OrderItem = (props) => {
 					/>
 				) : (
 					<Button
-						color={Colours.chocolate}
+						color={Colours.maroon}
 						title={showDetails ? 'Απόκρυψη παραγγελίας' : 'Εμφάνιση παραγγελίας'}
 						onPress={() => setShowDetails((prevState) => !prevState)}
-					/>
+					/> 
 				)}
 			</View>
 			{showDetails && (

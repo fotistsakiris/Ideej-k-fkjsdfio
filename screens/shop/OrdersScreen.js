@@ -68,9 +68,9 @@ const OrdersScreen = (props) => {
 						σας.
 					</BoldText>
 					{Platform.OS === 'android' ? (
-						<CustomButton title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />
+						<CustomButton title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.maroon} />
 					) : (
-						<Button title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.chocolate} />
+						<Button title="Δοκιμάστε Ξανά" onPress={loadedOrders} color={Colours.maroon} />
 					)}
 				</View>
 			</CustomLinearGradient>
@@ -96,8 +96,9 @@ const OrdersScreen = (props) => {
 					</BoldText>
 					<View style={styles.buttonContainerEntrance}>
 						{Platform.OS === 'android' ? (
-							<View style={styles.buttonSignup}>
+							<View>
 								<CustomButton
+									style={styles.buttonStyle}
 									title="Πιστοποίηση στοιχείων"
 									color={Colours.moccasin_light}
 									onPress={() => props.navigation.navigate('Auth')}
@@ -200,6 +201,12 @@ const styles = StyleSheet.create({
 		width: '100%',
 		margin: 12,
 		padding: 12
+	},
+	buttonStyle: {
+		width: '55%',
+		height: '50%',
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	centered: {
 		flex: 1,

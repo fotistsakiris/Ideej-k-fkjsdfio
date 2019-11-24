@@ -23,11 +23,11 @@ const CartItem = (props) => {
 							<Ionicons
 								name={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
 								size={28}
-								color={Colours.chocolate}
+								color={Colours.maroon}
 							/>
 						</TouchableOpacity>
 						<TouchableOpacity style={styles.itemData} onPress={props.onRemoveProduct}>
-							<MaterialCommunityIcons name="minus" size={27} color={Colours.chocolate} />
+							<MaterialCommunityIcons name="minus" size={27} color={Colours.maroon} />
 						</TouchableOpacity>
 					</View>
 				)}

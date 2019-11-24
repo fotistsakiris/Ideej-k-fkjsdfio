@@ -159,7 +159,7 @@ const AuthScreen = (props) => {
 					</ScrollView>
 					<View style={styles.buttonContainer}>
 						{isLoading ? (
-							<ActivityIndicator size="large" color={Colours.chocolate} />
+							<ActivityIndicator size="large" color={Colours.maroon} />
 						) : Platform.OS === 'android' ? !formState.formIsValid ? (
 							<BoldText style={styles.buttonStyle}> {isSignUp ? 'Εγγραφή' : 'Σύνδεση'} </BoldText>
 						) : (
@@ -167,7 +167,7 @@ const AuthScreen = (props) => {
 								<CustomButton
 									disabled={!formState.formIsValid}
 									title={isSignUp ? 'Εγγραφή' : 'Σύνδεση'}
-									color={Colours.chocolate}
+									color={Colours.maroon}
 									onPress={authHandler}
 								/>
 							</View>
@@ -175,7 +175,7 @@ const AuthScreen = (props) => {
 							<Button
 								disabled={!formState.formIsValid}
 								title={isSignUp ? 'Εγγραφή' : 'Σύνδεση'}
-								color={Colours.chocolate}
+								color={Colours.maroon}
 								onPress={authHandler}
 							/>
 						)}
@@ -185,13 +185,13 @@ const AuthScreen = (props) => {
 							<CustomButton
 								style={{ width: '100%' }}
 								title={`Αλλαγή σε ${isSignUp ? 'Σύνδεση' : 'Εγγραφή'}`}
-								color={Colours.chocolate}
+								color={Colours.maroon}
 								onPress={() => setIsSignUp(!isSignUp)}
 							/>
 						) : (
 							<Button
 								title={`Αλλαγή σε ${isSignUp ? 'Σύνδεση' : 'Εγγραφή'}`}
-								color={Colours.chocolate}
+								color={Colours.maroon}
 								onPress={() => setIsSignUp(!isSignUp)}
 							/>
 						)}

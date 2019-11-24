@@ -77,7 +77,7 @@ const FavoritesScreen = (props) => {
 					<BoldText>
 						Σφάλμα στη διαδικασία φορτώσεως των αγαπημένων προϊόντων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
 					</BoldText>
-					{/* <Button title="Δοκιμάστε Ξανά" onPress={() => dispatch(productsActions.fetchFavProducts())} color={Colours.chocolate} /> */}
+					{/* <Button title="Δοκιμάστε Ξανά" onPress={() => dispatch(productsActions.fetchFavProducts())} color={Colours.maroon} /> */}
 					{Platform.OS === 'android' ? (
 						<View style={styles.buttonSignup}>
 							<CustomButton
@@ -135,7 +135,7 @@ const FavoritesScreen = (props) => {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
-					<ActivityIndicator size="large" color={Colours.chocolate} />
+					<ActivityIndicator size="large" color={Colours.maroon} />
 				</View>
 			</CustomLinearGradient>
 		);
@@ -145,7 +145,7 @@ const FavoritesScreen = (props) => {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
-					<ActivityIndicator size="large" color={Colours.chocolate} />
+					<ActivityIndicator size="large" color={Colours.maroon} />
 				</View>
 			</CustomLinearGradient>
 		);

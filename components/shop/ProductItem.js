@@ -35,7 +35,7 @@ const ProductItem = (props) => {
 					size={18}
 					name={props.isFavorite ? 'favorite' : 'favorite-border'}
 					type="material"
-					color={Colours.chocolate}
+					color={Colours.maroon}
 					onPress={props.onToggleFavorite}
 				/> */}
 				{/* <TouchableOpacity style={styles.itemData} onPress={props.onToggleFavorite}>

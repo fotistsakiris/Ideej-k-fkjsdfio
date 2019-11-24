@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 20
 	},
 	text: {
-		color: Colours.chocolate,
+		color: Colours.maroon,
 		padding: 7,
 		fontFamily: 'GFSNeohellenic-Regular',
 		textAlign: 'left'

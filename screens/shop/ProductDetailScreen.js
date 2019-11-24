@@ -52,7 +52,7 @@ const ProductDetailScreen = (props) => {
 						<CustomButton
 							title="Δοκιμάστε Ξανά"
 							onPress={toggleFavoriteHandler}
-							color={Colours.chocolate}
+							color={Colours.maroon}
 						/>
 					) : (
 						<Button title="Δοκιμάστε Ξανά" onPress={toggleFavoriteHandler} color={Colours.moccasin_light} />
@@ -79,7 +79,7 @@ const ProductDetailScreen = (props) => {
 					{Platform.OS === 'android' ? (
 						<View style={styles.button}>
 							<CustomButton
-								style={Colours.chocolate}
+								style={Colours.maroon}
 								title="Προσθήκη στο καλάθι"
 								onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
 							/>

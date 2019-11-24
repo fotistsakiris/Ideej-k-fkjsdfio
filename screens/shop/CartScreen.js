@@ -83,13 +83,13 @@ const CartScreen = (props) => {
 					<CustomButton
 						title="Δοκιμάστε Ξανά"
 						onPress={() => dispatch(ordersActions.addOrder(cartItems, cartTotalAmount))}
-						color={Colours.chocolate}
+						color={Colours.maroon}
 					/>
 				) : (
 					<Button
 						title="Δοκιμάστε Ξανά"
 						onPress={() => dispatch(ordersActions.addOrder(cartItems, cartTotalAmount))}
-						color={Colours.chocolate}
+						color={Colours.maroon}
 					/>
 				)}
 			</View>
@@ -155,7 +155,7 @@ const CartScreen = (props) => {
 					/>
 				) : (
 					<Button
-						color={Colours.chocolate}
+						color={Colours.maroon}
 						title="Εκτέλεση παραγγελίας"
 						disabled={cartItems.length === 0}
 						onPress={sendOrderHandler}

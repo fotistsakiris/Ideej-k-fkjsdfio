@@ -6,7 +6,7 @@ import BoldText from '../UI/BoldText';
 
 export default (CustomButton = (props) => {
 	return (
-		<TouchableNativeFeedback onPress={props.onPress} style={{ ...styles.buttonStyle, ...props.style }}>
+		<TouchableNativeFeedback onPress={props.onPress} style={{ ...props.touchableStyle }}>
 			<View onPress={props.onPress} style={{ ...styles.buttonStyle, ...props.style }}>
 				<BoldText style={{ ...styles.text, ...props.textStyle }}>{props.title}</BoldText>
 			</View>
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 		borderRadius: 15,
 		alignSelf: 'center',
 		alignItems: 'center',
-		backgroundColor: Colours.chocolate,
+		backgroundColor: Colours.maroon,
 
 		// shadowColor: '#2AC062',
 		// shadowOpacity: 0.7,
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		color: Colours.moccasin_light,
-        // textDecorationColor: Colours.chocolateRGBA,
+		textAlign: 'center'
+        // textDecorationColor: Colours.maroonRGBA,
 	}
 });

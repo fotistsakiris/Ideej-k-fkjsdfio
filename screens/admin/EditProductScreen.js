@@ -141,7 +141,7 @@ const EditProductScreen = (props) => {
 	if (isLoading) {
 		return (
 			<View style={styles.centered}>
-				<ActivityIndicator size="large" color={Colours.chocolate} />
+				<ActivityIndicator size="large" color={Colours.maroon} />
 			</View>
 		);
 	}
