@@ -3,6 +3,8 @@ import { View, Button, ActivityIndicator, StyleSheet, FlatList, Platform } from 
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
+import moment from 'moment';
+
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomButton from '../../components/UI/CustomButton';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
@@ -137,19 +139,30 @@ const OrdersScreen = (props) => {
 					keyExtractor={(item) => item.id}
 					renderItem={(itemData) => {
 						const date = new Date(itemData.item.date);
-						const options = {
-							weekday: 'long',
-							year: 'numeric',
-							month: 'long',
-							day: 'numeric'
-							// hour: 'numeric',
-							// minute: 'numeric'
-						};
+						const elLocale = require('moment/locale/el');
+						moment.updateLocale('el', elLocale);
+						const formattedDate = moment(date).format('LLL');
+						// const options = {
+						// 	weekday: 'long',
+						// 	year: 'numeric',
+						// 	month: 'long',
+						// 	day: 'numeric'
+						// 	// hour: 'numeric',
+						// 	// minute: 'numeric'
+						// };
 						return (
 							<View style={styles.content}>
 								<OrderItem
 									totalAmount={itemData.item.totalAmount}
-									date={date.toLocaleString('el-GR', options)}
+									date={formattedDate}
+									// date={date.toLocaleString('el-GR', options)}
+									// date={
+									// 	Platform.OS === 'android' ? (
+									// 		formattedDate
+									// 	) : (
+									// 		date.toLocaleString('el-GR', options)
+									// 	)
+									// }
 									items={itemData.item.items}
 								/>
 							</View>
