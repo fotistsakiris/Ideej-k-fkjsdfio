@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Platform, Text, SafeAreaView, Dimensions, StyleSheet, View } from 'react-native';
 import {
 	Ionicons,
@@ -11,7 +11,7 @@ import {
 } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { AsyncStorage } from 'react-native';
+// import { AsyncStorage } from 'react-native';
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -129,13 +129,13 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 1 }}>'Eκθεση</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>'Eκθεση</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => (
 					<Ionicons
 						name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
-						size={23}
+						size={Math.ceil(width * 0.05)}
 						color={tabInfo.tintColor}
 					/>
 				)
@@ -146,11 +146,11 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 1 }}>Αγαπημένα</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>Αγαπημένα</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
-					return <MaterialIcons name="favorite" size={25} color={tabInfo.tintColor} />;
+					return <MaterialIcons name="favorite" size={Math.ceil(width * 0.05)} color={tabInfo.tintColor} />;
 				}
 			}
 		},
@@ -159,11 +159,11 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 1 }}>Παραγγελίες</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>Παραγγελίες</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
-					return <Octicons name="list-unordered" size={25} color={tabInfo.tintColor} />;
+					return <Octicons name="list-unordered" size={Math.ceil(width * 0.05)} color={tabInfo.tintColor} />;
 				}
 			}
 		},
@@ -172,11 +172,11 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 1 }}>Κατάστημα</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>Κατάστημα</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
-					return <FontAwesome5 name="warehouse" size={20} color={tabInfo.tintColor} />;
+					return <FontAwesome5 name="warehouse" size={Math.ceil(width * 0.05)} color={tabInfo.tintColor} />;
 				}
 			}
 		},
@@ -185,11 +185,11 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 1 }}>Χρήστης</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>Χρήστης</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
-					return <FontAwesome name="user" size={25} color={tabInfo.tintColor} />;
+					return <FontAwesome name="user" size={Math.ceil(width * 0.05)} color={tabInfo.tintColor} />;
 				}
 			}
 		}
@@ -198,7 +198,7 @@ const MainNavigator = createDrawerNavigator(
 		// 	navigationOptions: {
 		// 		drawerLabel: (
 		// 			<View>
-		// 				<BoldText style={{ paddingVertical: 12, paddingHorizontal: 1 }}>Σύνδεση/Εγγραφή</BoldText>
+		// 				<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>Σύνδεση/Εγγραφή</BoldText>
 		// 			</View>
 		// 		),
 		// 		drawerIcon: (tabInfo) => {
@@ -206,7 +206,7 @@ const MainNavigator = createDrawerNavigator(
 		// 				<Ionicons
 		// 					name="ios-log-in"
 		// 					// name={Platform.OS === 'android' ? 'user-plus' : 'ios-list'}
-		// 					size={25}
+		// 					size={Math.ceil(width * 0.05)}
 		// 					color={tabInfo.tintColor}
 		// 				/>
 		// 			);
@@ -256,7 +256,7 @@ const MainNavigator = createDrawerNavigator(
 							<SimpleLineIcons.Button
 								name="login"
 								backgroundColor={Colours.moccasin_light}
-								size={23}
+								size={Math.ceil(width * 0.05)}
 								iconStyle={{ marginHorizontal: 7 }}
 								color="#888"
 								onPress={() => props.navigation.navigate('Auth')}
@@ -269,7 +269,7 @@ const MainNavigator = createDrawerNavigator(
 							<SimpleLineIcons.Button
 								name="logout"
 								backgroundColor={Colours.moccasin_light}
-								size={23}
+								size={Math.ceil(width * 0.05)}
 								iconStyle={{ marginHorizontal: 7 }}
 								color="#888"
 								onPress={() => {
@@ -286,7 +286,7 @@ const MainNavigator = createDrawerNavigator(
 							<Feather.Button
 								name="user"
 								backgroundColor={Colours.moccasin_light}
-								size={23}
+								size={Math.ceil(width * 0.05)}
 								iconStyle={{ marginHorizontal: 7 }}
 								color="#888"
 								onPress={() => props.navigation.navigate('AdminCategories')}

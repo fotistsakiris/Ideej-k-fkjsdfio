@@ -198,7 +198,7 @@ const EditProductScreen = (props) => {
 					<Input
 						id="imageUrl"
 						label="Σύνδεσμος Φωτογραφίας"
-						errorText="Παρακαλούμε εισαγάγεται ένα έγκυρο σύνδεσμο Φωτογραφίας σε μορφή jpg, gif ή png!"
+						errorText="Παρακαλούμε εισαγάγεται ένα έγκυρο σύνδεσμο Φωτογραφίας σε μορφή  jpg, gif ή png!"
 						keyboardType="default"
 						returnKeyType="next"
 						onInputChange={inputChangeHandler}

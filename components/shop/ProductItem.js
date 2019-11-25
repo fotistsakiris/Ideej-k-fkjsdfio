@@ -27,6 +27,8 @@ const ProductItem = (props) => {
 	let cardHeight = 350;
 	if (width < 400) {
 		cardHeight = 400;
+	} else if (width > 800) {
+		cardHeight = 550;
 	}
 	return (
 		<Card style={{ height: cardHeight, ...styles.product }}>
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
 	title: {
 		marginVertical: 6,
 		fontFamily: 'GFSNeohellenic-Bold',
-		textAlign: 'left',
+		textAlign: 'left'
 	},
 	price: {
 		fontSize: 18,

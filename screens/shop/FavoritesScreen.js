@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Button, ActivityIndicator, FlatList, Dimensions, StyleSheet, Platform } from 'react-native';
+import { View, Button, ActivityIndicator, FlatList, Text, Dimensions, StyleSheet, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -26,7 +26,6 @@ const FavoritesScreen = (props) => {
 
 	const loadFavProducts = useCallback(
 		async () => {
-			
 			setError(null);
 			setIsRefresing(true);
 			setIsLoading(true);
@@ -41,7 +40,6 @@ const FavoritesScreen = (props) => {
 			}
 			setIsRefresing(false);
 			setIsLoading(false);
-
 		},
 		[ dispatch, setIsLoading, setError ]
 	);
@@ -160,13 +158,18 @@ const FavoritesScreen = (props) => {
 								<View style={width < 400 ? styles.actionsSmall : styles.actions}>
 									<View>
 										<CustomButton
+											style={{ width: Math.ceil(width * 0.3) }}
 											title="Λεπτομέρειες"
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
+									<BoldText style={{ fontSize: Math.ceil(width * 0.04), ...styles.price }}>
+										{itemData.item.price.toFixed(2)}
+										<Text style={styles.euro}>€</Text>
+									</BoldText>
 									<View>
 										<CustomButton
+											style={{ width: Math.ceil(width * 0.3) }}
 											title="+ καλάθι"
 											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
 										/>
@@ -253,19 +256,20 @@ const styles = StyleSheet.create({
 		margin: 12
 	},
 	price: {
-		fontSize: 18,
+		// fontSize: 18,
 		color: '#888'
 	},
 	actionsSmall: {
 		// flexDirection: 'row',
-		alignSelf: 'center',
+		// alignSelf: 'center',
 		alignItems: 'center',
 		height: '42%',
 		marginHorizontal: 2
 	},
 	actions: {
 		flexDirection: 'row',
-		alignSelf: 'center',
+		// alignSelf: 'center',
+		justifyContent: 'space-around',
 		alignItems: 'center',
 		height: '18%',
 		paddingHorizontal: 20

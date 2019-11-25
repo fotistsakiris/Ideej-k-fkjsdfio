@@ -14,7 +14,7 @@ import * as productsActions from '../../store/actions/products';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
 const ProductsOverviewScreen = (props) => {
-	const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
+	const width = Dimensions.get('window').width; 
 
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
@@ -117,17 +117,21 @@ const ProductsOverviewScreen = (props) => {
 								<View style={width < 400 ? styles.actionsSmall : styles.actions}>
 									<View style={styles.customButton}>
 										<CustomButton
+											style={{width: Math.ceil(width * 0.3)}}
+
 											title="Λεπτομέρειες"
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
 
-									<BoldText style={styles.price}>
+									<BoldText style={{fontSize: Math.ceil(width * 0.04), ...styles.price}}>
 										{itemData.item.price.toFixed(2)}
 										<Text style={styles.euro}>€</Text>
 									</BoldText>
 									<View style={styles.customButton}>
 										<CustomButton
+											style={{width: Math.ceil(width * 0.3)}}
+
 											title="+ καλάθι"
 											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
 										/>
@@ -142,7 +146,7 @@ const ProductsOverviewScreen = (props) => {
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									<BoldText style={styles.price}>
+									<BoldText style={{fontSize: Math.ceil(width * 0.04), ...styles.price}}>
 										{itemData.item.price.toFixed(2)}
 										<Text style={styles.euro}> €</Text>
 									</BoldText>
@@ -206,24 +210,25 @@ const styles = StyleSheet.create({
 		padding: 20
 	},
 	price: {
-		fontSize: 18,
+		// fontSize: 18,
 		color: '#888'
 		// marginHorizontal: 1
 	},
 	euro: {
-		fontSize: 14,
+		// fontSize: 14,
 		color: '#888'
 	},
 	actionsSmall: {
 		// flexDirection: 'row',
-		alignSelf: 'center',
+		// alignSelf: 'center',
 		alignItems: 'center',
 		height: '42%',
 		marginHorizontal: 2
 	},
 	actions: {
 		flexDirection: 'row',
-		alignSelf: 'center',
+		// alignSelf: 'center',
+		justifyContent: 'space-around',
 		alignItems: 'center',
 		height: '18%',
 		marginHorizontal: 2

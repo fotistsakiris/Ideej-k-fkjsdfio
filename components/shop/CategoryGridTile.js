@@ -4,11 +4,12 @@ import { TouchableOpacity, Text, Platform, View, StyleSheet, Dimensions, Touchab
 import BoldText from '../UI/BoldText';
 
 const CategoryGridTile = (props) => {
-	// const width = Dimensions.get('window').width; // to set fontSize according to screen size...
+	const width = Dimensions.get('window').width; 
+	
 	let TouchComp = Platform.OS === 'android' && Platform.Version >= 21 ? TouchableNativeFeedback : TouchableOpacity;
 
 	return (
-		<View style={styles.gridItem}>
+		<View style={{height: Math.ceil(width * 0.15), ...styles.gridItem}}>
 			<TouchComp style={{ flex: 1 }} onPress={props.onSelect}>
 				<View style={{ ...styles.container, ...{ backgroundColor: props.color } }}>
 					<BoldText>{props.title}</BoldText>
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		marginVertical: 15,
 		marginHorizontal: 15,
-		height: 70,
+		// height: 70,
 		elevation: 5,
 		borderRadius: 10,
 		overflow: Platform.OS === 'android' ? 'hidden' : 'visible'

@@ -162,16 +162,18 @@ const AdminProductsOverview = (props) => {
 								<View style={width < 400 ? styles.actionsSmall : styles.actions}>
 									<View style={styles.customButton}>
 											<CustomButton
+											style={{width: Math.ceil(width * 0.3)}}
 												title="Επεξεργασία"
 												onPress={() => editProductHandler(itemData.item.id)}
 											/>
 										</View>
-										<BoldText style={styles.price}>
+										<BoldText style={{fontSize: Math.ceil(width * 0.04), ...styles.price}}>
 											{itemData.item.price.toFixed(2)}
 											<Text style={styles.euro}> €</Text>
 										</BoldText>
 										<View style={styles.customButton}>
 											<CustomButton
+											style={{width: Math.ceil(width * 0.3)}}
 												title="Διαγραφή"
 												onPress={deleteHandler.bind(this, itemData.item.id)}
 											/>
@@ -259,25 +261,26 @@ const styles = StyleSheet.create({
 		padding: 20
 	},
 	price: {
-		fontSize: 18,
+		// fontSize: 18,
 		color: '#888'
 		// marginHorizontal: 1
 	},
 	euro: {
-		fontSize: 14,
+		// fontSize: 14,
 		color: '#888'
 	},
 	actionsSmall: {
 		// flexDirection: 'row',
-		alignSelf: 'center',
+		// alignSelf: 'center',
 		alignItems: 'center',
 		height: '42%',
 		marginHorizontal: 2
 	},
 	actions: {
 		flexDirection: 'row',
-		alignSelf: 'center',
+		// alignSelf: 'center',
 		alignItems: 'center',
+		justifyContent: 'space-around',
 		height: '18%',
 		marginHorizontal: 2
 	},

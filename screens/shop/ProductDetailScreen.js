@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Platform, View, Text, TouchableOpacity, ScrollView, Image, Button, StyleSheet } from 'react-native';
+import { Platform, View, Text, TouchableOpacity, ScrollView, Image, Dimensions, Button, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -15,6 +15,8 @@ import * as productsActions from '../../store/actions/products';
 import Colours from '../../constants/Colours';
 
 const ProductDetailScreen = (props) => {
+	const {width, height} = Dimensions.get('window'); 
+
 	const [ error, setError ] = useState(); // error initially is undefined!
 
 	const dispatch = useDispatch();
@@ -70,12 +72,14 @@ const ProductDetailScreen = (props) => {
 						<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
 							<MaterialIcons
 								name={currentProductIsFavorite ? 'favorite' : 'favorite-border'}
-								size={23}
+								size={Math.ceil(width * 0.09)}
 								color={Colours.maroon}
 							/>
 						</TouchableOpacity>
 					</View>
-					<Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
+					<View style={styles.centerImage}>
+					<Image style={{width: Math.ceil(width * 0.8), height: Math.ceil(height * 0.5), ...styles.image}} source={{ uri: selectedProduct.imageUrl }} />
+					</View>
 					{Platform.OS === 'android' ? (
 						<View style={styles.button}>
 							<CustomButton
@@ -94,11 +98,11 @@ const ProductDetailScreen = (props) => {
 						</View>
 					)}
 
-					<BoldText style={styles.price}>
+					<BoldText style={{fontSize: Math.ceil(width * 0.04), ...styles.price}}>
 						{selectedProduct.price.toFixed(2)}
 						<Text style={styles.euro}> €</Text>
 					</BoldText>
-					<Text style={styles.description}>{selectedProduct.description}</Text>
+					<Text style={{fontSize: Math.ceil(width * 0.04), ...styles.description}}>{selectedProduct.description}</Text>
 				</ScrollView>
 			</View>
 		</CustomLinearGradient>
@@ -143,14 +147,18 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		margin: 2
 	},
+	centerImage: {
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
 	image: {
-		width: '100%',
-		height: 300,
+		// width: '100%',
+		// height: 300,
 		resizeMode: 'contain',
 		margin: 2
 	},
 	price: {
-		fontSize: 18,
+		// fontSize: 18,
 		color: Colours.moccasin_light,
 		textAlign: 'center',
 		marginVertical: 2
@@ -160,7 +168,7 @@ const styles = StyleSheet.create({
 		color: Colours.moccasin_light
 	},
 	description: {
-		fontSize: 20,
+		// fontSize: 20,
 		textAlign: 'justify',
 		padding: 20
 	},

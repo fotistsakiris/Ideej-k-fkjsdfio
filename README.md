@@ -1,11 +1,11 @@
-This is an app for church products. In other words it's a shop-app. It is kind of a copy of this Udemy cource: 
+This is an app for Greek Orthodox Church products. In other words it's a shop-app. It started as a copy of this Udemy cource: 
 [React Native - The Practical Guide](https://www.udemy.com/react-native-the-practical-guide/)
 
 ## Extra features added:
 ### The configureStore file.
 ### Using an object in the Models.
 ### In UI: the <Line />, <BoldText />
-### Favorites...
+### Favorites...!!!
 ### A plus and a minus sign to add/subtrack products in the cartScreen.
 <!-- ### Two option of navigation: 1. Side Drawer or 2. Bottom Tabs. -->
 ### Show an alert in AdminScreen if a chosen product to be deleted is already in the cart of a client.
@@ -15,6 +15,7 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### Added GFSNeohellenic Fonts
 ### User's Screen with email. This should be further modified to include settings like change language, password etc...
 ### Ability to change price too.
+### Dynamic UI using Dimensions width for small and big screens.
 
 
 ## TODO
