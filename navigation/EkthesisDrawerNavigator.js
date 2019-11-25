@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { Platform, Text, SafeAreaView, Dimensions, StyleSheet, View } from 'react-native';
-import { Ionicons, MaterialIcons, FontAwesome5, Octicons, Feather, SimpleLineIcons, FontAwesome } from '@expo/vector-icons';
+import {
+	Ionicons,
+	MaterialIcons,
+	FontAwesome5,
+	Octicons,
+	Feather,
+	SimpleLineIcons,
+	FontAwesome
+} from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AsyncStorage } from 'react-native';
@@ -32,7 +40,7 @@ import * as authActions from '../store/actions/auth';
 // const width = (props) => {
 // 	return Dimensions.get('window').width; // for putting the buttons in column for small screens
 // };
-const width = Dimensions.get('window').width; 
+const width = Dimensions.get('window').width;
 
 const defaultNavOptions = {
 	headerBackTitle: 'Πίσω',
@@ -155,13 +163,7 @@ const MainNavigator = createDrawerNavigator(
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
-					return (
-						<Octicons
-							name='list-unordered'
-							size={25}
-							color={tabInfo.tintColor}
-						/>
-					);
+					return <Octicons name="list-unordered" size={25} color={tabInfo.tintColor} />;
 				}
 			}
 		},
@@ -263,20 +265,22 @@ const MainNavigator = createDrawerNavigator(
 							</SimpleLineIcons.Button>
 						) : null}
 						{/* Button for logging out */}
-						<SimpleLineIcons.Button
-							name="logout"
-							backgroundColor={Colours.moccasin_light}
-							size={23}
-							iconStyle={{ marginHorizontal: 7 }}
-							color="#888"
-							onPress={() => {
-								dispatch(authActions.logout());
-								// Not needed because we dispatch this navigation in navigationContainer...
-								// props.navigation.navigate('Auth');
-							}}
-						>
-							<Text style={styles.exodos}> Έξοδος</Text>
-						</SimpleLineIcons.Button>
+						{userIdExists ? (
+							<SimpleLineIcons.Button
+								name="logout"
+								backgroundColor={Colours.moccasin_light}
+								size={23}
+								iconStyle={{ marginHorizontal: 7 }}
+								color="#888"
+								onPress={() => {
+									dispatch(authActions.logout());
+									// Not needed because we dispatch this navigation in navigationContainer...
+									// props.navigation.navigate('Auth');
+								}}
+							>
+								<Text style={styles.exodos}> Έξοδος</Text>
+							</SimpleLineIcons.Button>
+						) : null}
 						{/* Button for Admin. It shows up, only if user is Admin */}
 						{adminId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' || adminId === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2' ? (
 							<Feather.Button
