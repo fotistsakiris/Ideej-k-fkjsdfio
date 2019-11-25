@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, ActivityIndicator, AsyncStorage, StyleSheet } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import * as authActions from '../store/actions/auth';
 import Colours from '../constants/Colours';
@@ -15,7 +15,7 @@ const StartUpScreen = (props) => {
 			const tryLogin = async () => {
 				// Note: getItem is asynchronous, so we get a promise
 				const userData = await AsyncStorage.getItem('userData');
-				
+
 				if (!userData) {
 					props.navigation.navigate('Auth');
 					return;
@@ -31,7 +31,13 @@ const StartUpScreen = (props) => {
 				}
 
 				const expirationTime = expirationDate.getTime() - new Date().getTime();
-				props.navigation.navigate('Main');
+				
+				// If user is admin, navigate to admin categories
+				if (userId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' || userId === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2') {
+					props.navigation.navigate('Admin');
+				} else {
+					props.navigation.navigate('Main');
+				}
 				dispatch(authActions.authenticate(token, userId, expirationTime));
 			};
 

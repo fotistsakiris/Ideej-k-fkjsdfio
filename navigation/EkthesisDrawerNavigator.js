@@ -129,7 +129,7 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 8, paddingHorizontal: 1 }}>'Eκθεση</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 1 }}>'Eκθεση</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => (
@@ -146,7 +146,7 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 8, paddingHorizontal: 1 }}>Αγαπημένα</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 1 }}>Αγαπημένα</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -159,7 +159,7 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 8, paddingHorizontal: 1 }}>Παραγγελίες</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 1 }}>Παραγγελίες</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -172,7 +172,7 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 8, paddingHorizontal: 1 }}>Κατάστημα</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 1 }}>Κατάστημα</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -185,7 +185,7 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 8, paddingHorizontal: 1 }}>Χρήστης</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 1 }}>Χρήστης</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -198,7 +198,7 @@ const MainNavigator = createDrawerNavigator(
 		// 	navigationOptions: {
 		// 		drawerLabel: (
 		// 			<View>
-		// 				<BoldText style={{ paddingVertical: 8, paddingHorizontal: 1 }}>Σύνδεση/Εγγραφή</BoldText>
+		// 				<BoldText style={{ paddingVertical: 12, paddingHorizontal: 1 }}>Σύνδεση/Εγγραφή</BoldText>
 		// 			</View>
 		// 		),
 		// 		drawerIcon: (tabInfo) => {
@@ -227,21 +227,21 @@ const MainNavigator = createDrawerNavigator(
 		// This component could have been created in a separate file
 		contentComponent: (props) => {
 			const dispatch = useDispatch();
-			const [ adminId, setAdmidId ] = useState(null);
+			// const [ adminId, setAdmidId ] = useState(null);
 
 			// This is for showing the Admin screen link, if user is an admin.
 			const userIdExists = useSelector((state) => state.auth.userId);
 
-			if (userIdExists === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' || userIdExists === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2') {
-				const getAdminsUserId = async () => {
-					const userData = await AsyncStorage.getItem('userData');
-					const transformedData = JSON.parse(userData);
-					const { userId } = transformedData;
+			// if (userIdExists === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' || userIdExists === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2') {
+			// 	const getAdminsUserId = async () => {
+			// 		const userData = await AsyncStorage.getItem('userData');
+			// 		const transformedData = JSON.parse(userData);
+			// 		const { userId } = transformedData;
 
-					setAdmidId(userId);
-				};
-				getAdminsUserId();
-			}
+			// 		setAdmidId(userId);
+			// 	};
+			// 	getAdminsUserId();
+			// }
 
 			return (
 				<View style={{ flex: 1, paddingTop: 20 }}>
@@ -282,7 +282,7 @@ const MainNavigator = createDrawerNavigator(
 							</SimpleLineIcons.Button>
 						) : null}
 						{/* Button for Admin. It shows up, only if user is Admin */}
-						{adminId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' || adminId === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2' ? (
+						{userIdExists === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' || userIdExists === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2' ? (
 							<Feather.Button
 								name="user"
 								backgroundColor={Colours.moccasin_light}
@@ -318,8 +318,8 @@ const AdminNavigator = createStackNavigator(
 const SwitchNavigator = createSwitchNavigator({
 	StartUp: StartUpScreen,
 	Auth: AuthNavigator,
+	Admin: AdminNavigator,
 	Main: MainNavigator,
-	Admin: AdminNavigator
 });
 
 const styles = StyleSheet.create({

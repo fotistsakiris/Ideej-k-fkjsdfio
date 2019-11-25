@@ -10,7 +10,7 @@ import {
 	StyleSheet,
 	Alert
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Card from '../../components/UI/Card';
 import Input from '../../components/UI/Input';
@@ -22,6 +22,7 @@ import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
 const formReducer = (state, action) => {
+
 	if (action.type === FORM_INPUT_UPDATE) {
 		const updatedValues = {
 			...state.inputValues,
@@ -45,6 +46,8 @@ const formReducer = (state, action) => {
 };
 
 const AuthScreen = (props) => {
+	// const userId = useSelector((state) => state.auth.userId);
+
 	const [ error, setError ] = useState();
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ isSignUp, setIsSignUp ] = useState(false);
@@ -71,6 +74,19 @@ const AuthScreen = (props) => {
 		},
 		[ error ]
 	);
+
+	// We tried to navigate to AdminCategories from login,
+	// but authentication takes a while... so it doesn't work...
+	// It's OK! The admin only needs to navigate to Amdin Categories just once.
+	// After that he/she gets navigated there in StartUpScreen.
+	// let navigateTo = 'Categories'
+	// console.log(userId);
+	// useEffect(() => {
+	// 	if (userId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' || userId === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2') {
+	// 		navigateTo = 'AdminCategories'
+	// 	} 
+	// }, [userId])
+	
 
 	const authHandler = useCallback(
 		async () => {
@@ -163,12 +179,12 @@ const AuthScreen = (props) => {
 						) : Platform.OS === 'android' ? !formState.formIsValid ? (
 							<BoldText style={styles.buttonStyle}> {isSignUp ? 'Εγγραφή' : 'Σύνδεση'} </BoldText>
 						) : (
-								<CustomButton
-									disabled={!formState.formIsValid}
-									title={isSignUp ? 'Εγγραφή' : 'Σύνδεση'}
-									color={Colours.maroon}
-									onPress={authHandler}
-								/>
+							<CustomButton
+								disabled={!formState.formIsValid}
+								title={isSignUp ? 'Εγγραφή' : 'Σύνδεση'}
+								color={Colours.maroon}
+								onPress={authHandler}
+							/>
 						) : (
 							<Button
 								disabled={!formState.formIsValid}
@@ -244,7 +260,7 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 		marginBottom: 10,
 		zIndex: 0
-	},
+	}
 	// buttonSignup: {
 	// 	width: '50%',
 	// 	alignSelf: 'center'

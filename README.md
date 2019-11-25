@@ -13,6 +13,8 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### Put login/singup in sidedrawer and hide the adminScreen from normal users...
 ### Added GFSNeohellenic Fonts
 ### User's Screen with email.
+### Ability to change price too.
+
 
 ## TODO
 ### DONE! fix scrollView when having a lot of items in CartScreen,
@@ -39,6 +41,9 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! show dots ... when the title is to long.
 ### DONE! Add a user's Screen with email.
 ### DONE! Add alert that visitor needs to create an account in order to make an order.
+### description required bug...
+### when admin... start from admin categories
+
 
 ### Fix the card's dimensions everywhere you use it.
 ### Add posibility to change password...
