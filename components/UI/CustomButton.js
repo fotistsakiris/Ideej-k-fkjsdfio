@@ -5,11 +5,11 @@ import Colours from '../../constants/Colours';
 import BoldText from '../UI/BoldText';
 
 export default (CustomButton = (props) => {
-	const width = Dimensions.get('window').width; // Set the height of ProductItem bigger for small screens
+	const {width, height} = Dimensions.get('window'); // Set the height of ProductItem bigger for small screens
 
 	return (
 		<TouchableNativeFeedback onPress={props.onPress} style={{ ...props.touchableStyle }}>
-			<View onPress={props.onPress} style={{ height: width * 0.09, width: width * 0.3,  ...styles.buttonStyle, ...props.style }}>
+			<View onPress={props.onPress} style={{ height: height * 0.05, width: width * 0.4,  ...styles.buttonStyle, ...props.style }}>
 				<BoldText style={{ ...styles.text, ...props.textStyle }}>{props.title}</BoldText>
 			</View>
 		</TouchableNativeFeedback>

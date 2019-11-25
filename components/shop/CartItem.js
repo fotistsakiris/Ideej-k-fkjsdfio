@@ -16,7 +16,9 @@ const CartItem = (props) => {
 				<Text style={styles.euro}> €</Text>
 			</BoldText>
 			<View style={styles.itemDataSummary}>
-				<BoldText>Τεμ. {props.quantity} </BoldText>
+				<View style={styles.quantity}>
+				<BoldText>Τεμ. {props.quantity}</BoldText>
+				</View>
 				{props.changeQuantity && (
 					<View style={styles.itemData}>
 						<TouchableOpacity style={styles.itemData} onPress={props.onAddProduct}>
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
 	cartItem: {
 		paddingTop: 2,
 		justifyContent: 'flex-start',
-		paddingHorizontal: 2,
+		// paddingHorizontal: 2,
 		backgroundColor: Colours.moccasin_light
 	},
 	summary: {
@@ -53,15 +55,18 @@ const styles = StyleSheet.create({
 	},
 	itemDataSummary: {
 		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-		paddingRight: 7
+		justifyContent: 'flex-start'
+		// alignItems: 'center',
+		// paddingRight: 7
+	},
+	quantity: {
+		justifyContent: 'flex-start'
 	},
 	itemData: {
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
-		alignItems: 'center',
-		paddingRight: 7,
+		// alignItems: 'center',
+		// paddingRight: 7,
 		marginHorizontal: 16
 	},
 	euro: {
@@ -69,7 +74,8 @@ const styles = StyleSheet.create({
 		color: '#888'
 	},
 	mainText: {
-		paddingVertical: 5
+		paddingVertical: 5,
+		textAlign: 'left'
 	}
 });
 

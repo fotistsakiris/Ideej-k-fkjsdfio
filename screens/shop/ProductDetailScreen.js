@@ -80,7 +80,7 @@ const ProductDetailScreen = (props) => {
 						<View style={styles.button}>
 							<CustomButton
 								style={Colours.maroon}
-								title="Προσθήκη στο καλάθι"
+								title="+ καλάθι"
 								onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
 							/>
 						</View>
@@ -88,7 +88,7 @@ const ProductDetailScreen = (props) => {
 						<View style={styles.button}>
 							<Button
 								color={Colours.moccasin_light}
-								title="Προσθήκη στο καλάθι"
+								title="+ καλάθι"
 								onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
 							/>
 						</View>

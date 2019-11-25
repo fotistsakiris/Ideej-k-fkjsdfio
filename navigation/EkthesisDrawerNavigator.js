@@ -129,7 +129,7 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 5, paddingHorizontal: 1 }}>'Eκθεση</BoldText>
+						<BoldText style={{ paddingVertical: 8, paddingHorizontal: 1 }}>'Eκθεση</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => (
@@ -146,7 +146,7 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 5, paddingHorizontal: 1 }}>Αγαπημένα</BoldText>
+						<BoldText style={{ paddingVertical: 8, paddingHorizontal: 1 }}>Αγαπημένα</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -159,7 +159,7 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 5, paddingHorizontal: 1 }}>Παραγγελίες</BoldText>
+						<BoldText style={{ paddingVertical: 8, paddingHorizontal: 1 }}>Παραγγελίες</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -172,7 +172,7 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 5, paddingHorizontal: 1 }}>Κατάστημα</BoldText>
+						<BoldText style={{ paddingVertical: 8, paddingHorizontal: 1 }}>Κατάστημα</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -185,7 +185,7 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 5, paddingHorizontal: 1 }}>Χρήστης</BoldText>
+						<BoldText style={{ paddingVertical: 8, paddingHorizontal: 1 }}>Χρήστης</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -198,7 +198,7 @@ const MainNavigator = createDrawerNavigator(
 		// 	navigationOptions: {
 		// 		drawerLabel: (
 		// 			<View>
-		// 				<BoldText style={{ paddingVertical: 5, paddingHorizontal: 1 }}>Σύνδεση/Εγγραφή</BoldText>
+		// 				<BoldText style={{ paddingVertical: 8, paddingHorizontal: 1 }}>Σύνδεση/Εγγραφή</BoldText>
 		// 			</View>
 		// 		),
 		// 		drawerIcon: (tabInfo) => {

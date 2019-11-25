@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 		height: 50
 	},
 	buttonText: {
-		paddingLeft: 7,
+		// margin: 7,
 		alignItems: 'center',
 	},
 	date: {
