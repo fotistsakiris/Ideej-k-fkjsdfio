@@ -65,10 +65,11 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### react-navigation-transitions
 ### react-native-icons
 ### moment
-### 
 
 
 ### expo publish
 ### expo build:android -t app-bundle  
 ### expo fetch:android:keystore
 ### expo upload:android
+
+### npm config set ignore-scripts true
