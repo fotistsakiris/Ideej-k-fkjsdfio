@@ -7,12 +7,13 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### In UI: the <Line />, <BoldText />
 ### Favorites...
 ### A plus and a minus sign to add/subtrack products in the cartScreen.
-### Two option of navigation: 1. Side Drawer or 2. Bottom Tabs.
+<!-- ### Two option of navigation: 1. Side Drawer or 2. Bottom Tabs. -->
 ### Show an alert in AdminScreen if a chosen product to be deleted is already in the cart of a client.
 ### Added CustomLinearGradient
-### Put login/singup in sidedrawer and hide the adminScreen from normal users...
+### Put login/singup in sidedrawer and hide it when user is logged in.
+### Hide sidedrawer button to adminScreen from normal users...
 ### Added GFSNeohellenic Fonts
-### User's Screen with email.
+### User's Screen with email. This should be further modified to include settings like change language, password etc...
 ### Ability to change price too.
 
 
@@ -41,8 +42,8 @@ This is an app for church products. In other words it's a shop-app. It is kind o
 ### DONE! show dots ... when the title is to long.
 ### DONE! Add a user's Screen with email.
 ### DONE! Add alert that visitor needs to create an account in order to make an order.
-### description required bug...
-### when admin... start from admin categories
+### DONE! When admin... navigate user to AdminCategories
+### DONE! regex check for price and imageUrl
 
 
 ### Fix the card's dimensions everywhere you use it.

@@ -79,7 +79,7 @@ const EditProductScreen = (props) => {
 	const submitHandler = useCallback(
 		async () => {
 			if (!formState.formIsValid) {
-				Alert.alert('Σφάλμα στην εισαγωγή δεδομένων!', 'Παρακαλούμε ελέγξτε τις ειδοποιήσεις!', [
+				Alert.alert('Σφάλμα στην εισαγωγή δεδομένων!', 'Παρακαλούμε συμπληρώστε όλα τα κενά ή ελέγξτε τις ειδοποιήσεις!', [
 					{ text: 'Εντάξει!' }
 				]);
 				return;
@@ -198,13 +198,14 @@ const EditProductScreen = (props) => {
 					<Input
 						id="imageUrl"
 						label="Σύνδεσμος Φωτογραφίας"
-						errorText="Παρακαλούμε εισαγάγεται ένα έγκυρο σύνδεσμο Φωτογραφίας!"
+						errorText="Παρακαλούμε εισαγάγεται ένα έγκυρο σύνδεσμο Φωτογραφίας σε μορφή jpg, gif ή png!"
 						keyboardType="default"
 						returnKeyType="next"
 						onInputChange={inputChangeHandler}
 						initialValue={editedProduct ? editedProduct.imageUrl : ''}
 						initiallyValid={!!editedProduct}
 						required
+						imageUrl
 					/>
 					{/* {editedProduct ? null : (
 						<Input
@@ -235,7 +236,7 @@ const EditProductScreen = (props) => {
 					<Input
 						id="description"
 						label="Περιγραφή"
-						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη περιγραφή!"
+						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη περιγραφή, οποία θα περιέχει τουλάχιστον 5 γράμματα! "
 						keyboardType="default"
 						autoCapitalize="sentences"
 						autoCorrect

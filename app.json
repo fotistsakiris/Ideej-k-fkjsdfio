@@ -24,12 +24,12 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier":"gr.ixnk.ekthesi",
+      "bundleIdentifier":"gr.footios.ekthesi",
       "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
-      "package":"gr.ixnk.ekthesi",
+      "package":"gr.footios.ekthesi",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",

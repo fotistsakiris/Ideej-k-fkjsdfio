@@ -45,11 +45,15 @@ const Input = (props) => {
 	const textChangeHandler = (text) => {
 		const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		const priceRegex = /^\d+(,\d{3})*(\.\d{1,2})?$/gm
+		const imageUrlRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g
 		let isValid = true;
 		if (props.required && text.trim().length === 0) {
 			isValid = false;
 		}
 		if (props.email && !emailRegex.test(text.toLowerCase())) {
+			isValid = false;
+		}
+		if (props.imageUrl && !imageUrlRegex.test(text.toLowerCase())) {
 			isValid = false;
 		}
 		if (props.min != null && +text < props.min) {
@@ -70,9 +74,9 @@ const Input = (props) => {
 		}
 	};
 
-	// const lostFocusHandler = () => {
-	// 	dispatch({ type: INPUT_BLUR });
-	// };
+	const lostFocusHandler = () => {
+		dispatch({ type: INPUT_BLUR });
+	};
 
 	return (
 		<View style={styles.formControl}>
@@ -82,7 +86,7 @@ const Input = (props) => {
 				style={styles.input}
 				value={inputState.value}
 				onChangeText={textChangeHandler}
-				// onBlur={lostFocusHandler}
+				onBlur={lostFocusHandler}
 			/>
 			{!inputState.isValid &&
 			inputState.touched && (
