@@ -44,7 +44,7 @@ const CategoriesScreen = (props) => {
 
 CategoriesScreen.navigationOptions = ({ navigation }) => {
 	return {
-		headerTitle: '`Έκθεση',
+		headerTitle: '`Eκθεση',
 		// Needed for side drawer navigation
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>

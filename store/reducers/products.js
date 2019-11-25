@@ -73,7 +73,8 @@ export default (state = initialState, action) => {
 				ownerId: action.productData.ownerId,
 				title: action.productData.title,
 				imageUrl: action.productData.imageUrl,
-				price: state.userProducts[productIndex].price,
+				price: action.productData.price, 
+				// price: state.userProducts[productIndex].price,
 				description: action.productData.description
 			});
 			const updatedUserProducts = [ ...state.userProducts ];

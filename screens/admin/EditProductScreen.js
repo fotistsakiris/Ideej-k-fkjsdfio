@@ -51,7 +51,8 @@ const EditProductScreen = (props) => {
 			categoryIds: editedProduct ? editedProduct.categoryIds : '',
 			// ownerId: editedProduct ? editedProduct.ownerId : '',
 			imageUrl: editedProduct ? editedProduct.imageUrl : '',
-			price: '',
+			price: editedProduct ? editedProduct.price.toString() : '',
+			// price: '',
 			description: editedProduct ? editedProduct.description : ''
 		},
 		inputValidities: {
@@ -94,6 +95,7 @@ const EditProductScreen = (props) => {
 							formState.inputValues.categoryIds,
 							// formState.inputValues.ownerId,
 							formState.inputValues.imageUrl,
+							+formState.inputValues.price,
 							formState.inputValues.description
 						)
 					);
@@ -204,7 +206,7 @@ const EditProductScreen = (props) => {
 						initiallyValid={!!editedProduct}
 						required
 					/>
-					{editedProduct ? null : (
+					{/* {editedProduct ? null : (
 						<Input
 							id="price"
 							label="Τιμή"
@@ -216,7 +218,20 @@ const EditProductScreen = (props) => {
 							noComma
 							min={0.1}
 						/>
-					)}
+					)} */}
+					<Input
+						id="price"
+						label="Τιμή"
+						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη τιμή και χρησιμοποιείτε τελεία αντί για κόμμα"
+						keyboardType="number-pad"
+						returnKeyType="next"
+						initialValue={editedProduct ? editedProduct.price.toString() : ''}
+						onInputChange={inputChangeHandler}
+						initiallyValid={!!editedProduct}
+						required
+						noComma
+						min={0.1} 
+					/>
 					<Input
 						id="description"
 						label="Περιγραφή"
@@ -238,7 +253,7 @@ const EditProductScreen = (props) => {
 	);
 };
 
-EditProductScreen.navigationOptions = ({navigation}) => {
+EditProductScreen.navigationOptions = ({ navigation }) => {
 	const submitFn = navigation.getParam('submit');
 	return {
 		headerTitle: navigation.getParam('productId') ? 'Επεξεργασία προϊόντος' : 'Προσθήκη προϊόντος',
@@ -257,12 +272,10 @@ EditProductScreen.navigationOptions = ({navigation}) => {
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		backgroundColor: Colours.moccasin_light,
-
+		backgroundColor: Colours.moccasin_light
 	},
 	form: {
-		margin: 20,
-		
+		margin: 20
 	},
 	centered: {
 		flex: 1,

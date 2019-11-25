@@ -281,7 +281,7 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 	};
 };
 
-export const updateProduct = (id, title, categoryIds, imageUrl, description) => {
+export const updateProduct = (id, title, categoryIds, imageUrl, price, description) => {
 	return async (dispatch, getState) => {
 		try {
 			const userId = getState().auth.userId;
@@ -299,6 +299,7 @@ export const updateProduct = (id, title, categoryIds, imageUrl, description) => 
 					title,
 					categoryIds,
 					imageUrl,
+					price,
 					description
 				})
 			});
@@ -319,6 +320,7 @@ export const updateProduct = (id, title, categoryIds, imageUrl, description) => 
 					categoryIds,
 					ownerId: userId,
 					imageUrl,
+					price,
 					description
 				}
 			});

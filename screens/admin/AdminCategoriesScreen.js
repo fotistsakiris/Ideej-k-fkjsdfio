@@ -30,19 +30,19 @@ const AdminCategoriesScreen = (props) => {
 	return (
 		<CustomLinearGradient>
 			<View style={styles.flatListContainer}>
-			{Platform.OS === 'android' ? (
-						<CustomButton
-							title="Έκθεση"
-							onPress={() => props.navigation.navigate('Ekthesis')}
-							color={Colours.maroon}
-						/>
-					) : (
-						<Button
-							title="Έκθεση"
-							onPress={() => props.navigation.navigate('Ekthesis')}
-							color={Colours.maroon}
-						/>
-					)}
+				{Platform.OS === 'android' ? (
+					<CustomButton
+						title="Έκθεση"
+						onPress={() => props.navigation.navigate('Ekthesis')}
+						color={Colours.maroon}
+					/>
+				) : (
+					<Button
+						title="Έκθεση"
+						onPress={() => props.navigation.navigate('Ekthesis')}
+						color={Colours.maroon}
+					/>
+				)}
 				<FlatList
 					numColumns={2}
 					keyExtractor={(item, index) => item.id}
@@ -62,10 +62,11 @@ AdminCategoriesScreen.navigationOptions = ({ navigation }) => {
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
 					onPress={() => {
-						Alert.alert(`Κατηγορίες προϊόντων`,
-					   `Εικόνες - Αγιογραφίες: c1\nΕργόχειρα: c2\nΜοναστηριακά προϊόντα.: c3\nΕκκλησιαστικά Είδη: c4\nΟρθόδοξη Βιβλιοθήκη.: c5\nΕίδη δώρων - Αναμνηστικά.: c6\nΠροτεινόμενα προϊόντα: c7\n`, [
-							{ text: 'Εντάξη', style: 'default' },
-						]);
+						Alert.alert(
+							`Κατηγορίες προϊόντων`,
+							`Εικόνες - Αγιογραφίες: c1\nΕργόχειρα: c2\nΜοναστηριακά προϊόντα: c3\nΕκκλησιαστικά Είδη: c4\nΟρθόδοξη Βιβλιοθήκη: c5\nΕίδη δώρων - Αναμνηστικά: c6\nΠροτεινόμενα προϊόντα: c7\n`,
+							[ { text: 'Εντάξη', style: 'default' } ]
+						);
 					}}
 					title="categories"
 					iconName={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
@@ -81,7 +82,7 @@ AdminCategoriesScreen.navigationOptions = ({ navigation }) => {
 					onPress={() => navigation.navigate('Categories')}
 				/>
 			</HeaderButtons>
-		),
+		)
 		// headerRight: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item

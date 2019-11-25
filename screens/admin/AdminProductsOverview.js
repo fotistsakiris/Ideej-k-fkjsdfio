@@ -128,13 +128,13 @@ const AdminProductsOverview = (props) => {
 					{Platform.OS === 'android' ? (
 						<CustomButton
 							title="Διαχειριστής"
-							onPress={() => props.navigation.navigate('Main')}
+							onPress={() => props.navigation.navigate('AdminCategories')}
 							color={Colours.moccasin_light}
 						/>
 					) : (
 						<Button
 							title="Διαχειριστής"
-							onPress={() => props.navigation.navigate('Main')}
+							onPress={() => props.navigation.navigate('AdminCategories')}
 							color={Colours.moccasin_light}
 						/>
 					)}
