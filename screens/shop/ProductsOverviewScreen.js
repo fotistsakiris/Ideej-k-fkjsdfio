@@ -14,8 +14,28 @@ import * as productsActions from '../../store/actions/products';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
 const ProductsOverviewScreen = (props) => {
-	const width = Dimensions.get('window').width; 
+	const { width, height } = Dimensions.get('window');
+	let widthMultiplier = 0;
+	let textMultiplier = 0;
+	// let heightMultiplier = 0.09
+	// if (width => 800) {
+	// 	// heightMultiplier = 0.05
+	// 	widthMultiplier = 0.2
+	// 	textMultiplier = 0.03
+	// }
 
+	if (width <= 400 && width < 800) {
+		widthMultiplier = 0.4;
+		textMultiplier = 0.06;
+	}
+	if (width < 800 && width > 400) {
+		widthMultiplier = 0.3;
+		textMultiplier = 0.042;
+	}
+	if (width > 800) {
+		widthMultiplier = 0.2;
+		textMultiplier = 0.045;
+	}
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isRefresing, setIsRefresing ] = useState(false);
@@ -72,7 +92,9 @@ const ProductsOverviewScreen = (props) => {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
-					<BoldText>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.</BoldText>
+					<BoldText>
+						Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
+					</BoldText>
 					<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.moccasin_light} />
 				</View>
 			</CustomLinearGradient>
@@ -114,24 +136,22 @@ const ProductsOverviewScreen = (props) => {
 							onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 						>
 							{Platform.OS === 'android' ? (
-								<View style={width < 400 ? styles.actionsSmall : styles.actions}>
+								<View style={width < 400 ? styles.actionsSmall : styles.androidActions}>
 									<View style={styles.customButton}>
 										<CustomButton
-											style={{width: Math.ceil(width * 0.3)}}
-
+											style={{ width: Math.ceil(width * widthMultiplier) }}
 											title="Λεπτομέρειες"
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
 
-									<BoldText style={{fontSize: Math.ceil(width * 0.04), ...styles.price}}>
+									<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.price }}>
 										{itemData.item.price.toFixed(2)}
-										<Text style={styles.euro}>€</Text>
+										<Text style={{ fontSize: Math.ceil(width * 0.03), ...styles.euro }}> €</Text>
 									</BoldText>
 									<View style={styles.customButton}>
 										<CustomButton
-											style={{width: Math.ceil(width * 0.3)}}
-
+											style={{ width: Math.ceil(width * widthMultiplier) }}
 											title="+ καλάθι"
 											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
 										/>
@@ -146,9 +166,9 @@ const ProductsOverviewScreen = (props) => {
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									<BoldText style={{fontSize: Math.ceil(width * 0.04), ...styles.price}}>
+									<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.price }}>
 										{itemData.item.price.toFixed(2)}
-										<Text style={styles.euro}> €</Text>
+										<Text style={{ fontSize: Math.ceil(width * 0.03), ...styles.euro }}> €</Text>
 									</BoldText>
 									<View style={styles.button}>
 										<Button
@@ -206,13 +226,19 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: '100%',
 		maxWidth: '100%',
-		maxHeight: '100%',
+		alignItems: 'center',
+		justifyContent: 'center',
+		// maxHeight: '100%',
 		padding: 20
 	},
 	price: {
 		// fontSize: 18,
-		color: '#888'
-		// marginHorizontal: 1
+		color: '#888',
+		alignSelf: 'center',
+		// justifyContent: 'center',
+		// alignContent: 'center'
+		// marginHorizontal: 5,
+		marginLeft: 6
 	},
 	euro: {
 		// fontSize: 14,
@@ -222,15 +248,25 @@ const styles = StyleSheet.create({
 		// flexDirection: 'row',
 		// alignSelf: 'center',
 		alignItems: 'center',
-		height: '42%',
+		height: '25%',
+		marginHorizontal: 2
+	},
+	androidActions: {
+		flexDirection: 'row',
+		alignSelf: 'center',
+		justifyContent: 'space-around',
+		alignItems: 'center',
+		height: '10%',
+		width: '100%',
 		marginHorizontal: 2
 	},
 	actions: {
 		flexDirection: 'row',
-		// alignSelf: 'center',
-		justifyContent: 'space-around',
+		alignSelf: 'center',
+		justifyContent: 'center',
 		alignItems: 'center',
-		height: '18%',
+		height: '10%',
+		width: '100%',
 		marginHorizontal: 2
 	},
 	customButton: {
@@ -239,7 +275,7 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		width: '40%',
-		paddingHorizontal: -5
+		marginLeft: 10
 	},
 	centered: {
 		flex: 1,

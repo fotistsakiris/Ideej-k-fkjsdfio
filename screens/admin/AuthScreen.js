@@ -47,15 +47,17 @@ const formReducer = (state, action) => {
 };
 
 const AuthScreen = (props) => {
-	const width = Dimensions.get('window').width; // to set fontSize according to screen size...
-	let buttonMultiplier = 0.08
+	const {width, height} = Dimensions.get('window'); 
+	let widthMultiplier = 0.7
+	let heightMultiplier = 0.055
 	let cardHeight = 0.9
 	let cardWidth = 0.8
-	// if (width > 800 ) {
-	// 	// buttonMultiplier = 0.07
-	// 	cardHeight = 0.8
-	// 	// cardWidth = 0.2
-	// }
+	if (width > 800 ) {
+		widthMultiplier = 0.4
+		heightMultiplier = 0.038
+		cardHeight = 0.5
+		cardWidth = 0.5
+	}
 	// const userId = useSelector((state) => state.auth.userId);
 
 	const [ error, setError ] = useState();
@@ -207,7 +209,7 @@ const AuthScreen = (props) => {
 					<View style={styles.buttonContainer}>
 						{Platform.OS === 'android' ? (
 							<CustomButton
-								style={{height: Math.ceil(width * buttonMultiplier), ...styles.customButtonStyle}}
+								style={{height: Math.ceil(height * heightMultiplier), width: Math.ceil(width * widthMultiplier), ...styles.customButtonStyle}}
 								title={`Αλλαγή σε ${isSignUp ? 'Σύνδεση' : 'Εγγραφή'}`}
 								color={Colours.maroon}
 								onPress={() => setIsSignUp(!isSignUp)}
@@ -260,9 +262,9 @@ const styles = StyleSheet.create({
 
 		elevation: 7
 	},
-	customButtonStyle: {
-		width: '100%',
-	},
+	// customButtonStyle: {
+	// 	width: '100%',
+	// },
 	buttonContainer: {
 		marginTop: 10
 	},

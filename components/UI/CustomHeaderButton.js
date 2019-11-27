@@ -6,10 +6,14 @@ import { Ionicons } from '@expo/vector-icons';
 import Colours from '../../constants/Colours';
 
 const CustomHeaderButton = (props) => {
-	const width = Dimensions.get('window').width; 
+    const width = Dimensions.get('window').width; 
+    let buttonMultiplier = 0.07
+    if (width > 800) {
+        buttonMultiplier = 0.03
+    }
 
     return ( 
-        <HeaderButton {...props} IconComponent={Ionicons} iconSize={Math.ceil(width * 0.07)} color={Platform.OS === 'android' ? Colours.moccasin_light : Colours.maroon} />
+        <HeaderButton {...props} IconComponent={Ionicons} iconSize={Math.ceil(width * buttonMultiplier)} color={Platform.OS === 'android' ? Colours.moccasin_light : Colours.maroon} />
      );
 }
  

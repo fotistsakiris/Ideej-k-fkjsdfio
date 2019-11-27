@@ -41,6 +41,11 @@ import * as authActions from '../store/actions/auth';
 // 	return Dimensions.get('window').width; // for putting the buttons in column for small screens
 // };
 const width = Dimensions.get('window').width;
+let buttonMultiplier = 0.05
+if (width > 800) {
+	buttonMultiplier = 0.03
+}
+
 
 const defaultNavOptions = {
 	headerBackTitle: 'Πίσω',
@@ -49,11 +54,11 @@ const defaultNavOptions = {
 	},
 	headerTitleStyle: {
 		fontFamily: 'GFSNeohellenic-Bold',
-		fontSize: 0.05 * width
+		fontSize: buttonMultiplier * width
 	},
 	headerBackTitleStyle: {
 		fontFamily: 'GFSNeohellenic-Regular',
-		fontSize: 0.05 * width
+		fontSize: buttonMultiplier * width
 	},
 	headerTintColor: Platform.OS === 'android' ? Colours.moccasin_light : Colours.gr_brown
 };
@@ -135,7 +140,7 @@ const MainNavigator = createDrawerNavigator(
 				drawerIcon: (tabInfo) => (
 					<Ionicons
 						name={Platform.OS === 'android' ? 'md-home' : 'ios-home'}
-						size={Math.ceil(width * 0.05)}
+						size={Math.ceil(width * buttonMultiplier)}
 						color={tabInfo.tintColor}
 					/>
 				)
@@ -150,7 +155,7 @@ const MainNavigator = createDrawerNavigator(
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
-					return <MaterialIcons name="favorite" size={Math.ceil(width * 0.05)} color={tabInfo.tintColor} />;
+					return <MaterialIcons name="favorite" size={Math.ceil(width * buttonMultiplier)} color={tabInfo.tintColor} />;
 				}
 			}
 		},
@@ -163,7 +168,7 @@ const MainNavigator = createDrawerNavigator(
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
-					return <Octicons name="list-unordered" size={Math.ceil(width * 0.05)} color={tabInfo.tintColor} />;
+					return <Octicons name="list-unordered" size={Math.ceil(width * buttonMultiplier)} color={tabInfo.tintColor} />;
 				}
 			}
 		},
@@ -176,7 +181,7 @@ const MainNavigator = createDrawerNavigator(
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
-					return <FontAwesome5 name="warehouse" size={Math.ceil(width * 0.05)} color={tabInfo.tintColor} />;
+					return <FontAwesome5 name="warehouse" size={Math.ceil(width * buttonMultiplier)} color={tabInfo.tintColor} />;
 				}
 			}
 		},
@@ -189,7 +194,7 @@ const MainNavigator = createDrawerNavigator(
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
-					return <FontAwesome name="user" size={Math.ceil(width * 0.05)} color={tabInfo.tintColor} />;
+					return <FontAwesome name="user" size={Math.ceil(width * buttonMultiplier)} color={tabInfo.tintColor} />;
 				}
 			}
 		}
@@ -206,7 +211,7 @@ const MainNavigator = createDrawerNavigator(
 		// 				<Ionicons
 		// 					name="ios-log-in"
 		// 					// name={Platform.OS === 'android' ? 'user-plus' : 'ios-list'}
-		// 					size={Math.ceil(width * 0.05)}
+		// 					size={Math.ceil(width * buttonMultiplier)}
 		// 					color={tabInfo.tintColor}
 		// 				/>
 		// 			);
@@ -256,7 +261,7 @@ const MainNavigator = createDrawerNavigator(
 							<SimpleLineIcons.Button
 								name="login"
 								backgroundColor={Colours.moccasin_light}
-								size={Math.ceil(width * 0.05)}
+								size={Math.ceil(width * buttonMultiplier)}
 								iconStyle={{ marginHorizontal: 7 }}
 								color="#888"
 								onPress={() => props.navigation.navigate('Auth')}
@@ -269,7 +274,7 @@ const MainNavigator = createDrawerNavigator(
 							<SimpleLineIcons.Button
 								name="logout"
 								backgroundColor={Colours.moccasin_light}
-								size={Math.ceil(width * 0.05)}
+								size={Math.ceil(width * buttonMultiplier)}
 								iconStyle={{ marginHorizontal: 7 }}
 								color="#888"
 								onPress={() => {
@@ -286,7 +291,7 @@ const MainNavigator = createDrawerNavigator(
 							<Feather.Button
 								name="user"
 								backgroundColor={Colours.moccasin_light}
-								size={Math.ceil(width * 0.05)}
+								size={Math.ceil(width * buttonMultiplier)}
 								iconStyle={{ marginHorizontal: 7 }}
 								color="#888"
 								onPress={() => props.navigation.navigate('AdminCategories')}
@@ -326,7 +331,7 @@ const styles = StyleSheet.create({
 	exodos: {
 		fontFamily: 'GFSNeohellenic-Bold',
 		textAlign: 'left',
-		fontSize: 0.05 * width
+		fontSize: buttonMultiplier * width
 	}
 });
 

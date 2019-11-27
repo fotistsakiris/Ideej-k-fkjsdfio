@@ -11,8 +11,9 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		width: '40%',
 		alignSelf: 'center',
-		margin: 2,
-		height: '2%',
+		// marginBottom: 12,
+		marginTop: 5,
+		// height: '4%',
 	},
 })
  

@@ -8,13 +8,14 @@ export default (CustomButton = (props) => {
 	const {width, height} = Dimensions.get('window'); // Set the height of ProductItem bigger for small screens
 	let heightMultiplier = 0.05
 	let widthMultiplier = 0.2
-	// if (width > 1000 ) {
-	// 	heightMultiplier = 0.00001
-	// 	widthMultiplier = 0.000001
-	// }
+	if (width > 800 ) {
+		heightMultiplier = 0.04
+		widthMultiplier = 0.12
+	}
 	return (
 		<TouchableNativeFeedback onPress={props.onPress} style={{ ...props.touchableStyle }}>
-			<View onPress={props.onPress} style={{ height: height * heightMultiplier, width: width * widthMultiplier,  ...styles.buttonStyle, ...props.style }}>
+			<View onPress={props.onPress} 
+			style={{ height: height * heightMultiplier, width: width * widthMultiplier,  ...styles.buttonStyle, ...props.style }}>
 				<BoldText style={{ ...styles.text, ...props.textStyle }}>{props.title}</BoldText>
 			</View>
 		</TouchableNativeFeedback>

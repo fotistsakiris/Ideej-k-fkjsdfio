@@ -170,7 +170,8 @@ const styles = StyleSheet.create({
 	description: {
 		// fontSize: 20,
 		textAlign: 'justify',
-		padding: 20
+		padding: 20,
+		color: Colours.moccasin_light
 	},
 	button: {
 		marginHorizontal: 5,

@@ -72,9 +72,11 @@ const styles = StyleSheet.create({
 	flatListContainer: {
 		flex: 1,
 		width: '100%',
-		maxWidth: '100%',
-		maxHeight: '100%',
-		padding: 20
+		// maxWidth: '100%',
+		// maxHeight: '100%',
+		paddingVertical: 50,
+		paddingHorizontal: 20,
+		paddingTop: 20
 	}
 });
 
