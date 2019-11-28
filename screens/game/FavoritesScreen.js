@@ -30,11 +30,11 @@ const FavoritesScreen = (props) => {
 			setIsRefresing(true);
 			setIsLoading(true);
 			try {
-				await dispatch(questionsActions.fetchFavProducts());
+				await dispatch(questionsActions.fetchFavQuestions());
 				// Load all questions... Other wise if logged in user visits the favorites
 				// and then clicks to go to DetailesScreen,
 				// the app can not find wich of the availabelProducts to show...
-				await dispatch(questionsActions.fetchProducts());
+				await dispatch(questionsActions.fetchQuestions());
 			} catch (err) {
 				setError(err.message);
 			}
@@ -86,7 +86,7 @@ const FavoritesScreen = (props) => {
 					<BoldText>
 						Σφάλμα στη διαδικασία φορτώσεως των αγαπημένων ερωτήσεων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
 					</BoldText>
-					{/* <Button title="Δοκιμάστε Ξανά" onPress={() => dispatch(questionsActions.fetchFavProducts())} color={Colours.maroon} /> */}
+					{/* <Button title="Δοκιμάστε Ξανά" onPress={() => dispatch(questionsActions.fetchFavQuestions())} color={Colours.maroon} /> */}
 					{Platform.OS === 'android' ? (
 						<View style={styles.buttonSignup}>
 							<CustomButton
@@ -163,8 +163,8 @@ const FavoritesScreen = (props) => {
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									<BoldText style={{ fontSize: Math.ceil(width * 0.04), ...styles.price }}>
-										{itemData.item.price.toFixed(2)}
+									<BoldText style={{ fontSize: Math.ceil(width * 0.04), ...styles.points }}>
+										{itemData.item.points.toFixed(2)}
 										<Text style={styles.euro}>€</Text>
 									</BoldText>
 									<View>
@@ -184,7 +184,7 @@ const FavoritesScreen = (props) => {
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									<BoldText style={styles.price}>€ {itemData.item.price.toFixed(2)}</BoldText>
+									<BoldText style={styles.points}>€ {itemData.item.points.toFixed(2)}</BoldText>
 									<View style={styles.button}>
 										<Button
 											color={Colours.gr_brown_light}
@@ -228,7 +228,7 @@ FavoritesScreen.navigationOptions = ({ navigation }) => {
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
 					title="cart"
-					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+					iconName={Platform.OS === 'android' ? 'md-albums' : 'ios-albums'}
 					onPress={() => navigation.navigate({ routeName: 'Cart' })}
 				/>
 			</HeaderButtons>
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
 		width: '100%',
 		margin: 12
 	},
-	price: {
+	points: {
 		// fontSize: 18,
 		color: '#888'
 	},

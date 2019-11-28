@@ -37,33 +37,33 @@ const EditQuestionScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
 
-	const prodId = props.navigation.getParam('questionId');
+	const questId = props.navigation.getParam('questionId');
 	// If questionId is not set (if we press the add button in UserProductScreen)
-	// then editedProduct will be undifined. But that is OK.
-	const editedProduct = useSelector((state) => state.questions.userQuestions.find((quest) => quest.id === prodId));
+	// then editedQuestion will be undifined. But that is OK.
+	const editedQuestion = useSelector((state) => state.questions.userQuestions.find((quest) => quest.id === questId));
 
 	const dispatch = useDispatch();
 
 	// Rap it with useCallback to avoid infinite loop.
 	const [ formState, dispatchFormState ] = useReducer(formReducer, {
 		inputValues: {
-			title: editedProduct ? editedProduct.title : '',
-			categoryIds: editedProduct ? editedProduct.categoryIds : '',
-			// ownerId: editedProduct ? editedProduct.ownerId : '',
-			imageUrl: editedProduct ? editedProduct.imageUrl : '',
-			price: editedProduct ? editedProduct.price.toString() : '',
-			// price: '',
-			description: editedProduct ? editedProduct.description : ''
+			title: editedQuestion ? editedQuestion.title : '',
+			categoryIds: editedQuestion ? editedQuestion.categoryIds : '',
+			// ownerId: editedQuestion ? editedQuestion.ownerId : '',
+			imageUrl: editedQuestion ? editedQuestion.imageUrl : '',
+			points: editedQuestion ? editedQuestion.points.toString() : '',
+			// points: '',
+			description: editedQuestion ? editedQuestion.description : ''
 		},
 		inputValidities: {
-			title: editedProduct ? true : false,
-			categoryIds: editedProduct ? true : false,
-			// ownerId: editedProduct ? true : false,
-			imageUrl: editedProduct ? true : false,
-			price: editedProduct ? true : false,
-			description: editedProduct ? true : false
+			title: editedQuestion ? true : false,
+			categoryIds: editedQuestion ? true : false,
+			// ownerId: editedQuestion ? true : false,
+			imageUrl: editedQuestion ? true : false,
+			points: editedQuestion ? true : false,
+			description: editedQuestion ? true : false
 		},
-		formIsValid: editedProduct ? true : false
+		formIsValid: editedQuestion ? true : false
 	});
 
 	useEffect(
@@ -87,26 +87,26 @@ const EditQuestionScreen = (props) => {
 			setIsLoading(true);
 			setError(null);
 			try {
-				if (editedProduct) {
+				if (editedQuestion) {
 					await dispatch(
 						questionsActions.updateProduct(
-							prodId,
+							questId,
 							formState.inputValues.title,
 							formState.inputValues.categoryIds,
 							// formState.inputValues.ownerId,
 							formState.inputValues.imageUrl,
-							+formState.inputValues.price,
+							+formState.inputValues.points,
 							formState.inputValues.description
 						)
 					);
 				} else {
 					await dispatch(
-						questionsActions.createProduct(
+						questionsActions.createQuestion(
 							formState.inputValues.title,
 							formState.inputValues.categoryIds,
 							// formState.inputValues.ownerId,
 							formState.inputValues.imageUrl,
-							+formState.inputValues.price,
+							+formState.inputValues.points,
 							formState.inputValues.description
 						)
 					);
@@ -118,7 +118,7 @@ const EditQuestionScreen = (props) => {
 			}
 			setIsLoading(false);
 		},
-		[ dispatch, prodId, formState ]
+		[ dispatch, questId, formState ]
 	);
 
 	useEffect(
@@ -161,11 +161,11 @@ const EditQuestionScreen = (props) => {
 						autoCorrect
 						returnKeyType="next"
 						onInputChange={inputChangeHandler}
-						initialValue={editedProduct ? editedProduct.categoryIds : ''}
+						initialValue={editedQuestion ? editedQuestion.categoryIds : ''}
 						// Applying two NOT operators in a row is just a handy JavaScript shortcut
 						// (not React specific) to convert a value into a boolean (if the value exists,
 						// you will get true, if the value is null, you will get false).
-						initiallyValid={!!editedProduct}
+						initiallyValid={!!editedQuestion}
 						required
 						autoCapitalize="none"
 					/>
@@ -176,8 +176,8 @@ const EditQuestionScreen = (props) => {
 						keyboardType="default"
 						returnKeyType="next"
 						onInputChange={inputChangeHandler}
-						initialValue={editedProduct ? editedProduct.ownerId : ''}
-						initiallyValid={!!editedProduct}
+						initialValue={editedQuestion ? editedQuestion.ownerId : ''}
+						initiallyValid={!!editedQuestion}
 						required
 						autoCapitalize="none"
 					/> */}
@@ -191,8 +191,8 @@ const EditQuestionScreen = (props) => {
 						autoCorrect
 						returnKeyType="next"
 						onInputChange={inputChangeHandler}
-						initialValue={editedProduct ? editedProduct.title : ''}
-						initiallyValid={!!editedProduct}
+						initialValue={editedQuestion ? editedQuestion.title : ''}
+						initiallyValid={!!editedQuestion}
 						required
 					/>
 					<Input
@@ -202,14 +202,14 @@ const EditQuestionScreen = (props) => {
 						keyboardType="default"
 						returnKeyType="next"
 						onInputChange={inputChangeHandler}
-						initialValue={editedProduct ? editedProduct.imageUrl : ''}
-						initiallyValid={!!editedProduct}
+						initialValue={editedQuestion ? editedQuestion.imageUrl : ''}
+						initiallyValid={!!editedQuestion}
 						required
 						imageUrl
 					/>
-					{/* {editedProduct ? null : (
+					{/* {editedQuestion ? null : (
 						<Input
-							id="price"
+							id="points"
 							label="Τιμή"
 							errorText="Παρακαλούμε εισαγάγεται μία έγκυρη τιμή και χρησιμοποιείτε τελεία αντί για κόμμα"
 							keyboardType="number-pad"
@@ -221,14 +221,14 @@ const EditQuestionScreen = (props) => {
 						/>
 					)} */}
 					<Input
-						id="price"
-						label="Τιμή"
+						id="points"
+						label="Βαθμός"
 						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη τιμή και χρησιμοποιείτε τελεία αντί για κόμμα"
 						keyboardType="number-pad"
 						returnKeyType="next"
-						initialValue={editedProduct ? editedProduct.price.toString() : ''}
+						initialValue={editedQuestion ? editedQuestion.points.toString() : ''}
 						onInputChange={inputChangeHandler}
-						initiallyValid={!!editedProduct}
+						initiallyValid={!!editedQuestion}
 						required
 						noComma
 						min={0.1} 
@@ -243,8 +243,8 @@ const EditQuestionScreen = (props) => {
 						multiline
 						numberOfLines={3}
 						onInputChange={inputChangeHandler}
-						initialValue={editedProduct ? editedProduct.description : ''}
-						initiallyValid={!!editedProduct}
+						initialValue={editedQuestion ? editedQuestion.description : ''}
+						initiallyValid={!!editedQuestion}
 						required
 						minLength={5}
 					/>

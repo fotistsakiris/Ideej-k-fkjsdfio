@@ -10,8 +10,8 @@ export const addOrder = (cartItems, totalAmount) => {
 			const userId = getState().auth.userId;
 			const date = new Date();
 			// testing
-			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/choices/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json`, {
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/choices/${userId}.json?auth=${token}`, {
+			// const response = await fetch(`https://en-touto-nika.firebaseio.com/choices/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json`, {
+			const response = await fetch(`https://en-touto-nika.firebaseio.com/choices/${userId}.json?auth=${token}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -25,7 +25,7 @@ export const addOrder = (cartItems, totalAmount) => {
 			// check before unpack the response body
 			if (!response.ok) {
 				throw new Error(
-					'Δυστυχώς η προσθήκη της παραγγελίας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+					'Δυστυχώς η προσθήκη των επιλογών σας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
 			const resData = await response.json();
@@ -51,13 +51,13 @@ export const fetchOrders = () => {
 		try {
 			const userId = getState().auth.userId;
 			//testing
-			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/choices/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json`);
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/choices/${userId}.json`);
+			// const response = await fetch(`https://en-touto-nika.firebaseio.com/choices/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json`);
+			const response = await fetch(`https://en-touto-nika.firebaseio.com/choices/${userId}.json`);
 
 
 			// check before unpack the response body
 			if (!response.ok) {
-				throw new Error('Δυστυχώς η φόρτωση των παραγγελιών δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.');
+				throw new Error('Δυστυχώς η φόρτωση των ερωτήσεων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.');
 			}
 
 			const resData = await response.json();

@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'GFSNeohellenic-Bold',
 		textAlign: 'left'
 	},
-	price: {
+	points: {
 		fontSize: 18,
 		color: '#888'
 	},

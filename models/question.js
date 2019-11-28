@@ -1,12 +1,12 @@
 // class Question {
-//     constructor(id, categoryIds, ownerId, title, imageUrl, description, price) {
+//     constructor(id, categoryIds, ownerId, title, imageUrl, description, points) {
 //         this.id = id;
 //         this.categoryIds = categoryIds;
 //         this.ownerId = ownerId;
 //         this.title = title;
 //         this.imageUrl = imageUrl;
 //         this.description = description;
-//         this.price = price;
+//         this.points = points;
 //     }
 
 // }
@@ -20,7 +20,7 @@ function Question(info) {
 	this.ownerId = info.ownerId;
 	this.title = info.title;
 	this.imageUrl = info.imageUrl;
-	this.price = info.price;
+	this.points = info.points;
 	this.description = info.description;
 }
 

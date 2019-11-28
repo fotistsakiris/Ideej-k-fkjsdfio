@@ -14,7 +14,7 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 ### Hide sidedrawer button to adminScreen from normal users...
 ### Added GFSNeohellenic Fonts
 ### User's Screen with email. This should be further modified to include settings like change language, password etc...
-### Ability to change price too.
+### Ability to change points too.
 ### Dynamic UI using Dimensions width for small and big screens.
 
 
@@ -38,13 +38,13 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 ### DONE! fix bug: Load choices, favorites per normal user...
 ### DONE! Add a categories screen also to adminsScreen...
 ### DONE! Add an alert with the categoryIds in the EditQuestionScreen
-### DONE! Add price validation that it doesn't have commas but fullstops...
+### DONE! Add points validation that it doesn't have commas but fullstops...
 ### DONE! Load questions etc per admin user...
 ### DONE! show dots ... when the title is to long.
 ### DONE! Add a user's Screen with email.
 ### DONE! Add alert that visitor needs to create an account in choice to make an choice.
 ### DONE! When admin... navigate user to AdminCategories
-### DONE! regex check for price and imageUrl
+### DONE! regex check for points and imageUrl
 
 
 ### Fix the card's dimensions everywhere you use it.

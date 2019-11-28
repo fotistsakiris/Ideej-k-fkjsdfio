@@ -60,7 +60,7 @@ CategoriesScreen.navigationOptions = ({ navigation }) => {
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
 					title="cart"
-					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+					iconName={Platform.OS === 'android' ? 'md-albums' : 'ios-albums'}
 					onPress={() => navigation.navigate({ routeName: 'Cart' })}
 				/>
 			</HeaderButtons>

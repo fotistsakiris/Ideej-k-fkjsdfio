@@ -22,7 +22,7 @@ const QuestionDetailScreen = (props) => {
 	const dispatch = useDispatch();
 
 	const questionId = props.navigation.getParam('questionId');
-	const selectedProduct = useSelector((state) =>
+	const selectedQuestion = useSelector((state) =>
 		state.questions.availableQuestions.find((quest) => quest.id === questionId)
 	);
 
@@ -34,7 +34,7 @@ const QuestionDetailScreen = (props) => {
 		async () => {
 			setError(null);
 			try {
-				await dispatch(questionsActions.toggleFavorite(questionId, currentQuestionIsFavorite, selectedProduct));
+				await dispatch(questionsActions.toggleFavorite(questionId, currentQuestionIsFavorite, selectedQuestion));
 			} catch (err) {
 				setError(err.message);
 			}
@@ -78,14 +78,14 @@ const QuestionDetailScreen = (props) => {
 						</TouchableOpacity>
 					</View>
 					<View style={styles.centerImage}>
-					<Image style={{width: Math.ceil(width * 0.8), height: Math.ceil(height * 0.5), ...styles.image}} source={{ uri: selectedProduct.imageUrl }} />
+					<Image style={{width: Math.ceil(width * 0.8), height: Math.ceil(height * 0.5), ...styles.image}} source={{ uri: selectedQuestion.imageUrl }} />
 					</View>
 					{Platform.OS === 'android' ? (
 						<View style={styles.button}>
 							<CustomButton
 								style={Colours.maroon}
 								title="+ καλάθι"
-								onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
+								onPress={() => dispatch(cartActions.addToCard(selectedQuestion))}
 							/>
 						</View>
 					) : (
@@ -93,16 +93,16 @@ const QuestionDetailScreen = (props) => {
 							<Button
 								color={Colours.moccasin_light}
 								title="+ καλάθι"
-								onPress={() => dispatch(cartActions.addToCard(selectedProduct))}
+								onPress={() => dispatch(cartActions.addToCard(selectedQuestion))}
 							/>
 						</View>
 					)}
 
-					<BoldText style={{fontSize: Math.ceil(width * 0.04), ...styles.price}}>
-						{selectedProduct.price.toFixed(2)}
+					<BoldText style={{fontSize: Math.ceil(width * 0.04), ...styles.points}}>
+						{selectedQuestion.points.toFixed(2)}
 						<Text style={styles.euro}> €</Text>
 					</BoldText>
-					<Text style={{fontSize: Math.ceil(width * 0.04), ...styles.description}}>{selectedProduct.description}</Text>
+					<Text style={{fontSize: Math.ceil(width * 0.04), ...styles.description}}>{selectedQuestion.description}</Text>
 				</ScrollView>
 			</View>
 		</CustomLinearGradient>
@@ -127,7 +127,7 @@ QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
 					title="cart"
-					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+					iconName={Platform.OS === 'android' ? 'md-albums' : 'ios-albums'}
 					onPress={() => navigation.navigate({ routeName: 'Cart' })}
 				/>
 			</HeaderButtons>
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
 		resizeMode: 'contain',
 		margin: 2
 	},
-	price: {
+	points: {
 		// fontSize: 18,
 		color: Colours.moccasin_light,
 		textAlign: 'center',

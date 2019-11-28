@@ -44,7 +44,7 @@ const AdminQuestionsOverview = (props) => {
 			setError(null);
 			setIsRefresing(true);
 			try {
-				await dispatch(questionsActions.fetchProducts());
+				await dispatch(questionsActions.fetchQuestions());
 			} catch (err) {
 				setError(err.message);
 			}
@@ -167,9 +167,9 @@ const AdminQuestionsOverview = (props) => {
 												onPress={() => editQuestionHandler(itemData.item.id)}
 											/>
 										</View>
-										<BoldText style={{fontSize: Math.ceil(width * 0.04), ...styles.price}}>
-											{itemData.item.price.toFixed(2)}
-											<Text style={styles.euro}> €</Text>
+										<BoldText style={{fontSize: Math.ceil(width * 0.04), ...styles.points}}>
+											{itemData.item.points.toFixed(2)}
+											
 										</BoldText>
 										<View style={styles.customButton}>
 											<CustomButton
@@ -188,11 +188,11 @@ const AdminQuestionsOverview = (props) => {
 												onPress={() => editQuestionHandler(itemData.item.id)}
 											/>
 										</View>
-										<BoldText style={styles.price}>
-											{itemData.item.price.toFixed(2)}
-											<Text style={styles.euro}> €</Text>
+										<BoldText style={styles.points}>
+											{itemData.item.points.toFixed(2)}
+											
 										</BoldText>
-										{/* <BoldText style={styles.price}>€ {itemData.item.price}</BoldText> */}
+										{/* <BoldText style={styles.points}>€ {itemData.item.points}</BoldText> */}
 										<View style={styles.button}>
 											<Button
 												color={Colours.gr_brown_light}
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
 		maxHeight: '100%',
 		padding: 20
 	},
-	price: {
+	points: {
 		// fontSize: 18,
 		color: '#888'
 		// marginHorizontal: 1

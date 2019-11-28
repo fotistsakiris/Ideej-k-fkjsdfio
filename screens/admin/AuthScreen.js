@@ -143,14 +143,14 @@ const AuthScreen = (props) => {
 				{Platform.OS === 'android' ? (
 					<View style={styles.buttonSignup}>
 						<CustomButton
-							title="Είσοδος"
+							title="ΕΝ ΤΟΥΤΩ ΝΙΚΑ"
 							color={Colours.moccasin_light}
 							onPress={() => props.navigation.navigate('Categories')}
 						/>
 					</View>
 				) : (
 					<Button
-						title="Είσοδος"
+						title="ΕΝ ΤΟΥΤΩ ΝΙΚΑ"
 						color={Colours.moccasin_light}
 						onPress={() => props.navigation.navigate('Categories')}
 					/>

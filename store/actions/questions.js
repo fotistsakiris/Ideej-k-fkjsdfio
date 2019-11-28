@@ -10,7 +10,7 @@ export const DELETE_QUESTION = 'DELETE_QUESTION';
 export const CREATE_QUESTION = 'CREATE_QUESTION';
 export const UPDATE_QUESTION = 'UPDATE_QUESTION';
 
-export const toggleFavorite = (id, isFav, selectedProduct) => {
+export const toggleFavorite = (id, isFav, selectedQuestion) => {
 	return async (dispatch, getState) => {
 		try {
 			const token = getState().auth.token;
@@ -19,7 +19,7 @@ export const toggleFavorite = (id, isFav, selectedProduct) => {
 			// Note it is initially false...
 			if (!isFav) {
 				const response = await fetch(
-					`https://ekthesi-7767c.firebaseio.com/favorites/${userId}.json?auth=${token}`,
+					`https://en-touto-nika.firebaseio.com//favorites/${userId}.json?auth=${token}`,
 					{
 						method: 'POST',
 						headers: {
@@ -28,7 +28,7 @@ export const toggleFavorite = (id, isFav, selectedProduct) => {
 						body: JSON.stringify({
 							id,
 							isFav,
-							selectedProduct
+							selectedQuestion
 						})
 					}
 				);
@@ -43,11 +43,11 @@ export const toggleFavorite = (id, isFav, selectedProduct) => {
 				// Note: No `name` property, that's why we use a `for_in` loop
 				// console.log('POST', JSON.stringify(resData));
 
-				dispatch({ type: TOGGLE_FAVORITE, questionId: id, selectedProduct: selectedProduct });
+				dispatch({ type: TOGGLE_FAVORITE, questionId: id, selectedQuestion: selectedQuestion });
 			} else if (isFav) {
 				// First get the key in choice to delete it in second fetch(...).
 				const response = await fetch(
-					`https://ekthesi-7767c.firebaseio.com/favorites/${userId}.json?auth=${token}`
+					`https://en-touto-nika.firebaseio.com//favorites/${userId}.json?auth=${token}`
 				);
 
 				if (!response.ok) {
@@ -64,7 +64,7 @@ export const toggleFavorite = (id, isFav, selectedProduct) => {
 				for (const key in resData) {
 					if (resData[key].id === id) {
 						await fetch(
-							`https://ekthesi-7767c.firebaseio.com/favorites/${userId}/${key}.json?auth=${token}`,
+							`https://en-touto-nika.firebaseio.com//favorites/${userId}/${key}.json?auth=${token}`,
 							{
 								method: 'DELETE'
 							}
@@ -76,7 +76,7 @@ export const toggleFavorite = (id, isFav, selectedProduct) => {
 							);
 						}
 						// console.log('fetch', JSON.stringify(resData));
-						dispatch({ type: TOGGLE_FAVORITE, questionId: id, selectedProduct: selectedProduct });
+						dispatch({ type: TOGGLE_FAVORITE, questionId: id, selectedQuestion: selectedQuestion });
 					}
 				}
 			}
@@ -87,11 +87,11 @@ export const toggleFavorite = (id, isFav, selectedProduct) => {
 	};
 };
 
-export const fetchFavProducts = () => {
+export const fetchFavQuestions = () => {
 	return async (dispatch, getState) => {
 		try {
 			const userId = getState().auth.userId;
-			const FavResponse = await fetch(`https://ekthesi-7767c.firebaseio.com/favorites/${userId}.json`);
+			const FavResponse = await fetch(`https://en-touto-nika.firebaseio.com//favorites/${userId}.json`);
 
 			// check before unpack the response body
 			if (!FavResponse.ok) {
@@ -106,21 +106,21 @@ export const fetchFavProducts = () => {
 			// If resFavData is not null then create a question...
 			// Other wise we get an error in FavoritesScreen!
 			if (!!resFavData) {
-				let selectedProduct = null;
+				let selectedQuestion = null;
 				for (const key in resFavData) {
-					selectedProduct = resFavData[key].selectedProduct;
+					selectedQuestion = resFavData[key].selectedQuestion;
 				}
 				
 				loadedFavorites.push(
 					new Question({
-						id: selectedProduct.id,
-						categoryIds: selectedProduct.categoryIds,
-						ownerId: selectedProduct.ownerId,
-						index: selectedProduct.index,
-						title: selectedProduct.title,
-						imageUrl: selectedProduct.imageUrl,
-						price: selectedProduct.price,
-						description: selectedProduct.description
+						id: selectedQuestion.id,
+						categoryIds: selectedQuestion.categoryIds,
+						ownerId: selectedQuestion.ownerId,
+						index: selectedQuestion.index,
+						title: selectedQuestion.title,
+						imageUrl: selectedQuestion.imageUrl,
+						points: selectedQuestion.points,
+						description: selectedQuestion.description
 					})
 				);
 			}
@@ -144,13 +144,13 @@ export const deleteQuestion = (questionId) => {
 	return async (dispatch, getState) => {
 		const token = getState().auth.token;
 		//testing
-		// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/questions/${questionId}.json`, {
-		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/questions/${questionId}.json?auth=${token}`, {
+		// const response = await fetch(`https://en-touto-nika.firebaseio.com//questions/${questionId}.json`, {
+		const response = await fetch(`https://en-touto-nika.firebaseio.com//questions/${questionId}.json?auth=${token}`, {
 			method: 'DELETE'
 		});
 
 		if (!response.ok) {
-			throw new Error('Δυστυχώς η διαγραφή του προϊόντος δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.');
+			throw new Error('Δυστυχώς η διαγραφή της ερωτήσεως δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.');
 		}
 
 		dispatch({
@@ -160,21 +160,21 @@ export const deleteQuestion = (questionId) => {
 	};
 };
 
-export const fetchProducts = () => {
+export const fetchQuestions = () => {
 	return async (dispatch, getState) => {
 		try {
 			const userId = getState().auth.userId;
-			const response = await fetch('https://ekthesi-7767c.firebaseio.com/questions.json');
+			const response = await fetch('https://en-touto-nika.firebaseio.com//questions.json');
 
 			// check before unpack the response body
 			if (!response.ok) {
 				throw new Error(
-					'Δυστυχώς η φόρτωση των προϊόντων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+					'Δυστυχώς η φόρτωση των ερωτήσεων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
 
 			const resData = await response.json();
-			// console.log('fetchProducts resData.name: ', resData.name); // Why is this undefined?
+			// console.log('fetchQuestions resData.name: ', resData.name); // Why is this undefined?
 			const loadedProducts = [];
 
 			// console.log('resData', resData);
@@ -188,7 +188,7 @@ export const fetchProducts = () => {
 						ownerId: resData[key].ownerId,
 						title: resData[key].title,
 						imageUrl: resData[key].imageUrl,
-						price: resData[key].price,
+						points: resData[key].points,
 						description: resData[key].description
 					})
 				);
@@ -209,13 +209,13 @@ export const fetchProducts = () => {
 	};
 };
 
-export const createProduct = (title, categoryIds, imageUrl, price, description) => {
+export const createQuestion = (title, categoryIds, imageUrl, points, description) => {
 	return async (dispatch, getState) => {
 		try {
 			// SET INDEX
 			// Set an index so in CartScreen you can splice the transformedCartItems,
 			// so the choice of the cartItems will not change when adding/subtracting
-			const res = await fetch('https://ekthesi-7767c.firebaseio.com/questions.json');
+			const res = await fetch('https://en-touto-nika.firebaseio.com/questions.json');
 			const resD = await res.json();
 			const loadedIndexes = [];
 			for (const key in resD) {
@@ -232,8 +232,8 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 			const token = getState().auth.token;
 			const userId = getState().auth.userId;
 			// testing
-			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/questions.json`, {
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/questions.json?auth=${token}`, {
+			// const response = await fetch(`https://en-touto-nika.firebaseio.com//questions.json`, {
+			const response = await fetch(`https://en-touto-nika.firebaseio.com//questions.json?auth=${token}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -246,14 +246,14 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 					ownerId: userId,
 					title,
 					imageUrl,
-					price,
+					points,
 					description
 				})
 			});
 
 			if (!response.ok) {
 				throw new Error(
-					'Δυστυχώς η δημιουργία νέου προϊόντος δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+					'Δυστυχώς η δημιουργία νέας ερώτησης δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
 
@@ -271,7 +271,7 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 					title,
 					description,
 					imageUrl,
-					price
+					points
 				}
 			});
 		} catch (err) {
@@ -281,16 +281,16 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 	};
 };
 
-export const updateProduct = (id, title, categoryIds, imageUrl, price, description) => {
+export const updateProduct = (id, title, categoryIds, imageUrl, points, description) => {
 	return async (dispatch, getState) => {
 		try {
 			const userId = getState().auth.userId;
 			const token = getState().auth.token;
 			// testing
 			// const response = await fetch(
-			// `https://ekthesi-7767c.firebaseio.com/questions/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json?`,
+			// `https://en-touto-nika.firebaseio.com//questions/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json?`,
 			// {
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/questions/${id}.json?auth=${token}`, {
+			const response = await fetch(`https://en-touto-nika.firebaseio.com//questions/${id}.json?auth=${token}`, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json'
@@ -299,14 +299,14 @@ export const updateProduct = (id, title, categoryIds, imageUrl, price, descripti
 					title,
 					categoryIds,
 					imageUrl,
-					price,
+					points,
 					description
 				})
 			});
 
 			if (!response.ok) {
 				throw new Error(
-					'Δυστυχώς η ανανέωση των πληροφωριών του προϊόντος δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+					'Δυστυχώς η ανανέωση των πληροφωριών της ερωτήσεως δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
 			// const resData = await response.json();
@@ -320,7 +320,7 @@ export const updateProduct = (id, title, categoryIds, imageUrl, price, descripti
 					categoryIds,
 					ownerId: userId,
 					imageUrl,
-					price,
+					points,
 					description
 				}
 			});

@@ -62,7 +62,7 @@ const GameInfoScreen = (props) => {
 						</BoldText>
 
 						<Image
-							source={{ uri: 'http://www.ixnk.gr/image/catalog/icons/kateikona1.jpg' }}
+							source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/en-touto-nika.appspot.com/o/nika%20(1).png?alt=media&token=cf439860-d044-47f9-8e59-6c73f69f2462' }}
 							style={{ width: cardWidth / 1.5, height: cardHeight / 1.5, margin: 5 }}
 						/>
 					</Card>
@@ -134,7 +134,7 @@ GameInfoScreen.navigationOptions = ({ navigation }) => {
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
 					title="cart"
-					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+					iconName={Platform.OS === 'android' ? 'md-albums' : 'ios-albums'}
 					onPress={() => navigation.navigate({ routeName: 'Cart' })}
 				/>
 			</HeaderButtons>

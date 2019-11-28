@@ -12,7 +12,7 @@ const CartItem = (props) => {
 			<BoldText style={styles.mainText}>{props.title} </BoldText>
 			{/* <Line style={styles.line} /> */}
 			<BoldText style={styles.mainText}>
-				Τιμή: {props.price}
+				Τιμή: {props.points}
 				<Text style={styles.euro}> €</Text>
 			</BoldText>
 			<View style={styles.itemDataSummary}>

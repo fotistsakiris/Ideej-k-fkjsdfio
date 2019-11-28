@@ -35,7 +35,7 @@ const OrderItem = (props) => {
 						<CartItem
 							key={index}
 							quantity={cartItem.quantity}
-							price={cartItem.price}
+							points={cartItem.points}
 							amount={cartItem.sum}
 							title={cartItem.title}
 						/>

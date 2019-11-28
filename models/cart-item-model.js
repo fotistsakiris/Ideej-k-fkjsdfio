@@ -16,7 +16,7 @@ function CartItemModel (info) {
 	this.ownerId = info.ownerId;
 	this.title = info.title;
 	this.imageUrl = info.imageUrl;
-	this.price = info.price;
+	this.points = info.points;
 	this.description = info.description;
 }
 

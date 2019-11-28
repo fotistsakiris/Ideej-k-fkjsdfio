@@ -39,7 +39,7 @@ const CartScreen = (props) => {
 				id: key,
 				index: state.cart.items[key].index,
 				title: state.cart.items[key].title,
-				price: state.cart.items[key].price,
+				points: state.cart.items[key].points,
 				quantity: state.cart.items[key].quantity,
 				sum: state.cart.items[key].sum
 			});
@@ -100,7 +100,7 @@ const CartScreen = (props) => {
 			<Card style={styles.summary}>
 				<CartItem
 					quantity={itemData.item.quantity}
-					price={itemData.item.price}
+					points={itemData.item.points}
 					title={itemData.item.title}
 					amount={itemData.item.sum}
 					changeQuantity // Needed to show the plus/minus buttons.
@@ -122,7 +122,7 @@ const CartScreen = (props) => {
 		return (
 			<CustomLinearGradient>
 				<Card style={styles.summary}>
-					<BoldText style={styles.centered}> Το καλάθι σας είναι άδειο...</BoldText>
+					<BoldText style={styles.centered}>Δεν έχετε δημιουργήσει συλλογές ακόμη</BoldText>
 				</Card>
 			</CustomLinearGradient>
 		);
@@ -190,7 +190,7 @@ CartScreen.navigationOptions = ({ navigation }) => {
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item
 		// 			title="card"
-		// 			iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+		// 			iconName='adchoices'
 		// 			onPress={() => navigation.navigate({routeName: 'Cart'})}
 		// 		/>
 		// 	</HeaderButtons>

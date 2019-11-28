@@ -71,7 +71,7 @@ AdminCategoriesScreen.navigationOptions = ({ navigation }) => {
 							Εκκλησιαστική Ιστορία: c5\n
 							Δόγματα: c6\n
 							Ιεροί Κανόνες: c7\n
-							Αντιαιρετικά: c6\n`,
+							Αντιαιρετικά: c8\n`,
 							[ { text: 'Εντάξη', style: 'default' } ]
 						);
 					}}
@@ -94,7 +94,7 @@ AdminCategoriesScreen.navigationOptions = ({ navigation }) => {
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item
 		// 			title="cart"
-		// 			iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+		// 			iconName='adchoices'
 		// 			onPress={() => navigation.navigate({ routeName: 'Cart' })}
 		// 		/>
 		// 	</HeaderButtons>

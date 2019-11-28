@@ -54,7 +54,7 @@ const QuestionsOverviewScreen = (props) => {
 			setError(null);
 			setIsRefresing(true);
 			try {
-				await dispatch(questionsActions.fetchProducts());
+				await dispatch(questionsActions.fetchQuestions());
 			} catch (err) {
 				setError(err.message);
 			}
@@ -145,9 +145,8 @@ const QuestionsOverviewScreen = (props) => {
 										/>
 									</View>
 
-									<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.price }}>
-										{itemData.item.price.toFixed(2)}
-										<Text style={{ fontSize: Math.ceil(width * 0.03), ...styles.euro }}> €</Text>
+									<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
+										{itemData.item.points.toFixed(2)}
 									</BoldText>
 									<View style={styles.customButton}>
 										<CustomButton
@@ -166,9 +165,8 @@ const QuestionsOverviewScreen = (props) => {
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.price }}>
-										{itemData.item.price.toFixed(2)}
-										<Text style={{ fontSize: Math.ceil(width * 0.03), ...styles.euro }}> €</Text>
+									<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
+										{itemData.item.points.toFixed(2)}
 									</BoldText>
 									<View style={styles.button}>
 										<Button
@@ -213,7 +211,7 @@ QuestionsOverviewScreen.navigationOptions = ({ navigation }) => {
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
 					title="cart"
-					iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+					iconName={Platform.OS === 'android' ? 'md-albums' : 'ios-albums'}
 					onPress={() => navigation.navigate({ routeName: 'Cart' })}
 				/>
 			</HeaderButtons>
@@ -231,7 +229,7 @@ const styles = StyleSheet.create({
 		// maxHeight: '100%',
 		padding: 20
 	},
-	price: {
+	points: {
 		// fontSize: 18,
 		color: '#888',
 		alignSelf: 'center',

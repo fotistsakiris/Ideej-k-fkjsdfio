@@ -56,7 +56,7 @@ export default (state = initialState, action) => {
 				ownerId: action.questionData.ownerId,
 				title: action.questionData.title,
 				imageUrl: action.questionData.imageUrl,
-				price: action.questionData.price,
+				points: action.questionData.points,
 				description: action.questionData.description
 			});
 			return {
@@ -72,8 +72,8 @@ export default (state = initialState, action) => {
 				ownerId: action.questionData.ownerId,
 				title: action.questionData.title,
 				imageUrl: action.questionData.imageUrl,
-				price: action.questionData.price, 
-				// price: state.userQuestions[productIndex].price,
+				points: action.questionData.points, 
+				// points: state.userQuestions[productIndex].points,
 				description: action.questionData.description
 			});
 			const updatedUserProducts = [ ...state.userQuestions ];
