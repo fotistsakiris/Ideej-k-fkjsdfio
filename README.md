@@ -81,3 +81,5 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 
 # !!!
 ### npm config set ignore-scripts true 
+
+change remote
