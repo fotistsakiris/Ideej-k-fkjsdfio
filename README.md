@@ -79,4 +79,5 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 ### expo fetch:android:keystore
 ### expo upload:android
 
-### npm config set ignore-scripts true
+# !!!
+### npm config set ignore-scripts true 
