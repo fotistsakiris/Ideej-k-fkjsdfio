@@ -4,7 +4,7 @@ import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { useScreens } from 'react-native-screens';
 
-// import EkthesisDrawerNavigator from './navigation/ekthesisDrawerNavigator';
+// import GameDrawerNavigator from './navigation/ekthesisDrawerNavigator';
 // import EkthesisBottomTabNavigator from './navigation/ekthesisBottomTabNavigator';
 import NavigationContainer from './navigation/NavigationContainer';
 import configureStore from './store/configureStore';

@@ -1,4 +1,4 @@
-// class Product {
+// class Question {
 //     constructor(id, categoryIds, ownerId, title, imageUrl, description, price) {
 //         this.id = id;
 //         this.categoryIds = categoryIds;
@@ -11,10 +11,10 @@
 
 // }
 
-// export default Product;
+// export default Question;
 
-function Product(info) {
-	this.index = info.index; // for keeping the order in cartScreen
+function Question(info) {
+	this.index = info.index; // for keeping the choice in cartScreen
 	this.id = info.id;
 	this.categoryIds = info.categoryIds;
 	this.ownerId = info.ownerId;
@@ -24,4 +24,4 @@ function Product(info) {
 	this.description = info.description;
 }
 
-export default Product;
+export default Question;

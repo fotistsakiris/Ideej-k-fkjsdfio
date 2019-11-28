@@ -139,7 +139,7 @@ const AuthScreen = (props) => {
 		<CustomLinearGradient>
 			{/* <Card style={styles.authContainer}> */}
 			<View style={styles.buttonContainerEntrance}>
-				<BoldText> Είσοδος στην Έκθεση </BoldText>
+				<BoldText> Είσοδος στο παιχνίδι </BoldText>
 				{Platform.OS === 'android' ? (
 					<View style={styles.buttonSignup}>
 						<CustomButton

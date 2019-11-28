@@ -9,18 +9,18 @@ import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomButton from '../../components/UI/CustomButton';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
-import OrderItem from '../../components/shop/OrderItem';
+import OrderItem from '../../components/game/OrderItem';
 import BoldText from '../../components/UI/BoldText';
 import Card from '../../components/UI/Card';
-import * as ordersActions from '../../store/actions/orders';
+import * as ordersActions from '../../store/actions/choices';
 import Colours from '../../constants/Colours';
 
-const OrdersScreen = (props) => {
+const ChoicesScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
 	const [ isRefresing, setIsRefresing ] = useState(false);
 	const dispatch = useDispatch();
-	const orders = useSelector((state) => state.orders.orders);
+	const choices = useSelector((state) => state.choices.choices);
 	const userIdExists = useSelector((state) => state.auth.userId);
 
 	const loadedOrders = useCallback(
@@ -66,7 +66,7 @@ const OrdersScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.centered}>
 					<BoldText>
-						{error.message} Σφάλμα στη διαδικασία φορτώσεως των παραγγελιών. Παρακαλούμε ελέγξτε τη σύνδεσή
+						{error.message} Σφάλμα στη διαδικασία φορτώσεως των επιλογώνν σας. Παρακαλούμε ελέγξτε τη σύνδεσή
 						σας.
 					</BoldText>
 					{Platform.OS === 'android' ? (
@@ -94,7 +94,7 @@ const OrdersScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.content}>
 					<BoldText>
-						Προκειμένου να δείτε τις παραγγελίες σας, παρακαλούμε συνδεθείτε ή προχωρήσθε σε εγγραφή.
+						Προκειμένου να δείτε τις επιλογές σας, παρακαλούμε συνδεθείτε ή προχωρήσθε σε εγγραφή.
 					</BoldText>
 					<View style={styles.buttonContainerEntrance}>
 						{Platform.OS === 'android' ? (
@@ -119,11 +119,11 @@ const OrdersScreen = (props) => {
 		);
 	}
 
-	if (orders.length === 0) {
+	if (choices.length === 0) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
-					<BoldText>Δεν βρέθηκαν παραγγελίες στη βάση δεδομένων!</BoldText>
+					<BoldText>Δεν βρέθηκαν επιλογές στη βάση δεδομένων!</BoldText>
 				</View>
 			</CustomLinearGradient>
 		);
@@ -135,7 +135,7 @@ const OrdersScreen = (props) => {
 				<FlatList
 					onRefresh={loadedOrders}
 					refreshing={isRefresing}
-					data={orders}
+					data={choices}
 					keyExtractor={(item) => item.id}
 					renderItem={(itemData) => {
 						const date = new Date(itemData.item.date);
@@ -174,9 +174,9 @@ const OrdersScreen = (props) => {
 	);
 };
 
-OrdersScreen.navigationOptions = ({ navigation }) => {
+ChoicesScreen.navigationOptions = ({ navigation }) => {
 	return {
-		headerTitle: 'Οι παραγγελίες σας',
+		headerTitle: 'Οι επιλογές σας',
 		// Needed for side drawer navigation
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
@@ -229,4 +229,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default OrdersScreen;
+export default ChoicesScreen;

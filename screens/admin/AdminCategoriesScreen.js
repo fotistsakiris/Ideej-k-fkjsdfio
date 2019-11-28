@@ -4,7 +4,7 @@ import { FlatList, View, Button, Alert, Platform, StyleSheet } from 'react-nativ
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { CATEGORIES } from '../../data/categories';
-import CategoryGridTile from '../../components/shop/CategoryGridTile';
+import CategoryGridTile from '../../components/game/CategoryGridTile';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 import Colours from '../../constants/Colours';
@@ -32,14 +32,14 @@ const AdminCategoriesScreen = (props) => {
 			<View style={styles.flatListContainer}>
 				{Platform.OS === 'android' ? (
 					<CustomButton
-						title="Έκθεση"
-						onPress={() => props.navigation.navigate('Ekthesis')}
+						title="ΕΝ ΤΟΥΤΩ ΝΙΚΑ"
+						onPress={() => props.navigation.navigate('en_touto_nika')}
 						color={Colours.maroon}
 					/>
 				) : (
 					<Button
-						title="Έκθεση"
-						onPress={() => props.navigation.navigate('Ekthesis')}
+						title="ΕΝ ΤΟΥΤΩ ΝΙΚΑ"
+						onPress={() => props.navigation.navigate('en_touto_nika')}
 						color={Colours.maroon}
 					/>
 				)}
@@ -56,15 +56,22 @@ const AdminCategoriesScreen = (props) => {
 
 AdminCategoriesScreen.navigationOptions = ({ navigation }) => {
 	return {
-		headerTitle: 'Τα προϊόντα σας',
+		headerTitle: 'Κατηγορίες',
 		// Needed for side drawer navigation
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
 					onPress={() => {
 						Alert.alert(
-							`Κατηγορίες προϊόντων`,
-							`Εικόνες - Αγιογραφίες: c1\nΕργόχειρα: c2\nΜοναστηριακά προϊόντα: c3\nΕκκλησιαστικά Είδη: c4\nΟρθόδοξη Βιβλιοθήκη: c5\nΕίδη δώρων - Αναμνηστικά: c6\nΠροτεινόμενα προϊόντα: c7\n`,
+							`Κατηγορίες ερωτήσεων`,
+							`Καινή Διαθήκη: c1\n
+							Παλαιά Διαθήκη: c2\n
+							Αγιολογικά: c3\n
+							Λειτουργικά: c4\n
+							Εκκλησιαστική Ιστορία: c5\n
+							Δόγματα: c6\n
+							Ιεροί Κανόνες: c7\n
+							Αντιαιρετικά: c6\n`,
 							[ { text: 'Εντάξη', style: 'default' } ]
 						);
 					}}

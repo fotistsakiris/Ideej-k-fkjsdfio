@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Έκθεση",
-    "slug": "ekthesi",
+    "name": "Εν τούτω Νίκα",
+    "slug": "en_touto_nika",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
@@ -24,12 +24,12 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier":"gr.footios.ekthesi",
+      "bundleIdentifier":"gr.footios.en_touto_nika",
       "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
-      "package":"gr.footios.ekthesi",
+      "package":"gr.footios.en_touto_nika",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",

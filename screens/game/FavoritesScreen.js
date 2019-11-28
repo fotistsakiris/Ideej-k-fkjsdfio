@@ -4,13 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
-import ProductItem from '../../components/shop/ProductItem';
+import QuestionItem from '../../components/game/QuestionItem';
 import BoldText from '../../components/UI/BoldText';
 import Colours from '../../constants/Colours';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
 import * as cartActions from '../../store/actions/cart';
-import * as productsActions from '../../store/actions/products';
+import * as questionsActions from '../../store/actions/questions';
 
 // import DefaultText from '../components/UI/DefaultText';
 
@@ -22,7 +22,7 @@ const FavoritesScreen = (props) => {
 	const [ isRefresing, setIsRefresing ] = useState(false);
 	const dispatch = useDispatch();
 	const userIdExists = useSelector((state) => state.auth.userId);
-	const favProducts = useSelector((state) => state.products.favoriteProducts);
+	const favProducts = useSelector((state) => state.questions.favoriteQuestions);
 
 	const loadFavProducts = useCallback(
 		async () => {
@@ -30,11 +30,11 @@ const FavoritesScreen = (props) => {
 			setIsRefresing(true);
 			setIsLoading(true);
 			try {
-				await dispatch(productsActions.fetchFavProducts());
-				// Load all products... Other wise if logged in user visits the favorites
+				await dispatch(questionsActions.fetchFavProducts());
+				// Load all questions... Other wise if logged in user visits the favorites
 				// and then clicks to go to DetailesScreen,
 				// the app can not find wich of the availabelProducts to show...
-				await dispatch(productsActions.fetchProducts());
+				await dispatch(questionsActions.fetchProducts());
 			} catch (err) {
 				setError(err.message);
 			}
@@ -64,8 +64,8 @@ const FavoritesScreen = (props) => {
 	const selectItemHandler = (id, title) => {
 		props.navigation.pop();
 		props.navigation.navigate('DetailScreen', {
-			productId: id,
-			productTitle: title
+			questionId: id,
+			questionTitle: title
 		});
 	};
 
@@ -84,9 +84,9 @@ const FavoritesScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.centered}>
 					<BoldText>
-						Σφάλμα στη διαδικασία φορτώσεως των αγαπημένων προϊόντων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
+						Σφάλμα στη διαδικασία φορτώσεως των αγαπημένων ερωτήσεων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
 					</BoldText>
-					{/* <Button title="Δοκιμάστε Ξανά" onPress={() => dispatch(productsActions.fetchFavProducts())} color={Colours.maroon} /> */}
+					{/* <Button title="Δοκιμάστε Ξανά" onPress={() => dispatch(questionsActions.fetchFavProducts())} color={Colours.maroon} /> */}
 					{Platform.OS === 'android' ? (
 						<View style={styles.buttonSignup}>
 							<CustomButton
@@ -149,7 +149,7 @@ const FavoritesScreen = (props) => {
 					data={favProducts}
 					keyExtractor={(item) => item.id}
 					renderItem={(itemData) => (
-						<ProductItem
+						<QuestionItem
 							title={itemData.item.title}
 							image={itemData.item.imageUrl}
 							onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
@@ -194,7 +194,7 @@ const FavoritesScreen = (props) => {
 									</View>
 								</View>
 							)}
-						</ProductItem>
+						</QuestionItem>
 					)}
 				/>
 			</View>

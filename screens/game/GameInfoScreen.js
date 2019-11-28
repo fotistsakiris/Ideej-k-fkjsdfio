@@ -22,7 +22,7 @@ import Card from '../../components/UI/Card';
 
 import Colours from '../../constants/Colours';
 
-const ShopInfoScreen = (props) => {
+const GameInfoScreen = (props) => {
 	const [ error, setError ] = useState(); // error initially is undefined!
 
 	const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
@@ -57,11 +57,8 @@ const ShopInfoScreen = (props) => {
 					{/* <SafeAreaView style={{ flex: 1 }}> */}
 					<Card style={{ height: cardHeight * 2.5, width: cardWidth, ...styles.card }}>
 						<BoldText style={styles.boldText}>
-							Καλώς ήλθατε στον ιστότοπο του καταστήματος "IXNK". Εδώ θα βρείτε την μεγαλύτερη ποικιλία
-							από εικόνες όλων των ειδών, όπως επίσης και μεγάλη γκάμα μοναστηριακών προϊόντων,
-							εκκλησιαστικών ειδών, εργόχειρων, βιβλίων και διαφόρων άλλων ειδών. Το κατάστημά μας
-							λειτουργεί από το 1996 και βρίσκεται απέναντι από τον Ναό του Αγίου Δημητρίου στην
-							Θεσσαλονίκη. Σας ευχαριστούμε για την επίσκεψη στον ιστότοπο του καταστήματος.
+							Καλώς ήλθατε στην εφαρμογή ΕΝ ΤΟΥΤΩ ΝΙΚΑ. Εδώ θα βρείτε ένα μικρό απάνθισμα
+							από ερωτήσεις Εκκλησιαστικού περιεχομένου. Καλή ψυχαγωγία!
 						</BoldText>
 
 						<Image
@@ -111,9 +108,9 @@ const ShopInfoScreen = (props) => {
 	);
 };
 
-ShopInfoScreen.navigationOptions = ({ navigation }) => {
+GameInfoScreen.navigationOptions = ({ navigation }) => {
 	return {
-		headerTitle: 'ΚΑΤ΄ ΕΙΚΟΝΑ',
+		headerTitle: 'EN TOYTV NIKA',
 		// Needed for side drawer navigation
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
@@ -177,4 +174,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default ShopInfoScreen;
+export default GameInfoScreen;

@@ -15,9 +15,9 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomButton from '../../components/UI/CustomButton';
-import CartItem from '../../components/shop/CartItem';
+import CartItem from '../../components/game/CartItem';
 import * as cartActions from '../../store/actions/cart';
-import * as ordersActions from '../../store/actions/orders';
+import * as ordersActions from '../../store/actions/choices';
 import Card from '../../components/UI/Card';
 import Colours from '../../constants/Colours';
 import BoldText from '../../components/UI/BoldText';
@@ -34,7 +34,7 @@ const CartScreen = (props) => {
 		const transformedCartItems = [];
 		for (const key in state.cart.items) {
 			const index = state.cart.items[key].index;
-			// Use splice to keep the order when adding/subtracting
+			// Use splice to keep the choice when adding/subtracting
 			transformedCartItems.splice(index, 0, {
 				id: key,
 				index: state.cart.items[key].index,
@@ -44,7 +44,7 @@ const CartScreen = (props) => {
 				sum: state.cart.items[key].sum
 			});
 		}
-		// return transformedCartItems.sort((a, b) => (a.productId > b.productId ? 1 : -1));
+		// return transformedCartItems.sort((a, b) => (a.questionId > b.questionId ? 1 : -1));
 		return transformedCartItems;
 	});
 
@@ -56,7 +56,7 @@ const CartScreen = (props) => {
 			if (!userIdExists) {
 				Alert.alert(
 					'Ευχαριστούμε για την προτίμησή σας.',
-					'Σας Παρακαλούμε συνδεθείτε ή δημιουργήστε ένα λογαριασμό, προκειμένου να προχωρήσετε με την παραγγελίας σας. Ευχαριστούμε! ',
+					'Σας Παρακαλούμε συνδεθείτε ή δημιουργήστε ένα λογαριασμό, προκειμένου να προχωρήσετε με τις επιλογές σας. Ευχαριστούμε! ',
 					[ { text: 'Εντάξει', style: 'default' } ]
 				);
 			} else {
@@ -77,7 +77,7 @@ const CartScreen = (props) => {
 		return (
 			<View style={styles.centered}>
 				<BoldText>
-					Σφάλμα στη διαδικασία αποστολής της παραγγελίας. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
+					Σφάλμα στη διαδικασία αποθηκεύσεως των επιλογών σας. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
 				</BoldText>
 				{Platform.OS === 'android' ? (
 					<CustomButton
@@ -149,14 +149,14 @@ const CartScreen = (props) => {
 						// color={cartItems.length === 0 ? 'gray' : ''}
 						style={styles.customButton}
 						textStyle={styles.buttonText}
-						title="Εκτέλεση παραγγελίας"
+						title="Εκτέλεση επιλογών"
 						disabled={cartItems.length === 0}
 						onPress={sendOrderHandler}
 					/>
 				) : (
 					<Button
 						color={Colours.maroon}
-						title="Εκτέλεση παραγγελίας"
+						title="Εκτέλεση επιλογών"
 						disabled={cartItems.length === 0}
 						onPress={sendOrderHandler}
 					/>
@@ -176,7 +176,7 @@ const CartScreen = (props) => {
 
 CartScreen.navigationOptions = ({ navigation }) => {
 	return {
-		headerTitle: 'Το καλάθι σας'
+		headerTitle: 'Οι επιλογές σας'
 		// headerRight: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 		// 		<Item

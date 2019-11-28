@@ -4,7 +4,7 @@ export const AUTHENTICATE = 'AUTHENTICATE';
 export const LOG_OUT = 'LOG_OUT';
 
 let timer;
-const API_KEY = 'AIzaSyCEGJvfv5i9KQVYrH4igYDAmnupTPCDDC8';
+const API_KEY = 'AIzaSyCkVlDAonkvTzKJkVpAlxMnCZmVil1qbg8';
 export const authenticate = (token, userId, expiryTime) => {
 	return (dispatch) => {
 		dispatch(setLogoutTimer(expiryTime));

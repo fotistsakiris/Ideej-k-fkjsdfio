@@ -1,11 +1,11 @@
-// We use this rupper navigator in order to use Redux...
+// We use this rupper navigator in choice to use Redux...
 // And because in startUpScreen we can not navigate to the authScreen.
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 
-// import EkthesisDrawerNavigator from './EkthesisDrawerNavigator';
-import EkthesisDrawerNavigator from './EkthesisDrawerNavigator';
+// import GameDrawerNavigator from './GameDrawerNavigator';
+import GameDrawerNavigator from './GameDrawerNavigator';
 
 const NavigationContainer = (props) => {
 	// !! to force it to be true/false
@@ -19,7 +19,7 @@ const NavigationContainer = (props) => {
 		},
 		[ isAuth ]
 	);
-	return <EkthesisDrawerNavigator ref={navRef} />;
+	return <GameDrawerNavigator ref={navRef} />;
 };
 
 export default NavigationContainer;

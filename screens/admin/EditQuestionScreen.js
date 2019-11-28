@@ -6,7 +6,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import Input from '../../components/UI/Input';
 import Colours from '../../constants/Colours';
-import * as productsActions from '../../store/actions/products';
+import * as questionsActions from '../../store/actions/questions';
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
@@ -33,14 +33,14 @@ const formReducer = (state, action) => {
 	return state;
 };
 
-const EditProductScreen = (props) => {
+const EditQuestionScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
 
-	const prodId = props.navigation.getParam('productId');
-	// If productId is not set (if we press the add button in UserProductScreen)
+	const prodId = props.navigation.getParam('questionId');
+	// If questionId is not set (if we press the add button in UserProductScreen)
 	// then editedProduct will be undifined. But that is OK.
-	const editedProduct = useSelector((state) => state.products.userProducts.find((prod) => prod.id === prodId));
+	const editedProduct = useSelector((state) => state.questions.userQuestions.find((quest) => quest.id === prodId));
 
 	const dispatch = useDispatch();
 
@@ -89,7 +89,7 @@ const EditProductScreen = (props) => {
 			try {
 				if (editedProduct) {
 					await dispatch(
-						productsActions.updateProduct(
+						questionsActions.updateProduct(
 							prodId,
 							formState.inputValues.title,
 							formState.inputValues.categoryIds,
@@ -101,7 +101,7 @@ const EditProductScreen = (props) => {
 					);
 				} else {
 					await dispatch(
-						productsActions.createProduct(
+						questionsActions.createProduct(
 							formState.inputValues.title,
 							formState.inputValues.categoryIds,
 							// formState.inputValues.ownerId,
@@ -254,10 +254,10 @@ const EditProductScreen = (props) => {
 	);
 };
 
-EditProductScreen.navigationOptions = ({ navigation }) => {
+EditQuestionScreen.navigationOptions = ({ navigation }) => {
 	const submitFn = navigation.getParam('submit');
 	return {
-		headerTitle: navigation.getParam('productId') ? 'Επεξεργασία προϊόντος' : 'Προσθήκη προϊόντος',
+		headerTitle: navigation.getParam('questionId') ? 'Επεξεργασία ερωτήσεως' : 'Προσθήκη ερωτήσεως',
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 				<Item
@@ -286,4 +286,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default EditProductScreen;
+export default EditQuestionScreen;

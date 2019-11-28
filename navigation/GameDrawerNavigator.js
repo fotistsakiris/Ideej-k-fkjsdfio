@@ -18,17 +18,17 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer';
 import { fadeIn } from 'react-navigation-transitions';
 
-import CategoriesScreen from '../screens/shop/CategoriesScreen';
-import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
-import FavoritesScreen from '../screens/shop/FavoritesScreen';
-import OrdersScreen from '../screens/shop/OrdersScreen';
-import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
-import UsersScreen from '../screens/shop/UsersScreen';
-import ShopInfoScreen from '../screens/shop/ShopInfoScreen';
-import CartScreen from '../screens/shop/CartScreen';
+import CategoriesScreen from '../screens/game/CategoriesScreen';
+import QuestionsOverviewScreen from '../screens/game/QuestionsOverviewScreen';
+import FavoritesScreen from '../screens/game/FavoritesScreen';
+import ChoicesScreen from '../screens/game/ChoicesScreen';
+import QuestionDetailScreen from '../screens/game/QuestionDetailScreen';
+import UsersScreen from '../screens/game/UsersScreen';
+import GameInfoScreen from '../screens/game/GameInfoScreen';
+import CartScreen from '../screens/game/CartScreen';
 import AdminCategoriesScreen from '../screens/admin/AdminCategoriesScreen';
-import AdminProductsOverview from '../screens/admin/AdminProductsOverview';
-import EditProductScreen from '../screens/admin/EditProductScreen';
+import AdminQuestionsOverview from '../screens/admin/AdminQuestionsOverview';
+import EditQuestionScreen from '../screens/admin/EditQuestionScreen';
 import AuthScreen from '../screens/admin/AuthScreen';
 import StartUpScreen from '../screens/StartUpScreen';
 
@@ -66,8 +66,8 @@ const defaultNavOptions = {
 const EkthesisNavigator = createStackNavigator(
 	{
 		Categories: CategoriesScreen,
-		ProductsOverview: ProductsOverviewScreen,
-		DetailScreen: ProductDetailScreen,
+		QuestionsOverview: QuestionsOverviewScreen,
+		DetailScreen: QuestionDetailScreen,
 		Cart: CartScreen
 		// AdminCategories: AdminCategoriesScreen,
 	},
@@ -80,7 +80,7 @@ const EkthesisNavigator = createStackNavigator(
 const FavNavigator = createStackNavigator(
 	{
 		Favorites: FavoritesScreen,
-		DetailScreen: ProductDetailScreen // So we do not get to see a snapshop of Categories when navigating from FavoritesScreen to DetailsScreen
+		DetailScreen: QuestionDetailScreen // So we do not get to see a snapshop of Categories when navigating from FavoritesScreen to DetailsScreen
 	},
 	{
 		defaultNavigationOptions: defaultNavOptions
@@ -89,7 +89,7 @@ const FavNavigator = createStackNavigator(
 
 const OrdersNavigator = createStackNavigator(
 	{
-		Orders: OrdersScreen
+		Orders: ChoicesScreen
 	},
 	{
 		// navigationOptions only apply if this Screen here, belongs to another Navigator
@@ -111,7 +111,7 @@ const UserNavigator = createStackNavigator(
 
 const ShopInfoNavigator = createStackNavigator(
 	{
-		ShopInfo: ShopInfoScreen
+		ShopInfo: GameInfoScreen
 	},
 	{
 		defaultNavigationOptions: defaultNavOptions
@@ -129,12 +129,12 @@ const AuthNavigator = createStackNavigator(
 
 const MainNavigator = createDrawerNavigator(
 	{
-		Ekthesis: {
+		en_touto_nika: {
 			screen: EkthesisNavigator,
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>'Eκθεση</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>'ΕΝ ΤΟΥΤΩ ΝΙΚΑ</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => (
@@ -159,12 +159,12 @@ const MainNavigator = createDrawerNavigator(
 				}
 			}
 		},
-		Orders: {
+		Choices: {
 			screen: OrdersNavigator,
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>Παραγγελίες</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>Επιλογές</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -172,12 +172,12 @@ const MainNavigator = createDrawerNavigator(
 				}
 			}
 		},
-		ShopInfo: {
+		GameInfo: {
 			screen: ShopInfoNavigator,
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>Κατάστημα</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>Πληροφορίες</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -190,7 +190,7 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				drawerLabel: (
 					<View>
-						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>Χρήστης</BoldText>
+						<BoldText style={{ paddingVertical: 12, paddingHorizontal: 5 }}>Παίκτης</BoldText>
 					</View>
 				),
 				drawerIcon: (tabInfo) => {
@@ -287,7 +287,7 @@ const MainNavigator = createDrawerNavigator(
 							</SimpleLineIcons.Button>
 						) : null}
 						{/* Button for Admin. It shows up, only if user is Admin */}
-						{userIdExists === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' || userIdExists === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2' ? (
+						{userIdExists === '5E5hc3oOCJRYM4RByLf7ORTIP103' ? (
 							<Feather.Button
 								name="user"
 								backgroundColor={Colours.moccasin_light}
@@ -312,8 +312,8 @@ const MainNavigator = createDrawerNavigator(
 const AdminNavigator = createStackNavigator(
 	{
 		AdminCategories: AdminCategoriesScreen,
-		AdminProducts: AdminProductsOverview,
-		EditProduct: EditProductScreen
+		AdminProducts: AdminQuestionsOverview,
+		EditQuestion: EditQuestionScreen
 	},
 	{
 		defaultNavigationOptions: defaultNavOptions

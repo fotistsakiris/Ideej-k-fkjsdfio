@@ -9,7 +9,7 @@ import {
 	TouchableOpacity,
 	TouchableNativeFeedback
 } from 'react-native';
-// import { Product } from 'react-native-elements';
+// import { Question } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import Card from '../UI/Card';
@@ -18,7 +18,7 @@ import Colours from '../../constants/Colours';
 import CustomButton from '../UI/CustomButton';
 import BoldText from '../UI/BoldText';
 
-const ProductItem = (props) => {
+const QuestionItem = (props) => {
 	const { width, height } = Dimensions.get('window');
 	// let widthMultiplier = 0.8
 	// let heightMultiplier = 0.5
@@ -52,10 +52,10 @@ const ProductItem = (props) => {
 
 	return (
 		<Card
-			style={{ height: Math.ceil(cardHeight * height), width: Math.ceil(cardWidth * width), ...styles.product }}
+			style={{ height: Math.ceil(cardHeight * height), width: Math.ceil(cardWidth * width), ...styles.question }}
 		>
 			{/* <View style={styles.icon}> */}
-			{/* <Product
+			{/* <Question
 					size={18}
 					name={props.isFavorite ? 'favorite' : 'favorite-border'}
 					type="material"
@@ -97,7 +97,7 @@ const ProductItem = (props) => {
 };
 
 const styles = StyleSheet.create({
-	product: {
+	question: {
 		margin: 10,
 		padding: 10,
 		backgroundColor: Colours.moccasin_light
@@ -173,4 +173,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default ProductItem;
+export default QuestionItem;

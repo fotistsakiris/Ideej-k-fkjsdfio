@@ -1,7 +1,7 @@
 import { ADD_TO_CARD, REMOVE_FROM_CARD } from '../actions/cart';
-import { DELETE_PRODUCT } from '../actions/products';
+import { DELETE_QUESTION } from '../actions/questions';
 
-import { ADD_ORDER } from '../actions/orders';
+import { ADD_CHOICE } from '../actions/choices';
 
 import CartItemModel from '../../models/cart-item-model';
 
@@ -13,33 +13,33 @@ const initialState = {
 export default (state = initialState, action) => {
 	switch (action.type) {
 		case ADD_TO_CARD:
-			const addedProduct = action.product;
-			const prodIndex = addedProduct.index;
-			const prodPrice = addedProduct.price;
-			const prodTitle = addedProduct.title;
+			const addedQuestion = action.question;
+			const questIndex = addedQuestion.index;
+			const questPrice = addedQuestion.price;
+			const questTitle = addedQuestion.title;
 			let upadtatedOrNewCartItem;
 			// Check if we already have the item in the cart.
-			if (state.items[addedProduct.id]) {
+			if (state.items[addedQuestion.id]) {
 				upadtatedOrNewCartItem = new CartItemModel({
-					index: prodIndex,
-					quantity: state.items[addedProduct.id].quantity + 1,
-					price: prodPrice,
-					title: prodTitle,
-					sum: state.items[addedProduct.id].sum + prodPrice
+					index: questIndex,
+					quantity: state.items[addedQuestion.id].quantity + 1,
+					price: questPrice,
+					title: questTitle,
+					sum: state.items[addedQuestion.id].sum + questPrice
 				});
 			} else {
 				upadtatedOrNewCartItem = new CartItemModel({
-					index: prodIndex, // for keeping the order in cartScreen
+					index: questIndex, // for keeping the choice in cartScreen
 					quantity: 1,
-					price: prodPrice,
-					title: prodTitle,
-					sum: prodPrice
+					price: questPrice,
+					title: questTitle,
+					sum: questPrice
 				});
 			}
 			return {
 				...state,
-				items: { ...state.items, [addedProduct.id]: upadtatedOrNewCartItem },
-				totalAmount: state.totalAmount + prodPrice
+				items: { ...state.items, [addedQuestion.id]: upadtatedOrNewCartItem },
+				totalAmount: state.totalAmount + questPrice
 			};
 		case REMOVE_FROM_CARD:
 			const selectedCartItem = state.items[action.pid];
@@ -48,7 +48,7 @@ export default (state = initialState, action) => {
 			if (currentQty > 1) {
 				// need to reduce it not erase it
 				const updatedCartItem = new CartItemModel({
-					index: selectedCartItem.index, // for keeping the order in cartScreen
+					index: selectedCartItem.index, // for keeping the choice in cartScreen
 					quantity: selectedCartItem.quantity - 1,
 					price: selectedCartItem.price,
 					title: selectedCartItem.title,
@@ -64,9 +64,9 @@ export default (state = initialState, action) => {
 				items: updatedCartItems,
 				totalAmount: state.totalAmount - selectedCartItem.price
 			};
-		case ADD_ORDER:
+		case ADD_CHOICE:
 			return initialState; // Just clearing the cart!
-		case DELETE_PRODUCT: // Admin !!!
+		case DELETE_QUESTION: // Admin !!!
 			// If item doesn't exist...
 			if (!state.items[action.pid]) {
 				return state;

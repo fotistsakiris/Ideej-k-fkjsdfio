@@ -33,7 +33,7 @@ const StartUpScreen = (props) => {
 				const expirationTime = expirationDate.getTime() - new Date().getTime();
 				
 				// If user is admin, navigate to admin categories
-				if (userId === 'tSSja6ZrVPWkN4Vh6K8elzQ8dmp2' || userId === 'ib4vLOYdTraLKHtBbQv6Y9X3Vtv2') {
+				if (userId === '5E5hc3oOCJRYM4RByLf7ORTIP103') {
 					props.navigation.navigate('Admin');
 				} else {
 					props.navigation.navigate('Main');

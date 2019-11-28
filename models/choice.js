@@ -1,6 +1,6 @@
 //  import moment from 'moment';
 
-// class Order {
+// class Choice {
 // 	constructor(id, items, sum, date) {
 // 		this.id = id;
 // 		this.items = items;
@@ -8,7 +8,7 @@
 // 		this.date = date;
 // 	}
 
-	function Order (data) {
+	function Choice (data) {
 		this.id = data.id;
 		this.items = data.items;
 		this.totalAmount = data.totalAmount;
@@ -28,4 +28,4 @@
 	// }
 // }
 
-export default Order;
+export default Choice;

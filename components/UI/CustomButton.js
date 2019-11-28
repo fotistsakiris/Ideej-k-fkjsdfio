@@ -5,7 +5,7 @@ import Colours from '../../constants/Colours';
 import BoldText from '../UI/BoldText';
 
 export default (CustomButton = (props) => {
-	const {width, height} = Dimensions.get('window'); // Set the height of ProductItem bigger for small screens
+	const {width, height} = Dimensions.get('window'); // Set the height of QuestionItem bigger for small screens
 	let heightMultiplier = 0.05
 	let widthMultiplier = 0.2
 	if (width > 800 ) {

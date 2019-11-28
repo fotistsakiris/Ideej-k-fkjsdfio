@@ -17,13 +17,13 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomButton from '../../components/UI/CustomButton';
-import ProductItem from '../../components/shop/ProductItem';
+import QuestionItem from '../../components/game/QuestionItem';
 import BoldText from '../../components/UI/BoldText';
 import Colours from '../../constants/Colours';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
-import * as productsActions from '../../store/actions/products';
+import * as questionsActions from '../../store/actions/questions';
 
-const AdminProductsOverview = (props) => {
+const AdminQuestionsOverview = (props) => {
 	const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
 
 	const [ isLoading, setIsLoading ] = useState(true);
@@ -31,12 +31,12 @@ const AdminProductsOverview = (props) => {
 	const [ isRefresing, setIsRefresing ] = useState(false);
 
 	const dispatch = useDispatch();
-	// const userProducts = useSelector((state) => state.products.userProducts);
+	// const userQuestions = useSelector((state) => state.questions.userQuestions);
 	const productsInCart = useSelector((state) => state.cart.items);
 
 	const AdminCategoryId = props.navigation.getParam('AdminCategoryId');
-	const userProducts = useSelector((state) =>
-		state.products.userProducts.filter((prod) => prod.categoryIds.indexOf(AdminCategoryId) >= 0)
+	const userQuestions = useSelector((state) =>
+		state.questions.userQuestions.filter((quest) => quest.categoryIds.indexOf(AdminCategoryId) >= 0)
 	);
 
 	const loadProducts = useCallback(
@@ -44,7 +44,7 @@ const AdminProductsOverview = (props) => {
 			setError(null);
 			setIsRefresing(true);
 			try {
-				await dispatch(productsActions.fetchProducts());
+				await dispatch(questionsActions.fetchProducts());
 			} catch (err) {
 				setError(err.message);
 			}
@@ -71,22 +71,22 @@ const AdminProductsOverview = (props) => {
 		},
 		[ dispatch, loadProducts ]
 	);
-	const editProductHandler = (id) => {
-		props.navigation.navigate('EditProduct', { productId: id });
+	const editQuestionHandler = (id) => {
+		props.navigation.navigate('EditQuestion', { questionId: id });
 	};
 
 	const deleteHandler = (id) => {
 		if (Object.keys(productsInCart).length === 0) {
-			Alert.alert('Διαγραφή προϊόντος!', 'Θέλετε να διαγράψετε το προϊόν;', [
+			Alert.alert('Διαγραφή ερωτήσεως!', 'Θέλετε να διαγράψετε την ερώτηση;', [
 				{ text: 'ΟΧΙ', style: 'default' },
-				{ text: 'ΝΑΙ', style: 'destructive', onPress: () => dispatch(productsActions.deleteProduct(id)) }
+				{ text: 'ΝΑΙ', style: 'destructive', onPress: () => dispatch(questionsActions.deleteQuestion(id)) }
 			]);
 		} else {
 			for (const key in productsInCart) {
 				if (key === id) {
 					Alert.alert(
-						'Διαγραφή προϊόντος!',
-						'Το προϊόν είναι αυτή τη στιγμή σε καλάθι πελάτη. Παρακαλούμε περιμένετε να τελιώσει ο πελάτης την παραγγελία του και δοκιμάστε αργότερα. Ευχαριστούμε!',
+						'Διαγραφή Ερωτήσεως!',
+						'Η ερώτηση είναι αυτή τη στιγμή σε ενεργό παιχνίδι. Παρακαλούμε περιμένετε να τελιώσει το παιχνίδι και δοκιμάστε αργότερα. Ευχαριστούμε!',
 						[ { text: 'Εντάξει', style: 'default' } ]
 					);
 				} else {
@@ -99,7 +99,7 @@ const AdminProductsOverview = (props) => {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
-					<BoldText>Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.</BoldText>
+					<BoldText>Σφάλμα στη διαδικασία φορτώσεως των ερωτήσεων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.</BoldText>
 					{Platform.OS === 'android' ? (
 						<CustomButton title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.moccasin_light} />
 					) : (
@@ -120,11 +120,11 @@ const AdminProductsOverview = (props) => {
 		);
 	}
 
-	if (!isLoading && userProducts.length === 0) {
+	if (!isLoading && userQuestions.length === 0) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
-					<BoldText>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</BoldText>
+					<BoldText>Δεν βρέθηκαν ερωτήσεις στη βάση δεδομένων!</BoldText>
 					{Platform.OS === 'android' ? (
 						<CustomButton
 							title="Διαχειριστής"
@@ -150,13 +150,13 @@ const AdminProductsOverview = (props) => {
 					<FlatList
 						onRefresh={loadProducts}
 						refreshing={isRefresing}
-						data={userProducts}
+						data={userQuestions}
 						keyExtractor={(item) => item.id}
 						renderItem={(itemData) => (
-							<ProductItem
+							<QuestionItem
 								image={itemData.item.imageUrl}
 								title={itemData.item.title}
-								onSelect={() => editProductHandler(itemData.item.id)}
+								onSelect={() => editQuestionHandler(itemData.item.id)}
 							>
 								{Platform.OS === 'android' ? (
 								<View style={width < 400 ? styles.actionsSmall : styles.actions}>
@@ -164,7 +164,7 @@ const AdminProductsOverview = (props) => {
 											<CustomButton
 											style={{width: Math.ceil(width * 0.3)}}
 												title="Επεξεργασία"
-												onPress={() => editProductHandler(itemData.item.id)}
+												onPress={() => editQuestionHandler(itemData.item.id)}
 											/>
 										</View>
 										<BoldText style={{fontSize: Math.ceil(width * 0.04), ...styles.price}}>
@@ -185,7 +185,7 @@ const AdminProductsOverview = (props) => {
 											<Button
 												color={Colours.gr_brown_light}
 												title="Επεξεργασία"
-												onPress={() => editProductHandler(itemData.item.id)}
+												onPress={() => editQuestionHandler(itemData.item.id)}
 											/>
 										</View>
 										<BoldText style={styles.price}>
@@ -202,13 +202,13 @@ const AdminProductsOverview = (props) => {
 										</View>
 									</View>
 								)}
-								{/* <Button color={Colours.maroon} title="Edit" onPress={() => editProductHandler(itemData.item.id)} />
+								{/* <Button color={Colours.maroon} title="Edit" onPress={() => editQuestionHandler(itemData.item.id)} />
 					<Button
 						color={Colours.maroon}
 						title="Delete"
 						onPress={deleteHandler.bind(this, itemData.item.id)}
 					/> */}
-							</ProductItem>
+							</QuestionItem>
 						)}
 					/>
 				</SafeAreaView>
@@ -217,7 +217,7 @@ const AdminProductsOverview = (props) => {
 	);
 };
 
-AdminProductsOverview.navigationOptions = ({ navigation }) => {
+AdminQuestionsOverview.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: navigation.getParam('AdminCategoryTitle'),
 		// headerTitle: 'Τα προϊόντα σας',
@@ -245,7 +245,7 @@ AdminProductsOverview.navigationOptions = ({ navigation }) => {
 				<Item
 					title="create"
 					iconName={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
-					onPress={() => navigation.navigate('EditProduct')}
+					onPress={() => navigation.navigate('EditQuestion')}
 				/>
 			</HeaderButtons>
 		)
@@ -299,4 +299,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default AdminProductsOverview;
+export default AdminQuestionsOverview;

@@ -1,14 +1,14 @@
 export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE';
 export const SET_FILTERS = 'SET_FILTERS';
-export const SET_PRODUCTS = 'SET_PRODUCTS';
+export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const SET_FAVORITES = 'SET_FAVORITES';
 
-import Product from '../../models/product';
+import Question from '../../models/question';
 
 // Admin
-export const DELETE_PRODUCT = 'DELETE_PRODUCT';
-export const CREATE_PRODUCT = 'CREATE_PRODUCT';
-export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
+export const DELETE_QUESTION = 'DELETE_QUESTION';
+export const CREATE_QUESTION = 'CREATE_QUESTION';
+export const UPDATE_QUESTION = 'UPDATE_QUESTION';
 
 export const toggleFavorite = (id, isFav, selectedProduct) => {
 	return async (dispatch, getState) => {
@@ -43,9 +43,9 @@ export const toggleFavorite = (id, isFav, selectedProduct) => {
 				// Note: No `name` property, that's why we use a `for_in` loop
 				// console.log('POST', JSON.stringify(resData));
 
-				dispatch({ type: TOGGLE_FAVORITE, productId: id, selectedProduct: selectedProduct });
+				dispatch({ type: TOGGLE_FAVORITE, questionId: id, selectedProduct: selectedProduct });
 			} else if (isFav) {
-				// First get the key in order to delete it in second fetch(...).
+				// First get the key in choice to delete it in second fetch(...).
 				const response = await fetch(
 					`https://ekthesi-7767c.firebaseio.com/favorites/${userId}.json?auth=${token}`
 				);
@@ -76,7 +76,7 @@ export const toggleFavorite = (id, isFav, selectedProduct) => {
 							);
 						}
 						// console.log('fetch', JSON.stringify(resData));
-						dispatch({ type: TOGGLE_FAVORITE, productId: id, selectedProduct: selectedProduct });
+						dispatch({ type: TOGGLE_FAVORITE, questionId: id, selectedProduct: selectedProduct });
 					}
 				}
 			}
@@ -103,7 +103,7 @@ export const fetchFavProducts = () => {
 			const resFavData = await FavResponse.json();
 
 			const loadedFavorites = [];
-			// If resFavData is not null then create a product...
+			// If resFavData is not null then create a question...
 			// Other wise we get an error in FavoritesScreen!
 			if (!!resFavData) {
 				let selectedProduct = null;
@@ -112,7 +112,7 @@ export const fetchFavProducts = () => {
 				}
 				
 				loadedFavorites.push(
-					new Product({
+					new Question({
 						id: selectedProduct.id,
 						categoryIds: selectedProduct.categoryIds,
 						ownerId: selectedProduct.ownerId,
@@ -125,7 +125,7 @@ export const fetchFavProducts = () => {
 				);
 			}
 
-			dispatch({ type: SET_FAVORITES, FavProducts: loadedFavorites });
+			dispatch({ type: SET_FAVORITES, FavQuestions: loadedFavorites });
 		} catch (err) {
 			// send to custom analytics server
 			console.log(err);
@@ -140,12 +140,12 @@ export const setFilters = (filterSettings) => {
 };
 
 // Admin
-export const deleteProduct = (productId) => {
+export const deleteQuestion = (questionId) => {
 	return async (dispatch, getState) => {
 		const token = getState().auth.token;
 		//testing
-		// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json`, {
-		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${productId}.json?auth=${token}`, {
+		// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/questions/${questionId}.json`, {
+		const response = await fetch(`https://ekthesi-7767c.firebaseio.com/questions/${questionId}.json?auth=${token}`, {
 			method: 'DELETE'
 		});
 
@@ -154,8 +154,8 @@ export const deleteProduct = (productId) => {
 		}
 
 		dispatch({
-			type: DELETE_PRODUCT,
-			pid: productId
+			type: DELETE_QUESTION,
+			pid: questionId
 		});
 	};
 };
@@ -164,7 +164,7 @@ export const fetchProducts = () => {
 	return async (dispatch, getState) => {
 		try {
 			const userId = getState().auth.userId;
-			const response = await fetch('https://ekthesi-7767c.firebaseio.com/products.json');
+			const response = await fetch('https://ekthesi-7767c.firebaseio.com/questions.json');
 
 			// check before unpack the response body
 			if (!response.ok) {
@@ -181,8 +181,8 @@ export const fetchProducts = () => {
 
 			for (const key in resData) {
 				loadedProducts.push(
-					new Product({
-						index: resData[key].index, // for keeping the order in cartScreen
+					new Question({
+						index: resData[key].index, // for keeping the choice in cartScreen
 						id: key,
 						categoryIds: resData[key].categoryIds,
 						ownerId: resData[key].ownerId,
@@ -195,12 +195,12 @@ export const fetchProducts = () => {
 			}
 
 			dispatch({
-				type: SET_PRODUCTS,
-				products: loadedProducts,
-				// Now we see only the products of the logged in user.
+				type: SET_QUESTIONS,
+				questions: loadedProducts,
+				// Now we see only the questions of the logged in user.
 				//testing
-				// userProducts: loadedProducts.filter((prod) => prod.ownerId === 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1')
-				userProducts: loadedProducts.filter((prod) => prod.ownerId === userId)
+				// userQuestions: loadedProducts.filter((quest) => quest.ownerId === 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1')
+				userQuestions: loadedProducts.filter((quest) => quest.ownerId === userId)
 			});
 		} catch (err) {
 			// send to custom analytics server
@@ -214,8 +214,8 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 		try {
 			// SET INDEX
 			// Set an index so in CartScreen you can splice the transformedCartItems,
-			// so the order of the cartItems will not change when adding/subtracting
-			const res = await fetch('https://ekthesi-7767c.firebaseio.com/products.json');
+			// so the choice of the cartItems will not change when adding/subtracting
+			const res = await fetch('https://ekthesi-7767c.firebaseio.com/questions.json');
 			const resD = await res.json();
 			const loadedIndexes = [];
 			for (const key in resD) {
@@ -232,14 +232,14 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 			const token = getState().auth.token;
 			const userId = getState().auth.userId;
 			// testing
-			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products.json`, {
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products.json?auth=${token}`, {
+			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/questions.json`, {
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/questions.json?auth=${token}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
-					index: lastIndex + 1, // for keeping the order in cartScreen
+					index: lastIndex + 1, // for keeping the choice in cartScreen
 					categoryIds,
 					//testing
 					// ownerId: 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1',
@@ -260,9 +260,9 @@ export const createProduct = (title, categoryIds, imageUrl, price, description) 
 			const resData = await response.json();
 			// console.log(resData.name);
 			dispatch({
-				type: CREATE_PRODUCT,
-				productData: {
-					index: lastIndex + 1, // for keeping the order in cartScreen
+				type: CREATE_QUESTION,
+				questionData: {
+					index: lastIndex + 1, // for keeping the choice in cartScreen
 					id: resData.name,
 					categoryIds,
 					// testing
@@ -288,9 +288,9 @@ export const updateProduct = (id, title, categoryIds, imageUrl, price, descripti
 			const token = getState().auth.token;
 			// testing
 			// const response = await fetch(
-			// `https://ekthesi-7767c.firebaseio.com/products/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json?`,
+			// `https://ekthesi-7767c.firebaseio.com/questions/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json?`,
 			// {
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/products/${id}.json?auth=${token}`, {
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/questions/${id}.json?auth=${token}`, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json'
@@ -313,9 +313,9 @@ export const updateProduct = (id, title, categoryIds, imageUrl, price, descripti
 			// console.log('PATCH resData.name: ', resData.name);
 
 			dispatch({
-				type: UPDATE_PRODUCT,
+				type: UPDATE_QUESTION,
 				pid: id,
-				productData: {
+				questionData: {
 					title,
 					categoryIds,
 					ownerId: userId,

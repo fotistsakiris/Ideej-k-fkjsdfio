@@ -3,17 +3,17 @@ import { View, Text, Button, FlatList, Dimensions, StyleSheet, ActivityIndicator
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import ProductItem from '../../components/shop/ProductItem';
+import QuestionItem from '../../components/game/QuestionItem';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomButton from '../../components/UI/CustomButton';
-import BoldText from '../../components//UI/BoldText';
+import BoldText from '../../components/UI/BoldText';
 import Colours from '../../constants/Colours';
 
 import * as cartActions from '../../store/actions/cart';
-import * as productsActions from '../../store/actions/products';
+import * as questionsActions from '../../store/actions/questions';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
-const ProductsOverviewScreen = (props) => {
+const QuestionsOverviewScreen = (props) => {
 	const { width, height } = Dimensions.get('window');
 	let widthMultiplier = 0;
 	let textMultiplier = 0;
@@ -43,18 +43,18 @@ const ProductsOverviewScreen = (props) => {
 	const dispatch = useDispatch();
 
 	const categoryId = props.navigation.getParam('categoryId');
-	const products = useSelector((state) =>
-		state.products.availableProducts.filter((prod) => prod.categoryIds.indexOf(categoryId) >= 0)
+	const questions = useSelector((state) =>
+		state.questions.availableQuestions.filter((quest) => quest.categoryIds.indexOf(categoryId) >= 0)
 	);
-	// const productId = props.navigation.getParam('productId');
-	// const isFav = useSelector((state) => state.products.favoriteProducts.some((product) => product.id === productId));
+	// const questionId = props.navigation.getParam('questionId');
+	// const isFav = useSelector((state) => state.questions.favoriteQuestions.some((question) => question.id === questionId));
 
 	const loadProducts = useCallback(
 		async () => {
 			setError(null);
 			setIsRefresing(true);
 			try {
-				await dispatch(productsActions.fetchProducts());
+				await dispatch(questionsActions.fetchProducts());
 			} catch (err) {
 				setError(err.message);
 			}
@@ -83,8 +83,8 @@ const ProductsOverviewScreen = (props) => {
 
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('DetailScreen', {
-			productId: id,
-			productTitle: title
+			questionId: id,
+			questionTitle: title
 		});
 	};
 
@@ -111,7 +111,7 @@ const ProductsOverviewScreen = (props) => {
 		);
 	}
 
-	if (!isLoading && products.length === 0) {
+	if (!isLoading && questions.length === 0) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
@@ -127,10 +127,10 @@ const ProductsOverviewScreen = (props) => {
 				<FlatList
 					onRefresh={loadProducts}
 					refreshing={isRefresing}
-					data={products}
+					data={questions}
 					keyExtractor={(item) => item.id}
 					renderItem={(itemData) => (
-						<ProductItem
+						<QuestionItem
 							title={itemData.item.title}
 							image={itemData.item.imageUrl}
 							onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
@@ -179,7 +179,7 @@ const ProductsOverviewScreen = (props) => {
 									</View>
 								</View>
 							)}
-						</ProductItem>
+						</QuestionItem>
 					)}
 				/>
 			</View>
@@ -187,7 +187,7 @@ const ProductsOverviewScreen = (props) => {
 	);
 };
 
-ProductsOverviewScreen.navigationOptions = ({ navigation }) => {
+QuestionsOverviewScreen.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: navigation.getParam('AdminCategoryTitle'),
 		// Needed for side drawer navigation
@@ -284,4 +284,4 @@ const styles = StyleSheet.create({
 		padding: 12
 	}
 });
-export default ProductsOverviewScreen;
+export default QuestionsOverviewScreen;

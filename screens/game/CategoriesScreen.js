@@ -4,7 +4,7 @@ import { FlatList, View, Platform, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { CATEGORIES } from '../../data/categories';
-import CategoryGridTile from '../../components/shop/CategoryGridTile';
+import CategoryGridTile from '../../components/game/CategoryGridTile';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
@@ -18,7 +18,7 @@ const CategoriesScreen = (props) => {
 				title={itemData.item.title}
 				onSelect={() => {
 					props.navigation.navigate({
-						routeName: 'ProductsOverview',
+						routeName: 'QuestionsOverview',
 						params: {
 							categoryId: itemData.item.id,
 							categoryTitle: itemData.item.title
@@ -44,7 +44,7 @@ const CategoriesScreen = (props) => {
 
 CategoriesScreen.navigationOptions = ({ navigation }) => {
 	return {
-		headerTitle: '`Eκθεση',
+		headerTitle: 'ΕΝ ΤΟΥΤΩ ΝΙΚΑ',
 		// Needed for side drawer navigation
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>

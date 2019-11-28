@@ -1,7 +1,7 @@
-export const ADD_ORDER = 'ADD_ORDER';
-export const SET_ORDERS = 'SET_ORDERS';
+export const ADD_CHOICE = 'ADD_CHOICE';
+export const SET_CHOICES = 'SET_CHOICES';
 
-import Order from '../../models/order'
+import Choice from '../../models/choice'
 
 export const addOrder = (cartItems, totalAmount) => {
 	return async (dispatch, getState) => {
@@ -10,8 +10,8 @@ export const addOrder = (cartItems, totalAmount) => {
 			const userId = getState().auth.userId;
 			const date = new Date();
 			// testing
-			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json`, {
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/${userId}.json?auth=${token}`, {
+			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/choices/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json`, {
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/choices/${userId}.json?auth=${token}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -31,8 +31,8 @@ export const addOrder = (cartItems, totalAmount) => {
 			const resData = await response.json();
 			
 			dispatch({
-				type: ADD_ORDER,
-				orderData: {
+				type: ADD_CHOICE,
+				choiceData: {
 					id: resData.name,
 					items: cartItems,
 					totalAmount: totalAmount,
@@ -51,8 +51,8 @@ export const fetchOrders = () => {
 		try {
 			const userId = getState().auth.userId;
 			//testing
-			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json`);
-			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/orders/${userId}.json`);
+			// const response = await fetch(`https://ekthesi-7767c.firebaseio.com/choices/eeR9esY0l8OxcxJPPA1Gp4T5Xsy1.json`);
+			const response = await fetch(`https://ekthesi-7767c.firebaseio.com/choices/${userId}.json`);
 
 
 			// check before unpack the response body
@@ -65,7 +65,7 @@ export const fetchOrders = () => {
 
 			for (const key in resData) {
 				loadedOrders.push(
-					new Order({
+					new Choice({
 					id: key,
 					items: resData[key].cartItems,
 					totalAmount: resData[key].totalAmount,
@@ -74,7 +74,7 @@ export const fetchOrders = () => {
 				);
 			}
 
-			dispatch({ type: SET_ORDERS, orders: loadedOrders });
+			dispatch({ type: SET_CHOICES, choices: loadedOrders });
 		} catch (err) {
 			// send to custom analytics server
 			throw err;

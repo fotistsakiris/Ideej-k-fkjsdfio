@@ -10,36 +10,36 @@ import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 import CustomButton from '../../components/UI/CustomButton';
 import BoldText from '../../components/UI/BoldText';
 import * as cartActions from '../../store/actions/cart';
-import * as productsActions from '../../store/actions/products';
+import * as questionsActions from '../../store/actions/questions';
 
 import Colours from '../../constants/Colours';
 
-const ProductDetailScreen = (props) => {
+const QuestionDetailScreen = (props) => {
 	const {width, height} = Dimensions.get('window'); 
 
 	const [ error, setError ] = useState(); // error initially is undefined!
 
 	const dispatch = useDispatch();
 
-	const productId = props.navigation.getParam('productId');
+	const questionId = props.navigation.getParam('questionId');
 	const selectedProduct = useSelector((state) =>
-		state.products.availableProducts.find((prod) => prod.id === productId)
+		state.questions.availableQuestions.find((quest) => quest.id === questionId)
 	);
 
-	const currentProductIsFavorite = useSelector((state) =>
-		state.products.favoriteProducts.some((product) => product.id === productId)
+	const currentQuestionIsFavorite = useSelector((state) =>
+		state.questions.favoriteQuestions.some((question) => question.id === questionId)
 	);
 
 	const toggleFavoriteHandler = useCallback(
 		async () => {
 			setError(null);
 			try {
-				await dispatch(productsActions.toggleFavorite(productId, currentProductIsFavorite, selectedProduct));
+				await dispatch(questionsActions.toggleFavorite(questionId, currentQuestionIsFavorite, selectedProduct));
 			} catch (err) {
 				setError(err.message);
 			}
 		},
-		[ dispatch, productId, currentProductIsFavorite ]
+		[ dispatch, questionId, currentQuestionIsFavorite ]
 	);
 
 	if (error) {
@@ -47,7 +47,7 @@ const ProductDetailScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.centered}>
 					<BoldText>
-						Σφάλμα στη διαδικασία αποθήκευσης του προϊόντος ως αγαπημένου. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
+						Σφάλμα στη διαδικασία αποθήκευσης της ερωτήσεως ως αγαπημένου. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
 					</BoldText>
 
 					{Platform.OS === 'android' ? (
@@ -71,7 +71,7 @@ const ProductDetailScreen = (props) => {
 					<View style={styles.icon}>
 						<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
 							<MaterialIcons
-								name={currentProductIsFavorite ? 'favorite' : 'favorite-border'}
+								name={currentQuestionIsFavorite ? 'favorite' : 'favorite-border'}
 								size={Math.ceil(width * 0.09)}
 								color={Colours.maroon}
 							/>
@@ -109,9 +109,9 @@ const ProductDetailScreen = (props) => {
 	);
 };
 
-ProductDetailScreen.navigationOptions = ({ navigation }) => {
+QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 	return {
-		headerTitle: navigation.getParam('productTitle'),
+		headerTitle: navigation.getParam('questionTitle'),
 		// Needed for side drawer navigation
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
@@ -185,4 +185,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default ProductDetailScreen;
+export default QuestionDetailScreen;
