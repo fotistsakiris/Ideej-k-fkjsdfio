@@ -24,7 +24,22 @@ import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 import * as questionsActions from '../../store/actions/questions';
 
 const AdminQuestionsOverview = (props) => {
-	const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
+	const { width, height } = Dimensions.get('window');
+	let widthMultiplier = 0;
+	let textMultiplier = 0;
+
+	if (width <= 400 && width < 800) {
+		widthMultiplier = 0.4;
+		textMultiplier = 0.06;
+	}
+	if (width < 800 && width > 400) {
+		widthMultiplier = 0.3;
+		textMultiplier = 0.042;
+	}
+	if (width > 800) {
+		widthMultiplier = 0.2;
+		textMultiplier = 0.045;
+	}
 
 	const [ isLoading, setIsLoading ] = useState(true);
 	const [ error, setError ] = useState(); // error initially is undefined!
@@ -99,7 +114,9 @@ const AdminQuestionsOverview = (props) => {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
-					<BoldText>Σφάλμα στη διαδικασία φορτώσεως των ερωτήσεων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.</BoldText>
+					<BoldText>
+						Σφάλμα στη διαδικασία φορτώσεως των ερωτήσεων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
+					</BoldText>
 					{Platform.OS === 'android' ? (
 						<CustomButton title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.moccasin_light} />
 					) : (
@@ -159,21 +176,22 @@ const AdminQuestionsOverview = (props) => {
 								onSelect={() => editQuestionHandler(itemData.item.id)}
 							>
 								{Platform.OS === 'android' ? (
-								<View style={width < 400 ? styles.actionsSmall : styles.actions}>
-									<View style={styles.customButton}>
+									<View style={width < 400 ? styles.actionsSmall : styles.actions}>
+										<View style={styles.customButton}>
 											<CustomButton
-											style={{width: Math.ceil(width * 0.3)}}
+												style={{ width: Math.ceil(width * widthMultiplier) }}
 												title="Επεξεργασία"
 												onPress={() => editQuestionHandler(itemData.item.id)}
 											/>
 										</View>
-										<BoldText style={{fontSize: Math.ceil(width * 0.04), ...styles.points}}>
+										<BoldText
+											style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}
+										>
 											{itemData.item.points.toFixed(2)}
-											
 										</BoldText>
 										<View style={styles.customButton}>
 											<CustomButton
-											style={{width: Math.ceil(width * 0.3)}}
+												style={{ width: Math.ceil(width * widthMultiplier) }}
 												title="Διαγραφή"
 												onPress={deleteHandler.bind(this, itemData.item.id)}
 											/>
@@ -188,11 +206,11 @@ const AdminQuestionsOverview = (props) => {
 												onPress={() => editQuestionHandler(itemData.item.id)}
 											/>
 										</View>
-										<BoldText style={styles.points}>
+										<BoldText
+											style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}
+										>
 											{itemData.item.points.toFixed(2)}
-											
 										</BoldText>
-										{/* <BoldText style={styles.points}>€ {itemData.item.points}</BoldText> */}
 										<View style={styles.button}>
 											<Button
 												color={Colours.gr_brown_light}
@@ -202,12 +220,6 @@ const AdminQuestionsOverview = (props) => {
 										</View>
 									</View>
 								)}
-								{/* <Button color={Colours.maroon} title="Edit" onPress={() => editQuestionHandler(itemData.item.id)} />
-					<Button
-						color={Colours.maroon}
-						title="Delete"
-						onPress={deleteHandler.bind(this, itemData.item.id)}
-					/> */}
 							</QuestionItem>
 						)}
 					/>
@@ -257,7 +269,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: '100%',
 		maxWidth: '100%',
-		maxHeight: '100%',
+		alignItems: 'center',
+		justifyContent: 'center',
+		// maxHeight: '100%',
 		padding: 20
 	},
 	points: {
@@ -281,8 +295,16 @@ const styles = StyleSheet.create({
 		// alignSelf: 'center',
 		alignItems: 'center',
 		justifyContent: 'space-around',
-		height: '18%',
+		height: '10%',
 		marginHorizontal: 2
+	},
+	title: {
+		// marginTop: 6,
+		// alignItems: 'center',
+		// justifyContent: 'center',
+		textAlign: 'center',
+		fontFamily: 'GFSNeohellenic-Bold',
+		textAlign: 'left'
 	},
 	customButton: {
 		marginHorizontal: -7,

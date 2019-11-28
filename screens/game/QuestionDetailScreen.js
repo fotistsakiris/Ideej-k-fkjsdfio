@@ -1,5 +1,15 @@
 import React, { useState, useCallback } from 'react';
-import { Platform, View, Text, TouchableOpacity, ScrollView, Image, Dimensions, Button, StyleSheet } from 'react-native';
+import {
+	Platform,
+	View,
+	Text,
+	TouchableOpacity,
+	ScrollView,
+	Image,
+	Dimensions,
+	Button,
+	StyleSheet
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -9,14 +19,26 @@ import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
 import CustomButton from '../../components/UI/CustomButton';
 import BoldText from '../../components/UI/BoldText';
+import Line from '../../components/UI/Line';
+
 import * as cartActions from '../../store/actions/cart';
 import * as questionsActions from '../../store/actions/questions';
 
 import Colours from '../../constants/Colours';
 
 const QuestionDetailScreen = (props) => {
-	const {width, height} = Dimensions.get('window'); 
+	const { width, height } = Dimensions.get('window');
+	let textMultiplier = 0;
 
+	if (width <= 400 && width < 800) {
+		textMultiplier = 0.06;
+	}
+	if (width < 800 && width > 400) {
+		textMultiplier = 0.055;
+	}
+	if (width > 800) {
+		textMultiplier = 0.04;
+	}
 	const [ error, setError ] = useState(); // error initially is undefined!
 
 	const dispatch = useDispatch();
@@ -34,7 +56,9 @@ const QuestionDetailScreen = (props) => {
 		async () => {
 			setError(null);
 			try {
-				await dispatch(questionsActions.toggleFavorite(questionId, currentQuestionIsFavorite, selectedQuestion));
+				await dispatch(
+					questionsActions.toggleFavorite(questionId, currentQuestionIsFavorite, selectedQuestion)
+				);
 			} catch (err) {
 				setError(err.message);
 			}
@@ -47,15 +71,12 @@ const QuestionDetailScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.centered}>
 					<BoldText>
-						Σφάλμα στη διαδικασία αποθήκευσης της ερωτήσεως ως αγαπημένου. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
+						Σφάλμα στη διαδικασία αποθήκευσης της ερωτήσεως ως αγαπημένου. Παρακαλούμε ελέγξτε τη σύνδεσή
+						σας.
 					</BoldText>
 
 					{Platform.OS === 'android' ? (
-						<CustomButton
-							title="Δοκιμάστε Ξανά"
-							onPress={toggleFavoriteHandler}
-							color={Colours.maroon}
-						/>
+						<CustomButton title="Δοκιμάστε Ξανά" onPress={toggleFavoriteHandler} color={Colours.maroon} />
 					) : (
 						<Button title="Δοκιμάστε Ξανά" onPress={toggleFavoriteHandler} color={Colours.moccasin_light} />
 					)}
@@ -78,13 +99,26 @@ const QuestionDetailScreen = (props) => {
 						</TouchableOpacity>
 					</View>
 					<View style={styles.centerImage}>
-					<Image style={{width: Math.ceil(width * 0.8), height: Math.ceil(height * 0.5), ...styles.image}} source={{ uri: selectedQuestion.imageUrl }} />
+						<Image
+							style={{ width: Math.ceil(width * 0.8), height: Math.ceil(height * 0.5), ...styles.image }}
+							source={{ uri: selectedQuestion.imageUrl }}
+						/>
+					</View>
+					<View style={styles.textContainer}>
+						<BoldText
+							style={{ fontSize: Math.ceil(textMultiplier * width), ...styles.title }}
+							numberOfLines={3}
+						>
+							{selectedQuestion.title}
+						</BoldText>
+						{/* <BoldText style={styles.title}>{props.title}</BoldText> */}
+						<Line />
 					</View>
 					{Platform.OS === 'android' ? (
 						<View style={styles.button}>
 							<CustomButton
 								style={Colours.maroon}
-								title="+ καλάθι"
+								title="+ συλλογή"
 								onPress={() => dispatch(cartActions.addToCard(selectedQuestion))}
 							/>
 						</View>
@@ -92,17 +126,19 @@ const QuestionDetailScreen = (props) => {
 						<View style={styles.button}>
 							<Button
 								color={Colours.moccasin_light}
-								title="+ καλάθι"
+								title="+ συλλογή"
 								onPress={() => dispatch(cartActions.addToCard(selectedQuestion))}
 							/>
 						</View>
 					)}
 
-					<BoldText style={{fontSize: Math.ceil(width * 0.04), ...styles.points}}>
+					<BoldText style={{ fontSize: Math.ceil(width * 0.04), ...styles.points }}>
 						{selectedQuestion.points.toFixed(2)}
 						<Text style={styles.euro}> €</Text>
 					</BoldText>
-					<Text style={{fontSize: Math.ceil(width * 0.04), ...styles.description}}>{selectedQuestion.description}</Text>
+					<Text style={{ fontSize: Math.ceil(width * 0.04), ...styles.description }}>
+						{selectedQuestion.description}
+					</Text>
 				</ScrollView>
 			</View>
 		</CustomLinearGradient>
@@ -156,6 +192,11 @@ const styles = StyleSheet.create({
 		// height: 300,
 		resizeMode: 'contain',
 		margin: 2
+	},
+	textContainer: {
+		alignItems: 'center',
+		height: '15%',
+		padding: 2
 	},
 	points: {
 		// fontSize: 18,

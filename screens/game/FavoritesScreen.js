@@ -170,7 +170,7 @@ const FavoritesScreen = (props) => {
 									<View>
 										<CustomButton
 											style={{ width: Math.ceil(width * 0.3) }}
-											title="+ καλάθι"
+											title="+ συλλογή"
 											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
 										/>
 									</View>
@@ -188,7 +188,7 @@ const FavoritesScreen = (props) => {
 									<View style={styles.button}>
 										<Button
 											color={Colours.gr_brown_light}
-											title="+ καλάθι"
+											title="+ συλλογή"
 											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
 										/>
 									</View>

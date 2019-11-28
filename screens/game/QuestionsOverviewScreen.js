@@ -17,12 +17,6 @@ const QuestionsOverviewScreen = (props) => {
 	const { width, height } = Dimensions.get('window');
 	let widthMultiplier = 0;
 	let textMultiplier = 0;
-	// let heightMultiplier = 0.09
-	// if (width => 800) {
-	// 	// heightMultiplier = 0.05
-	// 	widthMultiplier = 0.2
-	// 	textMultiplier = 0.03
-	// }
 
 	if (width <= 400 && width < 800) {
 		widthMultiplier = 0.4;
@@ -151,7 +145,7 @@ const QuestionsOverviewScreen = (props) => {
 									<View style={styles.customButton}>
 										<CustomButton
 											style={{ width: Math.ceil(width * widthMultiplier) }}
-											title="+ καλάθι"
+											title="+ συλλογή"
 											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
 										/>
 									</View>
@@ -171,7 +165,7 @@ const QuestionsOverviewScreen = (props) => {
 									<View style={styles.button}>
 										<Button
 											color={Colours.gr_brown_light}
-											title="+ καλάθι"
+											title="+ συλλογή"
 											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
 										/>
 									</View>
@@ -246,7 +240,7 @@ const styles = StyleSheet.create({
 		// flexDirection: 'row',
 		// alignSelf: 'center',
 		alignItems: 'center',
-		height: '25%',
+		height: '42%',
 		marginHorizontal: 2
 	},
 	androidActions: {

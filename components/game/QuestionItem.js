@@ -81,7 +81,7 @@ const QuestionItem = (props) => {
 						</View>
 
 						<View style={width < 400 ? styles.textContainerSmall : width < 800 ? styles.textContainer800 : styles.textContainer}>
-							<Text style={{ fontSize: Math.ceil(textMultiplier * width), ...styles.title }} numberOfLines={1}>
+							<Text style={{ fontSize: Math.ceil(textMultiplier * width), ...styles.title }} numberOfLines={3}>
 								{props.title}
 							</Text>
 							{/* <BoldText style={styles.title}>{props.title}</BoldText> */}
