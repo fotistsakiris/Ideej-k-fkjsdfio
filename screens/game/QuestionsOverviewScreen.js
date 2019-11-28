@@ -115,7 +115,7 @@ const QuestionsOverviewScreen = (props) => {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
-					<BoldText>Δεν βρέθηκαν προϊόντα στη βάση δεδομένων!</BoldText>
+					<BoldText>Δεν βρέθηκαν ερωτήσεις στη βάση δεδομένων!</BoldText>
 				</View>
 			</CustomLinearGradient>
 		);

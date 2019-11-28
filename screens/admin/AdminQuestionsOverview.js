@@ -220,7 +220,7 @@ const AdminQuestionsOverview = (props) => {
 AdminQuestionsOverview.navigationOptions = ({ navigation }) => {
 	return {
 		headerTitle: navigation.getParam('AdminCategoryTitle'),
-		// headerTitle: 'Τα προϊόντα σας',
+		// headerTitle: 'Τα ερωτήσεις σας',
 		// For side drawer navigation only.
 		// headerLeft: (
 		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
