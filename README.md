@@ -16,7 +16,7 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 ### User's Screen with email. This should be further modified to include settings like change language, password etc...
 ### Ability to change points too.
 ### Dynamic UI using Dimensions width for small and big screens.
-
+### Choose a random question to show for a chosen category!
 
 ## TODO
 ### DONE! fix scrollView when having a lot of items in CartScreen,
@@ -81,5 +81,3 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 
 # !!!
 ### npm config set ignore-scripts true 
-
-change remote

@@ -32,27 +32,22 @@ const QuestionsOverviewScreen = (props) => {
 	}
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
-	const [ isRefresing, setIsRefresing ] = useState(false);
-
 	const dispatch = useDispatch();
 
 	const categoryId = props.navigation.getParam('categoryId');
 	const questions = useSelector((state) =>
 		state.questions.availableQuestions.filter((quest) => quest.categoryIds.indexOf(categoryId) >= 0)
 	);
-	// const questionId = props.navigation.getParam('questionId');
-	// const isFav = useSelector((state) => state.questions.favoriteQuestions.some((question) => question.id === questionId));
+	const chosenQuestion = questions[Math.floor(Math.random() * questions.length)];
 
 	const loadProducts = useCallback(
 		async () => {
 			setError(null);
-			setIsRefresing(true);
 			try {
 				await dispatch(questionsActions.fetchQuestions());
 			} catch (err) {
 				setError(err.message);
 			}
-			setIsRefresing(false);
 		},
 		[ dispatch, setIsLoading, setError ]
 	);
@@ -87,7 +82,7 @@ const QuestionsOverviewScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.centered}>
 					<BoldText>
-						Σφάλμα στη διαδικασία φορτώσεως των προϊόντων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
+						Σφάλμα στη διαδικασία φορτώσεως των ερωτήσεων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
 					</BoldText>
 					<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.moccasin_light} />
 				</View>
@@ -105,7 +100,7 @@ const QuestionsOverviewScreen = (props) => {
 		);
 	}
 
-	if (!isLoading && questions.length === 0) {
+	if (!isLoading && questions.lenght === 0) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
@@ -115,68 +110,69 @@ const QuestionsOverviewScreen = (props) => {
 		);
 	}
 
+	const showQuestion = (question) => {
+		for (key in question) {
+			return (
+				<QuestionItem
+					title={chosenQuestion.title}
+					image={chosenQuestion.imageUrl}
+					onSelect={() => selectItemHandler(chosenQuestion.id, chosenQuestion.title)}
+				>
+					{Platform.OS === 'android' ? (
+						<View style={width < 400 ? styles.actionsSmall : styles.androidActions}>
+							<View style={styles.customButton}>
+								<CustomButton
+									style={{ width: Math.ceil(width * widthMultiplier) }}
+									title="Λεπτομέρειες"
+									onPress={() => selectItemHandler(chosenQuestion.id, chosenQuestion.title)}
+								/>
+							</View>
+
+							<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
+								{chosenQuestion.points.toFixed(2)}
+							</BoldText>
+							<View style={styles.customButton}>
+								<CustomButton
+									style={{ width: Math.ceil(width * widthMultiplier) }}
+									title="+ συλλογή"
+									onPress={() => dispatch(cartActions.addToCard(chosenQuestion))}
+								/>
+							</View>
+						</View>
+					) : (
+						<View style={styles.actions}>
+							<View style={styles.button}>
+								<Button
+									color={Colours.gr_brown_light}
+									title="Λεπτομέρειες"
+									onPress={() => selectItemHandler(chosenQuestion.id, chosenQuestion.title)}
+								/>
+							</View>
+							<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
+								{chosenQuestion.points.toFixed(2)}
+							</BoldText>
+							<View style={styles.button}>
+								<Button
+									color={Colours.gr_brown_light}
+									title="+ συλλογή"
+									onPress={() => dispatch(cartActions.addToCard(chosenQuestion))}
+								/>
+							</View>
+						</View>
+					)}
+				</QuestionItem>
+			);
+		}
+	};
+
 	return (
 		<CustomLinearGradient>
 			<View style={styles.flatListContainer}>
-				<FlatList
-					onRefresh={loadProducts}
-					refreshing={isRefresing}
-					data={questions}
-					keyExtractor={(item) => item.id}
-					renderItem={(itemData) => (
-						<QuestionItem
-							title={itemData.item.title}
-							image={itemData.item.imageUrl}
-							onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
-						>
-							{Platform.OS === 'android' ? (
-								<View style={width < 400 ? styles.actionsSmall : styles.androidActions}>
-									<View style={styles.customButton}>
-										<CustomButton
-											style={{ width: Math.ceil(width * widthMultiplier) }}
-											title="Λεπτομέρειες"
-											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
-										/>
-									</View>
-
-									<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
-										{itemData.item.points.toFixed(2)}
-									</BoldText>
-									<View style={styles.customButton}>
-										<CustomButton
-											style={{ width: Math.ceil(width * widthMultiplier) }}
-											title="+ συλλογή"
-											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
-										/>
-									</View>
-								</View>
-							) : (
-								<View style={styles.actions}>
-									<View style={styles.button}>
-										<Button
-											color={Colours.gr_brown_light}
-											title="Λεπτομέρειες"
-											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
-										/>
-									</View>
-									<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
-										{itemData.item.points.toFixed(2)}
-									</BoldText>
-									<View style={styles.button}>
-										<Button
-											color={Colours.gr_brown_light}
-											title="+ συλλογή"
-											onPress={() => dispatch(cartActions.addToCard(itemData.item))}
-										/>
-									</View>
-								</View>
-							)}
-						</QuestionItem>
-					)}
-				/>
+			{showQuestion(questions)}
 			</View>
 		</CustomLinearGradient>
 	);
+	
 };
 
 QuestionsOverviewScreen.navigationOptions = ({ navigation }) => {
