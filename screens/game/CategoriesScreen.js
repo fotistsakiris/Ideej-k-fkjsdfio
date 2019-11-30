@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList, View, Platform, StyleSheet } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -11,14 +12,17 @@ import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 import Colours from '../../constants/Colours';
 
 const CategoriesScreen = (props) => {
+
+
 	const renderGridItem = (itemData) => {
 		return (
 			<CategoryGridTile
 				color={itemData.item.color}
 				title={itemData.item.title}
 				onSelect={() => {
+
 					props.navigation.navigate({
-						routeName: 'QuestionsOverview',
+						routeName: 'DetailScreen',
 						params: {
 							categoryId: itemData.item.id,
 							categoryTitle: itemData.item.title
@@ -28,6 +32,24 @@ const CategoriesScreen = (props) => {
 			/>
 		);
 	};
+	// const renderGridItem = (itemData) => {
+	// 	return (
+	// 		<CategoryGridTile
+	// 			color={itemData.item.color}
+	// 			title={itemData.item.title}
+	// 			onSelect={() => {
+	// 				props.navigation.navigate({
+	// 					routeName: 'QuestionsOverview',
+	// 					params: {
+	// 						categoryId: itemData.item.id,
+	// 						categoryTitle: itemData.item.title
+	// 					}
+	// 				});
+	// 			}}
+	// 		/>
+	// 	);
+	// };
+
 	return (
 		<CustomLinearGradient>
 			<View style={styles.flatListContainer}>

@@ -40,7 +40,7 @@ const QuestionsOverviewScreen = (props) => {
 	);
 	const chosenQuestion = questions[Math.floor(Math.random() * questions.length)];
 
-	const loadProducts = useCallback(
+	const loadQuestions = useCallback(
 		async () => {
 			setError(null);
 			try {
@@ -52,22 +52,22 @@ const QuestionsOverviewScreen = (props) => {
 		[ dispatch, setIsLoading, setError ]
 	);
 
-	// loadProducts after focusing
+	// loadQuestions after focusing
 	useEffect(
 		() => {
-			const willFocusEvent = props.navigation.addListener('willFocus', loadProducts);
+			const willFocusEvent = props.navigation.addListener('willFocus', loadQuestions);
 			return () => willFocusEvent.remove();
 		},
-		[ loadProducts ]
+		[ loadQuestions ]
 	);
 
-	// loadProducts initially...
+	// loadQuestions initially...
 	useEffect(
 		() => {
 			setIsLoading(true);
-			loadProducts().then(() => setIsLoading(false));
+			loadQuestions().then(() => setIsLoading(false));
 		},
-		[ dispatch, loadProducts ]
+		[ dispatch, loadQuestions ]
 	);
 
 	const selectItemHandler = (id, title) => {
@@ -84,7 +84,7 @@ const QuestionsOverviewScreen = (props) => {
 					<BoldText>
 						Σφάλμα στη διαδικασία φορτώσεως των ερωτήσεων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
 					</BoldText>
-					<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.moccasin_light} />
+					<Button title="Δοκιμάστε Ξανά" onPress={loadQuestions} color={Colours.moccasin_light} />
 				</View>
 			</CustomLinearGradient>
 		);
@@ -123,7 +123,7 @@ const QuestionsOverviewScreen = (props) => {
 							<View style={styles.customButton}>
 								<CustomButton
 									style={{ width: Math.ceil(width * widthMultiplier) }}
-									title="Λεπτομέρειες"
+									title="Απάντηση"
 									onPress={() => selectItemHandler(chosenQuestion.id, chosenQuestion.title)}
 								/>
 							</View>
@@ -144,7 +144,7 @@ const QuestionsOverviewScreen = (props) => {
 							<View style={styles.button}>
 								<Button
 									color={Colours.gr_brown_light}
-									title="Λεπτομέρειες"
+									title="Απάντηση"
 									onPress={() => selectItemHandler(chosenQuestion.id, chosenQuestion.title)}
 								/>
 							</View>

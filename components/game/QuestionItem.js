@@ -34,10 +34,10 @@ const QuestionItem = (props) => {
 		imageMultiplier = 0.5;
 	}
 	if (width < 800 && width > 400) {
-		cardHeight = 0.38;
+		cardHeight = 0.5;
 		cardWidth = 0.85;
 		textMultiplier = 0.055;
-		imageMultiplier = 0.4;
+		imageMultiplier = 0.5;
 	}
 	if (width > 800) {
 		cardHeight = 0.65;
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		width: '100%',
-		height: '70%'
+		height: '50%'
 	},
 	image: {
 		// width: '100%',
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
 	},
 	textContainer800: {
 		alignItems: 'center',
-		height: '20%',
+		height: '30%',
 		padding: 2
 	},
 	title: {

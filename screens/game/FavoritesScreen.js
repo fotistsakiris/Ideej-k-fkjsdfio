@@ -159,7 +159,7 @@ const FavoritesScreen = (props) => {
 									<View>
 										<CustomButton
 											style={{ width: Math.ceil(width * 0.3) }}
-											title="Λεπτομέρειες"
+											title="Απάντηση"
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
@@ -180,7 +180,7 @@ const FavoritesScreen = (props) => {
 									<View style={styles.button}>
 										<Button
 											color={Colours.gr_brown_light}
-											title="Λεπτομέρειες"
+											title="Απάντηση"
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>

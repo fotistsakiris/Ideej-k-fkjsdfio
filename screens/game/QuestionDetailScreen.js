@@ -1,11 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
 	Platform,
 	View,
-	Text,
 	TouchableOpacity,
-	ScrollView,
-	Image,
+	ActivityIndicator,
 	Dimensions,
 	Button,
 	StyleSheet
@@ -14,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import QuestionItem from '../../components/game/QuestionItem';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
@@ -28,25 +27,66 @@ import Colours from '../../constants/Colours';
 
 const QuestionDetailScreen = (props) => {
 	const { width, height } = Dimensions.get('window');
+	let widthMultiplier = 0;
 	let textMultiplier = 0;
 
 	if (width <= 400 && width < 800) {
+		widthMultiplier = 0.4;
 		textMultiplier = 0.06;
 	}
 	if (width < 800 && width > 400) {
-		textMultiplier = 0.055;
+		widthMultiplier = 0.3;
+		textMultiplier = 0.042;
 	}
 	if (width > 800) {
-		textMultiplier = 0.04;
+		widthMultiplier = 0.2;
+		textMultiplier = 0.045;
 	}
+	const [ loadQuestionsError, setLoadQuestionsError ] = useState(); // error initially is undefined!
 	const [ error, setError ] = useState(); // error initially is undefined!
-
+	const [ isLoading, setIsLoading ] = useState(false);
 	const dispatch = useDispatch();
 
-	const questionId = props.navigation.getParam('questionId');
-	const selectedQuestion = useSelector((state) =>
-		state.questions.availableQuestions.find((quest) => quest.id === questionId)
+	const categoryId = props.navigation.getParam('categoryId');
+
+	const questions = useSelector((state) =>
+		state.questions.availableQuestions.filter((quest) => quest.categoryIds.indexOf(categoryId) >= 0)
 	);
+
+	const loadQuestions = useCallback(
+		async () => {
+			setLoadQuestionsError(null);
+			try {
+				await dispatch(questionsActions.fetchQuestions());
+			} catch (err) {
+				setLoadQuestionsError(err.message);
+			}
+		},
+		[ dispatch, setIsLoading, setError ]
+	);
+
+	// loadQuestions after focusing
+	// useEffect(
+	// 	() => {
+	// 		const willFocusEvent = props.navigation.addListener('willFocus', loadQuestions);
+	// 		return () => willFocusEvent.remove();
+	// 	},
+	// 	[ loadQuestions ]
+	// );
+
+	// loadQuestions initially...
+	useEffect(
+		() => {
+			setIsLoading(true);
+			loadQuestions().then(() => setIsLoading(false));
+		},
+		[ loadQuestions ]
+	);
+
+	let questionId = '';
+	for (key in questions) {
+		questionId = questions[key].id;
+	}
 
 	const currentQuestionIsFavorite = useSelector((state) =>
 		state.questions.favoriteQuestions.some((question) => question.id === questionId)
@@ -56,9 +96,7 @@ const QuestionDetailScreen = (props) => {
 		async () => {
 			setError(null);
 			try {
-				await dispatch(
-					questionsActions.toggleFavorite(questionId, currentQuestionIsFavorite, selectedQuestion)
-				);
+				await dispatch(questionsActions.toggleFavorite(questionId, currentQuestionIsFavorite, chosenQuestion));
 			} catch (err) {
 				setError(err.message);
 			}
@@ -85,10 +123,43 @@ const QuestionDetailScreen = (props) => {
 		);
 	}
 
-	return (
-		<CustomLinearGradient>
-			<View style={styles.flatListContainer}>
-				<ScrollView>
+	if (loadQuestionsError) {
+		return (
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<BoldText>
+						Σφάλμα στη διαδικασία φορτώσεως των ερωτήσεων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
+					</BoldText>
+					<Button title="Δοκιμάστε Ξανά" onPress={loadQuestions} color={Colours.moccasin_light} />
+				</View>
+			</CustomLinearGradient>
+		);
+	}
+
+	if (isLoading) {
+		return (
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<ActivityIndicator size="large" color={Colours.moccasin_light} />
+				</View>
+			</CustomLinearGradient>
+		);
+	}
+
+	if (!isLoading && questions.lenght === 0) {
+		return (
+			<CustomLinearGradient>
+				<View style={styles.centered}>
+					<BoldText>Δεν βρέθηκαν ερωτήσεις στη βάση δεδομένων!</BoldText>
+				</View>
+			</CustomLinearGradient>
+		);
+	}
+
+	const showQuestion = (question) => {
+		for (key in question) {
+			return (
+				<View>
 					<View style={styles.icon}>
 						<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
 							<MaterialIcons
@@ -98,56 +169,70 @@ const QuestionDetailScreen = (props) => {
 							/>
 						</TouchableOpacity>
 					</View>
-					<View style={styles.centerImage}>
-						<Image
-							style={{ width: Math.ceil(width * 0.8), height: Math.ceil(height * 0.5), ...styles.image }}
-							source={{ uri: selectedQuestion.imageUrl }}
-						/>
-					</View>
-					<View style={styles.textContainer}>
-						<BoldText
-							style={{ fontSize: Math.ceil(textMultiplier * width), ...styles.title }}
-							numberOfLines={3}
-						>
-							{selectedQuestion.title}
-						</BoldText>
-						{/* <BoldText style={styles.title}>{props.title}</BoldText> */}
-						<Line />
-					</View>
-					{Platform.OS === 'android' ? (
-						<View style={styles.button}>
-							<CustomButton
-								style={Colours.maroon}
-								title="+ συλλογή"
-								onPress={() => dispatch(cartActions.addToCard(selectedQuestion))}
-							/>
-						</View>
-					) : (
-						<View style={styles.button}>
-							<Button
-								color={Colours.moccasin_light}
-								title="+ συλλογή"
-								onPress={() => dispatch(cartActions.addToCard(selectedQuestion))}
-							/>
-						</View>
-					)}
+					<QuestionItem
+						title={question[key].title}
+						image={question[key].imageUrl}
+						onSelect={() => selectItemHandler(question[key].id, question[key].title)}
+					>
+						{Platform.OS === 'android' ? (
+							<View style={width < 400 ? styles.actionsSmall : styles.androidActions}>
+								<View style={styles.customButton}>
+									<CustomButton
+										style={{ width: Math.ceil(width * widthMultiplier) }}
+										title="Απάντηση"
+										onPress={() => selectItemHandler(question[key].id, question[key].title)}
+									/>
+								</View>
 
-					<BoldText style={{ fontSize: Math.ceil(width * 0.04), ...styles.points }}>
-						{selectedQuestion.points.toFixed(2)}
-						<Text style={styles.euro}> €</Text>
-					</BoldText>
-					<Text style={{ fontSize: Math.ceil(width * 0.04), ...styles.description }}>
-						{selectedQuestion.description}
-					</Text>
-				</ScrollView>
-			</View>
+								{/* <BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
+									{question[key].points.toFixed(2)}
+								</BoldText> */}
+								<View style={styles.customButton}>
+									<CustomButton
+										style={{ width: Math.ceil(width * widthMultiplier) }}
+										title="+ συλλογή"
+										onPress={() => dispatch(cartActions.addToCard(question[key]))}
+									/>
+								</View>
+							</View>
+						) : (
+							<View style={styles.actions}>
+								<View style={styles.button}>
+									<Button
+										color={Colours.gr_brown_light}
+										title="Απάντηση"
+										onPress={() => selectItemHandler(question[key].id, question[key].title)}
+									/>
+								</View>
+								{/* <BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
+									{question[key].points.toFixed(2)}
+								</BoldText> */}
+								<View style={styles.button}>
+									<Button
+										color={Colours.gr_brown_light}
+										title="+ συλλογή"
+										onPress={() => dispatch(cartActions.addToCard(question[key]))}
+									/>
+								</View>
+							</View>
+						)}
+					</QuestionItem>
+				</View>
+			);
+		}
+	};
+
+	return (
+		<CustomLinearGradient>
+			<View style={styles.flatListContainer}>{showQuestion(questions)}</View>
 		</CustomLinearGradient>
 	);
 };
 
+
 QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 	return {
-		headerTitle: navigation.getParam('questionTitle'),
+		headerTitle: 'Καλή επιτυχία!',
 		// Needed for side drawer navigation
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
@@ -172,51 +257,42 @@ QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-	flatListContainer: {
-		flex: 1,
-		width: '100%',
-		maxWidth: '100%',
-		maxHeight: '100%',
-		padding: 20
-	},
 	icon: {
 		alignSelf: 'center',
 		margin: 2
 	},
-	centerImage: {
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	image: {
-		// width: '100%',
-		// height: 300,
-		resizeMode: 'contain',
-		margin: 2
-	},
-	textContainer: {
+	actionsSmall: {
+		// flexDirection: 'row',
+		// alignSelf: 'center',
 		alignItems: 'center',
-		height: '15%',
-		padding: 2
+		height: '42%',
+		marginHorizontal: 2
 	},
-	points: {
-		// fontSize: 18,
-		color: Colours.moccasin_light,
-		textAlign: 'center',
-		marginVertical: 2
+	androidActions: {
+		flexDirection: 'row',
+		alignSelf: 'center',
+		justifyContent: 'space-around',
+		alignItems: 'center',
+		height: '10%',
+		width: '100%',
+		marginHorizontal: 2
 	},
-	euro: {
-		fontSize: 14,
-		color: Colours.moccasin_light
+	actions: {
+		flexDirection: 'row',
+		alignSelf: 'center',
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: '20%',
+		width: '100%',
+		marginHorizontal: 2
 	},
-	description: {
-		// fontSize: 20,
-		textAlign: 'justify',
-		padding: 20,
-		color: Colours.moccasin_light
+	customButton: {
+		marginHorizontal: -7,
+		marginVertical: -2
 	},
 	button: {
-		marginHorizontal: 5,
-		alignSelf: 'center'
+		width: '40%',
+		marginLeft: 10
 	},
 	centered: {
 		flex: 1,

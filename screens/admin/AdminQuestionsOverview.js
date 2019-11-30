@@ -54,7 +54,7 @@ const AdminQuestionsOverview = (props) => {
 		state.questions.userQuestions.filter((quest) => quest.categoryIds.indexOf(AdminCategoryId) >= 0)
 	);
 
-	const loadProducts = useCallback(
+	const loadQuestions = useCallback(
 		async () => {
 			setError(null);
 			setIsRefresing(true);
@@ -68,23 +68,23 @@ const AdminQuestionsOverview = (props) => {
 		[ dispatch, setIsLoading, setError ]
 	);
 
-	// loadProducts after focusing
+	// loadQuestions after focusing
 	useEffect(
 		() => {
-			const willFocusEvent = props.navigation.addListener('willFocus', loadProducts);
+			const willFocusEvent = props.navigation.addListener('willFocus', loadQuestions);
 			return () => willFocusEvent.remove();
 		},
-		[ loadProducts ]
+		[ loadQuestions ]
 	);
 
-	// loadProducts initially...
+	// loadQuestions initially...
 
 	useEffect(
 		() => {
 			setIsLoading(true);
-			loadProducts().then(() => setIsLoading(false));
+			loadQuestions().then(() => setIsLoading(false));
 		},
-		[ dispatch, loadProducts ]
+		[ dispatch, loadQuestions ]
 	);
 	const editQuestionHandler = (id) => {
 		props.navigation.navigate('EditQuestion', { questionId: id });
@@ -118,9 +118,9 @@ const AdminQuestionsOverview = (props) => {
 						Σφάλμα στη διαδικασία φορτώσεως των ερωτήσεων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
 					</BoldText>
 					{Platform.OS === 'android' ? (
-						<CustomButton title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.moccasin_light} />
+						<CustomButton title="Δοκιμάστε Ξανά" onPress={loadQuestions} color={Colours.moccasin_light} />
 					) : (
-						<Button title="Δοκιμάστε Ξανά" onPress={loadProducts} color={Colours.moccasin_light} />
+						<Button title="Δοκιμάστε Ξανά" onPress={loadQuestions} color={Colours.moccasin_light} />
 					)}
 				</View>
 			</CustomLinearGradient>
@@ -165,7 +165,7 @@ const AdminQuestionsOverview = (props) => {
 			<View style={styles.flatListContainer}>
 				<SafeAreaView style={{ flex: 1 }}>
 					<FlatList
-						onRefresh={loadProducts}
+						onRefresh={loadQuestions}
 						refreshing={isRefresing}
 						data={userQuestions}
 						keyExtractor={(item) => item.id}

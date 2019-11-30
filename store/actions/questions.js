@@ -110,7 +110,7 @@ export const fetchFavQuestions = () => {
 				for (const key in resFavData) {
 					selectedQuestion = resFavData[key].selectedQuestion;
 				}
-				
+
 				loadedFavorites.push(
 					new Question({
 						id: selectedQuestion.id,
@@ -145,9 +145,12 @@ export const deleteQuestion = (questionId) => {
 		const token = getState().auth.token;
 		//testing
 		// const response = await fetch(`https://en-touto-nika.firebaseio.com//questions/${questionId}.json`, {
-		const response = await fetch(`https://en-touto-nika.firebaseio.com//questions/${questionId}.json?auth=${token}`, {
-			method: 'DELETE'
-		});
+		const response = await fetch(
+			`https://en-touto-nika.firebaseio.com//questions/${questionId}.json?auth=${token}`,
+			{
+				method: 'DELETE'
+			}
+		);
 
 		if (!response.ok) {
 			throw new Error('Δυστυχώς η διαγραφή της ερωτήσεως δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.');
@@ -175,12 +178,12 @@ export const fetchQuestions = () => {
 
 			const resData = await response.json();
 			// console.log('fetchQuestions resData.name: ', resData.name); // Why is this undefined?
-			const loadedProducts = [];
+			const loadedQuestions = [];
 
 			// console.log('resData', resData);
 
 			for (const key in resData) {
-				loadedProducts.push(
+				loadedQuestions.push(
 					new Question({
 						index: resData[key].index, // for keeping the choice in cartScreen
 						id: key,
@@ -194,13 +197,36 @@ export const fetchQuestions = () => {
 				);
 			}
 
+			// For getting a different question in QuestionDetailScreen...
+			const shuffle = (array) => {
+				var currentIndex = array.length,
+					temporaryValue,
+					randomIndex;
+
+				// While there remain elements to shuffle...
+				while (0 !== currentIndex) {
+					// Pick a remaining element...
+					randomIndex = Math.floor(Math.random() * currentIndex);
+					currentIndex -= 1;
+
+					// And swap it with the current element.
+					temporaryValue = array[currentIndex];
+					array[currentIndex] = array[randomIndex];
+					array[randomIndex] = temporaryValue;
+				}
+
+				return array;
+			}
+
+			shuffle(loadedQuestions);
+
 			dispatch({
 				type: SET_QUESTIONS,
-				questions: loadedProducts,
+				questions: loadedQuestions,
 				// Now we see only the questions of the logged in user.
 				//testing
-				// userQuestions: loadedProducts.filter((quest) => quest.ownerId === 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1')
-				userQuestions: loadedProducts.filter((quest) => quest.ownerId === userId)
+				// userQuestions: loadedQuestions.filter((quest) => quest.ownerId === 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1')
+				userQuestions: loadedQuestions.filter((quest) => quest.ownerId === userId)
 			});
 		} catch (err) {
 			// send to custom analytics server
