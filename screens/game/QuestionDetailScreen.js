@@ -18,6 +18,7 @@ import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
 import CustomButton from '../../components/UI/CustomButton';
 import BoldText from '../../components/UI/BoldText';
+import Card from '../../components/UI/Card';
 import Line from '../../components/UI/Line';
 
 import * as cartActions from '../../store/actions/cart';
@@ -45,13 +46,22 @@ const QuestionDetailScreen = (props) => {
 	const [ loadQuestionsError, setLoadQuestionsError ] = useState(); // error initially is undefined!
 	const [ favError, setFavError ] = useState(); // error initially is undefined!
 	const [ isLoading, setIsLoading ] = useState(false);
+	const [ showAnswer, setShowAnswer ] = useState(false);
+
 	const dispatch = useDispatch();
 
 	const categoryId = props.navigation.getParam('categoryId');
-
-	const questions = useSelector((state) =>
+	let questions = useSelector((state) =>
 		state.questions.availableQuestions.filter((quest) => quest.categoryIds.indexOf(categoryId) >= 0)
 	);
+
+	// If user navigates to QuestionDetailScreen from FavoritesScreen
+	const questionIdFromFavoritesScreen = props.navigation.getParam('questionId');
+	if (questionIdFromFavoritesScreen) {
+		questions = useSelector((state) =>
+			state.questions.favoriteQuestions.filter((quest) => quest.id.indexOf(questionIdFromFavoritesScreen) >= 0)
+		);
+	}
 
 	const loadQuestions = useCallback(
 		async () => {
@@ -87,9 +97,6 @@ const QuestionDetailScreen = (props) => {
 	for (key in questions) {
 		questionId = questions[key].id;
 	}
-	// console.log(questions);
-	// console.log(questionId);
-	
 
 	const currentQuestionIsFavorite = useSelector((state) =>
 		state.questions.favoriteQuestions.some((question) => question.id === questionId)
@@ -99,7 +106,13 @@ const QuestionDetailScreen = (props) => {
 		async () => {
 			setFavError(null);
 			try {
-				await dispatch(questionsActions.toggleFavorite(questionId, currentQuestionIsFavorite, questions[questions.length - 1]));
+				await dispatch(
+					questionsActions.toggleFavorite(
+						questionId,
+						currentQuestionIsFavorite,
+						questions[questions.length - 1]
+					)
+				);
 			} catch (err) {
 				setFavError(err.message);
 			}
@@ -149,7 +162,7 @@ const QuestionDetailScreen = (props) => {
 		);
 	}
 
-	if (!isLoading && questions.lenght === 0) {
+	if (!isLoading && questions.length === 0) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
@@ -175,15 +188,15 @@ const QuestionDetailScreen = (props) => {
 					<QuestionItem
 						title={question.title}
 						image={question.imageUrl}
-						onSelect={() => selectItemHandler(question.id, question.title)}
+						onSelect={() => setShowAnswer((prevState) => !prevState)}
 					>
 						{Platform.OS === 'android' ? (
 							<View style={width < 400 ? styles.actionsSmall : styles.androidActions}>
 								<View style={styles.customButton}>
 									<CustomButton
 										style={{ width: Math.ceil(width * widthMultiplier) }}
-										title="Απάντηση"
-										onPress={() => selectItemHandler(question.id, question.title)}
+										title={showAnswer ? 'Απόκρυψη απάντησης' : 'Εμφάνιση απάντησης'}
+										onPress={() => setShowAnswer((prevState) => !prevState)}
 									/>
 								</View>
 
@@ -203,8 +216,8 @@ const QuestionDetailScreen = (props) => {
 								<View style={styles.button}>
 									<Button
 										color={Colours.gr_brown_light}
-										title="Απάντηση"
-										onPress={() => selectItemHandler(question.id, question.title)}
+										title={showAnswer ? 'Απόκρυψη απάντησης' : 'Εμφάνιση απάντησης'}
+										onPress={() => setShowAnswer((prevState) => !prevState)}
 									/>
 								</View>
 								{/* <BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
@@ -220,6 +233,11 @@ const QuestionDetailScreen = (props) => {
 							</View>
 						)}
 					</QuestionItem>
+					{showAnswer && (
+						<Card style={styles.detailItems}>
+							<BoldText>{question.description}</BoldText>
+						</Card>
+					)}
 				</View>
 			);
 		}
@@ -231,7 +249,6 @@ const QuestionDetailScreen = (props) => {
 		</CustomLinearGradient>
 	);
 };
-
 
 QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 	return {

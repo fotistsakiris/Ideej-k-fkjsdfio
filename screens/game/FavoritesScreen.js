@@ -62,10 +62,9 @@ const FavoritesScreen = (props) => {
 	);
 
 	const selectItemHandler = (id, title) => {
-		props.navigation.pop();
+		// props.navigation.pop();
 		props.navigation.navigate('DetailScreen', {
 			questionId: id,
-			questionTitle: title
 		});
 	};
 
@@ -159,7 +158,7 @@ const FavoritesScreen = (props) => {
 									<View>
 										<CustomButton
 											style={{ width: Math.ceil(width * 0.3) }}
-											title="Απάντηση"
+											title="Λεπτομέρειες"
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
@@ -180,7 +179,7 @@ const FavoritesScreen = (props) => {
 									<View style={styles.button}>
 										<Button
 											color={Colours.gr_brown_light}
-											title="Απάντηση"
+											title="Λεπτομέρειες"
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
