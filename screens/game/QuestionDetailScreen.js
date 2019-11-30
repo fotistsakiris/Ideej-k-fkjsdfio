@@ -43,7 +43,7 @@ const QuestionDetailScreen = (props) => {
 		textMultiplier = 0.045;
 	}
 	const [ loadQuestionsError, setLoadQuestionsError ] = useState(); // error initially is undefined!
-	const [ error, setError ] = useState(); // error initially is undefined!
+	const [ favError, setFavError ] = useState(); // error initially is undefined!
 	const [ isLoading, setIsLoading ] = useState(false);
 	const dispatch = useDispatch();
 
@@ -62,7 +62,7 @@ const QuestionDetailScreen = (props) => {
 				setLoadQuestionsError(err.message);
 			}
 		},
-		[ dispatch, setIsLoading, setError ]
+		[ dispatch, setIsLoading, setLoadQuestionsError ]
 	);
 
 	// loadQuestions after focusing
@@ -87,27 +87,27 @@ const QuestionDetailScreen = (props) => {
 	for (key in questions) {
 		questionId = questions[key].id;
 	}
+	// console.log(questions);
+	// console.log(questionId);
+	
 
 	const currentQuestionIsFavorite = useSelector((state) =>
 		state.questions.favoriteQuestions.some((question) => question.id === questionId)
 	);
 
-	console.log(questionId);
-	
-
 	const toggleFavoriteHandler = useCallback(
 		async () => {
-			setError(null);
+			setFavError(null);
 			try {
-				await dispatch(questionsActions.toggleFavorite(questionId, currentQuestionIsFavorite, questions));
+				await dispatch(questionsActions.toggleFavorite(questionId, currentQuestionIsFavorite, questions[questions.length - 1]));
 			} catch (err) {
-				setError(err.message);
+				setFavError(err.message);
 			}
 		},
-		[ dispatch, questionId, currentQuestionIsFavorite ]
+		[ dispatch, questionId, currentQuestionIsFavorite, setFavError ]
 	);
 
-	if (error) {
+	if (favError) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
@@ -173,9 +173,9 @@ const QuestionDetailScreen = (props) => {
 						</TouchableOpacity>
 					</View>
 					<QuestionItem
-						title={question[key].title}
-						image={question[key].imageUrl}
-						onSelect={() => selectItemHandler(question[key].id, question[key].title)}
+						title={question.title}
+						image={question.imageUrl}
+						onSelect={() => selectItemHandler(question.id, question.title)}
 					>
 						{Platform.OS === 'android' ? (
 							<View style={width < 400 ? styles.actionsSmall : styles.androidActions}>
@@ -183,18 +183,18 @@ const QuestionDetailScreen = (props) => {
 									<CustomButton
 										style={{ width: Math.ceil(width * widthMultiplier) }}
 										title="Απάντηση"
-										onPress={() => selectItemHandler(question[key].id, question[key].title)}
+										onPress={() => selectItemHandler(question.id, question.title)}
 									/>
 								</View>
 
 								{/* <BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
-									{question[key].points.toFixed(2)}
+									{question.points.toFixed(2)}
 								</BoldText> */}
 								<View style={styles.customButton}>
 									<CustomButton
 										style={{ width: Math.ceil(width * widthMultiplier) }}
 										title="+ συλλογή"
-										onPress={() => dispatch(cartActions.addToCard(question[key]))}
+										onPress={() => dispatch(cartActions.addToCard(question))}
 									/>
 								</View>
 							</View>
@@ -204,17 +204,17 @@ const QuestionDetailScreen = (props) => {
 									<Button
 										color={Colours.gr_brown_light}
 										title="Απάντηση"
-										onPress={() => selectItemHandler(question[key].id, question[key].title)}
+										onPress={() => selectItemHandler(question.id, question.title)}
 									/>
 								</View>
 								{/* <BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
-									{question[key].points.toFixed(2)}
+									{question.points.toFixed(2)}
 								</BoldText> */}
 								<View style={styles.button}>
 									<Button
 										color={Colours.gr_brown_light}
 										title="+ συλλογή"
-										onPress={() => dispatch(cartActions.addToCard(question[key]))}
+										onPress={() => dispatch(cartActions.addToCard(question))}
 									/>
 								</View>
 							</View>
@@ -227,7 +227,7 @@ const QuestionDetailScreen = (props) => {
 
 	return (
 		<CustomLinearGradient>
-			<View style={styles.flatListContainer}>{showQuestion(questions)}</View>
+			<View style={styles.flatListContainer}>{showQuestion(questions[questions.length - 1])}</View>
 		</CustomLinearGradient>
 	);
 };

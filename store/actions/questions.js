@@ -11,8 +11,6 @@ export const CREATE_QUESTION = 'CREATE_QUESTION';
 export const UPDATE_QUESTION = 'UPDATE_QUESTION';
 
 export const toggleFavorite = (id, isFav, selectedQuestion) => {
-	console.log(id, 'id');
-	
 	return async (dispatch, getState) => {
 		try {
 			const token = getState().auth.token;
@@ -62,9 +60,11 @@ export const toggleFavorite = (id, isFav, selectedQuestion) => {
 
 				// Note: No `name` property, that's why we use a `for_in` loop
 				// console.log('fetch', JSON.stringify(resData));
-
+				
 				for (const key in resData) {
 					if (resData[key].id === id) {
+						// console.log('resData[key].id', resData[key].id);
+						// console.log('id', id);
 						await fetch(
 							`https://en-touto-nika.firebaseio.com//favorites/${userId}/${key}.json?auth=${token}`,
 							{

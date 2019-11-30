@@ -58,7 +58,7 @@ const FavoritesScreen = (props) => {
 		() => {
 			loadFavProducts();
 		},
-		[ dispatch, loadFavProducts ]
+		[ loadFavProducts ]
 	);
 
 	const selectItemHandler = (id, title) => {
@@ -163,10 +163,10 @@ const FavoritesScreen = (props) => {
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									<BoldText style={{ fontSize: Math.ceil(width * 0.04), ...styles.points }}>
+									{/* <BoldText style={{ fontSize: Math.ceil(width * 0.04), ...styles.points }}>
 										{itemData.item.points.toFixed(2)}
 										<Text style={styles.euro}>€</Text>
-									</BoldText>
+									</BoldText> */}
 									<View>
 										<CustomButton
 											style={{ width: Math.ceil(width * 0.3) }}
@@ -184,7 +184,7 @@ const FavoritesScreen = (props) => {
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									<BoldText style={styles.points}>€ {itemData.item.points.toFixed(2)}</BoldText>
+									{/* <BoldText style={styles.points}>€ {itemData.item.points.toFixed(2)}</BoldText> */}
 									<View style={styles.button}>
 										<Button
 											color={Colours.gr_brown_light}
