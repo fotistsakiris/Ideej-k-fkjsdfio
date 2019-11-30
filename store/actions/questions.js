@@ -11,6 +11,8 @@ export const CREATE_QUESTION = 'CREATE_QUESTION';
 export const UPDATE_QUESTION = 'UPDATE_QUESTION';
 
 export const toggleFavorite = (id, isFav, selectedQuestion) => {
+	console.log(id, 'id');
+	
 	return async (dispatch, getState) => {
 		try {
 			const token = getState().auth.token;

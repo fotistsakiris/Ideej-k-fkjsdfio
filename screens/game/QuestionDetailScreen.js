@@ -92,11 +92,14 @@ const QuestionDetailScreen = (props) => {
 		state.questions.favoriteQuestions.some((question) => question.id === questionId)
 	);
 
+	console.log(questionId);
+	
+
 	const toggleFavoriteHandler = useCallback(
 		async () => {
 			setError(null);
 			try {
-				await dispatch(questionsActions.toggleFavorite(questionId, currentQuestionIsFavorite, chosenQuestion));
+				await dispatch(questionsActions.toggleFavorite(questionId, currentQuestionIsFavorite, questions));
 			} catch (err) {
 				setError(err.message);
 			}
