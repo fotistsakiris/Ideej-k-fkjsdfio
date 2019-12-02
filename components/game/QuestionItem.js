@@ -27,13 +27,13 @@ const QuestionItem = (props) => {
 	let imageMultiplier = 0;
 	let textMultiplier = 0;
 
-	if (width <= 400 && width < 800) {
+	if (width < 400) {
 		cardHeight = 0.75;
 		cardWidth = 0.77;
 		textMultiplier = 0.06;
 		imageMultiplier = 0.5;
 	}
-	if (width < 800 && width > 400) {
+	if (400 < width < 800) {
 		cardHeight = 0.5;
 		cardWidth = 0.85;
 		textMultiplier = 0.055;
@@ -52,7 +52,7 @@ const QuestionItem = (props) => {
 
 	return (
 		<Card
-			style={{ height: Math.ceil(cardHeight * height), width: Math.ceil(cardWidth * width), ...styles.question }}
+			style={{ height: Math.ceil(cardHeight * height), width: Math.ceil(cardWidth * width), ...styles.question, ...props.style }}
 		>
 			{/* <View style={styles.icon}> */}
 			{/* <Question
@@ -69,18 +69,18 @@ const QuestionItem = (props) => {
 			<View style={styles.touchable}>
 				<TouchableComp onPress={props.onSelect} useForground>
 					<View>
-						<View style={width < 400 ? styles.imageContainerSmall : width < 800 ? styles.imageContainer800 : styles.imageContainer}>
-							<Image
+						<View style={width < 400 ? styles.imageContainerSmall : 400 < width < 800 ? styles.imageContainerMedium : styles.imageContainerBig}>
+							{/* <Image
 								style={{
 									width: Math.ceil(width * imageMultiplier),
 									height: Math.ceil(height * imageMultiplier),
 									...styles.image
 								}}
 								source={{ uri: props.image }}
-							/>
+							/> */}
 						</View>
 
-						<View style={width < 400 ? styles.textContainerSmall : width < 800 ? styles.textContainer800 : styles.textContainer}>
+						<View style={width < 400 ? styles.titleContainerSmall : 400 < width < 800 ? styles.titleContainerMedium : styles.titleContainerBig}>
 							<Text style={{ fontSize: Math.ceil(textMultiplier * width), ...styles.title }} numberOfLines={3}>
 								{props.title}
 							</Text>
@@ -110,43 +110,43 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 		borderRadius: 10
 	},
-	imageContainerSmall: {
+	// imageContainerSmall: {
+	// 	alignItems: 'center',
+	// 	justifyContent: 'center',
+	// 	width: '100%',
+	// 	height: '60%'
+	// },
+	// imageContainerMedium: {
+	// 	alignItems: 'center',
+	// 	justifyContent: 'center',
+	// 	width: '100%',
+	// 	height: '35%'
+	// },
+	// imageContainerBig: {
+	// 	alignItems: 'center',
+	// 	justifyContent: 'center',
+	// 	width: '100%',
+	// 	height: '50%'
+	// },
+	// image: {
+	// 	// width: '100%',
+	// 	// height: '100%',
+	// 	resizeMode: 'contain',
+	// 	marginTop: 2
+	// },
+	titleContainerSmall: {
 		alignItems: 'center',
-		justifyContent: 'center',
-		width: '100%',
-		height: '60%'
-	},
-	imageContainer: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		width: '100%',
-		height: '75%'
-	},
-	imageContainer800: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		width: '100%',
-		height: '50%'
-	},
-	image: {
-		// width: '100%',
-		// height: '100%',
-		resizeMode: 'contain',
-		marginTop: 2
-	},
-	textContainerSmall: {
-		alignItems: 'center',
-		height: '15%',
+		// height: '50%',
 		padding: 2
 	},
-	textContainer: {
+	titleContainerMedium: {
 		alignItems: 'center',
-		height: '15%',
+		height: '20%',
 		padding: 2
 	},
-	textContainer800: {
+	titleContainerBig: {
 		alignItems: 'center',
-		height: '30%',
+		height: '15%',
 		padding: 2
 	},
 	title: {
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'GFSNeohellenic-Bold',
 		textAlign: 'left'
 	},
-	points: {
+	difficultyLevel: {
 		fontSize: 18,
 		color: '#888'
 	},

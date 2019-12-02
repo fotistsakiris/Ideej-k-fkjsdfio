@@ -16,8 +16,8 @@ function CartItemModel (info) {
 	this.ownerId = info.ownerId;
 	this.title = info.title;
 	this.imageUrl = info.imageUrl;
-	this.points = info.points;
-	this.description = info.description;
+	this.difficultyLevel = info.difficultyLevel;
+	this.answer = info.answer;
 }
 
 

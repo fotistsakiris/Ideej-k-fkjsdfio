@@ -128,8 +128,8 @@ const QuestionsOverviewScreen = (props) => {
 								/>
 							</View>
 
-							<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
-								{chosenQuestion.points.toFixed(2)}
+							<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}>
+								{chosenQuestion.difficultyLevel.toFixed(2)}
 							</BoldText>
 							<View style={styles.customButton}>
 								<CustomButton
@@ -148,8 +148,8 @@ const QuestionsOverviewScreen = (props) => {
 									onPress={() => selectItemHandler(chosenQuestion.id, chosenQuestion.title)}
 								/>
 							</View>
-							<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
-								{chosenQuestion.points.toFixed(2)}
+							<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}>
+								{chosenQuestion.difficultyLevel.toFixed(2)}
 							</BoldText>
 							<View style={styles.button}>
 								<Button
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
 		// maxHeight: '100%',
 		padding: 20
 	},
-	points: {
+	difficultyLevel: {
 		// fontSize: 18,
 		color: '#888',
 		alignSelf: 'center',

@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
 		case ADD_TO_CARD:
 			const addedQuestion = action.question;
 			const questIndex = addedQuestion.index;
-			const questPrice = addedQuestion.points;
+			const questPrice = addedQuestion.difficultyLevel;
 			const questTitle = addedQuestion.title;
 			let upadtatedOrNewCartItem;
 			// Check if we already have the item in the cart.
@@ -23,7 +23,7 @@ export default (state = initialState, action) => {
 				upadtatedOrNewCartItem = new CartItemModel({
 					index: questIndex,
 					quantity: state.items[addedQuestion.id].quantity + 1,
-					points: questPrice,
+					difficultyLevel: questPrice,
 					title: questTitle,
 					sum: state.items[addedQuestion.id].sum + questPrice
 				});
@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
 				upadtatedOrNewCartItem = new CartItemModel({
 					index: questIndex, // for keeping the choice in cartScreen
 					quantity: 1,
-					points: questPrice,
+					difficultyLevel: questPrice,
 					title: questTitle,
 					sum: questPrice
 				});
@@ -50,9 +50,9 @@ export default (state = initialState, action) => {
 				const updatedCartItem = new CartItemModel({
 					index: selectedCartItem.index, // for keeping the choice in cartScreen
 					quantity: selectedCartItem.quantity - 1,
-					points: selectedCartItem.points,
+					difficultyLevel: selectedCartItem.difficultyLevel,
 					title: selectedCartItem.title,
-					sum: selectedCartItem.sum - selectedCartItem.points
+					sum: selectedCartItem.sum - selectedCartItem.difficultyLevel
 				});
 				updatedCartItems = { ...state.items, [action.pid]: updatedCartItem };
 			} else {
@@ -62,7 +62,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				items: updatedCartItems,
-				totalAmount: state.totalAmount - selectedCartItem.points
+				totalAmount: state.totalAmount - selectedCartItem.difficultyLevel
 			};
 		case ADD_CHOICE:
 			return initialState; // Just clearing the cart!

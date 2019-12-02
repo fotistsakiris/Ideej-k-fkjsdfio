@@ -39,7 +39,7 @@ const CartScreen = (props) => {
 				id: key,
 				index: state.cart.items[key].index,
 				title: state.cart.items[key].title,
-				points: state.cart.items[key].points,
+				difficultyLevel: state.cart.items[key].difficultyLevel,
 				quantity: state.cart.items[key].quantity,
 				sum: state.cart.items[key].sum
 			});
@@ -100,7 +100,7 @@ const CartScreen = (props) => {
 			<Card style={styles.summary}>
 				<CartItem
 					quantity={itemData.item.quantity}
-					points={itemData.item.points}
+					difficultyLevel={itemData.item.difficultyLevel}
 					title={itemData.item.title}
 					amount={itemData.item.sum}
 					changeQuantity // Needed to show the plus/minus buttons.

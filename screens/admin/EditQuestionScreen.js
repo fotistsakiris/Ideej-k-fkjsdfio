@@ -50,18 +50,28 @@ const EditQuestionScreen = (props) => {
 			title: editedQuestion ? editedQuestion.title : '',
 			categoryIds: editedQuestion ? editedQuestion.categoryIds : '',
 			// ownerId: editedQuestion ? editedQuestion.ownerId : '',
-			imageUrl: editedQuestion ? editedQuestion.imageUrl : '',
-			points: editedQuestion ? editedQuestion.points.toString() : '',
-			// points: '',
-			description: editedQuestion ? editedQuestion.description : ''
+			// imageUrl: editedQuestion ? editedQuestion.imageUrl : '',
+			difficultyLevel: editedQuestion ? editedQuestion.difficultyLevel.toString() : '',
+			// difficultyLevel: '',
+			answer: editedQuestion ? editedQuestion.answer : '',
+			choice_Alpha: editedQuestion ? editedQuestion.choice_Alpha : '',
+			choice_Beta: editedQuestion ? editedQuestion.choice_Beta : '',
+			choice_Gamma: editedQuestion ? editedQuestion.choice_Gamma : '',
+			choice_Delta: editedQuestion ? editedQuestion.choice_Delta : '',
+			right_choice: editedQuestion ? editedQuestion.right_choice : ''
 		},
 		inputValidities: {
-			title: editedQuestion ? true : false,
 			categoryIds: editedQuestion ? true : false,
+			difficultyLevel: editedQuestion ? true : false,
+			title: editedQuestion ? true : false,
 			// ownerId: editedQuestion ? true : false,
-			imageUrl: editedQuestion ? true : false,
-			points: editedQuestion ? true : false,
-			description: editedQuestion ? true : false
+			// imageUrl: editedQuestion ? true : false,
+			answer: editedQuestion ? true : false,
+			choice_Alpha: editedQuestion ? true : false,
+			choice_Beta: editedQuestion ? true : false,
+			choice_Gamma: editedQuestion ? true : false,
+			choice_Delta: editedQuestion ? true : false,
+			right_choice: editedQuestion ? true : false
 		},
 		formIsValid: editedQuestion ? true : false
 	});
@@ -79,9 +89,11 @@ const EditQuestionScreen = (props) => {
 	const submitHandler = useCallback(
 		async () => {
 			if (!formState.formIsValid) {
-				Alert.alert('Σφάλμα στην εισαγωγή δεδομένων!', 'Παρακαλούμε συμπληρώστε όλα τα κενά ή ελέγξτε τις ειδοποιήσεις!', [
-					{ text: 'Εντάξει!' }
-				]);
+				Alert.alert(
+					'Σφάλμα στην εισαγωγή δεδομένων!',
+					'Παρακαλούμε συμπληρώστε όλα τα κενά ή ελέγξτε τις ειδοποιήσεις!',
+					[ { text: 'Εντάξει!' } ]
+				);
 				return;
 			}
 			setIsLoading(true);
@@ -89,14 +101,19 @@ const EditQuestionScreen = (props) => {
 			try {
 				if (editedQuestion) {
 					await dispatch(
-						questionsActions.updateProduct(
+						questionsActions.updateQuestion(
 							questId,
 							formState.inputValues.title,
 							formState.inputValues.categoryIds,
 							// formState.inputValues.ownerId,
-							formState.inputValues.imageUrl,
-							+formState.inputValues.points,
-							formState.inputValues.description
+							// formState.inputValues.imageUrl,
+							+formState.inputValues.difficultyLevel,
+							formState.inputValues.answer,
+							formState.inputValues.choice_Alpha,
+							formState.inputValues.choice_Beta,
+							formState.inputValues.choice_Gamma,
+							formState.inputValues.choice_Delta,
+							formState.inputValues.right_choice
 						)
 					);
 				} else {
@@ -105,9 +122,14 @@ const EditQuestionScreen = (props) => {
 							formState.inputValues.title,
 							formState.inputValues.categoryIds,
 							// formState.inputValues.ownerId,
-							formState.inputValues.imageUrl,
-							+formState.inputValues.points,
-							formState.inputValues.description
+							// formState.inputValues.imageUrl,
+							+formState.inputValues.difficultyLevel,
+							formState.inputValues.answer,
+							formState.inputValues.choice_Alpha,
+							formState.inputValues.choice_Beta,
+							formState.inputValues.choice_Gamma,
+							formState.inputValues.choice_Delta,
+							formState.inputValues.right_choice
 						)
 					);
 				}
@@ -132,9 +154,9 @@ const EditQuestionScreen = (props) => {
 		(inputIdentifier, inputValue, inputValidity) => {
 			dispatchFormState({
 				type: FORM_INPUT_UPDATE,
+				input: inputIdentifier,
 				value: inputValue,
-				isValid: inputValidity,
-				input: inputIdentifier
+				isValid: inputValidity
 			});
 		},
 		[ dispatchFormState ]
@@ -169,6 +191,19 @@ const EditQuestionScreen = (props) => {
 						required
 						autoCapitalize="none"
 					/>
+						<Input
+						id="difficultyLevel"
+						label="Βαθμός δυσκολίας"
+						errorText="Παρακαλούμε εισαγάγεται ένα έγκυρο βαθμό δυσκολίας και χρησιμοποιείτε τελεία αντί για κόμμα"
+						keyboardType="number-pad"
+						returnKeyType="next"
+						initialValue={editedQuestion ? editedQuestion.difficultyLevel.toString() : ''}
+						onInputChange={inputChangeHandler}
+						initiallyValid={!!editedQuestion}
+						required
+						noComma
+						min={0.1}
+					/>
 					{/* <Input
 						id="ownerId"
 						label="Ταυτότητα διαχειριστή"
@@ -184,8 +219,8 @@ const EditQuestionScreen = (props) => {
 
 					<Input
 						id="title"
-						label="Τίτλος"
-						errorText="Παρακαλούμε εισαγάγεται ένα έγκυρο τίτλο!"
+						label="Ερώτηση"
+						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη ερώτηση!"
 						keyboardType="default"
 						autoCapitalize="sentences"
 						autoCorrect
@@ -195,7 +230,7 @@ const EditQuestionScreen = (props) => {
 						initiallyValid={!!editedQuestion}
 						required
 					/>
-					<Input
+					{/* <Input
 						id="imageUrl"
 						label="Σύνδεσμος Φωτογραφίας"
 						errorText="Παρακαλούμε εισαγάγεται ένα έγκυρο σύνδεσμο Φωτογραφίας σε μορφή  jpg, gif ή png!"
@@ -206,44 +241,100 @@ const EditQuestionScreen = (props) => {
 						initiallyValid={!!editedQuestion}
 						required
 						imageUrl
-					/>
-					{/* {editedQuestion ? null : (
-						<Input
-							id="points"
-							label="Τιμή"
-							errorText="Παρακαλούμε εισαγάγεται μία έγκυρη τιμή και χρησιμοποιείτε τελεία αντί για κόμμα"
-							keyboardType="number-pad"
-							returnKeyType="next"
-							onInputChange={inputChangeHandler}
-							required
-							noComma
-							min={0.1}
-						/>
-					)} */}
+					/> */}
+				
 					<Input
-						id="points"
-						label="Βαθμός"
-						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη τιμή και χρησιμοποιείτε τελεία αντί για κόμμα"
-						keyboardType="number-pad"
-						returnKeyType="next"
-						initialValue={editedQuestion ? editedQuestion.points.toString() : ''}
-						onInputChange={inputChangeHandler}
-						initiallyValid={!!editedQuestion}
-						required
-						noComma
-						min={0.1} 
-					/>
-					<Input
-						id="description"
-						label="Περιγραφή"
-						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη περιγραφή, οποία θα περιέχει τουλάχιστον 5 γράμματα! "
+						id="answer"
+						label="Απάντηση"
+						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη απάντηση, η οποία θα περιέχει τουλάχιστον 5 γράμματα! "
 						keyboardType="default"
 						autoCapitalize="sentences"
+						returnKeyType="next"
 						autoCorrect
 						multiline
 						numberOfLines={3}
 						onInputChange={inputChangeHandler}
-						initialValue={editedQuestion ? editedQuestion.description : ''}
+						initialValue={editedQuestion ? editedQuestion.answer : ''}
+						initiallyValid={!!editedQuestion}
+						required
+						minLength={5}
+					/>
+					<Input
+						id="choice_Alpha"
+						label="Επιλογή Α"
+						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη επιλογή, η οποία θα περιέχει τουλάχιστον 5 γράμματα! "
+						keyboardType="default"
+						autoCapitalize="sentences"
+						returnKeyType="next"
+						autoCorrect
+						multiline
+						numberOfLines={3}
+						onInputChange={inputChangeHandler}
+						initialValue={editedQuestion ? editedQuestion.choice_Alpha : ''}
+						initiallyValid={!!editedQuestion}
+						required
+						minLength={5}
+					/>
+					<Input
+						id="choice_Beta"
+						label="Επιλογή Β"
+						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη επιλογή, η οποία θα περιέχει τουλάχιστον 5 γράμματα! "
+						keyboardType="default"
+						autoCapitalize="sentences"
+						returnKeyType="next"
+						autoCorrect
+						multiline
+						numberOfLines={3}
+						onInputChange={inputChangeHandler}
+						initialValue={editedQuestion ? editedQuestion.choice_Beta : ''}
+						initiallyValid={!!editedQuestion}
+						required
+						minLength={5}
+					/>
+					<Input
+						id="choice_Gamma"
+						label="Επιλογή Γ"
+						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη επιλογή, η οποία θα περιέχει τουλάχιστον 5 γράμματα! "
+						keyboardType="default"
+						autoCapitalize="sentences"
+						returnKeyType="next"
+						autoCorrect
+						multiline
+						numberOfLines={3}
+						onInputChange={inputChangeHandler}
+						initialValue={editedQuestion ? editedQuestion.choice_Gamma : ''}
+						initiallyValid={!!editedQuestion}
+						required
+						minLength={5}
+					/>
+					<Input
+						id="choice_Delta"
+						label="Επιλογή Δ"
+						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη επιλογή, η οποία θα περιέχει τουλάχιστον 5 γράμματα! "
+						keyboardType="default"
+						autoCapitalize="sentences"
+						returnKeyType="next"
+						autoCorrect
+						multiline
+						numberOfLines={3}
+						onInputChange={inputChangeHandler}
+						initialValue={editedQuestion ? editedQuestion.choice_Delta : ''}
+						initiallyValid={!!editedQuestion}
+						required
+						minLength={5}
+					/>
+					<Input
+						id="right_choice"
+						label="Σωστή Επιλογή"
+						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη επιλογή, η οποία θα περιέχει τουλάχιστον 5 γράμματα! "
+						keyboardType="default"
+						autoCapitalize="sentences"
+						returnKeyType="next"
+						autoCorrect
+						multiline
+						numberOfLines={3}
+						onInputChange={inputChangeHandler}
+						initialValue={editedQuestion ? editedQuestion.right_choice : ''}
 						initiallyValid={!!editedQuestion}
 						required
 						minLength={5}

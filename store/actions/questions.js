@@ -1,5 +1,5 @@
 export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE';
-export const SET_FILTERS = 'SET_FILTERS';
+export const CHECK_ANSWER = 'CHECK_ANSWER';
 export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const SET_FAVORITES = 'SET_FAVORITES';
 
@@ -60,7 +60,7 @@ export const toggleFavorite = (id, isFav, selectedQuestion) => {
 
 				// Note: No `name` property, that's why we use a `for_in` loop
 				// console.log('fetch', JSON.stringify(resData));
-				
+
 				for (const key in resData) {
 					if (resData[key].id === id) {
 						// console.log('resData[key].id', resData[key].id);
@@ -121,8 +121,8 @@ export const fetchFavQuestions = () => {
 						index: selectedQuestion.index,
 						title: selectedQuestion.title,
 						imageUrl: selectedQuestion.imageUrl,
-						points: selectedQuestion.points,
-						description: selectedQuestion.description
+						difficultyLevel: selectedQuestion.difficultyLevel,
+						answer: selectedQuestion.answer
 					})
 				);
 			}
@@ -137,8 +137,8 @@ export const fetchFavQuestions = () => {
 	};
 };
 
-export const setFilters = (filterSettings) => {
-	return { type: SET_FILTERS, filters: filterSettings };
+export const checkAnswer = (filterSettings) => {
+	return { type: CHECK_ANSWER, filters: filterSettings };
 };
 
 // Admin
@@ -192,9 +192,14 @@ export const fetchQuestions = () => {
 						categoryIds: resData[key].categoryIds,
 						ownerId: resData[key].ownerId,
 						title: resData[key].title,
-						imageUrl: resData[key].imageUrl,
-						points: resData[key].points,
-						description: resData[key].description
+						// imageUrl: resData[key].imageUrl,
+						difficultyLevel: resData[key].difficultyLevel,
+						answer: resData[key].answer,
+						choice_Alpha: resData[key].choice_Alpha,
+						choice_Beta: resData[key].choice_Beta,
+						choice_Gamma: resData[key].choice_Gamma,
+						choice_Delta: resData[key].choice_Delta,
+						right_choice: resData[key].right_choice
 					})
 				);
 			}
@@ -218,7 +223,7 @@ export const fetchQuestions = () => {
 				}
 
 				return array;
-			}
+			};
 
 			shuffle(loadedQuestions);
 
@@ -237,7 +242,18 @@ export const fetchQuestions = () => {
 	};
 };
 
-export const createQuestion = (title, categoryIds, imageUrl, points, description) => {
+export const createQuestion = (
+	title,
+	categoryIds,
+	// imageUrl,
+	difficultyLevel,
+	answer,
+	choice_Alpha,
+	choice_Beta,
+	choice_Gamma,
+	choice_Delta,
+	right_choice
+) => {
 	return async (dispatch, getState) => {
 		try {
 			// SET INDEX
@@ -273,9 +289,14 @@ export const createQuestion = (title, categoryIds, imageUrl, points, description
 					// ownerId: 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1',
 					ownerId: userId,
 					title,
-					imageUrl,
-					points,
-					description
+					// imageUrl,
+					difficultyLevel,
+					answer,
+					choice_Alpha,
+					choice_Beta,
+					choice_Gamma,
+					choice_Delta,
+					right_choice
 				})
 			});
 
@@ -297,9 +318,14 @@ export const createQuestion = (title, categoryIds, imageUrl, points, description
 					// ownerId: 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1',
 					ownerId: userId,
 					title,
-					description,
-					imageUrl,
-					points
+					answer,
+					// imageUrl,
+					difficultyLevel,
+					choice_Alpha,
+					choice_Beta,
+					choice_Gamma,
+					choice_Delta,
+					right_choice
 				}
 			});
 		} catch (err) {
@@ -309,7 +335,19 @@ export const createQuestion = (title, categoryIds, imageUrl, points, description
 	};
 };
 
-export const updateProduct = (id, title, categoryIds, imageUrl, points, description) => {
+export const updateQuestion = (
+	id,
+	title,
+	categoryIds,
+	imageUrl,
+	difficultyLevel,
+	answer,
+	choice_Alpha,
+	choice_Beta,
+	choice_Gamma,
+	choice_Delta,
+	right_choice
+) => {
 	return async (dispatch, getState) => {
 		try {
 			const userId = getState().auth.userId;
@@ -327,8 +365,13 @@ export const updateProduct = (id, title, categoryIds, imageUrl, points, descript
 					title,
 					categoryIds,
 					imageUrl,
-					points,
-					description
+					difficultyLevel,
+					answer,
+					choice_Alpha,
+					choice_Beta,
+					choice_Gamma,
+					choice_Delta,
+					right_choice
 				})
 			});
 
@@ -348,8 +391,13 @@ export const updateProduct = (id, title, categoryIds, imageUrl, points, descript
 					categoryIds,
 					ownerId: userId,
 					imageUrl,
-					points,
-					description
+					difficultyLevel,
+					answer,
+					choice_Alpha,
+					choice_Beta,
+					choice_Gamma,
+					choice_Delta,
+					right_choice
 				}
 			});
 		} catch (err) {

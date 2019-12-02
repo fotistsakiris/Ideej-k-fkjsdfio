@@ -162,8 +162,8 @@ const FavoritesScreen = (props) => {
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									{/* <BoldText style={{ fontSize: Math.ceil(width * 0.04), ...styles.points }}>
-										{itemData.item.points.toFixed(2)}
+									{/* <BoldText style={{ fontSize: Math.ceil(width * 0.04), ...styles.difficultyLevel }}>
+										{itemData.item.difficultyLevel.toFixed(2)}
 										<Text style={styles.euro}>€</Text>
 									</BoldText> */}
 									<View>
@@ -183,7 +183,7 @@ const FavoritesScreen = (props) => {
 											onPress={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 										/>
 									</View>
-									{/* <BoldText style={styles.points}>€ {itemData.item.points.toFixed(2)}</BoldText> */}
+									{/* <BoldText style={styles.difficultyLevel}>€ {itemData.item.difficultyLevel.toFixed(2)}</BoldText> */}
 									<View style={styles.button}>
 										<Button
 											color={Colours.gr_brown_light}
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
 		width: '100%',
 		margin: 12
 	},
-	points: {
+	difficultyLevel: {
 		// fontSize: 18,
 		color: '#888'
 	},

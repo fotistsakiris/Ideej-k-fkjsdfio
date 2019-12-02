@@ -27,16 +27,24 @@ const AdminQuestionsOverview = (props) => {
 	const { width, height } = Dimensions.get('window');
 	let widthMultiplier = 0;
 	let textMultiplier = 0;
+	let cardHeight = 0;
+	let cardWidth = 0;
 
-	if (width <= 400 && width < 800) {
+	if (width < 400) {
+		cardHeight = 0.75;
+		cardWidth = 0.77;
 		widthMultiplier = 0.4;
 		textMultiplier = 0.06;
-	}
-	if (width < 800 && width > 400) {
+	}	
+	if (400 < width < 800) {
+		cardHeight = 0.1;
+		cardWidth = 0.85;
 		widthMultiplier = 0.3;
 		textMultiplier = 0.042;
 	}
 	if (width > 800) {
+		cardHeight = 0.65;
+		cardWidth = 0.8;
 		widthMultiplier = 0.2;
 		textMultiplier = 0.045;
 	}
@@ -171,7 +179,11 @@ const AdminQuestionsOverview = (props) => {
 						keyExtractor={(item) => item.id}
 						renderItem={(itemData) => (
 							<QuestionItem
-								image={itemData.item.imageUrl}
+							style={{
+								height: Math.ceil(cardHeight * height),
+								width: Math.ceil(cardWidth * width),
+							}}
+								// image={itemData.item.imageUrl}
 								title={itemData.item.title}
 								onSelect={() => editQuestionHandler(itemData.item.id)}
 							>
@@ -185,9 +197,9 @@ const AdminQuestionsOverview = (props) => {
 											/>
 										</View>
 										<BoldText
-											style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}
+											style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}
 										>
-											{itemData.item.points.toFixed(2)}
+											{itemData.item.difficultyLevel.toFixed(2)}
 										</BoldText>
 										<View style={styles.customButton}>
 											<CustomButton
@@ -198,7 +210,7 @@ const AdminQuestionsOverview = (props) => {
 										</View>
 									</View>
 								) : (
-									<View style={styles.actions}>
+									<View style={width < 400 ? styles.actionsSmall : 400 < width < 800 ? styles.actionsMedium: actionsBig}>
 										<View style={styles.button}>
 											<Button
 												color={Colours.gr_brown_light}
@@ -207,9 +219,9 @@ const AdminQuestionsOverview = (props) => {
 											/>
 										</View>
 										<BoldText
-											style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}
+											style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}
 										>
-											{itemData.item.points.toFixed(2)}
+											{itemData.item.difficultyLevel.toFixed(2)}
 										</BoldText>
 										<View style={styles.button}>
 											<Button
@@ -274,7 +286,7 @@ const styles = StyleSheet.create({
 		// maxHeight: '100%',
 		padding: 20
 	},
-	points: {
+	difficultyLevel: {
 		// fontSize: 18,
 		color: '#888'
 		// marginHorizontal: 1
@@ -284,18 +296,26 @@ const styles = StyleSheet.create({
 		color: '#888'
 	},
 	actionsSmall: {
-		// flexDirection: 'row',
+		flexDirection: 'row',
 		// alignSelf: 'center',
 		alignItems: 'center',
-		height: '42%',
+		// height: '50%',
 		marginHorizontal: 2
 	},
-	actions: {
+	actionsMedium: {
 		flexDirection: 'row',
 		// alignSelf: 'center',
 		alignItems: 'center',
 		justifyContent: 'space-around',
-		height: '10%',
+		height: '30%',
+		marginHorizontal: 2
+	},
+	actionsBig: {
+		flexDirection: 'row',
+		// alignSelf: 'center',
+		alignItems: 'center',
+		justifyContent: 'space-around',
+		height: '30%',
 		marginHorizontal: 2
 	},
 	title: {

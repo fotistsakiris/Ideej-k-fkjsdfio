@@ -4,13 +4,14 @@ import {
 	CREATE_QUESTION,
 	UPDATE_QUESTION,
 	SET_QUESTIONS,
+	CHECK_ANSWER,
 	SET_FAVORITES
 } from '../actions/questions';
 import Question from '../../models/question';
 
 const initialState = {
-	userQuestions: [], 
-	availableQuestions: [], 
+	userQuestions: [],
+	availableQuestions: [],
 	favoriteQuestions: []
 };
 
@@ -41,6 +42,30 @@ export default (state = initialState, action) => {
 				// console.log(question);
 				return { ...state, favoriteQuestions: state.favoriteQuestions.concat(question) };
 			}
+		case CHECK_ANSWER:
+			const appliedFilters = action.filters;
+			// Check all meals if there are any matches with the filters...
+			const filteredMeals = state.availableQuestions.filter((quest) => {
+				// If quest should be glutenFree but it is not, return false.
+				if (appliedFilters.alfa && !quest.alfaIsTrue) {
+					return false;
+				}
+				if (appliedFilters.beta && !quest.betaIsTrue) {
+					return false;
+				}
+				if (appliedFilters.gamma && !quest.gammaIsTrue) {
+					return false;
+				}
+				if (appliedFilters.delta && !quest.deltaIsTrue) {
+					return false;
+				}
+				// If we pass all the checks, then we have a quest...
+				return true;
+			});
+			// Return a new state.
+			console.log(appliedFilters);
+
+			return { ...state, answeredQuestions: filteredMeals };
 		case DELETE_QUESTION:
 			return {
 				...state,
@@ -55,9 +80,14 @@ export default (state = initialState, action) => {
 				categoryIds: action.questionData.categoryIds,
 				ownerId: action.questionData.ownerId,
 				title: action.questionData.title,
-				imageUrl: action.questionData.imageUrl,
-				points: action.questionData.points,
-				description: action.questionData.description
+				// imageUrl: action.questionData.imageUrl,
+				difficultyLevel: action.questionData.difficultyLevel,
+				answer: action.questionData.answer,
+				choice_Alpha: action.questionData.choice_Alpha,
+				choice_Beta: action.questionData.choice_Beta,
+				choice_Gamma: action.questionData.choice_Gamma,
+				choice_Delta: action.questionData.choice_Delta,
+				right_choice: action.questionData.right_choice
 			});
 			return {
 				...state,
@@ -71,10 +101,15 @@ export default (state = initialState, action) => {
 				categoryIds: state.userQuestions[productIndex].categoryIds,
 				ownerId: action.questionData.ownerId,
 				title: action.questionData.title,
-				imageUrl: action.questionData.imageUrl,
-				points: action.questionData.points, 
-				// points: state.userQuestions[productIndex].points,
-				description: action.questionData.description
+				// imageUrl: action.questionData.imageUrl,
+				difficultyLevel: action.questionData.difficultyLevel,
+				// difficultyLevel: state.userQuestions[productIndex].difficultyLevel,
+				answer: action.questionData.answer,
+				choice_Alpha: action.questionData.choice_Alpha,
+				choice_Beta: action.questionData.choice_Beta,
+				choice_Gamma: action.questionData.choice_Gamma,
+				choice_Delta: action.questionData.choice_Delta,
+				right_choice: action.questionData.right_choice
 			});
 			const updatedUserProducts = [ ...state.userQuestions ];
 			updatedUserProducts[productIndex] = updatedProduct;

@@ -3,10 +3,12 @@ import {
 	Platform,
 	View,
 	TouchableOpacity,
+	Switch,
 	ActivityIndicator,
 	Dimensions,
 	Button,
-	StyleSheet
+	StyleSheet,
+	Text
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -26,20 +28,43 @@ import * as questionsActions from '../../store/actions/questions';
 
 import Colours from '../../constants/Colours';
 
+const AnswerSwitch = (props) => {
+	return (
+		<View style={styles.multipleChoiceContainer}>
+			<Text>{props.label}</Text>
+			<Switch
+			style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
+				thumbColor={Colours.moccasin}
+				trackColor={Colours.moccasin_light}
+				value={props.state}
+				onValueChange={props.onChange}
+			/>
+		</View>
+	);
+};
+
 const QuestionDetailScreen = (props) => {
 	const { width, height } = Dimensions.get('window');
 	let widthMultiplier = 0;
 	let textMultiplier = 0;
+	let cardHeight = 0;
+	let cardWidth = 0;
 
-	if (width <= 400 && width < 800) {
+	if (width < 400) {
+		cardHeight = 0.75;
+		cardWidth = 0.77;
 		widthMultiplier = 0.4;
 		textMultiplier = 0.06;
 	}
-	if (width < 800 && width > 400) {
+	if (400 < width < 800) {
+		cardHeight = 0.5;
+		cardWidth = 0.85;
 		widthMultiplier = 0.3;
 		textMultiplier = 0.042;
 	}
 	if (width > 800) {
+		cardHeight = 0.65;
+		cardWidth = 0.8;
 		widthMultiplier = 0.2;
 		textMultiplier = 0.045;
 	}
@@ -48,8 +73,51 @@ const QuestionDetailScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ showAnswer, setShowAnswer ] = useState(false);
 
+	// For the switches
+	const [ alfaIsTrue, setAlfaIsTrue ] = useState(false);
+	const [ betaIsTrue, setBetaIsTrue ] = useState(false);
+	const [ gammaIsTrue, setGammaIsTrue ] = useState(false);
+	const [ deltaIsTrue, setDeltaIsTrue ] = useState(false);
+
 	const dispatch = useDispatch();
 
+	// If we change one of the filters state then the saveAnswer function is memoized,
+	// because of useCallback and its dependencies!
+	// Then if save icon (in the headerRight) is pressed,
+	// the saveAnswer function runs.
+	// That means that we get a snap-shot of the state of the filters
+	// and that state is saved in Redux memory with dispatch(checkAnswer).
+	// The saveAnswer function runs when we press the save icon
+	// because in useEffect we setted a pointer of the saveAnswer func,
+	// as a parameter to the react-navigation state,
+	// which then we got in the save icon and trigger it in onPress.
+
+	// Note that useEffect first run happens when the component mounts and
+	// the render method runs.
+	// Then it also runs if it's dependecies change. In our case saveAnswer.
+
+	const saveAnswer = useCallback(
+		() => {
+			const appliedAnswer = {
+				alfa: alfaIsTrue,
+				beta: betaIsTrue,
+				gamma: gammaIsTrue,
+				delta: deltaIsTrue
+			};
+			dispatch(questionsActions.checkAnswer(appliedAnswer));
+			// console.log(appliedAnswer);
+		},
+		[ alfaIsTrue, betaIsTrue, gammaIsTrue, deltaIsTrue, dispatch ]
+	);
+
+	useEffect(
+		() => {
+			props.navigation.setParams({ save: saveAnswer });
+		},
+		[ saveAnswer ]
+	);
+
+	// Get all the questions
 	const categoryId = props.navigation.getParam('categoryId');
 	let questions = useSelector((state) =>
 		state.questions.availableQuestions.filter((quest) => quest.categoryIds.indexOf(categoryId) >= 0)
@@ -93,11 +161,11 @@ const QuestionDetailScreen = (props) => {
 		[ loadQuestions ]
 	);
 
+	// Checking if current question is favorite
 	let questionId = '';
 	for (key in questions) {
 		questionId = questions[key].id;
 	}
-
 	const currentQuestionIsFavorite = useSelector((state) =>
 		state.questions.favoriteQuestions.some((question) => question.id === questionId)
 	);
@@ -126,7 +194,7 @@ const QuestionDetailScreen = (props) => {
 				<View style={styles.centered}>
 					<BoldText>
 						Σφάλμα στη διαδικασία αποθήκευσης της ερωτήσεως ως αγαπημένου. Παρακαλούμε ελέγξτε τη σύνδεσή
-						σας.
+						σας, ή συνθεθείτε στον λογαριασμό σας...
 					</BoldText>
 
 					{Platform.OS === 'android' ? (
@@ -180,16 +248,43 @@ const QuestionDetailScreen = (props) => {
 						<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
 							<MaterialIcons
 								name={currentQuestionIsFavorite ? 'favorite' : 'favorite-border'}
-								size={Math.ceil(width * 0.09)}
+								size={Math.ceil(width * 0.08)}
 								color={Colours.maroon}
 							/>
 						</TouchableOpacity>
 					</View>
 					<QuestionItem
+						style={{
+							height: Math.ceil(cardHeight * height),
+							width: Math.ceil(cardWidth * width),
+						}}
 						title={question.title}
-						image={question.imageUrl}
+						// image={question.imageUrl}
 						onSelect={() => setShowAnswer((prevState) => !prevState)}
 					>
+						<View style={styles.switchesSummary}>
+							<BoldText style={styles.title}>Επιλέξτε την σωστή απάντηση.</BoldText>
+								<AnswerSwitch
+									state={alfaIsTrue}
+									onChange={(newValue) => setAlfaIsTrue(newValue)}
+									label={question.choice_Alpha}
+								/>
+								<AnswerSwitch
+									state={betaIsTrue}
+									onChange={(newValue) => setBetaIsTrue(newValue)}
+									label={question.choice_Beta}
+								/>
+								<AnswerSwitch
+									state={gammaIsTrue}
+									onChange={(newValue) => setGammaIsTrue(newValue)}
+									label={question.choice_Gamma}
+								/>
+								<AnswerSwitch
+									state={deltaIsTrue}
+									onChange={(newValue) => setDeltaIsTrue(newValue)}
+									label={question.choice_Delta}
+								/>
+						</View>
 						{Platform.OS === 'android' ? (
 							<View style={width < 400 ? styles.actionsSmall : styles.androidActions}>
 								<View style={styles.customButton}>
@@ -200,9 +295,9 @@ const QuestionDetailScreen = (props) => {
 									/>
 								</View>
 
-								{/* <BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
-									{question.points.toFixed(2)}
-								</BoldText> */}
+								<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}>
+									{question.difficultyLevel.toFixed(2)}
+								</BoldText>
 								<View style={styles.customButton}>
 									<CustomButton
 										style={{ width: Math.ceil(width * widthMultiplier) }}
@@ -220,9 +315,9 @@ const QuestionDetailScreen = (props) => {
 										onPress={() => setShowAnswer((prevState) => !prevState)}
 									/>
 								</View>
-								{/* <BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.points }}>
-									{question.points.toFixed(2)}
-								</BoldText> */}
+								<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}>
+									{question.difficultyLevel.toFixed(2)}
+								</BoldText>
 								<View style={styles.button}>
 									<Button
 										color={Colours.gr_brown_light}
@@ -235,7 +330,7 @@ const QuestionDetailScreen = (props) => {
 					</QuestionItem>
 					{showAnswer && (
 						<Card style={styles.detailItems}>
-							<BoldText>{question.description}</BoldText>
+							<BoldText>{question.answer}</BoldText>
 						</Card>
 					)}
 				</View>
@@ -263,16 +358,20 @@ QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 				/>
 			</HeaderButtons>
 		),
-
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-				<Item
-					title="cart"
-					iconName={Platform.OS === 'android' ? 'md-albums' : 'ios-albums'}
-					onPress={() => navigation.navigate({ routeName: 'Cart' })}
-				/>
+				<Item title="Save" iconName="ios-save" onPress={navigation.getParam('save')} />
 			</HeaderButtons>
 		)
+		// headerRight: (
+		// 	<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+		// 		<Item
+		// 			title="cart"
+		// 			iconName={Platform.OS === 'android' ? 'md-albums' : 'ios-albums'}
+		// 			onPress={() => navigation.navigate({ routeName: 'Cart' })}
+		// 		/>
+		// 	</HeaderButtons>
+		// )
 	};
 };
 
@@ -281,11 +380,36 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		margin: 2
 	},
+	multipleChoiceContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		width: '80%',
+		marginVertical: 15
+	},
+	switchesSummary: {
+		// flexDirection: 'row',
+		// alignSelf: 'center',
+		justifyContent: 'center',
+		alignItems: 'center',
+		// height: '60%',
+		width: '100%',
+		marginHorizontal: 2
+	},
+	// switches: {
+	// 	flexDirection: 'row',
+	// 	// alignSelf: 'center',
+	// 	justifyContent: 'center',
+	// 	alignItems: 'center',
+	// 	// height: '20%',
+	// 	width: '100%',
+	// 	marginHorizontal: 2
+	// },
 	actionsSmall: {
 		// flexDirection: 'row',
 		// alignSelf: 'center',
 		alignItems: 'center',
-		height: '42%',
+		// height: '42%',
 		marginHorizontal: 2
 	},
 	androidActions: {
@@ -293,7 +417,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		justifyContent: 'space-around',
 		alignItems: 'center',
-		height: '10%',
+		// height: '10%',
 		width: '100%',
 		marginHorizontal: 2
 	},
@@ -302,7 +426,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: '20%',
+		// height: '10%',
 		width: '100%',
 		marginHorizontal: 2
 	},
