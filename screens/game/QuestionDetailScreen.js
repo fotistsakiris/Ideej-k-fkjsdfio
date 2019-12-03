@@ -8,7 +8,8 @@ import {
 	Dimensions,
 	Button,
 	StyleSheet,
-	Text
+	Text,
+	ScrollView
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -33,8 +34,8 @@ const AnswerSwitch = (props) => {
 		<View style={styles.multipleChoiceContainer}>
 			<Text>{props.label}</Text>
 			<Switch
-			style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
-				thumbColor={Colours.moccasin}
+				style={{ transform: [ { scaleX: 0.9 }, { scaleY: 0.6 } ] }}
+				thumbColor={Colours.maroon}
 				trackColor={Colours.moccasin_light}
 				value={props.state}
 				onValueChange={props.onChange}
@@ -57,7 +58,7 @@ const QuestionDetailScreen = (props) => {
 		textMultiplier = 0.06;
 	}
 	if (400 < width < 800) {
-		cardHeight = 0.5;
+		cardHeight = 0.8;
 		cardWidth = 0.85;
 		widthMultiplier = 0.3;
 		textMultiplier = 0.042;
@@ -243,7 +244,7 @@ const QuestionDetailScreen = (props) => {
 	const showQuestion = (question) => {
 		for (key in question) {
 			return (
-				<View>
+				<ScrollView contentContainerStyle={styles.scrollViewStyle}>
 					<View style={styles.icon}>
 						<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
 							<MaterialIcons
@@ -256,34 +257,34 @@ const QuestionDetailScreen = (props) => {
 					<QuestionItem
 						style={{
 							height: Math.ceil(cardHeight * height),
-							width: Math.ceil(cardWidth * width),
+							width: Math.ceil(cardWidth * width)
 						}}
 						title={question.title}
 						// image={question.imageUrl}
-						onSelect={() => setShowAnswer((prevState) => !prevState)}
+						// onSelect={() => setShowAnswer((prevState) => !prevState)}
 					>
 						<View style={styles.switchesSummary}>
 							<BoldText style={styles.title}>Επιλέξτε την σωστή απάντηση.</BoldText>
-								<AnswerSwitch
-									state={alfaIsTrue}
-									onChange={(newValue) => setAlfaIsTrue(newValue)}
-									label={question.choice_Alpha}
-								/>
-								<AnswerSwitch
-									state={betaIsTrue}
-									onChange={(newValue) => setBetaIsTrue(newValue)}
-									label={question.choice_Beta}
-								/>
-								<AnswerSwitch
-									state={gammaIsTrue}
-									onChange={(newValue) => setGammaIsTrue(newValue)}
-									label={question.choice_Gamma}
-								/>
-								<AnswerSwitch
-									state={deltaIsTrue}
-									onChange={(newValue) => setDeltaIsTrue(newValue)}
-									label={question.choice_Delta}
-								/>
+							<AnswerSwitch
+								state={alfaIsTrue}
+								onChange={(newValue) => setAlfaIsTrue(newValue)}
+								label={question.choice_Alpha}
+							/>
+							<AnswerSwitch
+								state={betaIsTrue}
+								onChange={(newValue) => setBetaIsTrue(newValue)}
+								label={question.choice_Beta}
+							/>
+							<AnswerSwitch
+								state={gammaIsTrue}
+								onChange={(newValue) => setGammaIsTrue(newValue)}
+								label={question.choice_Gamma}
+							/>
+							<AnswerSwitch
+								state={deltaIsTrue}
+								onChange={(newValue) => setDeltaIsTrue(newValue)}
+								label={question.choice_Delta}
+							/>
 						</View>
 						{Platform.OS === 'android' ? (
 							<View style={width < 400 ? styles.actionsSmall : styles.androidActions}>
@@ -295,7 +296,9 @@ const QuestionDetailScreen = (props) => {
 									/>
 								</View>
 
-								<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}>
+								<BoldText
+									style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}
+								>
 									{question.difficultyLevel.toFixed(2)}
 								</BoldText>
 								<View style={styles.customButton}>
@@ -315,7 +318,9 @@ const QuestionDetailScreen = (props) => {
 										onPress={() => setShowAnswer((prevState) => !prevState)}
 									/>
 								</View>
-								<BoldText style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}>
+								<BoldText
+									style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}
+								>
 									{question.difficultyLevel.toFixed(2)}
 								</BoldText>
 								<View style={styles.button}>
@@ -329,11 +334,16 @@ const QuestionDetailScreen = (props) => {
 						)}
 					</QuestionItem>
 					{showAnswer && (
-						<Card style={styles.detailItems}>
+						<Card
+							style={{
+								height: Math.ceil(cardHeight * height / 4),
+								width: Math.ceil(cardWidth * width), ...styles.centered
+							}}
+						>
 							<BoldText>{question.answer}</BoldText>
 						</Card>
 					)}
-				</View>
+				</ScrollView>
 			);
 		}
 	};
@@ -376,25 +386,30 @@ QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+	scrollViewStyle: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		padding: 12
+	},
 	icon: {
 		alignSelf: 'center',
 		margin: 2
 	},
 	multipleChoiceContainer: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		width: '80%',
-		marginVertical: 15
+		// flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'flex-start',
+		width: '95%',
+		marginVertical: 5
 	},
 	switchesSummary: {
 		// flexDirection: 'row',
 		// alignSelf: 'center',
-		justifyContent: 'center',
-		alignItems: 'center',
+		justifyContent: 'flex-start',
+		alignItems: 'flex-start',
 		// height: '60%',
-		width: '100%',
-		marginHorizontal: 2
+		width: '100%'
+		// marginHorizontal: 2
 	},
 	// switches: {
 	// 	flexDirection: 'row',

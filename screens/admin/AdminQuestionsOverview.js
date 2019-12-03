@@ -37,7 +37,7 @@ const AdminQuestionsOverview = (props) => {
 		textMultiplier = 0.06;
 	}	
 	if (400 < width < 800) {
-		cardHeight = 0.1;
+		cardHeight = 0.25;
 		cardWidth = 0.85;
 		widthMultiplier = 0.3;
 		textMultiplier = 0.042;
@@ -196,11 +196,11 @@ const AdminQuestionsOverview = (props) => {
 												onPress={() => editQuestionHandler(itemData.item.id)}
 											/>
 										</View>
-										<BoldText
+										{/* <BoldText
 											style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}
 										>
 											{itemData.item.difficultyLevel.toFixed(2)}
-										</BoldText>
+										</BoldText> */}
 										<View style={styles.customButton}>
 											<CustomButton
 												style={{ width: Math.ceil(width * widthMultiplier) }}
@@ -218,11 +218,11 @@ const AdminQuestionsOverview = (props) => {
 												onPress={() => editQuestionHandler(itemData.item.id)}
 											/>
 										</View>
-										<BoldText
+										{/* <BoldText
 											style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}
 										>
 											{itemData.item.difficultyLevel.toFixed(2)}
-										</BoldText>
+										</BoldText> */}
 										<View style={styles.button}>
 											<Button
 												color={Colours.gr_brown_light}
@@ -305,10 +305,11 @@ const styles = StyleSheet.create({
 	actionsMedium: {
 		flexDirection: 'row',
 		// alignSelf: 'center',
-		alignItems: 'center',
-		justifyContent: 'space-around',
+		alignItems: 'baseline',
+		justifyContent: 'center',
 		height: '30%',
-		marginHorizontal: 2
+		marginLeft: 2,
+		marginRight: 2
 	},
 	actionsBig: {
 		flexDirection: 'row',

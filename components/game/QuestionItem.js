@@ -81,9 +81,9 @@ const QuestionItem = (props) => {
 						</View>
 
 						<View style={width < 400 ? styles.titleContainerSmall : 400 < width < 800 ? styles.titleContainerMedium : styles.titleContainerBig}>
-							<Text style={{ fontSize: Math.ceil(textMultiplier * width), ...styles.title }} numberOfLines={3}>
+							<BoldText style={{ fontSize: Math.ceil(textMultiplier * width), ...styles.title }} numberOfLines={3}>
 								{props.title}
-							</Text>
+							</BoldText>
 							{/* <BoldText style={styles.title}>{props.title}</BoldText> */}
 							<Line />
 						</View>
@@ -153,8 +153,6 @@ const styles = StyleSheet.create({
 		// marginTop: 6,
 		// alignItems: 'center',
 		// justifyContent: 'center',
-		textAlign: 'center',
-		fontFamily: 'GFSNeohellenic-Bold',
 		textAlign: 'left'
 	},
 	difficultyLevel: {

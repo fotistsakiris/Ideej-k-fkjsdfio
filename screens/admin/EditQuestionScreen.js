@@ -224,6 +224,8 @@ const EditQuestionScreen = (props) => {
 						keyboardType="default"
 						autoCapitalize="sentences"
 						autoCorrect
+						multiline
+						numberOfLines={3}
 						returnKeyType="next"
 						onInputChange={inputChangeHandler}
 						initialValue={editedQuestion ? editedQuestion.title : ''}
