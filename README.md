@@ -17,7 +17,7 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 ### Ability to change difficultyLevel too.
 ### Dynamic UI using Dimensions width for small and big screens.
 ### Choose a random question to show for a chosen category!
-### Admin can input 4 choices and right answer. User can chose with switches the right answers
+### Admin can input 4 choices and right-answer. User can chose with switches the right answers from a multiple choise.
 
 
 ## TODO

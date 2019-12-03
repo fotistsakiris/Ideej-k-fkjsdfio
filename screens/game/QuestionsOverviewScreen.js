@@ -115,7 +115,7 @@ const QuestionsOverviewScreen = (props) => {
 			return (
 				<QuestionItem
 					title={chosenQuestion.title}
-					image={chosenQuestion.imageUrl}
+					// image={chosenQuestion.imageUrl}
 					onSelect={() => selectItemHandler(chosenQuestion.id, chosenQuestion.title)}
 				>
 					{Platform.OS === 'android' ? (

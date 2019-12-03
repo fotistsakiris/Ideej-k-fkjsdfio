@@ -150,7 +150,7 @@ const FavoritesScreen = (props) => {
 					renderItem={(itemData) => (
 						<QuestionItem
 							title={itemData.item.title}
-							image={itemData.item.imageUrl}
+							// image={itemData.item.imageUrl}
 							onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
 						>
 							{Platform.OS === 'android' ? (

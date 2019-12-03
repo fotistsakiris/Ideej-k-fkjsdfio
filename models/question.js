@@ -19,7 +19,7 @@ function Question(info) {
 	this.categoryIds = info.categoryIds;
 	this.ownerId = info.ownerId;
 	this.title = info.title;
-	this.imageUrl = info.imageUrl;
+	// this.imageUrl = info.imageUrl;
 	this.difficultyLevel = info.difficultyLevel;
 	this.answer = info.answer;
 	this.choice_Alpha = info.choice_Alpha;

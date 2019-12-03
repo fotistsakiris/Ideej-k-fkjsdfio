@@ -47,8 +47,8 @@ const EditQuestionScreen = (props) => {
 	// Rap it with useCallback to avoid infinite loop.
 	const [ formState, dispatchFormState ] = useReducer(formReducer, {
 		inputValues: {
-			title: editedQuestion ? editedQuestion.title : '',
 			categoryIds: editedQuestion ? editedQuestion.categoryIds : '',
+			title: editedQuestion ? editedQuestion.title : '',
 			// ownerId: editedQuestion ? editedQuestion.ownerId : '',
 			// imageUrl: editedQuestion ? editedQuestion.imageUrl : '',
 			difficultyLevel: editedQuestion ? editedQuestion.difficultyLevel.toString() : '',
@@ -62,8 +62,8 @@ const EditQuestionScreen = (props) => {
 		},
 		inputValidities: {
 			categoryIds: editedQuestion ? true : false,
-			difficultyLevel: editedQuestion ? true : false,
 			title: editedQuestion ? true : false,
+			difficultyLevel: editedQuestion ? true : false,
 			// ownerId: editedQuestion ? true : false,
 			// imageUrl: editedQuestion ? true : false,
 			answer: editedQuestion ? true : false,
@@ -257,7 +257,7 @@ const EditQuestionScreen = (props) => {
 						initialValue={editedQuestion ? editedQuestion.answer : ''}
 						initiallyValid={!!editedQuestion}
 						required
-						minLength={5}
+						minLength={1}
 					/>
 					<Input
 						id="choice_Alpha"
@@ -273,7 +273,7 @@ const EditQuestionScreen = (props) => {
 						initialValue={editedQuestion ? editedQuestion.choice_Alpha : ''}
 						initiallyValid={!!editedQuestion}
 						required
-						minLength={5}
+						minLength={1}
 					/>
 					<Input
 						id="choice_Beta"
@@ -289,7 +289,7 @@ const EditQuestionScreen = (props) => {
 						initialValue={editedQuestion ? editedQuestion.choice_Beta : ''}
 						initiallyValid={!!editedQuestion}
 						required
-						minLength={5}
+						minLength={1}
 					/>
 					<Input
 						id="choice_Gamma"
@@ -305,7 +305,7 @@ const EditQuestionScreen = (props) => {
 						initialValue={editedQuestion ? editedQuestion.choice_Gamma : ''}
 						initiallyValid={!!editedQuestion}
 						required
-						minLength={5}
+						minLength={1}
 					/>
 					<Input
 						id="choice_Delta"
@@ -321,23 +321,20 @@ const EditQuestionScreen = (props) => {
 						initialValue={editedQuestion ? editedQuestion.choice_Delta : ''}
 						initiallyValid={!!editedQuestion}
 						required
-						minLength={5}
+						minLength={1}
 					/>
 					<Input
 						id="right_choice"
 						label="Σωστή Επιλογή"
 						errorText="Παρακαλούμε εισαγάγεται μία έγκυρη επιλογή, η οποία θα περιέχει τουλάχιστον 5 γράμματα! "
-						keyboardType="default"
-						autoCapitalize="sentences"
+						keyboardType="number-pad"
 						returnKeyType="next"
-						autoCorrect
-						multiline
-						numberOfLines={3}
 						onInputChange={inputChangeHandler}
 						initialValue={editedQuestion ? editedQuestion.right_choice : ''}
 						initiallyValid={!!editedQuestion}
 						required
-						minLength={5}
+						noComma
+						min={0.1}
 					/>
 				</View>
 			</ScrollView>

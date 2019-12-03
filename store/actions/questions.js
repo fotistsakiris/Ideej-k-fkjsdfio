@@ -120,7 +120,7 @@ export const fetchFavQuestions = () => {
 						ownerId: selectedQuestion.ownerId,
 						index: selectedQuestion.index,
 						title: selectedQuestion.title,
-						imageUrl: selectedQuestion.imageUrl,
+						// imageUrl: selectedQuestion.imageUrl,
 						difficultyLevel: selectedQuestion.difficultyLevel,
 						answer: selectedQuestion.answer
 					})
@@ -339,7 +339,7 @@ export const updateQuestion = (
 	id,
 	title,
 	categoryIds,
-	imageUrl,
+	// imageUrl,
 	difficultyLevel,
 	answer,
 	choice_Alpha,
@@ -364,7 +364,7 @@ export const updateQuestion = (
 				body: JSON.stringify({
 					title,
 					categoryIds,
-					imageUrl,
+					// imageUrl,
 					difficultyLevel,
 					answer,
 					choice_Alpha,
@@ -390,7 +390,7 @@ export const updateQuestion = (
 					title,
 					categoryIds,
 					ownerId: userId,
-					imageUrl,
+					// imageUrl,
 					difficultyLevel,
 					answer,
 					choice_Alpha,
