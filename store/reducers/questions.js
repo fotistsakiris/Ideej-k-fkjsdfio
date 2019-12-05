@@ -10,9 +10,10 @@ import {
 import Question from '../../models/question';
 
 const initialState = {
-	userQuestions: [],
+	adminQuestions: [],
 	availableQuestions: [],
-	favoriteQuestions: []
+	favoriteQuestions: [],
+	userAnsweredQuestions: []
 };
 
 export default (state = initialState, action) => {
@@ -21,7 +22,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				availableQuestions: action.questions,
-				userQuestions: action.userQuestions
+				adminQuestions: action.adminQuestions
 			};
 		case SET_FAVORITES:
 			return {
@@ -43,13 +44,11 @@ export default (state = initialState, action) => {
 				return { ...state, favoriteQuestions: state.favoriteQuestions.concat(question) };
 			}
 		case CHECK_ANSWER:
-			
-
-			return { ...state };
+			return { ...state, userAnsweredQuestions: state.userAnsweredQuestions.concat(action.question) };
 		case DELETE_QUESTION:
 			return {
 				...state,
-				userQuestions: state.userQuestions.filter((question) => question.id !== action.pid),
+				adminQuestions: state.adminQuestions.filter((question) => question.id !== action.pid),
 				availableQuestions: state.availableQuestions.filter((question) => question.id !== action.pid),
 				favoriteQuestions: state.favoriteQuestions.filter((question) => question.id !== action.pid)
 			};
@@ -72,18 +71,18 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				availableQuestions: state.availableQuestions.concat(newQuestion),
-				userQuestions: state.userQuestions.concat(newQuestion)
+				adminQuestions: state.adminQuestions.concat(newQuestion)
 			};
 		case UPDATE_QUESTION:
-			const productIndex = state.userQuestions.findIndex((quest) => quest.id === action.pid);
+			const productIndex = state.adminQuestions.findIndex((quest) => quest.id === action.pid);
 			const updatedProduct = new Question({
 				id: action.pid,
-				categoryIds: state.userQuestions[productIndex].categoryIds,
+				categoryIds: state.adminQuestions[productIndex].categoryIds,
 				ownerId: action.questionData.ownerId,
 				title: action.questionData.title,
 				// imageUrl: action.questionData.imageUrl,
 				difficultyLevel: action.questionData.difficultyLevel,
-				// difficultyLevel: state.userQuestions[productIndex].difficultyLevel,
+				// difficultyLevel: state.adminQuestions[productIndex].difficultyLevel,
 				answer: action.questionData.answer,
 				choice_Alpha: action.questionData.choice_Alpha,
 				choice_Beta: action.questionData.choice_Beta,
@@ -91,7 +90,7 @@ export default (state = initialState, action) => {
 				choice_Delta: action.questionData.choice_Delta,
 				right_choice: action.questionData.right_choice
 			});
-			const updatedUserProducts = [ ...state.userQuestions ];
+			const updatedUserProducts = [ ...state.adminQuestions ];
 			updatedUserProducts[productIndex] = updatedProduct;
 
 			const availableProductIndex = state.availableQuestions.findIndex((quest) => quest.id === action.pid);
@@ -103,7 +102,7 @@ export default (state = initialState, action) => {
 			updatedFavoriteProducts[favoriteProductIndex] = updatedProduct;
 			return {
 				...state,
-				userQuestions: updatedUserProducts,
+				adminQuestions: updatedUserProducts,
 				availableQuestions: updatedAvailableProducts,
 				favoriteQuestions: updatedFavoriteProducts
 			};

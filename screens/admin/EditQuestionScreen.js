@@ -40,7 +40,7 @@ const EditQuestionScreen = (props) => {
 	const questId = props.navigation.getParam('questionId');
 	// If questionId is not set (if we press the add button in UserProductScreen)
 	// then editedQuestion will be undifined. But that is OK.
-	const editedQuestion = useSelector((state) => state.questions.userQuestions.find((quest) => quest.id === questId));
+	const editedQuestion = useSelector((state) => state.questions.adminQuestions.find((quest) => quest.id === questId));
 
 	const dispatch = useDispatch();
 

@@ -54,12 +54,12 @@ const AdminQuestionsOverview = (props) => {
 	const [ isRefresing, setIsRefresing ] = useState(false);
 
 	const dispatch = useDispatch();
-	// const userQuestions = useSelector((state) => state.questions.userQuestions);
+	// const adminQuestions = useSelector((state) => state.questions.adminQuestions);
 	const productsInCart = useSelector((state) => state.cart.items);
 
 	const AdminCategoryId = props.navigation.getParam('AdminCategoryId');
-	const userQuestions = useSelector((state) =>
-		state.questions.userQuestions.filter((quest) => quest.categoryIds.indexOf(AdminCategoryId) >= 0)
+	const adminQuestions = useSelector((state) =>
+		state.questions.adminQuestions.filter((quest) => quest.categoryIds.indexOf(AdminCategoryId) >= 0)
 	);
 
 	const loadQuestions = useCallback(
@@ -145,7 +145,7 @@ const AdminQuestionsOverview = (props) => {
 		);
 	}
 
-	if (!isLoading && userQuestions.length === 0) {
+	if (!isLoading && adminQuestions.length === 0) {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
@@ -175,7 +175,7 @@ const AdminQuestionsOverview = (props) => {
 					<FlatList
 						onRefresh={loadQuestions}
 						refreshing={isRefresing}
-						data={userQuestions}
+						data={adminQuestions}
 						keyExtractor={(item) => item.id}
 						renderItem={(itemData) => (
 							<QuestionItem

@@ -145,7 +145,7 @@ export const checkAnswer = (question, AnsweIsCorrect) => {
 			// testing
 			// const response = await fetch(`https://en-touto-nika.firebaseio.com//questions.json`, {
 			const response = await fetch(
-				`https://en-touto-nika.firebaseio.com//answered_questions.json?auth=${token}`,
+				`https://en-touto-nika.firebaseio.com//user_answered_questions/${userId}.json?auth=${token}`,
 				{
 					method: 'POST',
 					headers: {
@@ -269,8 +269,8 @@ export const fetchQuestions = () => {
 				questions: loadedQuestions,
 				// Now we see only the questions of the logged in user.
 				//testing
-				// userQuestions: loadedQuestions.filter((quest) => quest.ownerId === 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1')
-				userQuestions: loadedQuestions.filter((quest) => quest.ownerId === userId)
+				// adminQuestions: loadedQuestions.filter((quest) => quest.ownerId === 'eeR9esY0l8OxcxJPPA1Gp4T5Xsy1')
+				adminQuestions: loadedQuestions.filter((quest) => quest.ownerId === userId)
 			});
 		} catch (err) {
 			// send to custom analytics server
