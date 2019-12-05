@@ -80,10 +80,10 @@ const QuestionDetailScreen = (props) => {
 	const [ gammaIsTrue, setGammaIsTrue ] = useState(false);
 	const [ deltaIsTrue, setDeltaIsTrue ] = useState(false);
 
-	// Set the object with the all the values, alfa, beta ... 
-	const [ appliedAnswerIs, setAppliedAnswerIs ] = useState(null); 
+	// Set the object with the all the values, alfa, beta ...
+	// const [ appliedAnswerIs, setAppliedAnswerIs ] = useState(null);
 
-	// const [ choiceSave, setChoiceSave ] = useState(false);
+	const [ choiceSave, setChoiceSave ] = useState(false);
 	const [ correctChoice, setCorrectChoice ] = useState(false);
 
 	const dispatch = useDispatch();
@@ -102,9 +102,9 @@ const QuestionDetailScreen = (props) => {
 	// Note that useEffect first run happens when the component mounts and
 	// the render method runs.
 	// Then it also runs if it's dependecies change. In our case saveAnswer.
-
+	let corChoice = false;
 	const saveAnswer = useCallback(
-		() => {
+		async () => {
 			const appliedAnswer = {
 				alfa: alfaIsTrue,
 				beta: betaIsTrue,
@@ -112,14 +112,46 @@ const QuestionDetailScreen = (props) => {
 				delta: deltaIsTrue
 			};
 			console.log(appliedAnswer);
-			// setChoiceSave(true);
-			setAppliedAnswerIs(appliedAnswer);
-			dispatch(questionsActions.checkAnswer(appliedAnswer));
+			setChoiceSave(true);
+			// setAppliedAnswerIs(appliedAnswer);
+			await dispatch(questionsActions.checkAnswer(appliedAnswer));
 			// console.log(appliedAnswer);
-			// setChoiceSave(false);
+			setChoiceSave(false);
+
+			let rightChoice = 0;
+			for (key in questions) {
+				rightChoice = questions[key].right_choice; // for checking choice
+			}
+			// Getting the right choice
+			console.log('rightChoice', rightChoice);
+			for (key in appliedAnswer) {
+				if (key === 'alfa' && appliedAnswer[key] && rightChoice == 1) {
+					console.log('1', key, appliedAnswer[key], rightChoice == 1);
+					setCorrectChoice(true);
+					corChoice = true;
+				} else if (key === 'beta' && appliedAnswer[key] && rightChoice == 2) {
+					console.log('2', key, appliedAnswer[key], rightChoice == 2);
+					setCorrectChoice(true);
+					corChoice = true;
+					console.log(key);
+				} else if (key === 'gamma' && appliedAnswer[key] && rightChoice == 3) {
+					setCorrectChoice(true);
+					corChoice = true;
+				} else if (key === 'delta' && appliedAnswer[key] && rightChoice == 4) {
+					setCorrectChoice(true);
+					corChoice = true;
+				}
+			}
+
+			console.log('corChoice', corChoice);
 		},
-		[ alfaIsTrue, betaIsTrue, gammaIsTrue, deltaIsTrue, dispatch ]
+		[ alfaIsTrue, betaIsTrue, gammaIsTrue, deltaIsTrue, choiceSave, correctChoice, dispatch ]
 	);
+
+	if (corChoice) {
+		setCorrectChoice(true);
+	}
+	console.log('correctChoice', correctChoice);
 
 	useEffect(
 		() => {
@@ -173,43 +205,9 @@ const QuestionDetailScreen = (props) => {
 	);
 
 	let questionId = '';
-	let rightChoice = 0;
 	for (key in questions) {
 		questionId = questions[key].id; // for checking favorites
-		rightChoice = questions[key].right_choice; // for checking choice
 	}
-	// Getting the right choice
-	console.log('rightChoice', rightChoice);
-	for (key in appliedAnswerIs) {
-		switch (key) {
-			case 'alfa': 
-				console.log('rightChoice === 1', rightChoice == 1, appliedAnswerIs[key]);
-				if (appliedAnswerIs[key] === true && rightChoice == 1) {
-					setCorrectChoice(true);
-				}
-				break;
-			case 'beta':
-				console.log('rightChoice === 2', rightChoice == 2, appliedAnswerIs[key]);
-				if (appliedAnswerIs[key] === true && rightChoice == 2) {
-					setCorrectChoice(true);
-				}
-				break;
-			// case 'gamma':
-			// 	if (rightChoice === 3) {
-			// 		setCorrectChoice(true);
-			// 	}
-			// 	break;
-			// case 'delta':
-			// 	if (rightChoice === 4) {
-			// 		setCorrectChoice(true);
-			// 	}
-			// 	break;
-			default:
-				break;
-		}
-	}
-
-	console.log('correctChoice', correctChoice);
 
 	// Checking if current question is favorite
 	const currentQuestionIsFavorite = useSelector((state) =>
@@ -299,6 +297,7 @@ const QuestionDetailScreen = (props) => {
 							/>
 						</TouchableOpacity>
 					</View>
+
 					<QuestionItem
 						style={{
 							height: Math.ceil(cardHeight * height),
@@ -308,16 +307,18 @@ const QuestionDetailScreen = (props) => {
 						// image={question.imageUrl}
 						// onSelect={() => setShowAnswer((prevState) => !prevState)}
 					>
-						{/* {correctChoice ? (
+						{/* {corChoice ? (
 							<BoldText style={styles.centered}>Συγχαρητήρια</BoldText>
-						) : ( */}
+						) : choiceSave && !corChoice ? (
+							<BoldText style={styles.centered}>Συγκεντρώσου!!!</BoldText>
+						) : null} */}
+						{correctChoice ? (
+							// <View style={styles.congrats}>
+							<BoldText style={styles.switchesSummary}>Συγχαρητήρια</BoldText>
+						) : (
+							// </View>
 							<View style={styles.switchesSummary}>
-								{/* {choiceSave ? (
-									<BoldText style={styles.centered}>Συγκεντρώσου!!!</BoldText>
-								) : (
-									<BoldText style={styles.title}>Επιλέξτε την σωστή απάντηση.</BoldText>
-								)} */}
-
+								<BoldText style={styles.title}>Επιλέξτε την σωστή απάντηση.</BoldText>
 								<AnswerSwitch
 									state={alfaIsTrue}
 									onChange={(newValue) => setAlfaIsTrue(newValue)}
@@ -339,7 +340,8 @@ const QuestionDetailScreen = (props) => {
 									label={question.choice_Delta}
 								/>
 							</View>
-						{/* )} */}
+						)}
+
 						{Platform.OS === 'android' ? (
 							<View style={width < 400 ? styles.actionsSmall : styles.androidActions}>
 								<View style={styles.customButton}>
@@ -387,17 +389,17 @@ const QuestionDetailScreen = (props) => {
 							</View>
 						)}
 					</QuestionItem>
-					{showAnswer && (
-						<Card
-							style={{
-								height: Math.ceil(cardHeight * height / 4),
-								width: Math.ceil(cardWidth * width),
-								...styles.centered
-							}}
-						>
-							<BoldText>{question.answer}</BoldText>
-						</Card>
-					)}
+						{showAnswer && (
+							<Card
+								style={{
+									height: Math.ceil(cardHeight * height / 4),
+									width: Math.ceil(cardWidth * width),
+									...styles.centered
+								}}
+							>
+								<BoldText>{question.answer}</BoldText>
+							</Card>
+						)}
 				</ScrollView>
 			);
 		}
@@ -457,6 +459,14 @@ const styles = StyleSheet.create({
 		width: '95%',
 		marginVertical: 5
 	},
+	congrats: {
+		// flex: 1,
+		// height: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: '60%',
+		width: '100%'
+	},
 	switchesSummary: {
 		// flexDirection: 'row',
 		// alignSelf: 'center',
@@ -507,6 +517,12 @@ const styles = StyleSheet.create({
 	button: {
 		width: '40%',
 		marginLeft: 10
+	},
+	showAnswer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		padding: 12
 	},
 	centered: {
 		flex: 1,
