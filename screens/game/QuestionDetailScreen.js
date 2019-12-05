@@ -75,10 +75,16 @@ const QuestionDetailScreen = (props) => {
 	const [ showAnswer, setShowAnswer ] = useState(false);
 
 	// For the switches
-	const [ alfaIsTrue, setAlfaIsTrue ] = useState(false);
+	const [ alfaIsTrue, setAlfaIsTrue ] = useState(false); // Runs when the Switch is pressed
 	const [ betaIsTrue, setBetaIsTrue ] = useState(false);
 	const [ gammaIsTrue, setGammaIsTrue ] = useState(false);
 	const [ deltaIsTrue, setDeltaIsTrue ] = useState(false);
+
+	// Set the object with the all the values, alfa, beta ... 
+	const [ appliedAnswerIs, setAppliedAnswerIs ] = useState(null); 
+
+	// const [ choiceSave, setChoiceSave ] = useState(false);
+	const [ correctChoice, setCorrectChoice ] = useState(false);
 
 	const dispatch = useDispatch();
 
@@ -105,8 +111,12 @@ const QuestionDetailScreen = (props) => {
 				gamma: gammaIsTrue,
 				delta: deltaIsTrue
 			};
+			console.log(appliedAnswer);
+			// setChoiceSave(true);
+			setAppliedAnswerIs(appliedAnswer);
 			dispatch(questionsActions.checkAnswer(appliedAnswer));
 			// console.log(appliedAnswer);
+			// setChoiceSave(false);
 		},
 		[ alfaIsTrue, betaIsTrue, gammaIsTrue, deltaIsTrue, dispatch ]
 	);
@@ -162,11 +172,46 @@ const QuestionDetailScreen = (props) => {
 		[ loadQuestions ]
 	);
 
-	// Checking if current question is favorite
 	let questionId = '';
+	let rightChoice = 0;
 	for (key in questions) {
-		questionId = questions[key].id;
+		questionId = questions[key].id; // for checking favorites
+		rightChoice = questions[key].right_choice; // for checking choice
 	}
+	// Getting the right choice
+	console.log('rightChoice', rightChoice);
+	for (key in appliedAnswerIs) {
+		switch (key) {
+			case 'alfa': 
+				console.log('rightChoice === 1', rightChoice == 1, appliedAnswerIs[key]);
+				if (appliedAnswerIs[key] === true && rightChoice == 1) {
+					setCorrectChoice(true);
+				}
+				break;
+			case 'beta':
+				console.log('rightChoice === 2', rightChoice == 2, appliedAnswerIs[key]);
+				if (appliedAnswerIs[key] === true && rightChoice == 2) {
+					setCorrectChoice(true);
+				}
+				break;
+			// case 'gamma':
+			// 	if (rightChoice === 3) {
+			// 		setCorrectChoice(true);
+			// 	}
+			// 	break;
+			// case 'delta':
+			// 	if (rightChoice === 4) {
+			// 		setCorrectChoice(true);
+			// 	}
+			// 	break;
+			default:
+				break;
+		}
+	}
+
+	console.log('correctChoice', correctChoice);
+
+	// Checking if current question is favorite
 	const currentQuestionIsFavorite = useSelector((state) =>
 		state.questions.favoriteQuestions.some((question) => question.id === questionId)
 	);
@@ -263,29 +308,38 @@ const QuestionDetailScreen = (props) => {
 						// image={question.imageUrl}
 						// onSelect={() => setShowAnswer((prevState) => !prevState)}
 					>
-						<View style={styles.switchesSummary}>
-							<BoldText style={styles.title}>Επιλέξτε την σωστή απάντηση.</BoldText>
-							<AnswerSwitch
-								state={alfaIsTrue}
-								onChange={(newValue) => setAlfaIsTrue(newValue)}
-								label={question.choice_Alpha}
-							/>
-							<AnswerSwitch
-								state={betaIsTrue}
-								onChange={(newValue) => setBetaIsTrue(newValue)}
-								label={question.choice_Beta}
-							/>
-							<AnswerSwitch
-								state={gammaIsTrue}
-								onChange={(newValue) => setGammaIsTrue(newValue)}
-								label={question.choice_Gamma}
-							/>
-							<AnswerSwitch
-								state={deltaIsTrue}
-								onChange={(newValue) => setDeltaIsTrue(newValue)}
-								label={question.choice_Delta}
-							/>
-						</View>
+						{/* {correctChoice ? (
+							<BoldText style={styles.centered}>Συγχαρητήρια</BoldText>
+						) : ( */}
+							<View style={styles.switchesSummary}>
+								{/* {choiceSave ? (
+									<BoldText style={styles.centered}>Συγκεντρώσου!!!</BoldText>
+								) : (
+									<BoldText style={styles.title}>Επιλέξτε την σωστή απάντηση.</BoldText>
+								)} */}
+
+								<AnswerSwitch
+									state={alfaIsTrue}
+									onChange={(newValue) => setAlfaIsTrue(newValue)}
+									label={question.choice_Alpha}
+								/>
+								<AnswerSwitch
+									state={betaIsTrue}
+									onChange={(newValue) => setBetaIsTrue(newValue)}
+									label={question.choice_Beta}
+								/>
+								<AnswerSwitch
+									state={gammaIsTrue}
+									onChange={(newValue) => setGammaIsTrue(newValue)}
+									label={question.choice_Gamma}
+								/>
+								<AnswerSwitch
+									state={deltaIsTrue}
+									onChange={(newValue) => setDeltaIsTrue(newValue)}
+									label={question.choice_Delta}
+								/>
+							</View>
+						{/* )} */}
 						{Platform.OS === 'android' ? (
 							<View style={width < 400 ? styles.actionsSmall : styles.androidActions}>
 								<View style={styles.customButton}>
@@ -296,18 +350,18 @@ const QuestionDetailScreen = (props) => {
 									/>
 								</View>
 
-								<BoldText
+								{/* <BoldText
 									style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}
 								>
 									{question.difficultyLevel.toFixed(2)}
-								</BoldText>
-								<View style={styles.customButton}>
+								</BoldText> */}
+								{/* <View style={styles.customButton}>
 									<CustomButton
 										style={{ width: Math.ceil(width * widthMultiplier) }}
 										title="+ συλλογή"
 										onPress={() => dispatch(cartActions.addToCard(question))}
 									/>
-								</View>
+								</View> */}
 							</View>
 						) : (
 							<View style={styles.actions}>
@@ -318,18 +372,18 @@ const QuestionDetailScreen = (props) => {
 										onPress={() => setShowAnswer((prevState) => !prevState)}
 									/>
 								</View>
-								<BoldText
+								{/* <BoldText
 									style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}
 								>
 									{question.difficultyLevel.toFixed(2)}
-								</BoldText>
-								<View style={styles.button}>
+								</BoldText> */}
+								{/* <View style={styles.button}>
 									<Button
 										color={Colours.gr_brown_light}
 										title="+ συλλογή"
 										onPress={() => dispatch(cartActions.addToCard(question))}
 									/>
-								</View>
+								</View> */}
 							</View>
 						)}
 					</QuestionItem>
@@ -337,7 +391,8 @@ const QuestionDetailScreen = (props) => {
 						<Card
 							style={{
 								height: Math.ceil(cardHeight * height / 4),
-								width: Math.ceil(cardWidth * width), ...styles.centered
+								width: Math.ceil(cardWidth * width),
+								...styles.centered
 							}}
 						>
 							<BoldText>{question.answer}</BoldText>
