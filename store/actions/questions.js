@@ -164,7 +164,7 @@ export const checkAnswer = (question, AnsweIsCorrect) => {
 				);
 			}
 
-			const resData = await response.json();
+			// const resData = await response.json();
 			// console.log(resData.name);
 			dispatch({
 				type: CHECK_ANSWER,
@@ -208,6 +208,10 @@ export const fetchQuestions = () => {
 			const userId = getState().auth.userId;
 			const response = await fetch('https://en-touto-nika.firebaseio.com//questions.json');
 
+			const user_answered_questions_response = await fetch(
+				`https://en-touto-nika.firebaseio.com//user_answered_questions/${userId}.json`
+			);
+
 			// check before unpack the response body
 			if (!response.ok) {
 				throw new Error(
@@ -216,30 +220,53 @@ export const fetchQuestions = () => {
 			}
 
 			const resData = await response.json();
+			const user_answ_quest_resData = await user_answered_questions_response.json();
 			// console.log('fetchQuestions resData.name: ', resData.name); // Why is this undefined?
-			const loadedQuestions = [];
-
-			// console.log('resData', resData);
-
-			for (const key in resData) {
-				loadedQuestions.push(
-					new Question({
-						index: resData[key].index, // for keeping the choice in cartScreen
-						id: key,
-						categoryIds: resData[key].categoryIds,
-						ownerId: resData[key].ownerId,
-						title: resData[key].title,
-						// imageUrl: resData[key].imageUrl,
-						difficultyLevel: resData[key].difficultyLevel,
-						answer: resData[key].answer,
-						choice_Alpha: resData[key].choice_Alpha,
-						choice_Beta: resData[key].choice_Beta,
-						choice_Gamma: resData[key].choice_Gamma,
-						choice_Delta: resData[key].choice_Delta,
-						right_choice: resData[key].right_choice
-					})
-				);
+			let answeredquestion = '';
+			for (const key in user_answ_quest_resData) {
+				answeredquestion = user_answ_quest_resData[key].question;
+				// console.log('user_answ_quest_resData[key].question', user_answ_quest_resData[key].question);
+				
 			}
+
+			let answeredQuestionId = ''
+			for (const key in answeredquestion) {
+				answeredQuestionId = answeredquestion.id
+				// console.log('answeredquestion[key]', answeredquestion.id);
+				
+			}
+
+			// console.log('answeredQuestionId', answeredQuestionId);
+			
+
+
+			const loadedQuestions = [];
+			for (const key in resData) {
+				// console.log('key', key);
+				// console.log('answeredQuestionId', answeredQuestionId);
+				if (key !== answeredQuestionId) {
+					loadedQuestions.push(
+						new Question({
+							index: resData[key].index, // for keeping the choice in cartScreen
+							id: key,
+							categoryIds: resData[key].categoryIds,
+							ownerId: resData[key].ownerId,
+							title: resData[key].title,
+							// imageUrl: resData[key].imageUrl,
+							difficultyLevel: resData[key].difficultyLevel,
+							answer: resData[key].answer,
+							choice_Alpha: resData[key].choice_Alpha,
+							choice_Beta: resData[key].choice_Beta,
+							choice_Gamma: resData[key].choice_Gamma,
+							choice_Delta: resData[key].choice_Delta,
+							right_choice: resData[key].right_choice
+						})
+					);
+				}
+			}
+
+			console.log(loadedQuestions);
+			
 
 			// For getting a different question in QuestionDetailScreen...
 			const shuffle = (array) => {

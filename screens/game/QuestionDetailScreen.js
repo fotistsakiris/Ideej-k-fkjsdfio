@@ -91,6 +91,8 @@ const QuestionDetailScreen = (props) => {
 		state.questions.availableQuestions.filter((quest) => quest.categoryIds.indexOf(categoryId) >= 0)
 	);
 
+	// const userQuestions = useSelector(state => state.questions.userAnsweredQuestions.filter(quest => quest.id))
+
 	const selectedQuestion = questions[questions.length - 1]
 
 	// If we change one of the filters state then the saveAnswer function is memoized,
