@@ -89,9 +89,9 @@ const GameInfoScreen = (props) => {
 								Linked in
 							</Text>
 						</TouchableOpacity>
-						<TouchableOpacity onPress={() => openLink('https://github.com/footios')}>
+						{/* <TouchableOpacity onPress={() => openLink('https://github.com/footios')}>
 							<Text style={{ fontSize: 0.05 * width, ...styles.text }}>Git Hub</Text>
-						</TouchableOpacity>
+						</TouchableOpacity> */}
 						<TouchableOpacity
 							onPress={() => openLink('https://stackoverflow.com/users/5986141/fotis-tsakiris')}
 						>

@@ -138,18 +138,6 @@ export const fetchFavQuestions = () => {
 };
 
 export const checkAnswer = (question, AnsweIsCorrect) => {
-	// console.log(question, AnsweIsCorrect);
-
-	// 			if (AnsweIsCorrect) {
-
-	// 			}
-
-	// return {
-	// 	type: CHECK_ANSWER,
-	// 	question: question,
-	// 	correct: AnsweIsCorrect
-	// };
-
 	return async (dispatch, getState) => {
 		try {
 			const token = getState().auth.token;
