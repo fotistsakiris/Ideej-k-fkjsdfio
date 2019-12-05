@@ -80,13 +80,18 @@ const QuestionDetailScreen = (props) => {
 	const [ gammaIsTrue, setGammaIsTrue ] = useState(false);
 	const [ deltaIsTrue, setDeltaIsTrue ] = useState(false);
 
-	// Set the object with the all the values, alfa, beta ...
-	// const [ appliedAnswerIs, setAppliedAnswerIs ] = useState(null);
-
 	const [ choiceSave, setChoiceSave ] = useState(false);
 	const [ correctChoice, setCorrectChoice ] = useState(false);
 
 	const dispatch = useDispatch();
+
+	// Get all the questions
+	const categoryId = props.navigation.getParam('categoryId');
+	let questions = useSelector((state) =>
+		state.questions.availableQuestions.filter((quest) => quest.categoryIds.indexOf(categoryId) >= 0)
+	);
+
+	const selectedQuestion = questions[questions.length - 1]
 
 	// If we change one of the filters state then the saveAnswer function is memoized,
 	// because of useCallback and its dependencies!
@@ -111,29 +116,22 @@ const QuestionDetailScreen = (props) => {
 				gamma: gammaIsTrue,
 				delta: deltaIsTrue
 			};
-			console.log(appliedAnswer);
-			setChoiceSave(true);
-			// setAppliedAnswerIs(appliedAnswer);
-			await dispatch(questionsActions.checkAnswer(appliedAnswer));
-			// console.log(appliedAnswer);
-			setChoiceSave(false);
-
 			let rightChoice = 0;
 			for (key in questions) {
 				rightChoice = questions[key].right_choice; // for checking choice
 			}
 			// Getting the right choice
-			console.log('rightChoice', rightChoice);
+			// console.log('rightChoice', rightChoice);
 			for (key in appliedAnswer) {
 				if (key === 'alfa' && appliedAnswer[key] && rightChoice == 1) {
-					console.log('1', key, appliedAnswer[key], rightChoice == 1);
+					// console.log('1', key, appliedAnswer[key], rightChoice == 1);
 					setCorrectChoice(true);
 					corChoice = true;
 				} else if (key === 'beta' && appliedAnswer[key] && rightChoice == 2) {
-					console.log('2', key, appliedAnswer[key], rightChoice == 2);
+					// console.log('2', key, appliedAnswer[key], rightChoice == 2);
 					setCorrectChoice(true);
 					corChoice = true;
-					console.log(key);
+					// console.log(key);
 				} else if (key === 'gamma' && appliedAnswer[key] && rightChoice == 3) {
 					setCorrectChoice(true);
 					corChoice = true;
@@ -142,16 +140,26 @@ const QuestionDetailScreen = (props) => {
 					corChoice = true;
 				}
 			}
+			// console.log(appliedAnswer);
+			setChoiceSave(true);
+			// setAppliedAnswerIs(appliedAnswer);
+			await dispatch(questionsActions.checkAnswer(selectedQuestion, corChoice));
+			// console.log(appliedAnswer);
+			setChoiceSave(false);
 
-			console.log('corChoice', corChoice);
+			
+
+			// console.log('corChoice', corChoice);
 		},
 		[ alfaIsTrue, betaIsTrue, gammaIsTrue, deltaIsTrue, choiceSave, correctChoice, dispatch ]
 	);
 
+	// Check why do we need to do this hack!
+	// Why setCorrectChoice(true); does not work in the if statements above...?
 	if (corChoice) {
 		setCorrectChoice(true);
 	}
-	console.log('correctChoice', correctChoice);
+	// console.log('correctChoice', correctChoice);
 
 	useEffect(
 		() => {
@@ -160,11 +168,7 @@ const QuestionDetailScreen = (props) => {
 		[ saveAnswer ]
 	);
 
-	// Get all the questions
-	const categoryId = props.navigation.getParam('categoryId');
-	let questions = useSelector((state) =>
-		state.questions.availableQuestions.filter((quest) => quest.categoryIds.indexOf(categoryId) >= 0)
-	);
+	
 
 	// If user navigates to QuestionDetailScreen from FavoritesScreen
 	const questionIdFromFavoritesScreen = props.navigation.getParam('questionId');
@@ -407,7 +411,7 @@ const QuestionDetailScreen = (props) => {
 
 	return (
 		<CustomLinearGradient>
-			<View style={styles.flatListContainer}>{showQuestion(questions[questions.length - 1])}</View>
+			<View style={styles.flatListContainer}>{showQuestion(selectedQuestion)}</View>
 		</CustomLinearGradient>
 	);
 };

@@ -137,8 +137,57 @@ export const fetchFavQuestions = () => {
 	};
 };
 
-export const checkAnswer = (filterSettings) => {
-	return { type: CHECK_ANSWER, filters: filterSettings };
+export const checkAnswer = (question, AnsweIsCorrect) => {
+	// console.log(question, AnsweIsCorrect);
+
+	// 			if (AnsweIsCorrect) {
+
+	// 			}
+
+	// return {
+	// 	type: CHECK_ANSWER,
+	// 	question: question,
+	// 	correct: AnsweIsCorrect
+	// };
+
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().auth.token;
+			const userId = getState().auth.userId;
+			// testing
+			// const response = await fetch(`https://en-touto-nika.firebaseio.com//questions.json`, {
+			const response = await fetch(
+				`https://en-touto-nika.firebaseio.com//answered_questions.json?auth=${token}`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						question,
+						AnsweIsCorrect
+					})
+				}
+			);
+
+			if (!response.ok) {
+				throw new Error(
+					'Δυστυχώς η αποθήκευση τηε ερώτησης ως απαντημένης δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+				);
+			}
+
+			const resData = await response.json();
+			// console.log(resData.name);
+			dispatch({
+				type: CHECK_ANSWER,
+				question: question,
+				AnsweIsCorrect: AnsweIsCorrect
+			});
+		} catch (err) {
+			// send to custom analytics server
+			throw err;
+		}
+	};
 };
 
 // Admin

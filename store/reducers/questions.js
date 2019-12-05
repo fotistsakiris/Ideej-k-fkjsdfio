@@ -43,29 +43,9 @@ export default (state = initialState, action) => {
 				return { ...state, favoriteQuestions: state.favoriteQuestions.concat(question) };
 			}
 		case CHECK_ANSWER:
-			const appliedFilters = action.filters;
-			// Check all meals if there are any matches with the filters...
-			const filteredMeals = state.availableQuestions.filter((quest) => {
-				// If quest should be glutenFree but it is not, return false.
-				if (appliedFilters.alfa && !quest.alfaIsTrue) {
-					return false;
-				}
-				if (appliedFilters.beta && !quest.betaIsTrue) {
-					return false;
-				}
-				if (appliedFilters.gamma && !quest.gammaIsTrue) {
-					return false;
-				}
-				if (appliedFilters.delta && !quest.deltaIsTrue) {
-					return false;
-				}
-				// If we pass all the checks, then we have a quest...
-				return true;
-			});
-			// Return a new state.
-			console.log(appliedFilters);
+			
 
-			return { ...state, answeredQuestions: filteredMeals };
+			return { ...state };
 		case DELETE_QUESTION:
 			return {
 				...state,

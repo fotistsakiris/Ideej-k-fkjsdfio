@@ -48,14 +48,16 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 ### DONE! When admin... navigate user to AdminCategories
 ### DONE! regex check for difficultyLevel and imageUrl
 
+### Save user's correct and not correct answers
+### Remove questions that users already answered from available questions.
 
 ### Fix the card's dimensions everywhere you use it.
 ### Add posibility to change password...
 ### Delete question file and everything else it's not needed.
 ### Authentication with roles: diferent signups/logins for admis and users.
-### add some code for github security...
+### Add some code for github security...
 ### Use pictures in CategoriesScreen in the Card. This, is actually taken from the Meals app.
-### refresh the token so the user doesn't get automatic logged out after 1 hour.
+### Refresh the token so the user doesn't get automatic logged out after 1 hour.
 
 # Packages installed:
 ### redux react-redux react-navigation react-navigation-stack react-navigation-header-buttons, react-navigation react-navigation-tabs react-navigation react-navigation-drawer 
