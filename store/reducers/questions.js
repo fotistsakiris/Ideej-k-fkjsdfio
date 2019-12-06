@@ -5,6 +5,7 @@ import {
 	UPDATE_QUESTION,
 	SET_QUESTIONS,
 	CHECK_ANSWER,
+	DELETE_ANSWERED_QUESTIONS,
 	SET_FAVORITES
 } from '../actions/questions';
 import Question from '../../models/question';
@@ -45,6 +46,10 @@ export default (state = initialState, action) => {
 			}
 		case CHECK_ANSWER:
 			return { ...state, userAnsweredQuestions: state.userAnsweredQuestions.concat(action.question) };
+		case DELETE_ANSWERED_QUESTIONS:
+			return {
+				...state, userAnsweredQuestions: []
+			};
 		case DELETE_QUESTION:
 			return {
 				...state,

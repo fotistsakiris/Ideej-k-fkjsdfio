@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { View, Button, AsyncStorage, Platform, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -7,8 +9,12 @@ import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 import BoldText from '../../components/UI/BoldText';
 import Colours from '../../constants/Colours';
 
+import * as questionsActions from '../../store/actions/questions';
+
+
 const UsersScreen = (props) => {
 	const [ email, setEmail ] = useState('');
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const getEmail = async () => {
@@ -31,7 +37,7 @@ const UsersScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.content}>
 					<BoldText>
-						Προκειμένου να δείτε ττα στοιχεία σας, παρακαλούμε συνδεθείτε ή προχωρήσθε σε εγγραφή.
+						Προκειμένου να δείτε τα στοιχεία σας, παρακαλούμε συνδεθείτε ή προχωρήσθε σε εγγραφή.
 					</BoldText>
 					<View style={styles.buttonContainerEntrance}>
 						{Platform.OS === 'android' ? (
@@ -60,6 +66,24 @@ const UsersScreen = (props) => {
 			<View style={styles.centered}>
 				<BoldText style={styles.email}>{email}</BoldText>
 			</View>
+			<View style={styles.centered}>
+						{Platform.OS === 'android' ? (
+							<View>
+								<CustomButton
+									style={styles.buttonStyle}
+									title="Επανεκίνηση παιχνιδιού"
+									color={Colours.moccasin_light}
+									onPress={() => dispatch(questionsActions.deleteAnsweredQuestions())}
+								/>
+							</View>
+						) : (
+							<Button
+								title="Επανεκίνηση παιχνιδιού"
+								color={Colours.moccasin_light}
+								onPress={() => dispatch(questionsActions.deleteAnsweredQuestions())}
+							/>
+						)}
+					</View>
 		</CustomLinearGradient>
 	);
 };

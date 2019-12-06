@@ -1,5 +1,6 @@
 export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE';
 export const CHECK_ANSWER = 'CHECK_ANSWER';
+export const DELETE_ANSWERED_QUESTIONS = 'DELETE_ANSWERED_QUESTIONS';
 export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const SET_FAVORITES = 'SET_FAVORITES';
 
@@ -142,8 +143,7 @@ export const checkAnswer = (question, AnsweIsCorrect) => {
 		try {
 			const token = getState().auth.token;
 			const userId = getState().auth.userId;
-			// testing
-			// const response = await fetch(`https://en-touto-nika.firebaseio.com//questions.json`, {
+
 			const response = await fetch(
 				`https://en-touto-nika.firebaseio.com//user_answered_questions/${userId}.json?auth=${token}`,
 				{
@@ -178,6 +178,26 @@ export const checkAnswer = (question, AnsweIsCorrect) => {
 	};
 };
 
+export const deleteAnsweredQuestions = () => {
+	return async (dispatch, getState) => {
+		const token = getState().auth.token;
+		const userId = getState().auth.userId;
+
+		const response = await fetch(
+			`https://en-touto-nika.firebaseio.com//user_answered_questions/${userId}.json?auth=${token}`,
+			{
+				method: 'DELETE'
+			}
+		);
+
+		if (!response.ok) {
+			throw new Error('Δυστυχώς η διαγραφή των ερωτήσεων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.');
+		}
+
+		dispatch({ type: DELETE_ANSWERED_QUESTIONS });
+	};
+};
+
 // Admin
 export const deleteQuestion = (questionId) => {
 	return async (dispatch, getState) => {
@@ -208,65 +228,77 @@ export const fetchQuestions = () => {
 			const userId = getState().auth.userId;
 			const response = await fetch('https://en-touto-nika.firebaseio.com//questions.json');
 
+			// Get user's answered questions in order to remove them from the available questions.
 			const user_answered_questions_response = await fetch(
 				`https://en-touto-nika.firebaseio.com//user_answered_questions/${userId}.json`
 			);
 
-			// check before unpack the response body
+			// Check before unpack the response body
 			if (!response.ok) {
 				throw new Error(
 					'Δυστυχώς η φόρτωση των ερωτήσεων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
 
-			const resData = await response.json();
+			let resData = await response.json();
+			let availablequestions = [];
+			availablequestions.push(resData);
+			let availablequestionsIDs = [];
+			for (const key in resData) {
+				availablequestionsIDs.push(key);
+			}
+
 			const user_answ_quest_resData = await user_answered_questions_response.json();
-			// console.log('fetchQuestions resData.name: ', resData.name); // Why is this undefined?
-			let answeredquestion = '';
+			let answeredquestionsIDs = [];
 			for (const key in user_answ_quest_resData) {
-				answeredquestion = user_answ_quest_resData[key].question;
-				// console.log('user_answ_quest_resData[key].question', user_answ_quest_resData[key].question);
-				
+				answeredquestionsIDs.push(user_answ_quest_resData[key].question.id);
 			}
 
-			let answeredQuestionId = ''
-			for (const key in answeredquestion) {
-				answeredQuestionId = answeredquestion.id
-				// console.log('answeredquestion[key]', answeredquestion.id);
-				
+			// Find which IDs match. That is, which questions IDs match with answered questions IDs,
+			// in order to remove the questions that have been already answered, from
+			// the available questions.
+			const findMatchingIds = (arr1, arr2) => {
+				let newAvailableQuestions = {};
+				arr1.filter((item) => {
+					if (!arr2.includes(item)) {
+						for (const key in resData) {
+							if (key === item) {
+								newAvailableQuestions[key] = resData[key];
+							}
+						}
+					}
+				});
+
+				return newAvailableQuestions;
+			};
+
+			const finalAvailableQuestions = findMatchingIds(availablequestionsIDs, answeredquestionsIDs);
+
+			console.log('finalAvailableQuestions', finalAvailableQuestions);
+
+			if (answeredquestionsIDs.length > 0) {
+				resData = { ...finalAvailableQuestions };
 			}
-
-			// console.log('answeredQuestionId', answeredQuestionId);
-			
-
-
 			const loadedQuestions = [];
 			for (const key in resData) {
-				// console.log('key', key);
-				// console.log('answeredQuestionId', answeredQuestionId);
-				if (key !== answeredQuestionId) {
-					loadedQuestions.push(
-						new Question({
-							index: resData[key].index, // for keeping the choice in cartScreen
-							id: key,
-							categoryIds: resData[key].categoryIds,
-							ownerId: resData[key].ownerId,
-							title: resData[key].title,
-							// imageUrl: resData[key].imageUrl,
-							difficultyLevel: resData[key].difficultyLevel,
-							answer: resData[key].answer,
-							choice_Alpha: resData[key].choice_Alpha,
-							choice_Beta: resData[key].choice_Beta,
-							choice_Gamma: resData[key].choice_Gamma,
-							choice_Delta: resData[key].choice_Delta,
-							right_choice: resData[key].right_choice
-						})
-					);
-				}
+				loadedQuestions.push(
+					new Question({
+						index: resData[key].index, // for keeping the choice in cartScreen
+						id: key,
+						categoryIds: resData[key].categoryIds,
+						ownerId: resData[key].ownerId,
+						title: resData[key].title,
+						// imageUrl: resData[key].imageUrl,
+						difficultyLevel: resData[key].difficultyLevel,
+						answer: resData[key].answer,
+						choice_Alpha: resData[key].choice_Alpha,
+						choice_Beta: resData[key].choice_Beta,
+						choice_Gamma: resData[key].choice_Gamma,
+						choice_Delta: resData[key].choice_Delta,
+						right_choice: resData[key].right_choice
+					})
+				);
 			}
-
-			console.log(loadedQuestions);
-			
 
 			// For getting a different question in QuestionDetailScreen...
 			const shuffle = (array) => {
@@ -289,6 +321,7 @@ export const fetchQuestions = () => {
 				return array;
 			};
 
+			// shuffle(loadedQuestions);
 			shuffle(loadedQuestions);
 
 			dispatch({
