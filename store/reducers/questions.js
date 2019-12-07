@@ -14,7 +14,8 @@ const initialState = {
 	adminQuestions: [],
 	availableQuestions: [],
 	favoriteQuestions: [],
-	userAnsweredQuestions: []
+	userAnsweredQuestions: [],
+	totalPoints: 0
 };
 
 export default (state = initialState, action) => {
@@ -45,7 +46,11 @@ export default (state = initialState, action) => {
 				return { ...state, favoriteQuestions: state.favoriteQuestions.concat(question) };
 			}
 		case CHECK_ANSWER:
-			return { ...state, userAnsweredQuestions: state.userAnsweredQuestions.concat(action.question) };
+			return { 
+				...state, 
+				userAnsweredQuestions: state.userAnsweredQuestions.concat(action.question), 
+				totalPoints: state.totalPoints + action.points
+			};
 		case DELETE_ANSWERED_QUESTIONS:
 			return {
 				...state, userAnsweredQuestions: []

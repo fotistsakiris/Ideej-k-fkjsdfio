@@ -101,6 +101,8 @@ const QuestionDetailScreen = (props) => {
 		[ refreshing ]
 	);
 
+	const totalPoints = useSelector(state => state.questions.totalPoints)
+
 	// Get all the questions
 	const categoryId = props.navigation.getParam('categoryId');
 	let questions = useSelector((state) =>
@@ -344,6 +346,7 @@ const QuestionDetailScreen = (props) => {
 								color={Colours.maroon}
 							/>
 						</TouchableOpacity>
+							<BoldText>Βαθμολογία: {totalPoints}</BoldText>
 						<TouchableOpacity onPress={onRefresh}>
 							<MaterialIcons name="replay" size={Math.ceil(width * 0.065)} color={Colours.maroon} />
 						</TouchableOpacity>
@@ -401,11 +404,11 @@ const QuestionDetailScreen = (props) => {
 									/>
 								</View>
 
-								{/* <BoldText
+								<BoldText
 									style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}
 								>
-									{question.difficultyLevel.toFixed(2)}
-								</BoldText> */}
+									Βαθμοί: {question.difficultyLevel}
+								</BoldText>
 								{/* <View style={styles.customButton}>
 									<CustomButton
 										style={{ width: Math.ceil(width * widthMultiplier) }}
@@ -423,11 +426,11 @@ const QuestionDetailScreen = (props) => {
 										onPress={() => setShowAnswer((prevState) => !prevState)}
 									/>
 								</View>
-								{/* <BoldText
+								<BoldText
 									style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}
 								>
-									{question.difficultyLevel.toFixed(2)}
-								</BoldText> */}
+									Βαθμοί: {question.difficultyLevel}
+								</BoldText>
 								{/* <View style={styles.button}>
 									<Button
 										color={Colours.gr_brown_light}
@@ -569,8 +572,8 @@ const styles = StyleSheet.create({
 	},
 	actions: {
 		flexDirection: 'row',
-		alignSelf: 'center',
-		justifyContent: 'center',
+		// alignSelf: 'center',
+		justifyContent: 'space-around',
 		alignItems: 'center',
 		// height: '10%',
 		width: '100%',
