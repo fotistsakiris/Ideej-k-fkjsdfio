@@ -94,6 +94,8 @@ const QuestionDetailScreen = (props) => {
 			loadQuestions().then(() => {
 				setRefreshing(false);
 				setCorrectChoice(false);
+				setTryTimes(0);
+				props.navigation.setParams({ disableSaveButton: tryTimes === 1 });
 			});
 		},
 		[ refreshing ]
@@ -158,16 +160,16 @@ const QuestionDetailScreen = (props) => {
 			}
 			setChoiceSave(true);
 			setTryTimes((prevState) => prevState + 1);
-			console.log(tryTimes);
-			
+
 			props.navigation.setParams({ disableSaveButton: tryTimes === 1 });
 			await dispatch(questionsActions.checkAnswer(selectedQuestion, corChoice));
-			setTimeout(() => setChoiceSave(false), 2000);
+			setTimeout(() => setChoiceSave(false), 1500);
 
 			// console.log('corChoice', corChoice);
 		},
 		[ alfaIsTrue, betaIsTrue, gammaIsTrue, deltaIsTrue, choiceSave, correctChoice, dispatch ]
 	);
+	console.log(tryTimes);
 
 	// Check why do we need to do this hack!
 	// Why setCorrectChoice(true); does not work in the if statements above...?
@@ -182,10 +184,6 @@ const QuestionDetailScreen = (props) => {
 		},
 		[ saveAnswer ]
 	);
-
-	useEffect(() => {
-		props.navigation.setParams({ disableSaveButton: tryTimes === 2 });
-	}, []);
 
 	// If user navigates to QuestionDetailScreen from FavoritesScreen
 	const questionIdFromFavoritesScreen = props.navigation.getParam('questionId');
@@ -363,7 +361,9 @@ const QuestionDetailScreen = (props) => {
 							<BoldText style={styles.switchesSummary}>Συγχαρητήρια</BoldText>
 						) : (
 							<View style={styles.switchesSummary}>
-								{!correctChoice && choiceSave ? (
+								{!correctChoice && choiceSave && tryTimes == 2 ? (
+									<BoldText style={styles.tryAgain}>Δοκιμάστε την επόμενη!</BoldText>
+								) : !correctChoice && choiceSave ? (
 									<BoldText style={styles.tryAgain}>Παρακαλώ δοκιμάστε ξανά!</BoldText>
 								) : (
 									<BoldText style={styles.title}>Επιλέξτε την σωστή απάντηση.</BoldText>
@@ -463,10 +463,12 @@ const QuestionDetailScreen = (props) => {
 
 QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 	const disable = navigation.getParam('disableSaveButton');
-console.log(disable);
-
+	let headerTitle = 'Καλή επιτυχία!';
+	if (disable) {
+		headerTitle = 'Δοκιμάστε την επόμενη!';
+	}
 	return {
-		headerTitle: 'Καλή επιτυχία!',
+		headerTitle: headerTitle,
 		// Needed for side drawer navigation
 		headerLeft: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
@@ -479,11 +481,7 @@ console.log(disable);
 		),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-			{ !disable ? <Item
-					title="Save"
-					iconName="ios-save"
-					onPress={navigation.getParam('save')}
-				/> : null }
+				{!disable ? <Item title="Save" iconName="ios-save" onPress={navigation.getParam('save')} /> : null}
 			</HeaderButtons>
 		)
 		// headerRight: (
