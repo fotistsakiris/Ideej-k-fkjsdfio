@@ -35,7 +35,7 @@ const AnswerSwitch = (props) => {
 		<View style={styles.multipleChoiceContainer}>
 			<Text>{props.label}</Text>
 			<Switch
-				style={{ transform: [ { scaleX: 0.9 }, { scaleY: 0.6 } ] }}
+				style={{ transform: [ { scaleX: 1 }, { scaleY: 0.7 } ] }}
 				thumbColor={Colours.maroon}
 				trackColor={Colours.moccasin_light}
 				value={props.state}
@@ -84,6 +84,7 @@ const QuestionDetailScreen = (props) => {
 
 	const [ choiceSave, setChoiceSave ] = useState(false);
 	const [ correctChoice, setCorrectChoice ] = useState(false);
+	const [ tryTimes, setTryTimes ] = useState(0);
 
 	const dispatch = useDispatch();
 
@@ -155,9 +156,11 @@ const QuestionDetailScreen = (props) => {
 					corChoice = true;
 				}
 			}
-			// console.log(appliedAnswer);
 			setChoiceSave(true);
-			// setAppliedAnswerIs(appliedAnswer);
+			setTryTimes((prevState) => prevState + 1);
+			console.log(tryTimes);
+			
+			props.navigation.setParams({ disableSaveButton: tryTimes === 1 });
 			await dispatch(questionsActions.checkAnswer(selectedQuestion, corChoice));
 			setTimeout(() => setChoiceSave(false), 2000);
 
@@ -179,6 +182,10 @@ const QuestionDetailScreen = (props) => {
 		},
 		[ saveAnswer ]
 	);
+
+	useEffect(() => {
+		props.navigation.setParams({ disableSaveButton: tryTimes === 2 });
+	}, []);
 
 	// If user navigates to QuestionDetailScreen from FavoritesScreen
 	const questionIdFromFavoritesScreen = props.navigation.getParam('questionId');
@@ -335,13 +342,13 @@ const QuestionDetailScreen = (props) => {
 						<TouchableOpacity onPress={toggleFavoriteHandler}>
 							<MaterialIcons
 								name={currentQuestionIsFavorite ? 'favorite' : 'favorite-border'}
-								size={Math.ceil(width * 0.08)}
+								size={Math.ceil(width * 0.065)}
 								color={Colours.maroon}
 							/>
 						</TouchableOpacity>
-						{/* <TouchableOpacity onPress={props.forceUpdate()}>
-							<MaterialIcons name="replay" size={Math.ceil(width * 0.08)} color={Colours.maroon} />
-						</TouchableOpacity> */}
+						<TouchableOpacity onPress={onRefresh}>
+							<MaterialIcons name="replay" size={Math.ceil(width * 0.065)} color={Colours.maroon} />
+						</TouchableOpacity>
 					</View>
 					<QuestionItem
 						style={{
@@ -352,11 +359,6 @@ const QuestionDetailScreen = (props) => {
 						// image={question.imageUrl}
 						// onSelect={() => setShowAnswer((prevState) => !prevState)}
 					>
-						{/* {corChoice ? (
-							<BoldText style={styles.centered}>Συγχαρητήρια</BoldText>
-						) : choiceSave && !corChoice ? (
-							<BoldText style={styles.centered}>Συγκεντρώσου!!!</BoldText>
-						) : null} */}
 						{correctChoice ? (
 							<BoldText style={styles.switchesSummary}>Συγχαρητήρια</BoldText>
 						) : (
@@ -460,6 +462,9 @@ const QuestionDetailScreen = (props) => {
 };
 
 QuestionDetailScreen.navigationOptions = ({ navigation }) => {
+	const disable = navigation.getParam('disableSaveButton');
+console.log(disable);
+
 	return {
 		headerTitle: 'Καλή επιτυχία!',
 		// Needed for side drawer navigation
@@ -474,7 +479,11 @@ QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 		),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-				<Item title="Save" iconName="ios-save" onPress={navigation.getParam('save')} />
+			{ !disable ? <Item
+					title="Save"
+					iconName="ios-save"
+					onPress={navigation.getParam('save')}
+				/> : null }
 			</HeaderButtons>
 		)
 		// headerRight: (

@@ -115,6 +115,8 @@ const setLogoutTimer = (expirationTime) => {
 	return (dispatch) => {
 		timer = setTimeout(() => {
 			dispatch(logout());
+			console.log(expirationTime);
+			
 		}, expirationTime);
 	};
 };
