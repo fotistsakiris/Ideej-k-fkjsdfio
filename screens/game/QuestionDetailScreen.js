@@ -15,6 +15,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { MaterialIcons } from '@expo/vector-icons';
+import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
 import QuestionItem from '../../components/game/QuestionItem';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
@@ -40,6 +41,7 @@ const AnswerSwitch = (props) => {
 				trackColor={Colours.moccasin_light}
 				value={props.state}
 				onValueChange={props.onChange}
+				disabled={props.disabled}
 			/>
 		</View>
 	);
@@ -381,7 +383,9 @@ const QuestionDetailScreen = (props) => {
 						) : (
 							<View style={styles.switchesSummary}>
 								{!correctChoice && choiceSave && tryTimes == 2 ? (
-									<BoldText style={styles.tryAgain}>Λυπάμαι... Παρακαλώ δοκιμάστε την επόμενη!</BoldText>
+									<BoldText style={styles.tryAgain}>
+										Λυπάμαι... Παρακαλώ δοκιμάστε την επόμενη!
+									</BoldText>
 								) : !correctChoice && choiceSave ? (
 									<BoldText style={styles.tryAgain}>
 										Δεν επιλέξατε την σωστή απάντηση. Παρακαλώ δοκιμάστε ξανά!
@@ -393,21 +397,26 @@ const QuestionDetailScreen = (props) => {
 									state={alfaIsTrue}
 									onChange={(newValue) => setAlfaIsTrue(newValue)}
 									label={question.choice_Alpha}
+									disabled={betaIsTrue || gammaIsTrue || deltaIsTrue}
+									// disabled={true}
 								/>
 								<AnswerSwitch
 									state={betaIsTrue}
 									onChange={(newValue) => setBetaIsTrue(newValue)}
 									label={question.choice_Beta}
+									disabled={alfaIsTrue || gammaIsTrue || deltaIsTrue}
 								/>
 								<AnswerSwitch
 									state={gammaIsTrue}
 									onChange={(newValue) => setGammaIsTrue(newValue)}
 									label={question.choice_Gamma}
+									disabled={alfaIsTrue || betaIsTrue || deltaIsTrue}
 								/>
 								<AnswerSwitch
 									state={deltaIsTrue}
 									onChange={(newValue) => setDeltaIsTrue(newValue)}
 									label={question.choice_Delta}
+									disabled={alfaIsTrue || betaIsTrue || gammaIsTrue}
 								/>
 							</View>
 						)}
