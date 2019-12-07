@@ -165,6 +165,40 @@ export const checkAnswer = (question, AnswerIsCorrect, difficultyLevel, totalPoi
 				}
 			);
 
+			if (newTotalPoints > 0) {
+				const totalPointsresponse = await fetch(
+					`https://en-touto-nika.firebaseio.com//user_totalPoints/${userId}.json?auth=${token}`,
+					{
+						method: 'DELETE'
+					}
+				);
+
+				if (!totalPointsresponse.ok) {
+					throw new Error(
+						'Δυστυχώς η διαγραφή των ερωτήσεων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+					);
+				}
+			}
+			const totalPointsresponse = await fetch(
+				`https://en-touto-nika.firebaseio.com//user_totalPoints/${userId}.json?auth=${token}`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						newTotalPoints
+					})
+				}
+			);
+			if (!totalPointsresponse.ok) {
+				throw new Error(
+					'Δυστυχώς η αποθήκευση της ερώτησης ως απαντημένης δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+				);
+			}
+
+			
+
 			if (!response.ok) {
 				throw new Error(
 					'Δυστυχώς η αποθήκευση τηε ερώτησης ως απαντημένης δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
