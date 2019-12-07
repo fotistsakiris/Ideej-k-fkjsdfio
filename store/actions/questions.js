@@ -138,18 +138,15 @@ export const fetchFavQuestions = () => {
 	};
 };
 
-export const checkAnswer = (question, AnswerIsCorrect) => {
+export const checkAnswer = (question, AnswerIsCorrect, difficultyLevel, totalPoints) => {
 	return async (dispatch, getState) => {
 		try {
-			let points = 0
-			
+			let newTotalPoints = totalPoints;
+
 			if (AnswerIsCorrect) {
-				for (const key in question) {
-					points = question.difficultyLevel
-				}
+				newTotalPoints += difficultyLevel;
 			}
-			console.log('points', points);
-			
+
 			const token = getState().auth.token;
 			const userId = getState().auth.userId;
 
@@ -163,7 +160,7 @@ export const checkAnswer = (question, AnswerIsCorrect) => {
 					body: JSON.stringify({
 						question,
 						AnswerIsCorrect,
-						points
+						newTotalPoints
 					})
 				}
 			);
@@ -180,7 +177,7 @@ export const checkAnswer = (question, AnswerIsCorrect) => {
 				type: CHECK_ANSWER,
 				question: question,
 				AnswerIsCorrect: AnswerIsCorrect,
-				points: points
+				newTotalPoints: newTotalPoints
 			});
 		} catch (err) {
 			// send to custom analytics server

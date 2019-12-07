@@ -49,7 +49,7 @@ export default (state = initialState, action) => {
 			return { 
 				...state, 
 				userAnsweredQuestions: state.userAnsweredQuestions.concat(action.question), 
-				totalPoints: state.totalPoints + action.points
+				totalPoints: action.newTotalPoints
 			};
 		case DELETE_ANSWERED_QUESTIONS:
 			return {

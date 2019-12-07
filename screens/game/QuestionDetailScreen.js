@@ -90,18 +90,22 @@ const QuestionDetailScreen = (props) => {
 
 	const onRefresh = useCallback(
 		() => {
+			props.navigation.setParams({ disableSaveButton: tryTimes === 1 });
 			setRefreshing(true);
+			setCorrectChoice(false);
+			setAlfaIsTrue(false);
+			setBetaIsTrue(false);
+			setGammaIsTrue(false);
+			setDeltaIsTrue(false);
+			setTryTimes(0);
 			loadQuestions().then(() => {
 				setRefreshing(false);
-				setCorrectChoice(false);
-				setTryTimes(0);
-				props.navigation.setParams({ disableSaveButton: tryTimes === 1 });
 			});
 		},
 		[ refreshing ]
 	);
 
-	const totalPoints = useSelector(state => state.questions.totalPoints)
+	const totalPoints = useSelector((state) => state.questions.totalPoints);
 
 	// Get all the questions
 	const categoryId = props.navigation.getParam('categoryId');
@@ -162,16 +166,16 @@ const QuestionDetailScreen = (props) => {
 			}
 			setChoiceSave(true);
 			setTryTimes((prevState) => prevState + 1);
+			const difficultyLevel = selectedQuestion.difficultyLevel;
 
 			props.navigation.setParams({ disableSaveButton: tryTimes === 1 });
-			await dispatch(questionsActions.checkAnswer(selectedQuestion, corChoice));
-			setTimeout(() => setChoiceSave(false), 1500);
+			await dispatch(questionsActions.checkAnswer(selectedQuestion, corChoice, difficultyLevel, totalPoints));
+			setTimeout(() => setChoiceSave(false), 2000);
 
 			// console.log('corChoice', corChoice);
 		},
 		[ alfaIsTrue, betaIsTrue, gammaIsTrue, deltaIsTrue, choiceSave, correctChoice, dispatch ]
 	);
-	console.log(tryTimes);
 
 	// Check why do we need to do this hack!
 	// Why setCorrectChoice(true); does not work in the if statements above...?
@@ -185,6 +189,18 @@ const QuestionDetailScreen = (props) => {
 			props.navigation.setParams({ save: saveAnswer });
 		},
 		[ saveAnswer ]
+	);
+
+	// For hiding/showing the save button
+	useEffect(
+		() => {
+			if (alfaIsTrue || betaIsTrue || gammaIsTrue || deltaIsTrue) {
+				props.navigation.setParams({ madeAChoice: true });
+			} else {
+				props.navigation.setParams({ madeAChoice: false });
+			}
+		},
+		[ alfaIsTrue, betaIsTrue, gammaIsTrue, deltaIsTrue ]
 	);
 
 	// If user navigates to QuestionDetailScreen from FavoritesScreen
@@ -339,6 +355,9 @@ const QuestionDetailScreen = (props) => {
 					refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 				>
 					<View style={styles.topButtonsAndIcon}>
+						<TouchableOpacity onPress={onRefresh}>
+							<MaterialIcons name="replay" size={Math.ceil(width * 0.065)} color={Colours.maroon} />
+						</TouchableOpacity>
 						<TouchableOpacity onPress={toggleFavoriteHandler}>
 							<MaterialIcons
 								name={currentQuestionIsFavorite ? 'favorite' : 'favorite-border'}
@@ -346,10 +365,7 @@ const QuestionDetailScreen = (props) => {
 								color={Colours.maroon}
 							/>
 						</TouchableOpacity>
-							<BoldText>Βαθμολογία: {totalPoints}</BoldText>
-						<TouchableOpacity onPress={onRefresh}>
-							<MaterialIcons name="replay" size={Math.ceil(width * 0.065)} color={Colours.maroon} />
-						</TouchableOpacity>
+						<BoldText>Βαθμολογία: {totalPoints}</BoldText>
 					</View>
 					<QuestionItem
 						style={{
@@ -365,9 +381,11 @@ const QuestionDetailScreen = (props) => {
 						) : (
 							<View style={styles.switchesSummary}>
 								{!correctChoice && choiceSave && tryTimes == 2 ? (
-									<BoldText style={styles.tryAgain}>Δοκιμάστε την επόμενη!</BoldText>
+									<BoldText style={styles.tryAgain}>Λυπάμαι... Παρακαλώ δοκιμάστε την επόμενη!</BoldText>
 								) : !correctChoice && choiceSave ? (
-									<BoldText style={styles.tryAgain}>Παρακαλώ δοκιμάστε ξανά!</BoldText>
+									<BoldText style={styles.tryAgain}>
+										Δεν επιλέξατε την σωστή απάντηση. Παρακαλώ δοκιμάστε ξανά!
+									</BoldText>
 								) : (
 									<BoldText style={styles.title}>Επιλέξτε την σωστή απάντηση.</BoldText>
 								)}
@@ -466,6 +484,15 @@ const QuestionDetailScreen = (props) => {
 
 QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 	const disable = navigation.getParam('disableSaveButton');
+	const madeAChoice = navigation.getParam('madeAChoice');
+
+	let showSaveButton = false;
+	if (!disable && !madeAChoice) {
+		showSaveButton = false;
+	} else if (!disable && madeAChoice) {
+		showSaveButton = true;
+	}
+
 	let headerTitle = 'Καλή επιτυχία!';
 	if (disable) {
 		headerTitle = 'Δοκιμάστε την επόμενη!';
@@ -484,7 +511,9 @@ QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 		),
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-				{!disable ? <Item title="Save" iconName="ios-save" onPress={navigation.getParam('save')} /> : null}
+				{showSaveButton ? (
+					<Item title="Save" iconName="ios-save" onPress={navigation.getParam('save')} />
+				) : null}
 			</HeaderButtons>
 		)
 		// headerRight: (
