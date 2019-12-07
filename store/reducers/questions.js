@@ -5,8 +5,9 @@ import {
 	UPDATE_QUESTION,
 	SET_QUESTIONS,
 	CHECK_ANSWER,
+	FETCH_USER_TOTAL_POINTS,
 	DELETE_ANSWERED_QUESTIONS,
-	SET_FAVORITES
+	SET_FAVORITES,
 } from '../actions/questions';
 import Question from '../../models/question';
 
@@ -50,6 +51,11 @@ export default (state = initialState, action) => {
 				...state, 
 				userAnsweredQuestions: state.userAnsweredQuestions.concat(action.question), 
 				totalPoints: action.newTotalPoints
+			};
+			case FETCH_USER_TOTAL_POINTS:
+			return { 
+				...state, 
+				totalPoints: action.totalPoints
 			};
 		case DELETE_ANSWERED_QUESTIONS:
 			return {

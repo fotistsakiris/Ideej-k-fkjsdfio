@@ -18,6 +18,7 @@ import Input from '../../components/UI/Input';
 import CustomButton from '../../components/UI/CustomButton';
 import Colours from '../../constants/Colours';
 import * as authActions from '../../store/actions/auth';
+import * as questionsActions from '../../store/actions/questions';
 import BoldText from '../../components/UI/BoldText';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
@@ -113,6 +114,7 @@ const AuthScreen = (props) => {
 			setIsLoading(true);
 			try {
 				await dispatch(action);
+				await dispatch(questionsActions.fetchTotalPoints())
 				props.navigation.navigate('Categories');
 			} catch (err) {
 				setError(err.message);

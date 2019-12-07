@@ -3,6 +3,7 @@ export const CHECK_ANSWER = 'CHECK_ANSWER';
 export const DELETE_ANSWERED_QUESTIONS = 'DELETE_ANSWERED_QUESTIONS';
 export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const SET_FAVORITES = 'SET_FAVORITES';
+export const FETCH_USER_TOTAL_POINTS = 'FETCH_USER_TOTAL_POINTS'
 
 import Question from '../../models/question';
 
@@ -197,8 +198,6 @@ export const checkAnswer = (question, AnswerIsCorrect, difficultyLevel, totalPoi
 				);
 			}
 
-			
-
 			if (!response.ok) {
 				throw new Error(
 					'Δυστυχώς η αποθήκευση τηε ερώτησης ως απαντημένης δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
@@ -215,6 +214,36 @@ export const checkAnswer = (question, AnswerIsCorrect, difficultyLevel, totalPoi
 			});
 		} catch (err) {
 			// send to custom analytics server
+			throw err;
+		}
+	};
+};
+
+export const fetchTotalPoints = () => {
+	return async (dispatch, getState) => {
+		try {
+			const userId = getState().auth.userId;
+			const response = await fetch(`https://en-touto-nika.firebaseio.com//user_totalPoints/${userId}.json`);
+
+			// check before unpack the response body
+			if (!response.ok) {
+				throw new Error(
+					'Δυστυχώς η φόρτωση των αγαπημένων προϊόντων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+				);
+			}
+
+			const resData = await response.json();
+			let totalPoints = 0;
+			for (const key in resData) {
+				totalPoints = resData[key].newTotalPoints;
+			}
+			console.log('totalPoints', totalPoints);
+
+			dispatch({ type: FETCH_USER_TOTAL_POINTS, totalPoints: totalPoints });
+		} catch (err) {
+			// send to custom analytics server
+			console.log(err);
+
 			throw err;
 		}
 	};

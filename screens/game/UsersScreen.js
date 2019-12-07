@@ -12,9 +12,11 @@ import Colours from '../../constants/Colours';
 import * as questionsActions from '../../store/actions/questions';
 
 const UsersScreen = (props) => {
+
 	const [ email, setEmail ] = useState('');
 	const dispatch = useDispatch();
 
+	const totalPoints = useSelector(state => state.questions.totalPoints)
 	useEffect(() => {
 		const getEmail = async () => {
 			// Note: getItem is asynchronous, so we get a promise
@@ -30,6 +32,7 @@ const UsersScreen = (props) => {
 		};
 		getEmail();
 	}, []);
+
 
 	if (email === '') {
 		return (
@@ -64,6 +67,9 @@ const UsersScreen = (props) => {
 		<CustomLinearGradient>
 			<View style={styles.centered}>
 				<BoldText style={styles.email}>{email}</BoldText>
+			</View>
+			<View style={styles.centered}>
+				<BoldText style={styles.email}>Βαθμολογία: {totalPoints}</BoldText>
 			</View>
 			<View style={styles.centered}>
 				{Platform.OS === 'android' ? (
