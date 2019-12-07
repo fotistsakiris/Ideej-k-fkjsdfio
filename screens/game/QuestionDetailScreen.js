@@ -87,16 +87,13 @@ const QuestionDetailScreen = (props) => {
 
 	const dispatch = useDispatch();
 
-	function wait(timeout) {
-		return new Promise((resolve) => {
-			setTimeout(resolve, timeout);
-		});
-	}
-
 	const onRefresh = useCallback(
 		() => {
 			setRefreshing(true);
-			loadQuestions().then(() => setRefreshing(false));
+			loadQuestions().then(() => {
+				setRefreshing(false);
+				setCorrectChoice(false);
+			});
 		},
 		[ refreshing ]
 	);
@@ -162,8 +159,7 @@ const QuestionDetailScreen = (props) => {
 			setChoiceSave(true);
 			// setAppliedAnswerIs(appliedAnswer);
 			await dispatch(questionsActions.checkAnswer(selectedQuestion, corChoice));
-			// console.log(appliedAnswer);
-			setChoiceSave(false);
+			setTimeout(() => setChoiceSave(false), 2000);
 
 			// console.log('corChoice', corChoice);
 		},
@@ -300,7 +296,29 @@ const QuestionDetailScreen = (props) => {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
-					<BoldText>Δεν βρέθηκαν ερωτήσεις στη βάση δεδομένων!</BoldText>
+					<BoldText>Τέλος και τω Θεω Δόξα!</BoldText>
+					{Platform.OS === 'android' ? (
+						<View>
+							<CustomButton
+								style={styles.buttonStyle}
+								title="Επανεκίνηση παιχνιδιού"
+								color={Colours.moccasin_light}
+								onPress={() => {
+									dispatch(questionsActions.deleteAnsweredQuestions());
+									props.navigation.navigate('Categories');
+								}}
+							/>
+						</View>
+					) : (
+						<Button
+							title="Επανεκίνηση παιχνιδιού"
+							color={Colours.moccasin_light}
+							onPress={() => {
+								dispatch(questionsActions.deleteAnsweredQuestions());
+								props.navigation.navigate('Categories');
+							}}
+						/>
+					)}
 				</View>
 			</CustomLinearGradient>
 		);
@@ -340,12 +358,14 @@ const QuestionDetailScreen = (props) => {
 							<BoldText style={styles.centered}>Συγκεντρώσου!!!</BoldText>
 						) : null} */}
 						{correctChoice ? (
-							// <View style={styles.congrats}>
 							<BoldText style={styles.switchesSummary}>Συγχαρητήρια</BoldText>
 						) : (
-							// </View>
 							<View style={styles.switchesSummary}>
-								<BoldText style={styles.title}>Επιλέξτε την σωστή απάντηση.</BoldText>
+								{!correctChoice && choiceSave ? (
+									<BoldText style={styles.tryAgain}>Παρακαλώ δοκιμάστε ξανά!</BoldText>
+								) : (
+									<BoldText style={styles.title}>Επιλέξτε την σωστή απάντηση.</BoldText>
+								)}
 								<AnswerSwitch
 									state={alfaIsTrue}
 									onChange={(newValue) => setAlfaIsTrue(newValue)}
@@ -494,6 +514,13 @@ const styles = StyleSheet.create({
 	congrats: {
 		// flex: 1,
 		// height: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: '60%',
+		width: '100%'
+	},
+	tryAgain: {
+		color: 'red',
 		justifyContent: 'center',
 		alignItems: 'center',
 		height: '60%',

@@ -11,7 +11,6 @@ import Colours from '../../constants/Colours';
 
 import * as questionsActions from '../../store/actions/questions';
 
-
 const UsersScreen = (props) => {
 	const [ email, setEmail ] = useState('');
 	const dispatch = useDispatch();
@@ -67,23 +66,29 @@ const UsersScreen = (props) => {
 				<BoldText style={styles.email}>{email}</BoldText>
 			</View>
 			<View style={styles.centered}>
-						{Platform.OS === 'android' ? (
-							<View>
-								<CustomButton
-									style={styles.buttonStyle}
-									title="Επανεκίνηση παιχνιδιού"
-									color={Colours.moccasin_light}
-									onPress={() => dispatch(questionsActions.deleteAnsweredQuestions())}
-								/>
-							</View>
-						) : (
-							<Button
-								title="Επανεκίνηση παιχνιδιού"
-								color={Colours.moccasin_light}
-								onPress={() => dispatch(questionsActions.deleteAnsweredQuestions())}
-							/>
-						)}
+				{Platform.OS === 'android' ? (
+					<View>
+						<CustomButton
+							style={styles.buttonStyle}
+							title="Επανεκίνηση παιχνιδιού"
+							color={Colours.moccasin_light}
+							onPress={() => {
+								dispatch(questionsActions.deleteAnsweredQuestions());
+								props.navigation.navigate('Categories');
+							}}
+						/>
 					</View>
+				) : (
+					<Button
+						title="Επανεκίνηση παιχνιδιού"
+						color={Colours.moccasin_light}
+						onPress={() => {
+							dispatch(questionsActions.deleteAnsweredQuestions());
+							props.navigation.navigate('Categories');
+						}}
+					/>
+				)}
+			</View>
 		</CustomLinearGradient>
 	);
 };
