@@ -253,7 +253,7 @@ export const fetchQuestions = () => {
 			for (const key in user_answ_quest_resData) {
 				answeredquestionsIDs.push(user_answ_quest_resData[key].question.id);
 			}
-
+			// MFC = Most Favorite Code !!!
 			// Find which IDs match. That is, which questions IDs match with answered questions IDs,
 			// in order to remove the questions that have been already answered, from
 			// the available questions.
@@ -273,8 +273,6 @@ export const fetchQuestions = () => {
 			};
 
 			const finalAvailableQuestions = findMatchingIds(availablequestionsIDs, answeredquestionsIDs);
-
-			console.log('finalAvailableQuestions', finalAvailableQuestions);
 
 			if (answeredquestionsIDs.length > 0) {
 				resData = { ...finalAvailableQuestions };

@@ -9,7 +9,8 @@ import {
 	Button,
 	StyleSheet,
 	Text,
-	ScrollView
+	ScrollView,
+	RefreshControl
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -52,7 +53,7 @@ const QuestionDetailScreen = (props) => {
 	let cardWidth = 0;
 
 	if (width < 400) {
-		cardHeight = 0.75;
+		cardHeight = 0.65;
 		cardWidth = 0.77;
 		widthMultiplier = 0.4;
 		textMultiplier = 0.06;
@@ -69,6 +70,7 @@ const QuestionDetailScreen = (props) => {
 		widthMultiplier = 0.2;
 		textMultiplier = 0.045;
 	}
+	const [ refreshing, setRefreshing ] = useState(false);
 	const [ loadQuestionsError, setLoadQuestionsError ] = useState(); // error initially is undefined!
 	const [ favError, setFavError ] = useState(); // error initially is undefined!
 	const [ isLoading, setIsLoading ] = useState(false);
@@ -85,6 +87,20 @@ const QuestionDetailScreen = (props) => {
 
 	const dispatch = useDispatch();
 
+	function wait(timeout) {
+		return new Promise((resolve) => {
+			setTimeout(resolve, timeout);
+		});
+	}
+
+	const onRefresh = useCallback(
+		() => {
+			setRefreshing(true);
+			loadQuestions().then(() => setRefreshing(false));
+		},
+		[ refreshing ]
+	);
+
 	// Get all the questions
 	const categoryId = props.navigation.getParam('categoryId');
 	let questions = useSelector((state) =>
@@ -93,7 +109,7 @@ const QuestionDetailScreen = (props) => {
 
 	// const userQuestions = useSelector(state => state.questions.userAnsweredQuestions.filter(quest => quest.id))
 
-	const selectedQuestion = questions[questions.length - 1]
+	const selectedQuestion = questions[questions.length - 1];
 
 	// If we change one of the filters state then the saveAnswer function is memoized,
 	// because of useCallback and its dependencies!
@@ -149,8 +165,6 @@ const QuestionDetailScreen = (props) => {
 			// console.log(appliedAnswer);
 			setChoiceSave(false);
 
-			
-
 			// console.log('corChoice', corChoice);
 		},
 		[ alfaIsTrue, betaIsTrue, gammaIsTrue, deltaIsTrue, choiceSave, correctChoice, dispatch ]
@@ -169,8 +183,6 @@ const QuestionDetailScreen = (props) => {
 		},
 		[ saveAnswer ]
 	);
-
-	
 
 	// If user navigates to QuestionDetailScreen from FavoritesScreen
 	const questionIdFromFavoritesScreen = props.navigation.getParam('questionId');
@@ -193,13 +205,13 @@ const QuestionDetailScreen = (props) => {
 	);
 
 	// loadQuestions after focusing
-	// useEffect(
-	// 	() => {
-	// 		const willFocusEvent = props.navigation.addListener('willFocus', loadQuestions);
-	// 		return () => willFocusEvent.remove();
-	// 	},
-	// 	[ loadQuestions ]
-	// );
+	useEffect(
+		() => {
+			const willFocusEvent = props.navigation.addListener('willFocus', loadQuestions);
+			return () => willFocusEvent.remove();
+		},
+		[ loadQuestions ]
+	);
 
 	// loadQuestions initially...
 	useEffect(
@@ -264,7 +276,11 @@ const QuestionDetailScreen = (props) => {
 					<BoldText>
 						Σφάλμα στη διαδικασία φορτώσεως των ερωτήσεων. Παρακαλούμε ελέγξτε τη σύνδεσή σας.
 					</BoldText>
-					<Button title="Δοκιμάστε Ξανά" onPress={loadQuestions} color={Colours.moccasin_light} />
+					{Platform.OS === 'android' ? (
+						<CustomButton title="Δοκιμάστε Ξανά" onPress={loadQuestions} color={Colours.maroon} />
+					) : (
+						<Button title="Δοκιμάστε Ξανά" onPress={loadQuestions} color={Colours.moccasin_light} />
+					)}
 				</View>
 			</CustomLinearGradient>
 		);
@@ -293,17 +309,22 @@ const QuestionDetailScreen = (props) => {
 	const showQuestion = (question) => {
 		for (key in question) {
 			return (
-				<ScrollView contentContainerStyle={styles.scrollViewStyle}>
-					<View style={styles.icon}>
-						<TouchableOpacity style={styles.itemData} onPress={toggleFavoriteHandler}>
+				<ScrollView
+					contentContainerStyle={styles.scrollViewStyle}
+					refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+				>
+					<View style={styles.topButtonsAndIcon}>
+						<TouchableOpacity onPress={toggleFavoriteHandler}>
 							<MaterialIcons
 								name={currentQuestionIsFavorite ? 'favorite' : 'favorite-border'}
 								size={Math.ceil(width * 0.08)}
 								color={Colours.maroon}
 							/>
 						</TouchableOpacity>
+						{/* <TouchableOpacity onPress={props.forceUpdate()}>
+							<MaterialIcons name="replay" size={Math.ceil(width * 0.08)} color={Colours.maroon} />
+						</TouchableOpacity> */}
 					</View>
-
 					<QuestionItem
 						style={{
 							height: Math.ceil(cardHeight * height),
@@ -395,17 +416,17 @@ const QuestionDetailScreen = (props) => {
 							</View>
 						)}
 					</QuestionItem>
-						{showAnswer && (
-							<Card
-								style={{
-									height: Math.ceil(cardHeight * height / 4),
-									width: Math.ceil(cardWidth * width),
-									...styles.centered
-								}}
-							>
-								<BoldText>{question.answer}</BoldText>
-							</Card>
-						)}
+					{showAnswer && (
+						<Card
+							style={{
+								height: Math.ceil(cardHeight * height / 4),
+								width: Math.ceil(cardWidth * width),
+								...styles.centered
+							}}
+						>
+							<BoldText>{question.answer}</BoldText>
+						</Card>
+					)}
 				</ScrollView>
 			);
 		}
@@ -451,12 +472,17 @@ QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
 	scrollViewStyle: {
 		justifyContent: 'center',
-		alignItems: 'center',
+		// alignItems: 'center',
 		padding: 12
 	},
+	topButtonsAndIcon: {
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		alignItems: 'baseline'
+	},
 	icon: {
-		alignSelf: 'center',
-		margin: 2
+		// alignSelf: 'center',
+		// margin: 2
 	},
 	multipleChoiceContainer: {
 		// flexDirection: 'row',
