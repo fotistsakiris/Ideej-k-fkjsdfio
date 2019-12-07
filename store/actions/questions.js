@@ -3,7 +3,9 @@ export const CHECK_ANSWER = 'CHECK_ANSWER';
 export const DELETE_ANSWERED_QUESTIONS = 'DELETE_ANSWERED_QUESTIONS';
 export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const SET_FAVORITES = 'SET_FAVORITES';
-export const FETCH_USER_TOTAL_POINTS = 'FETCH_USER_TOTAL_POINTS'
+export const FETCH_USER_TOTAL_POINTS = 'FETCH_USER_TOTAL_POINTS';
+export const DELETE_TOTAL_POINTS = 'DELETE_TOTAL_POINTS';
+export const SAVE_DATA_TO_ALL_USERS_DATA = 'SAVE_DATA_TO_ALL_USERS_DATA';
 
 import Question from '../../models/question';
 
@@ -219,6 +221,46 @@ export const checkAnswer = (question, AnswerIsCorrect, difficultyLevel, totalPoi
 	};
 };
 
+export const saveDataToAllUsersData = (totalPoints, email) => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().auth.token;
+			const userId = getState().auth.userId;
+
+			const response = await fetch(
+				`https://en-touto-nika.firebaseio.com//All_Users_Data/${userId}.json?auth=${token}`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						totalPoints,
+						email
+					})
+				}
+			);
+
+			if (!response.ok) {
+				throw new Error(
+					'Δυστυχώς η αποθήκευση τηε ερώτησης ως απαντημένης δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+				);
+			}
+
+			// const resData = await response.json();
+			// console.log(resData.name);
+			dispatch({
+				type: SAVE_DATA_TO_ALL_USERS_DATA,
+				totalPoints,
+				email
+			});
+		} catch (err) {
+			// send to custom analytics server
+			throw err;
+		}
+	};
+};
+
 export const fetchTotalPoints = () => {
 	return async (dispatch, getState) => {
 		try {
@@ -240,6 +282,34 @@ export const fetchTotalPoints = () => {
 			console.log('totalPoints', totalPoints);
 
 			dispatch({ type: FETCH_USER_TOTAL_POINTS, totalPoints: totalPoints });
+		} catch (err) {
+			// send to custom analytics server
+			console.log(err);
+
+			throw err;
+		}
+	};
+};
+
+export const deleteTotalPoints = () => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().auth.token;
+			const userId = getState().auth.userId;
+			const totalPointsresponse = await fetch(
+				`https://en-touto-nika.firebaseio.com//user_totalPoints/${userId}.json?auth=${token}`,
+				{
+					method: 'DELETE'
+				}
+			);
+
+			if (!totalPointsresponse.ok) {
+				throw new Error(
+					'Δυστυχώς η διαγραφή των ερωτήσεων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+				);
+			}
+
+			dispatch({ type: DELETE_TOTAL_POINTS });
 		} catch (err) {
 			// send to custom analytics server
 			console.log(err);

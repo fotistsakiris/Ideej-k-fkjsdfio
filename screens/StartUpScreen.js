@@ -3,6 +3,7 @@ import { View, ActivityIndicator, AsyncStorage, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 
 import * as authActions from '../store/actions/auth';
+import * as questionsActions from '../store/actions/questions';
 import Colours from '../constants/Colours';
 import CustomLinearGradient from '../components/UI/CustomLinearGradient';
 
@@ -38,6 +39,7 @@ const StartUpScreen = (props) => {
 				} else {
 					props.navigation.navigate('Main');
 				}
+				await dispatch(questionsActions.fetchTotalPoints())
 				dispatch(authActions.authenticate(token, userId, expirationTime));
 			};
 

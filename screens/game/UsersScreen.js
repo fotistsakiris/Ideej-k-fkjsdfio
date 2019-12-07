@@ -12,13 +12,12 @@ import Colours from '../../constants/Colours';
 import * as questionsActions from '../../store/actions/questions';
 
 const UsersScreen = (props) => {
-
 	const [ email, setEmail ] = useState('');
 	const dispatch = useDispatch();
 
-	const totalPoints = useSelector(state => state.questions.totalPoints)
+	const totalPoints = useSelector((state) => state.questions.totalPoints);
 	useEffect(() => {
-		const getEmail = async () => {
+		const getEmail = async () => { 
 			// Note: getItem is asynchronous, so we get a promise
 
 			const userData = await AsyncStorage.getItem('userData');
@@ -32,7 +31,6 @@ const UsersScreen = (props) => {
 		};
 		getEmail();
 	}, []);
-
 
 	if (email === '') {
 		return (
@@ -79,7 +77,9 @@ const UsersScreen = (props) => {
 							title="Επανεκίνηση παιχνιδιού"
 							color={Colours.moccasin_light}
 							onPress={() => {
+								dispatch(questionsActions.saveDataToAllUsersData(totalPoints, email));
 								dispatch(questionsActions.deleteAnsweredQuestions());
+								dispatch(questionsActions.deleteTotalPoints());
 								props.navigation.navigate('Categories');
 							}}
 						/>
@@ -89,7 +89,9 @@ const UsersScreen = (props) => {
 						title="Επανεκίνηση παιχνιδιού"
 						color={Colours.moccasin_light}
 						onPress={() => {
+							dispatch(questionsActions.saveDataToAllUsersData(totalPoints, email));
 							dispatch(questionsActions.deleteAnsweredQuestions());
+							dispatch(questionsActions.deleteTotalPoints());
 							props.navigation.navigate('Categories');
 						}}
 					/>

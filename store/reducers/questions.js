@@ -6,8 +6,10 @@ import {
 	SET_QUESTIONS,
 	CHECK_ANSWER,
 	FETCH_USER_TOTAL_POINTS,
+	DELETE_TOTAL_POINTS,
 	DELETE_ANSWERED_QUESTIONS,
 	SET_FAVORITES,
+	SAVE_DATA_TO_ALL_USERS_DATA,
 } from '../actions/questions';
 import Question from '../../models/question';
 
@@ -16,7 +18,8 @@ const initialState = {
 	availableQuestions: [],
 	favoriteQuestions: [],
 	userAnsweredQuestions: [],
-	totalPoints: 0
+	totalPoints: 0,
+	allUsersData: [],
 };
 
 export default (state = initialState, action) => {
@@ -52,11 +55,20 @@ export default (state = initialState, action) => {
 				userAnsweredQuestions: state.userAnsweredQuestions.concat(action.question), 
 				totalPoints: action.newTotalPoints
 			};
+			case SAVE_DATA_TO_ALL_USERS_DATA:
+			return { 
+				...state, 
+				allUsersData: state.allUsersData.concat(action.usersData), 
+			};
 			case FETCH_USER_TOTAL_POINTS:
 			return { 
 				...state, 
 				totalPoints: action.totalPoints
 			};
+			case DELETE_TOTAL_POINTS:
+				return {
+					...state, totalPoints: 0
+				};
 		case DELETE_ANSWERED_QUESTIONS:
 			return {
 				...state, userAnsweredQuestions: []
