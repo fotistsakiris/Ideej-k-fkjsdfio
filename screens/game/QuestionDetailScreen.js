@@ -10,7 +10,8 @@ import {
 	StyleSheet,
 	Text,
 	ScrollView,
-	RefreshControl
+	RefreshControl,
+	AsyncStorage
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -72,6 +73,8 @@ const QuestionDetailScreen = (props) => {
 		widthMultiplier = 0.2;
 		textMultiplier = 0.045;
 	}
+	const [ email, setEmail ] = useState('');
+
 	const [ refreshing, setRefreshing ] = useState(false);
 	const [ loadQuestionsError, setLoadQuestionsError ] = useState(); // error initially is undefined!
 	const [ favError, setFavError ] = useState(); // error initially is undefined!
@@ -205,6 +208,23 @@ const QuestionDetailScreen = (props) => {
 		[ alfaIsTrue, betaIsTrue, gammaIsTrue, deltaIsTrue ]
 	);
 
+	useEffect(() => {
+		const getEmail = async () => { 
+			// Note: getItem is asynchronous, so we get a promise
+
+			const userData = await AsyncStorage.getItem('userData');
+			if (userData) {
+				// parse converts a string to an object or array
+				const transformedData = JSON.parse(userData);
+				const { userEmail } = transformedData;
+				setEmail(userEmail);
+				props.navigation.setParams({ userEmail: userEmail });
+			}
+		};
+		getEmail();
+	}, []);
+
+
 	// If user navigates to QuestionDetailScreen from FavoritesScreen
 	const questionIdFromFavoritesScreen = props.navigation.getParam('questionId');
 	if (questionIdFromFavoritesScreen) {
@@ -322,6 +342,7 @@ const QuestionDetailScreen = (props) => {
 			<CustomLinearGradient>
 				<View style={styles.centered}>
 					<BoldText>Τέλος και τω Θεω Δόξα!</BoldText>
+					<BoldText>Βαθμολογία: {totalPoints}</BoldText>
 					{Platform.OS === 'android' ? (
 						<View>
 							<CustomButton
@@ -329,7 +350,9 @@ const QuestionDetailScreen = (props) => {
 								title="Επανεκίνηση παιχνιδιού"
 								color={Colours.moccasin_light}
 								onPress={() => {
+									dispatch(questionsActions.saveDataToAllUsersData(totalPoints, email));
 									dispatch(questionsActions.deleteAnsweredQuestions());
+									dispatch(questionsActions.deleteTotalPoints());
 									props.navigation.navigate('Categories');
 								}}
 							/>
@@ -339,7 +362,9 @@ const QuestionDetailScreen = (props) => {
 							title="Επανεκίνηση παιχνιδιού"
 							color={Colours.moccasin_light}
 							onPress={() => {
+								dispatch(questionsActions.saveDataToAllUsersData(totalPoints, email));
 								dispatch(questionsActions.deleteAnsweredQuestions());
+								dispatch(questionsActions.deleteTotalPoints());
 								props.navigation.navigate('Categories');
 							}}
 						/>
@@ -357,8 +382,9 @@ const QuestionDetailScreen = (props) => {
 					refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 				>
 					<View style={styles.topButtonsAndIcon}>
+						<BoldText>Βαθμολογία: {totalPoints}</BoldText>
 						<TouchableOpacity onPress={onRefresh}>
-							<MaterialIcons name="replay" size={Math.ceil(width * 0.065)} color={Colours.maroon} />
+							<MaterialIcons name="refresh" size={Math.ceil(width * 0.065)} color={Colours.maroon} />
 						</TouchableOpacity>
 						<TouchableOpacity onPress={toggleFavoriteHandler}>
 							<MaterialIcons
@@ -367,7 +393,6 @@ const QuestionDetailScreen = (props) => {
 								color={Colours.maroon}
 							/>
 						</TouchableOpacity>
-						<BoldText>Βαθμολογία: {totalPoints}</BoldText>
 					</View>
 					<QuestionItem
 						style={{
@@ -502,9 +527,9 @@ QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 		showSaveButton = true;
 	}
 
-	let headerTitle = 'Καλή επιτυχία!';
+	let headerTitle = 'Καλή επιτυχία! ' + navigation.getParam('userEmail');
 	if (disable) {
-		headerTitle = 'Δοκιμάστε την επόμενη!';
+		headerTitle = 'Δοκιμάστε την επόμενη! ' + navigation.getParam('userEmail');
 	}
 	return {
 		headerTitle: headerTitle,
@@ -546,7 +571,7 @@ const styles = StyleSheet.create({
 	topButtonsAndIcon: {
 		flexDirection: 'row',
 		justifyContent: 'space-around',
-		alignItems: 'baseline'
+		alignItems: 'center'
 	},
 	icon: {
 		// alignSelf: 'center',
