@@ -66,6 +66,7 @@ const AuthScreen = (props) => {
 	const [ isSignUp, setIsSignUp ] = useState(false);
 
 	const dispatch = useDispatch();
+	const questions = useSelector((state) => state.questions.availableQuestions);
 
 	const [ formState, dispatchFormState ] = useReducer(formReducer, {
 		inputValues: {
@@ -114,7 +115,9 @@ const AuthScreen = (props) => {
 			setIsLoading(true);
 			try {
 				await dispatch(action);
-				await dispatch(questionsActions.fetchTotalPoints())
+				if (questions.length > 0) {
+					await dispatch(questionsActions.fetchTotalPoints());
+				}
 				props.navigation.navigate('Categories');
 			} catch (err) {
 				setError(err.message);

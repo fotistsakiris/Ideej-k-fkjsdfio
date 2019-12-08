@@ -9,11 +9,13 @@ import CustomLinearGradient from '../components/UI/CustomLinearGradient';
 
 const StartUpScreen = (props) => {
 	const dispatch = useDispatch();
+	const questions = useSelector((state) => state.questions.availableQuestions);
 
 	// Check the AsyncStorage for a valid token
 	useEffect(
 		() => {
 			const tryLogin = async () => {
+
 				// Note: getItem is asynchronous, so we get a promise
 				const userData = await AsyncStorage.getItem('userData');
 
@@ -21,6 +23,7 @@ const StartUpScreen = (props) => {
 					props.navigation.navigate('Auth');
 					return;
 				}
+
 				// parse converts a string to an object or array
 				const transformedData = JSON.parse(userData);
 				const { token, userId, expiryDate } = transformedData;
@@ -32,15 +35,19 @@ const StartUpScreen = (props) => {
 				}
 
 				const expirationTime = expirationDate.getTime() - new Date().getTime();
-				
+
 				// If user is admin, navigate to admin categories
 				if (userId === '5E5hc3oOCJRYM4RByLf7ORTIP103') {
 					props.navigation.navigate('Admin');
 				} else {
 					props.navigation.navigate('Main');
 				}
-				await dispatch(questionsActions.fetchTotalPoints())
-				dispatch(authActions.authenticate(token, userId, expirationTime));
+				await dispatch(questionsActions.fetchQuestions());
+
+				await dispatch(authActions.authenticate(token, userId, expirationTime));
+				if (questions.length > 0) {
+					await dispatch(questionsActions.fetchTotalPoints());
+				}
 			};
 
 			tryLogin();
