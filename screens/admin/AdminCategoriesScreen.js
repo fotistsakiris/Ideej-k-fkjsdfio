@@ -56,7 +56,7 @@ const AdminCategoriesScreen = (props) => {
 
 AdminCategoriesScreen.navigationOptions = ({ navigation }) => {
 	return {
-		headerTitle: 'Κατηγορίες',
+		headerTitle: 'Κατηγορίες Διαχειριστή',
 		// Needed for side drawer navigation
 		headerRight: (
 			<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
