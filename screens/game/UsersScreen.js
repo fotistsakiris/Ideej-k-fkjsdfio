@@ -50,53 +50,34 @@ const UsersScreen = (props) => {
 		[ setEmail, dispatch ]
 	);
 
-	const showListOfUsers = () => {
-		let dataPerUser = [];
-		for (const key in allUsersData) {
-			dataPerUser.push(Object.values(allUsersData[key]));
-		}
-		// console.log('allUsersData', allUsersData);
-
-		let flatArray = dataPerUser.flat();
-		flatArray.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
-
-		let first = flatArray.splice(0, 1);
-		let second = [];
-		flatArray.map((item) => {
-			for (let i = 0; i < flatArray.length; i++) {
-				console.log(flatArray[i].email !== item.email);
-				
-				if (flatArray[i].email !== item.email) {
-					second.push(flatArray.slice(i, 1));
-					
-				} else {
-					flatArray.splice(i, 1)
-				}
+	useEffect(
+		() => {
+			let dataPerUser = [];
+			for (const key in allUsersData) {
+				dataPerUser.push(Object.values(allUsersData[key]));
 			}
-			
-		});
 
-		console.log('first', first);
-		// console.log('second', second);
-		// console.log('third', third);
-		flatArray.unshift(first)
-		const result = flatArray.flat()
-		setUsersData(result);
-		// console.log(flatArray);
-	};
-	// const showListOfUsers = () => {
-	// 	let dataPerUser = [];
-	// 	for (const key in allUsersData) {
-	// 		dataPerUser.push(Object.values(allUsersData[key]));
-	// 	}
-	// 	console.log(allUsersData);
+			let flatArray = dataPerUser.flat();
+			flatArray.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
 
-	// 	let flatArray = dataPerUser.flat();
-	// 	flatArray.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
+			let first = flatArray.splice(0, 1);
+			let second = [];
+			flatArray.map((item) => {
+				for (let i = 0; i < flatArray.length; i++) {
+					if (flatArray[i].email !== item.email) {
+						second.push(flatArray.slice(i, 1));
+					} else {
+						flatArray.splice(i, 1);
+					}
+				}
+			});
 
-	// 	setUsersData(flatArray);
-	// 	// console.log(flatArray);
-	// };
+			flatArray.unshift(first);
+			const result = flatArray.flat();
+			setUsersData(result);
+		},
+		[ setUsersData, allUsersData ]
+	);
 
 	if (email === '') {
 		return (
@@ -129,12 +110,12 @@ const UsersScreen = (props) => {
 	}
 	return (
 		<CustomLinearGradient>
-			<BoldText>{email}</BoldText>
-			<BoldText>Βαθμολογία: {totalPoints}</BoldText>
+			{/* <BoldText>{email}</BoldText> */}
+			<BoldText style={styles.content}>Βαθμολογία: {totalPoints}</BoldText>
 			{Platform.OS === 'android' ? (
 				<View>
 					<CustomButton
-						style={styles.buttonStyle}
+						style={styles.content}
 						title="Επανεκίνηση παιχνιδιού"
 						color={Colours.moccasin_light}
 						onPress={() => {
@@ -148,7 +129,7 @@ const UsersScreen = (props) => {
 			) : (
 				<Button
 					title="Επανεκίνηση παιχνιδιού"
-					color={Colours.moccasin_light}
+					color={Colours.maroon}
 					onPress={() => {
 						dispatch(questionsActions.saveDataToAllUsersData(totalPoints, email));
 						dispatch(questionsActions.deleteAnsweredQuestions());
@@ -157,7 +138,7 @@ const UsersScreen = (props) => {
 					}}
 				/>
 			)}
-			{Platform.OS === 'android' ? (
+			{/* {Platform.OS === 'android' ? (
 				<View>
 					<CustomButton
 						style={styles.buttonStyle}
@@ -168,7 +149,7 @@ const UsersScreen = (props) => {
 				</View>
 			) : (
 				<Button title="Βαθμολογίες παικτών" color={Colours.moccasin_light} onPress={showListOfUsers} />
-			)}
+			)} */}
 			<View style={styles.flatListContainer}>
 				<FlatList
 					data={usersData}
@@ -257,7 +238,7 @@ const styles = StyleSheet.create({
 		padding: 2
 	},
 	content: {
-		padding: 2,
+		marginVertical: 12,
 		justifyContent: 'center',
 		alignItems: 'center'
 	}

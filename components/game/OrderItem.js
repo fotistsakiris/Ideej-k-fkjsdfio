@@ -13,8 +13,8 @@ const OrderItem = (props) => {
 		<Card style={styles.orderItem}>
 			<View style={styles.summary}>
 				<Text style={styles.date}>{props.date}</Text>
-				<Text style={styles.totalAmount}>e-mail: {props.email}</Text>
-				<Text style={styles.totalAmount}>Βαθμοί: {props.totalPoints}</Text>
+				<Text style={styles.totalAmount}>{props.email}</Text>
+				<Text style={styles.totalAmount}>Βαθμολογία: {props.totalPoints}</Text>
 				{/* {Platform.OS === 'android' ? (
 					<CustomButton
 						style={styles.customButton}
