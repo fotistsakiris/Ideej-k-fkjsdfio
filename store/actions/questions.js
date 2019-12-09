@@ -307,6 +307,8 @@ export const fetchAllUsersData = () => {
 			
 			const resData = await response.json();
 			
+			
+
 			dispatch({
 				type: FETCH_All_USERS_DATA,
 				allUsersData: resData

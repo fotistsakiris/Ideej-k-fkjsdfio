@@ -13,8 +13,9 @@ const OrderItem = (props) => {
 		<Card style={styles.orderItem}>
 			<View style={styles.summary}>
 				<Text style={styles.date}>{props.date}</Text>
-				<Text style={styles.totalAmount}>Σύνολο: {props.totalAmount.toFixed(2)}</Text>
-				{Platform.OS === 'android' ? (
+				<Text style={styles.totalAmount}>e-mail: {props.email}</Text>
+				<Text style={styles.totalAmount}>Βαθμοί: {props.totalPoints}</Text>
+				{/* {Platform.OS === 'android' ? (
 					<CustomButton
 						style={styles.customButton}
 						textStyle={styles.buttonText}
@@ -27,9 +28,9 @@ const OrderItem = (props) => {
 						title={showDetails ? 'Απόκρυψη παραγγελίας' : 'Εμφάνιση παραγγελίας'}
 						onPress={() => setShowDetails((prevState) => !prevState)}
 					/> 
-				)}
+				)} */}
 			</View>
-			{showDetails && (
+			{/* {showDetails && (
 				<View style={styles.detailItems}>
 					{props.items.map((cartItem, index) => (
 						<CartItem
@@ -41,7 +42,7 @@ const OrderItem = (props) => {
 						/>
 					))}
 				</View>
-			)}
+			)} */}
 		</Card>
 	);
 };

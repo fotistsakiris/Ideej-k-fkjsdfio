@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { View, Button, AsyncStorage, Platform, StyleSheet } from 'react-native';
+import { View, Button, AsyncStorage, Platform, FlatList, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import moment from 'moment';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 import BoldText from '../../components/UI/BoldText';
+import OrderItem from '../../components/game/OrderItem';
+
 import Colours from '../../constants/Colours';
 
 import * as questionsActions from '../../store/actions/questions';
 
 const UsersScreen = (props) => {
 	const [ email, setEmail ] = useState('');
-	const [ userData, setUserData ] = useState([]);
+	const [ usersData, setUsersData ] = useState([]);
 	const dispatch = useDispatch();
 
 	const totalPoints = useSelector((state) => state.questions.totalPoints);
@@ -37,17 +40,33 @@ const UsersScreen = (props) => {
 		[ setEmail, dispatch ]
 	);
 
-	
-		const showListOfUsers = () => {
-			let dataPerUser = [];
-			for (const key in allUsersData) {
-				dataPerUser.push(allUsersData[key]);
-			}
 
-			dataPerUser.sort((a, b) => (a.totalPoints > b.totalPoints ? 1 : -1));
-			setUserData(dataPerUser)
+	const showListOfUsers = () => {
+		let dataPerUser = [];
+		for (const key in allUsersData) {
+			dataPerUser.push(Object.values(allUsersData[key]));
 		}
-		console.log(userData);
+		console.log(allUsersData);
+		
+		let flatArray = dataPerUser.flat();
+		flatArray.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
+
+		setUsersData(flatArray);
+		// console.log(flatArray);
+	};
+	// const showListOfUsers = () => {
+	// 	let dataPerUser = [];
+	// 	for (const key in allUsersData) {
+	// 		dataPerUser.push(Object.values(allUsersData[key]));
+	// 	}
+	// 	console.log(allUsersData);
+		
+	// 	let flatArray = dataPerUser.flat();
+	// 	flatArray.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
+
+	// 	setUsersData(flatArray);
+	// 	// console.log(flatArray);
+	// };
 
 	if (email === '') {
 		return (
@@ -80,29 +99,12 @@ const UsersScreen = (props) => {
 	}
 	return (
 		<CustomLinearGradient>
-			<View style={styles.centered}>
-				<BoldText style={styles.email}>{email}</BoldText>
-			</View>
-			<View style={styles.centered}>
-				<BoldText style={styles.email}>Βαθμολογία: {totalPoints}</BoldText>
-			</View>
-			<View style={styles.centered}>
-				{Platform.OS === 'android' ? (
-					<View>
-						<CustomButton
-							style={styles.buttonStyle}
-							title="Επανεκίνηση παιχνιδιού"
-							color={Colours.moccasin_light}
-							onPress={() => {
-								dispatch(questionsActions.saveDataToAllUsersData(totalPoints, email));
-								dispatch(questionsActions.deleteAnsweredQuestions());
-								dispatch(questionsActions.deleteTotalPoints());
-								props.navigation.navigate('Categories');
-							}}
-						/>
-					</View>
-				) : (
-					<Button
+			<BoldText style={styles.email}>{email}</BoldText>
+			<BoldText style={styles.email}>Βαθμολογία: {totalPoints}</BoldText>
+			{Platform.OS === 'android' ? (
+				<View>
+					<CustomButton
+						style={styles.buttonStyle}
 						title="Επανεκίνηση παιχνιδιού"
 						color={Colours.moccasin_light}
 						onPress={() => {
@@ -112,19 +114,68 @@ const UsersScreen = (props) => {
 							props.navigation.navigate('Categories');
 						}}
 					/>
-				)}
-				{Platform.OS === 'android' ? (
-					<View>
-						<CustomButton
-							style={styles.buttonStyle}
-							title="Βαθμολογίες παικτών"
-							color={Colours.moccasin_light}
-							onPress={showListOfUsers}
-						/>
-					</View>
-				) : (
-					<Button title="Βαθμολογίες παικτών" color={Colours.moccasin_light} onPress={showListOfUsers} />
-				)}
+				</View>
+			) : (
+				<Button
+					title="Επανεκίνηση παιχνιδιού"
+					color={Colours.moccasin_light}
+					onPress={() => {
+						dispatch(questionsActions.saveDataToAllUsersData(totalPoints, email));
+						dispatch(questionsActions.deleteAnsweredQuestions());
+						dispatch(questionsActions.deleteTotalPoints());
+						props.navigation.navigate('Categories');
+					}}
+				/>
+			)}
+			{Platform.OS === 'android' ? (
+				<View>
+					<CustomButton
+						style={styles.buttonStyle}
+						title="Βαθμολογίες παικτών"
+						color={Colours.moccasin_light}
+						onPress={showListOfUsers}
+					/>
+				</View>
+			) : (
+				<Button title="Βαθμολογίες παικτών" color={Colours.moccasin_light} onPress={showListOfUsers} />
+			)}
+			<View style={styles.flatListContainer}>
+				<FlatList
+					data={usersData}
+					keyExtractor={(item, index) => index.toString()}
+					renderItem={(itemData) => {
+						const date = new Date(itemData.item.date);
+						const elLocale = require('moment/locale/el');
+						moment.updateLocale('el', elLocale);
+						const formattedDate = moment(date).format('LLL');
+						// const options = {
+						// 	weekday: 'long',
+						// 	year: 'numeric',
+						// 	month: 'long',
+						// 	day: 'numeric'
+						// 	// hour: 'numeric',
+						// 	// minute: 'numeric'
+						// };
+						return (
+							<View style={styles.content}>
+								<OrderItem
+									totalPoints={itemData.item.totalPoints}
+									date={formattedDate}
+									// date={date.toLocaleString('el-GR', options)}
+									// date={
+									// 	Platform.OS === 'android' ? (
+									// 		formattedDate
+									// 	) : (
+									// 		date.toLocaleString('el-GR', options)
+									// 	)
+									// }
+									// items={itemData.item.items}
+									email={itemData.item.email}
+								/>
+							</View>
+						);
+					}}
+				/>
 			</View>
 		</CustomLinearGradient>
 	);
@@ -159,6 +210,13 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		padding: 12
+	},
+	flatListContainer: {
+		flex: 1,
+		width: '100%',
+		maxWidth: '100%',
+		maxHeight: '100%',
+		padding: 20
 	},
 	email: {
 		fontSize: 30
