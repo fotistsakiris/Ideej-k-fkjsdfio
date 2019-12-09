@@ -12,6 +12,8 @@ import {
 // import { Question } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import DimensionsForStyle from '../../components/UI/DimensionsForStyle'
+
 import Card from '../UI/Card';
 import Line from '../UI/Line';
 import Colours from '../../constants/Colours';
@@ -20,31 +22,37 @@ import BoldText from '../UI/BoldText';
 
 const QuestionItem = (props) => {
 	const { width, height } = Dimensions.get('window');
-	// let widthMultiplier = 0.8
-	// let heightMultiplier = 0.5
-	let cardHeight = 0;
-	let cardWidth = 0;
-	let imageMultiplier = 0;
-	let textMultiplier = 0;
+	const widthMultiplier = DimensionsForStyle.widthMultiplier;
+	const textMultiplier = DimensionsForStyle.textMultiplier;
+	const cardHeight = DimensionsForStyle.cardHeight;
+	const cardWidth = DimensionsForStyle.cardWidth;
 
-	if (width < 400) {
-		cardHeight = 0.75;
-		cardWidth = 0.77;
-		textMultiplier = 0.06;
-		imageMultiplier = 0.5;
-	}
-	if (400 < width < 800) {
-		cardHeight = 0.5;
-		cardWidth = 0.85;
-		textMultiplier = 0.055;
-		imageMultiplier = 0.5;
-	}
-	if (width > 800) {
-		cardHeight = 0.65;
-		cardWidth = 0.8;
-		textMultiplier = 0.04;
-		imageMultiplier = 0.5;
-	}
+	// const { width, height } = Dimensions.get('window');
+	// // let widthMultiplier = 0.8
+	// // let heightMultiplier = 0.5
+	// let cardHeight = 0;
+	// let cardWidth = 0;
+	// let imageMultiplier = 0;
+	// let textMultiplier = 0;
+
+	// if (width < 400) {
+	// 	cardHeight = 0.75;
+	// 	cardWidth = 0.77;
+	// 	textMultiplier = 0.06;
+	// 	imageMultiplier = 0.5;
+	// }
+	// if (400 < width < 800) {
+	// 	cardHeight = 0.5;
+	// 	cardWidth = 0.85;
+	// 	textMultiplier = 0.055;
+	// 	imageMultiplier = 0.5;
+	// }
+	// if (width > 800) {
+	// 	cardHeight = 0.65;
+	// 	cardWidth = 0.8;
+	// 	textMultiplier = 0.04;
+	// 	imageMultiplier = 0.5;
+	// }
 	let TouchableComp = TouchableOpacity;
 	if (Platform.OS === 'android' && Platform.Version >= 21) {
 		TouchableComp = TouchableNativeFeedback;

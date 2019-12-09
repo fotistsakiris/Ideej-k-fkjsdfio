@@ -46,7 +46,7 @@ const UsersScreen = (props) => {
 		for (const key in allUsersData) {
 			dataPerUser.push(Object.values(allUsersData[key]));
 		}
-		console.log(allUsersData);
+		// console.log(allUsersData);
 		
 		let flatArray = dataPerUser.flat();
 		flatArray.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));

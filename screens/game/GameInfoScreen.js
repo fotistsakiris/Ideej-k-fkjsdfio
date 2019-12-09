@@ -17,21 +17,30 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
+import DimensionsForStyle from '../../components/UI/DimensionsForStyle'
+
 import BoldText from '../../components/UI/BoldText';
 import Card from '../../components/UI/Card';
 
 import Colours from '../../constants/Colours';
 
 const GameInfoScreen = (props) => {
+
+	const { width, height } = Dimensions.get('window');
+	const widthMultiplier = DimensionsForStyle.widthMultiplier;
+	const textMultiplier = DimensionsForStyle.textMultiplier;
+	const cardHeight = DimensionsForStyle.cardHeight;
+	const cardWidth = DimensionsForStyle.cardWidth;
+
 	const [ error, setError ] = useState(); // error initially is undefined!
 
-	const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
-	let cardHeight = 250;
-	let cardWidth = 300;
-	if (width < 400) {
-		cardHeight = 220;
-		cardWidth = 250;
-	}
+	// const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
+	// let cardHeight = 250;
+	// let cardWidth = 300;
+	// if (width < 400) {
+	// 	cardHeight = 220;
+	// 	cardWidth = 250;
+	// }
 
 	const openLink = (link) => {
 		Linking.openURL(link)

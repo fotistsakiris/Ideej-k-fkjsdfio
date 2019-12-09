@@ -16,6 +16,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
+import DimensionsForStyle from '../../components/UI/DimensionsForStyle'
+
 import CustomButton from '../../components/UI/CustomButton';
 import QuestionItem from '../../components/game/QuestionItem';
 import BoldText from '../../components/UI/BoldText';
@@ -24,30 +26,37 @@ import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 import * as questionsActions from '../../store/actions/questions';
 
 const AdminQuestionsOverview = (props) => {
-	const { width, height } = Dimensions.get('window');
-	let widthMultiplier = 0;
-	let textMultiplier = 0;
-	let cardHeight = 0;
-	let cardWidth = 0;
 
-	if (width < 400) {
-		cardHeight = 0.75;
-		cardWidth = 0.77;
-		widthMultiplier = 0.4;
-		textMultiplier = 0.06;
-	}	
-	if (400 < width < 800) {
-		cardHeight = 0.25;
-		cardWidth = 0.85;
-		widthMultiplier = 0.3;
-		textMultiplier = 0.042;
-	}
-	if (width > 800) {
-		cardHeight = 0.65;
-		cardWidth = 0.8;
-		widthMultiplier = 0.2;
-		textMultiplier = 0.045;
-	}
+	const { width, height } = Dimensions.get('window');
+	const widthMultiplier = DimensionsForStyle.widthMultiplier;
+	const textMultiplier = DimensionsForStyle.textMultiplier;
+	const cardHeight = DimensionsForStyle.cardHeight;
+	const cardWidth = DimensionsForStyle.cardWidth;
+
+	// const { width, height } = Dimensions.get('window');
+	// let widthMultiplier = 0;
+	// let textMultiplier = 0;
+	// let cardHeight = 0;
+	// let cardWidth = 0;
+
+	// if (width < 400) {
+	// 	cardHeight = 0.75;
+	// 	cardWidth = 0.77;
+	// 	widthMultiplier = 0.4;
+	// 	textMultiplier = 0.06;
+	// }	
+	// if (400 < width < 800) {
+	// 	cardHeight = 0.25;
+	// 	cardWidth = 0.85;
+	// 	widthMultiplier = 0.3;
+	// 	textMultiplier = 0.042;
+	// }
+	// if (width > 800) {
+	// 	cardHeight = 0.65;
+	// 	cardWidth = 0.8;
+	// 	widthMultiplier = 0.2;
+	// 	textMultiplier = 0.045;
+	// }
 
 	const [ isLoading, setIsLoading ] = useState(true);
 	const [ error, setError ] = useState(); // error initially is undefined!

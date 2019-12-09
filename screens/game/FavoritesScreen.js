@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
+import DimensionsForStyle from '../../components/UI/DimensionsForStyle'
+
 import QuestionItem from '../../components/game/QuestionItem';
 import BoldText from '../../components/UI/BoldText';
 import Colours from '../../constants/Colours';
@@ -15,7 +17,14 @@ import * as questionsActions from '../../store/actions/questions';
 // import DefaultText from '../components/UI/DefaultText';
 
 const FavoritesScreen = (props) => {
-	const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
+
+	const { width, height } = Dimensions.get('window');
+	const widthMultiplier = DimensionsForStyle.widthMultiplier;
+	const textMultiplier = DimensionsForStyle.textMultiplier;
+	const cardHeight = DimensionsForStyle.cardHeight;
+	const cardWidth = DimensionsForStyle.cardWidth;
+
+	// const width = Dimensions.get('window').width; // for putting the buttons in column for small screens
 
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ error, setError ] = useState(); // error initially is undefined!
@@ -149,6 +158,10 @@ const FavoritesScreen = (props) => {
 					keyExtractor={(item) => item.id}
 					renderItem={(itemData) => (
 						<QuestionItem
+						style={{
+							height: Math.ceil(cardHeight * height / 2),
+							width: Math.ceil(cardWidth * width),
+						}}
 							title={itemData.item.title}
 							// image={itemData.item.imageUrl}
 							onSelect={() => selectItemHandler(itemData.item.id, itemData.item.title)}
@@ -175,7 +188,8 @@ const FavoritesScreen = (props) => {
 									</View>
 								</View>
 							) : (
-								<View style={styles.actions}>
+								<View style={width < 400 ? styles.actionsSmall : styles.actions}>
+								
 									<View style={styles.button}>
 										<Button
 											color={Colours.gr_brown_light}
