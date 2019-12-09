@@ -10,6 +10,7 @@ import {
 	DELETE_ANSWERED_QUESTIONS,
 	SET_FAVORITES,
 	SAVE_DATA_TO_ALL_USERS_DATA,
+	FETCH_All_USERS_DATA
 } from '../actions/questions';
 import Question from '../../models/question';
 
@@ -19,7 +20,7 @@ const initialState = {
 	favoriteQuestions: [],
 	userAnsweredQuestions: [],
 	totalPoints: 0,
-	allUsersData: [],
+	allUsersData: {}
 };
 
 export default (state = initialState, action) => {
@@ -50,28 +51,35 @@ export default (state = initialState, action) => {
 				return { ...state, favoriteQuestions: state.favoriteQuestions.concat(question) };
 			}
 		case CHECK_ANSWER:
-			return { 
-				...state, 
-				userAnsweredQuestions: state.userAnsweredQuestions.concat(action.question), 
+			return {
+				...state,
+				userAnsweredQuestions: state.userAnsweredQuestions.concat(action.question),
 				totalPoints: action.newTotalPoints
 			};
-			case SAVE_DATA_TO_ALL_USERS_DATA:
-			return { 
-				...state, 
-				allUsersData: state.allUsersData.concat(action.usersData), 
+		case SAVE_DATA_TO_ALL_USERS_DATA:
+			return {
+				...state,
+				allUsersData: { ...action.allUsersData }
 			};
-			case FETCH_USER_TOTAL_POINTS:
-			return { 
-				...state, 
+		case FETCH_USER_TOTAL_POINTS:
+			return {
+				...state,
 				totalPoints: action.totalPoints
 			};
-			case DELETE_TOTAL_POINTS:
-				return {
-					...state, totalPoints: 0
-				};
+		case FETCH_All_USERS_DATA:
+			return {
+				...state,
+				allUsersData: { ...action.allUsersData }
+			};
+		case DELETE_TOTAL_POINTS:
+			return {
+				...state,
+				totalPoints: 0
+			};
 		case DELETE_ANSWERED_QUESTIONS:
 			return {
-				...state, userAnsweredQuestions: []
+				...state,
+				userAnsweredQuestions: []
 			};
 		case DELETE_QUESTION:
 			return {

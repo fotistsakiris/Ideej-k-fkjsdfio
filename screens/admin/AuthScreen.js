@@ -183,7 +183,7 @@ const AuthScreen = (props) => {
 							keyboardType="default"
 							secureTextEntry
 							required
-							minLength={5}
+							minLength={6}
 							autoCapitalize="none"
 							errorText="Παρακαλούμε εισάγεται ένα έγκυρο κωδικό."
 							onInputChange={inputChangeHandler}

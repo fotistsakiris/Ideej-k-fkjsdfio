@@ -13,24 +13,41 @@ import * as questionsActions from '../../store/actions/questions';
 
 const UsersScreen = (props) => {
 	const [ email, setEmail ] = useState('');
+	const [ userData, setUserData ] = useState([]);
 	const dispatch = useDispatch();
 
 	const totalPoints = useSelector((state) => state.questions.totalPoints);
-	useEffect(() => {
-		const getEmail = async () => { 
-			// Note: getItem is asynchronous, so we get a promise
+	const allUsersData = useSelector((state) => state.questions.allUsersData);
+	useEffect(
+		() => {
+			const getData = async () => {
+				// Note: getItem is asynchronous, so we get a promise
+				await dispatch(questionsActions.fetchAllUsersData());
+				const userData = await AsyncStorage.getItem('userData');
+				if (userData) {
+					// parse converts a string to an object or array
+					const transformedData = JSON.parse(userData);
+					const { userEmail } = transformedData;
+					setEmail(userEmail);
+					props.navigation.setParams({ userEmail: userEmail });
+				}
+			};
+			getData();
+		},
+		[ setEmail, dispatch ]
+	);
 
-			const userData = await AsyncStorage.getItem('userData');
-			if (userData) {
-				// parse converts a string to an object or array
-				const transformedData = JSON.parse(userData);
-				const { userEmail } = transformedData;
-				setEmail(userEmail);
-				props.navigation.setParams({ userEmail: userEmail });
+	
+		const showListOfUsers = () => {
+			let dataPerUser = [];
+			for (const key in allUsersData) {
+				dataPerUser.push(allUsersData[key]);
 			}
-		};
-		getEmail();
-	}, []);
+
+			dataPerUser.sort((a, b) => (a.totalPoints > b.totalPoints ? 1 : -1));
+			setUserData(dataPerUser)
+		}
+		console.log(userData);
 
 	if (email === '') {
 		return (
@@ -95,6 +112,18 @@ const UsersScreen = (props) => {
 							props.navigation.navigate('Categories');
 						}}
 					/>
+				)}
+				{Platform.OS === 'android' ? (
+					<View>
+						<CustomButton
+							style={styles.buttonStyle}
+							title="Βαθμολογίες παικτών"
+							color={Colours.moccasin_light}
+							onPress={showListOfUsers}
+						/>
+					</View>
+				) : (
+					<Button title="Βαθμολογίες παικτών" color={Colours.moccasin_light} onPress={showListOfUsers} />
 				)}
 			</View>
 		</CustomLinearGradient>

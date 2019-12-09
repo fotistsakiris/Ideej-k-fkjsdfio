@@ -47,9 +47,15 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 ### DONE! Add alert that visitor needs to create an account in choice to make an choice.
 ### DONE! When admin... navigate user to AdminCategories
 ### DONE! regex check for difficultyLevel and imageUrl
+### DONE! Remove questions that users already answered from available questions.
+### DONE! Check bug with user's totalPoints after refreshing the app
 
+### Check out why we get an object from allUsersData in questions reducer, while it's an array?
+### Save users data to all-users-data when no more questions
+### When saving user's data to all-users-data (on Firebase) save it by user id, to each user...
+### Save sign up (new) user with an index...
+### Check why we see the not correct message when we press refresh
 ### Save user's correct and not correct answers
-### Remove questions that users already answered from available questions.
 
 ### Fix the card's dimensions everywhere you use it.
 ### Add posibility to change password...
@@ -58,6 +64,8 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 ### Add some code for github security...
 ### Use pictures in CategoriesScreen in the Card. This, is actually taken from the Meals app.
 ### Refresh the token so the user doesn't get automatic logged out after 1 hour.
+
+### Check many more in commits...
 
 # Packages installed:
 ### redux react-redux react-navigation react-navigation-stack react-navigation-header-buttons, react-navigation react-navigation-tabs react-navigation react-navigation-drawer 

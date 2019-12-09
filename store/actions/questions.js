@@ -6,6 +6,7 @@ export const SET_FAVORITES = 'SET_FAVORITES';
 export const FETCH_USER_TOTAL_POINTS = 'FETCH_USER_TOTAL_POINTS';
 export const DELETE_TOTAL_POINTS = 'DELETE_TOTAL_POINTS';
 export const SAVE_DATA_TO_ALL_USERS_DATA = 'SAVE_DATA_TO_ALL_USERS_DATA';
+export const FETCH_All_USERS_DATA = 'FETCH_All_USERS_DATA';
 
 import Question from '../../models/question';
 
@@ -153,7 +154,7 @@ export const checkAnswer = (question, AnswerIsCorrect, difficultyLevel, totalPoi
 			const token = getState().auth.token;
 			const userId = getState().auth.userId;
 
-			const response = await fetch(
+			const user_answered_questionsResponse = await fetch(
 				`https://en-touto-nika.firebaseio.com//user_answered_questions/${userId}.json?auth=${token}`,
 				{
 					method: 'POST',
@@ -168,6 +169,12 @@ export const checkAnswer = (question, AnswerIsCorrect, difficultyLevel, totalPoi
 				}
 			);
 
+			if (!user_answered_questionsResponse.ok) {
+				throw new Error(
+					'Δυστυχώς η αποθήκευση τηε ερώτησης ως απαντημένης δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+				);
+			}
+
 			if (newTotalPoints > 0) {
 				const totalPointsresponse = await fetch(
 					`https://en-touto-nika.firebaseio.com//user_totalPoints/${userId}.json?auth=${token}`,
@@ -178,7 +185,7 @@ export const checkAnswer = (question, AnswerIsCorrect, difficultyLevel, totalPoi
 
 				if (!totalPointsresponse.ok) {
 					throw new Error(
-						'Δυστυχώς η διαγραφή των ερωτήσεων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+						'Δυστυχώς η διαγραφή της τελευταίας βαθμολογίας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 					);
 				}
 			}
@@ -196,18 +203,10 @@ export const checkAnswer = (question, AnswerIsCorrect, difficultyLevel, totalPoi
 			);
 			if (!totalPointsresponse.ok) {
 				throw new Error(
-					'Δυστυχώς η αποθήκευση της ερώτησης ως απαντημένης δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+					'Δυστυχώς η αποθήκευση της τελευταίας βαθμολογίας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
 
-			if (!response.ok) {
-				throw new Error(
-					'Δυστυχώς η αποθήκευση τηε ερώτησης ως απαντημένης δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
-				);
-			}
-
-			// const resData = await response.json();
-			// console.log(resData.name);
 			dispatch({
 				type: CHECK_ANSWER,
 				question: question,
@@ -226,6 +225,7 @@ export const saveDataToAllUsersData = (totalPoints, email) => {
 		try {
 			const token = getState().auth.token;
 			const userId = getState().auth.userId;
+			const date = new Date();
 
 			const response = await fetch(
 				`https://en-touto-nika.firebaseio.com//All_Users_Data/${userId}.json?auth=${token}`,
@@ -236,23 +236,25 @@ export const saveDataToAllUsersData = (totalPoints, email) => {
 					},
 					body: JSON.stringify({
 						totalPoints,
-						email
+						email,
+						date: date.toISOString()
 					})
 				}
 			);
 
 			if (!response.ok) {
 				throw new Error(
-					'Δυστυχώς η αποθήκευση τηε ερώτησης ως απαντημένης δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+					'Δυστυχώς η αποθήκευση των δεδομένων σας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
 
-			// const resData = await response.json();
-			// console.log(resData.name);
 			dispatch({
 				type: SAVE_DATA_TO_ALL_USERS_DATA,
-				totalPoints,
-				email
+				allusersData: {
+					totalPoints,
+					email,
+					date
+				}
 			});
 		} catch (err) {
 			// send to custom analytics server
@@ -270,7 +272,7 @@ export const fetchTotalPoints = () => {
 			// check before unpack the response body
 			if (!response.ok) {
 				throw new Error(
-					'Δυστυχώς η φόρτωση των αγαπημένων προϊόντων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+					'Δυστυχώς η φόρτωση του ιστορικού της βοθμολογίας σας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
 
@@ -279,9 +281,36 @@ export const fetchTotalPoints = () => {
 			for (const key in resData) {
 				totalPoints = resData[key].newTotalPoints;
 			}
-			console.log('totalPoints', totalPoints);
+			// console.log('totalPoints', totalPoints);
 
 			dispatch({ type: FETCH_USER_TOTAL_POINTS, totalPoints: totalPoints });
+		} catch (err) {
+			// send to custom analytics server
+			console.log(err);
+
+			throw err;
+		}
+	};
+};
+
+export const fetchAllUsersData = () => {
+	return async (dispatch, getState) => {
+		try {
+			const response = await fetch(`https://en-touto-nika.firebaseio.com//All_Users_Data.json`);
+
+			// check before unpack the response body
+			if (!response.ok) {
+				throw new Error(
+					'Δυστυχώς η φόρτωση των δεδομένων για όλους τους παίκτες δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+				);
+			}
+			
+			const resData = await response.json();
+			
+			dispatch({
+				type: FETCH_All_USERS_DATA,
+				allUsersData: resData
+			});
 		} catch (err) {
 			// send to custom analytics server
 			console.log(err);
@@ -305,7 +334,7 @@ export const deleteTotalPoints = () => {
 
 			if (!totalPointsresponse.ok) {
 				throw new Error(
-					'Δυστυχώς η διαγραφή των ερωτήσεων δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+					'Δυστυχώς η διαγραφή της βαθμολογίας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
 
