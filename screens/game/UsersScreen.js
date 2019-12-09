@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { View, Button, AsyncStorage, Platform, FlatList, StyleSheet } from 'react-native';
+import { View, Button, AsyncStorage, Platform, Dimensions, FlatList, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import moment from 'moment';
 
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
+import DimensionsForStyle from '../../components/UI/DimensionsForStyle';
+
 import BoldText from '../../components/UI/BoldText';
 import OrderItem from '../../components/game/OrderItem';
 
@@ -15,6 +17,13 @@ import Colours from '../../constants/Colours';
 import * as questionsActions from '../../store/actions/questions';
 
 const UsersScreen = (props) => {
+	const { width, height } = Dimensions.get('window');
+
+	const widthMultiplier = DimensionsForStyle.widthMultiplier;
+	const textMultiplier = DimensionsForStyle.textMultiplier;
+	const cardHeight = DimensionsForStyle.cardHeight;
+	const cardWidth = DimensionsForStyle.cardWidth;
+
 	const [ email, setEmail ] = useState('');
 	const [ usersData, setUsersData ] = useState([]);
 	const dispatch = useDispatch();
@@ -40,14 +49,13 @@ const UsersScreen = (props) => {
 		[ setEmail, dispatch ]
 	);
 
-
 	const showListOfUsers = () => {
 		let dataPerUser = [];
 		for (const key in allUsersData) {
 			dataPerUser.push(Object.values(allUsersData[key]));
 		}
 		// console.log(allUsersData);
-		
+
 		let flatArray = dataPerUser.flat();
 		flatArray.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
 
@@ -60,7 +68,7 @@ const UsersScreen = (props) => {
 	// 		dataPerUser.push(Object.values(allUsersData[key]));
 	// 	}
 	// 	console.log(allUsersData);
-		
+
 	// 	let flatArray = dataPerUser.flat();
 	// 	flatArray.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
 
@@ -99,8 +107,8 @@ const UsersScreen = (props) => {
 	}
 	return (
 		<CustomLinearGradient>
-			<BoldText style={styles.email}>{email}</BoldText>
-			<BoldText style={styles.email}>Βαθμολογία: {totalPoints}</BoldText>
+			<BoldText>{email}</BoldText>
+			<BoldText>Βαθμολογία: {totalPoints}</BoldText>
 			{Platform.OS === 'android' ? (
 				<View>
 					<CustomButton
@@ -157,7 +165,12 @@ const UsersScreen = (props) => {
 						// 	// minute: 'numeric'
 						// };
 						return (
-							<View style={styles.content}>
+							<View
+								style={{
+									height: Math.ceil(cardHeight * height / 4),
+									width: Math.ceil(cardWidth * width), ...styles.content
+								}}
+							>
 								<OrderItem
 									totalPoints={itemData.item.totalPoints}
 									date={formattedDate}
@@ -213,13 +226,17 @@ const styles = StyleSheet.create({
 	},
 	flatListContainer: {
 		flex: 1,
-		width: '100%',
-		maxWidth: '100%',
-		maxHeight: '100%',
-		padding: 20
+		// width: '100%',
+		// maxWidth: '100%',
+		// maxHeight: '100%',
+		justifyContent: 'center',
+		alignItems: 'center',
+		padding: 2
 	},
-	email: {
-		fontSize: 30
+	content: {
+		padding: 2,
+		justifyContent: 'center',
+		alignItems: 'center',
 	}
 });
 
