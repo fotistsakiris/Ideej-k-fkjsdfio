@@ -21,7 +21,7 @@ import QuestionItem from '../../components/game/QuestionItem';
 import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 import CustomLinearGradient from '../../components/UI/CustomLinearGradient';
 
-import DimensionsForStyle from '../../components/UI/DimensionsForStyle'
+import DimensionsForStyle from '../../components/UI/DimensionsForStyle';
 import CustomButton from '../../components/UI/CustomButton';
 import BoldText from '../../components/UI/BoldText';
 import Card from '../../components/UI/Card';
@@ -48,35 +48,14 @@ const AnswerSwitch = (props) => {
 	);
 };
 
-
-
+////////////////////////////////////////////////////////
 const QuestionDetailScreen = (props) => {
-
-
 	const { width, height } = Dimensions.get('window');
 	const widthMultiplier = DimensionsForStyle.widthMultiplier;
 	const textMultiplier = DimensionsForStyle.textMultiplier;
 	const cardHeight = DimensionsForStyle.cardHeight;
 	const cardWidth = DimensionsForStyle.cardWidth;
 
-	// if (width < 400) {
-	// 	cardHeight = 0.65;
-	// 	cardWidth = 0.77;
-	// 	widthMultiplier = 0.4;
-	// 	textMultiplier = 0.06;
-	// }
-	// if (400 < width < 800) {
-	// 	cardHeight = 0.8;
-	// 	cardWidth = 0.85;
-	// 	widthMultiplier = 0.3;
-	// 	textMultiplier = 0.042;
-	// }
-	// if (width > 800) {
-	// 	cardHeight = 0.65;
-	// 	cardWidth = 0.8;
-	// 	widthMultiplier = 0.2;
-	// 	textMultiplier = 0.045;
-	// }
 	const [ email, setEmail ] = useState('');
 
 	const [ refreshing, setRefreshing ] = useState(false);
@@ -85,6 +64,8 @@ const QuestionDetailScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ showAnswer, setShowAnswer ] = useState(false);
 
+	const [ seconds, setSeconds ] = useState(0);
+	const [ minutes, setMinutes ] = useState(3);
 	// For the switches
 	const [ alfaIsTrue, setAlfaIsTrue ] = useState(false); // Runs when the Switch is pressed
 	const [ betaIsTrue, setBetaIsTrue ] = useState(false);
@@ -192,6 +173,24 @@ const QuestionDetailScreen = (props) => {
 		setCorrectChoice(true);
 	}
 	// console.log('correctChoice', correctChoice);
+	useEffect(() => {
+		const myInterval = setInterval(() => {
+			if (seconds > 0) {
+				setSeconds((seconds) => seconds - 1);
+			}
+			if (seconds === 0) {
+				if (minutes === 0) {
+					clearInterval(myInterval);
+				} else {
+					setMinutes((minutes) => minutes - 1);
+					setSeconds(59);
+				}
+			}
+		}, 1000);
+		return () => {
+			clearInterval(myInterval);
+		};
+	});
 
 	useEffect(
 		() => {
@@ -213,7 +212,7 @@ const QuestionDetailScreen = (props) => {
 	);
 
 	useEffect(() => {
-		const getEmail = async () => { 
+		const getEmail = async () => {
 			// Note: getItem is asynchronous, so we get a promise
 
 			const userData = await AsyncStorage.getItem('userData');
@@ -227,7 +226,6 @@ const QuestionDetailScreen = (props) => {
 		};
 		getEmail();
 	}, []);
-
 
 	// If user navigates to QuestionDetailScreen from FavoritesScreen
 	const questionIdFromFavoritesScreen = props.navigation.getParam('questionId');
@@ -397,6 +395,9 @@ const QuestionDetailScreen = (props) => {
 								color={Colours.maroon}
 							/>
 						</TouchableOpacity>
+						<BoldText>
+							{minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+						</BoldText>
 					</View>
 					<QuestionItem
 						style={{

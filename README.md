@@ -49,11 +49,12 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 ### DONE! regex check for difficultyLevel and imageUrl
 ### DONE! Remove questions that users already answered from available questions.
 ### DONE! Check bug with user's totalPoints after refreshing the app
+### DONE! Fix bug: Showing all user's games is user's list of points... in UserScreen
+### DONE! Save users data to all-users-data when no more questions
+### DONE! When saving user's data to all-users-data (on Firebase) save it by user id, to each user...
 
-### Fix bug: Showing all user's games is user's list of points... in UserScreen
+### Set a timer for each question.
 ### Check out why we get an object from allUsersData in questions reducer, while it's an array?
-### Save users data to all-users-data when no more questions
-### When saving user's data to all-users-data (on Firebase) save it by user id, to each user...
 ### Save sign up (new) user with an index...
 ### Check why we see the not correct message when we press refresh
 ### Save user's correct and not correct answers
