@@ -15,6 +15,7 @@ import OrderItem from '../../components/game/OrderItem';
 import Colours from '../../constants/Colours';
 
 import * as questionsActions from '../../store/actions/questions';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
 
 const UsersScreen = (props) => {
 	const { width, height } = Dimensions.get('window');
@@ -54,12 +55,33 @@ const UsersScreen = (props) => {
 		for (const key in allUsersData) {
 			dataPerUser.push(Object.values(allUsersData[key]));
 		}
-		// console.log(allUsersData);
+		// console.log('allUsersData', allUsersData);
 
 		let flatArray = dataPerUser.flat();
 		flatArray.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
 
-		setUsersData(flatArray);
+		let first = flatArray.splice(0, 1);
+		let second = [];
+		flatArray.map((item) => {
+			for (let i = 0; i < flatArray.length; i++) {
+				console.log(flatArray[i].email !== item.email);
+				
+				if (flatArray[i].email !== item.email) {
+					second.push(flatArray.slice(i, 1));
+					
+				} else {
+					flatArray.splice(i, 1)
+				}
+			}
+			
+		});
+
+		console.log('first', first);
+		// console.log('second', second);
+		// console.log('third', third);
+		flatArray.unshift(first)
+		const result = flatArray.flat()
+		setUsersData(result);
 		// console.log(flatArray);
 	};
 	// const showListOfUsers = () => {
@@ -168,7 +190,8 @@ const UsersScreen = (props) => {
 							<View
 								style={{
 									height: Math.ceil(cardHeight * height / 4),
-									width: Math.ceil(cardWidth * width), ...styles.content
+									width: Math.ceil(cardWidth * width),
+									...styles.content
 								}}
 							>
 								<OrderItem
@@ -236,7 +259,7 @@ const styles = StyleSheet.create({
 	content: {
 		padding: 2,
 		justifyContent: 'center',
-		alignItems: 'center',
+		alignItems: 'center'
 	}
 });
 
