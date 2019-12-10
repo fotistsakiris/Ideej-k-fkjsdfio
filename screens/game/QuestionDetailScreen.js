@@ -11,7 +11,8 @@ import {
 	Text,
 	ScrollView,
 	RefreshControl,
-	AsyncStorage
+	AsyncStorage,
+	Alert
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -64,8 +65,10 @@ const QuestionDetailScreen = (props) => {
 	const [ isLoading, setIsLoading ] = useState(false);
 	const [ showAnswer, setShowAnswer ] = useState(false);
 
+	// For the timer
 	const [ seconds, setSeconds ] = useState(0);
-	const [ minutes, setMinutes ] = useState(3);
+	const [ minutes, setMinutes ] = useState(1);
+
 	// For the switches
 	const [ alfaIsTrue, setAlfaIsTrue ] = useState(false); // Runs when the Switch is pressed
 	const [ betaIsTrue, setBetaIsTrue ] = useState(false);
@@ -80,15 +83,15 @@ const QuestionDetailScreen = (props) => {
 
 	const onRefresh = useCallback(
 		() => {
-			props.navigation.setParams({ disableSaveButton: tryTimes === 1 });
 			setRefreshing(true);
-			setCorrectChoice(false);
 			setAlfaIsTrue(false);
 			setBetaIsTrue(false);
 			setGammaIsTrue(false);
 			setDeltaIsTrue(false);
 			setTryTimes(0);
 			loadQuestions().then(() => {
+				props.navigation.setParams({ disableSaveButton: false });
+				setCorrectChoice(false);
 				setRefreshing(false);
 			});
 		},
@@ -135,26 +138,33 @@ const QuestionDetailScreen = (props) => {
 				rightChoice = questions[key].right_choice; // for checking choice
 			}
 			// Getting the right choice
-			// console.log('rightChoice', rightChoice);
 			for (key in appliedAnswer) {
 				if (key === 'alfa' && appliedAnswer[key] && rightChoice == 1) {
-					// console.log('1', key, appliedAnswer[key], rightChoice == 1);
 					setCorrectChoice(true);
 					corChoice = true;
+					props.navigation.setParams({ correctChoice: true });
 				} else if (key === 'beta' && appliedAnswer[key] && rightChoice == 2) {
-					// console.log('2', key, appliedAnswer[key], rightChoice == 2);
 					setCorrectChoice(true);
 					corChoice = true;
-					// console.log(key);
+					props.navigation.setParams({ correctChoice: true });
 				} else if (key === 'gamma' && appliedAnswer[key] && rightChoice == 3) {
 					setCorrectChoice(true);
 					corChoice = true;
+					props.navigation.setParams({ correctChoice: true });
 				} else if (key === 'delta' && appliedAnswer[key] && rightChoice == 4) {
 					setCorrectChoice(true);
 					corChoice = true;
+					props.navigation.setParams({ correctChoice: true });
 				}
 			}
 			setChoiceSave(true);
+
+			// Code to automatically refresh app and show next question
+			if (choiceSave && corChoice) {
+			setRefreshing(true);
+			}
+			
+			props.navigation.setParams({ choiceSave: true });
 			setTryTimes((prevState) => prevState + 1);
 			const difficultyLevel = selectedQuestion.difficultyLevel;
 
@@ -187,6 +197,10 @@ const QuestionDetailScreen = (props) => {
 				}
 			}
 		}, 1000);
+		// Stop interval in order to get the duration to calculate the grade.
+		if (!isLoading && questions.length === 0) {
+			clearInterval(myInterval);
+		}
 		return () => {
 			clearInterval(myInterval);
 		};
@@ -339,12 +353,39 @@ const QuestionDetailScreen = (props) => {
 		);
 	}
 
-	if (!isLoading && questions.length === 0) {
+	if ((!isLoading && questions.length === 0) || (minutes === 0 && seconds === 0)) {
+		// Calculate grade
+		const minutesDuration = minutes;
+		const secondsDuration = 60 - seconds;
+		const grade = (totalPoints + minutes + minutes) / 4;
+		console.log(grade);
+
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
 					<BoldText>Τέλος και τω Θεω Δόξα!</BoldText>
-					<BoldText>Βαθμολογία: {totalPoints}</BoldText>
+					<View style={styles.grade}>
+						<BoldText>Βαθμολογία: {grade} </BoldText>
+						<TouchableOpacity
+							onPress={() => {
+								Alert.alert(
+									`Τρόπος βαθμολόγησης`,
+									`Η βαθμολογία προκείπτει από το άθροισμα των βαθμών με τον χρόνο δια ενός αριθμού, ούτως ώστε να είναι μικρότερη του 20.`,
+									[ { text: 'Εντάξει', style: 'default' } ]
+								);
+							}}
+						>
+							<MaterialIcons
+								name="info-outline"
+								size={Math.ceil(width * 0.04)}
+								color={Colours.moccasin_light}
+							/>
+						</TouchableOpacity>
+					</View>
+					<BoldText>
+						Χρόνος: {minutesDuration}:{secondsDuration}
+					</BoldText>
+
 					{Platform.OS === 'android' ? (
 						<View>
 							<CustomButton
@@ -352,7 +393,7 @@ const QuestionDetailScreen = (props) => {
 								title="Επανεκίνηση παιχνιδιού"
 								color={Colours.moccasin_light}
 								onPress={() => {
-									dispatch(questionsActions.saveDataToAllUsersData(totalPoints, email));
+									dispatch(questionsActions.saveDataToAllUsersData(grade, email));
 									dispatch(questionsActions.deleteAnsweredQuestions());
 									dispatch(questionsActions.deleteTotalPoints());
 									props.navigation.navigate('Categories');
@@ -364,7 +405,7 @@ const QuestionDetailScreen = (props) => {
 							title="Επανεκίνηση παιχνιδιού"
 							color={Colours.moccasin_light}
 							onPress={() => {
-								dispatch(questionsActions.saveDataToAllUsersData(totalPoints, email));
+								dispatch(questionsActions.saveDataToAllUsersData(grade, email));
 								dispatch(questionsActions.deleteAnsweredQuestions());
 								dispatch(questionsActions.deleteTotalPoints());
 								props.navigation.navigate('Categories');
@@ -384,7 +425,7 @@ const QuestionDetailScreen = (props) => {
 					refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 				>
 					<View style={styles.topButtonsAndIcon}>
-						<BoldText>Βαθμολογία: {totalPoints}</BoldText>
+						<BoldText>Βαθμοί: {totalPoints}</BoldText>
 						<TouchableOpacity onPress={onRefresh}>
 							<MaterialIcons name="refresh" size={Math.ceil(width * 0.065)} color={Colours.maroon} />
 						</TouchableOpacity>
@@ -412,11 +453,11 @@ const QuestionDetailScreen = (props) => {
 							<BoldText style={styles.switchesSummary}>Συγχαρητήρια</BoldText>
 						) : (
 							<View style={styles.switchesSummary}>
-								{!correctChoice && choiceSave && tryTimes == 2 ? (
+								{!correctChoice && choiceSave && !refreshing && tryTimes === 2 ? (
 									<BoldText style={styles.tryAgain}>
 										Λυπάμαι... Παρακαλώ δοκιμάστε την επόμενη!
 									</BoldText>
-								) : !correctChoice && choiceSave ? (
+								) : !correctChoice && choiceSave && !refreshing && tryTimes > 0 ? (
 									<BoldText style={styles.tryAgain}>
 										Δεν επιλέξατε την σωστή απάντηση. Παρακαλώ δοκιμάστε ξανά!
 									</BoldText>
@@ -524,7 +565,11 @@ const QuestionDetailScreen = (props) => {
 QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 	const disable = navigation.getParam('disableSaveButton');
 	const madeAChoice = navigation.getParam('madeAChoice');
+	const correctChoice = navigation.getParam('correctChoice');
+	const choiceSave = navigation.getParam('choiceSave');
+	// console.log(disable, madeAChoice, correctChoice, choiceSave);
 
+	//
 	let showSaveButton = false;
 	if (!disable && !madeAChoice) {
 		showSaveButton = false;
@@ -532,10 +577,16 @@ QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 		showSaveButton = true;
 	}
 
-	let headerTitle = 'Καλή επιτυχία! ' + navigation.getParam('userEmail');
-	if (disable) {
-		headerTitle = 'Δοκιμάστε την επόμενη! ' + navigation.getParam('userEmail');
-	}
+	let headerTitle = 'Καλή επιτυχία! ' 
+	// if (!disable && !madeAChoice ) {
+	// 	headerTitle = 'Καλή επιτυχία! ' + navigation.getParam('userEmail');
+	// }
+	// if (correctChoice && choiceSave ) {
+	// 	headerTitle = 'Χμμ...! ' + navigation.getParam('userEmail');
+	// }
+	// if (disable && madeAChoice) {
+	// 	headerTitle = 'Δοκιμάστε την επόμενη! ' + navigation.getParam('userEmail');
+	// }
 	return {
 		headerTitle: headerTitle,
 		// Needed for side drawer navigation
@@ -570,7 +621,6 @@ QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
 	scrollViewStyle: {
 		justifyContent: 'center',
-		// alignItems: 'center',
 		padding: 12
 	},
 	topButtonsAndIcon: {
@@ -583,15 +633,12 @@ const styles = StyleSheet.create({
 		// margin: 2
 	},
 	multipleChoiceContainer: {
-		// flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
 		width: '95%',
 		marginVertical: 5
 	},
 	congrats: {
-		// flex: 1,
-		// height: 50,
 		justifyContent: 'center',
 		alignItems: 'center',
 		height: '60%',
@@ -605,28 +652,12 @@ const styles = StyleSheet.create({
 		width: '100%'
 	},
 	switchesSummary: {
-		// flexDirection: 'row',
-		// alignSelf: 'center',
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
-		// height: '60%',
 		width: '100%'
-		// marginHorizontal: 2
 	},
-	// switches: {
-	// 	flexDirection: 'row',
-	// 	// alignSelf: 'center',
-	// 	justifyContent: 'center',
-	// 	alignItems: 'center',
-	// 	// height: '20%',
-	// 	width: '100%',
-	// 	marginHorizontal: 2
-	// },
 	actionsSmall: {
-		// flexDirection: 'row',
-		// alignSelf: 'center',
 		alignItems: 'center',
-		// height: '42%',
 		marginHorizontal: 2
 	},
 	androidActions: {
@@ -634,16 +665,13 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		justifyContent: 'space-around',
 		alignItems: 'center',
-		// height: '10%',
 		width: '100%',
 		marginHorizontal: 2
 	},
 	actions: {
 		flexDirection: 'row',
-		// alignSelf: 'center',
 		justifyContent: 'space-around',
 		alignItems: 'center',
-		// height: '10%',
 		width: '100%',
 		marginHorizontal: 2
 	},
@@ -666,6 +694,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		padding: 12
+	},
+	grade: {
+		flexDirection: 'row'
 	}
 });
 

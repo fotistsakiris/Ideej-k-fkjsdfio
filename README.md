@@ -52,16 +52,20 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 ### DONE! Fix bug: Showing all user's games is user's list of points... in UserScreen
 ### DONE! Save users data to all-users-data when no more questions
 ### DONE! When saving user's data to all-users-data (on Firebase) save it by user id, to each user...
+### DONE! Set a timer for each question.
 
-### Set a timer for each question.
+### Fix bug with winner's list in UserScreen
+### Fix bug with header title and messages about being wrong when clicking the refresh button, in QuestionDetailScreen.
+### Show player's highest score and his/her position on the list.
 ### Check out why we get an object from allUsersData in questions reducer, while it's an array?
 ### Save sign up (new) user with an index...
 ### Check why we see the not correct message when we press refresh
 ### Save user's correct and not correct answers
 
-### Fix the card's dimensions everywhere you use it.
+### Hide show answer button and show it only if user answered the question.
+### Add a 'save session' feature, where the player may have a second look on the questions.
+### Fix the cards and buttons dimensions everywhere you use it.
 ### Add posibility to change password...
-### Delete question file and everything else it's not needed.
 ### Authentication with roles: diferent signups/logins for admis and users.
 ### Add some code for github security...
 ### Use pictures in CategoriesScreen in the Card. This, is actually taken from the Meals app.
