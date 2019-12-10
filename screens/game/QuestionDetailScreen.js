@@ -92,6 +92,7 @@ const QuestionDetailScreen = (props) => {
 			loadQuestions().then(() => {
 				props.navigation.setParams({ disableSaveButton: false });
 				setCorrectChoice(false);
+				setShowAnswer(false);
 				setRefreshing(false);
 			});
 		},
@@ -105,8 +106,6 @@ const QuestionDetailScreen = (props) => {
 	let questions = useSelector((state) =>
 		state.questions.availableQuestions.filter((quest) => quest.categoryIds.indexOf(categoryId) >= 0)
 	);
-
-	// const userQuestions = useSelector(state => state.questions.userAnsweredQuestions.filter(quest => quest.id))
 
 	const selectedQuestion = questions[questions.length - 1];
 
@@ -160,9 +159,9 @@ const QuestionDetailScreen = (props) => {
 			setChoiceSave(true);
 
 			// Code to automatically refresh app and show next question
-			if (choiceSave && corChoice) {
-				setRefreshing(true);
-			}
+			// if (choiceSave && corChoice && correctChoice) {
+			// 	setTimeout(() => onRefresh(), 500);
+			// }
 
 			props.navigation.setParams({ choiceSave: true });
 			setTryTimes((prevState) => prevState + 1);
@@ -424,7 +423,7 @@ const QuestionDetailScreen = (props) => {
 					contentContainerStyle={styles.scrollViewStyle}
 					refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 				>
-					<View style={styles.topButtonsAndIcon}>
+					<View style={styles.topButtonsAndIcons}>
 						<BoldText>Βαθμοί: {totalPoints}</BoldText>
 						<TouchableOpacity onPress={onRefresh}>
 							<MaterialIcons name="refresh" size={Math.ceil(width * 0.065)} color={Colours.maroon} />
@@ -440,6 +439,7 @@ const QuestionDetailScreen = (props) => {
 							{minutes}:{seconds < 10 ? `0${seconds}` : seconds}
 						</BoldText>
 					</View>
+
 					<QuestionItem
 						style={{
 							height: Math.ceil(cardHeight * height),
@@ -491,8 +491,7 @@ const QuestionDetailScreen = (props) => {
 								/>
 							</View>
 						)}
-
-						{!correctChoice && tryTimes === 2 ? Platform.OS === 'android' ? (
+						{!correctChoice && choiceSave && !refreshing && tryTimes === 2 ? Platform.OS === 'android' ? (
 							<View style={width < 400 ? styles.actionsSmall : styles.androidActions}>
 								<View style={styles.customButton}>
 									<CustomButton
@@ -503,7 +502,10 @@ const QuestionDetailScreen = (props) => {
 								</View>
 
 								<BoldText
-									style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}
+									style={{
+										fontSize: Math.ceil(width * textMultiplier),
+										...styles.difficultyLevel
+									}}
 								>
 									Βαθμοί: {question.difficultyLevel}
 								</BoldText>
@@ -525,7 +527,10 @@ const QuestionDetailScreen = (props) => {
 									/>
 								</View>
 								<BoldText
-									style={{ fontSize: Math.ceil(width * textMultiplier), ...styles.difficultyLevel }}
+									style={{
+										fontSize: Math.ceil(width * textMultiplier),
+										...styles.difficultyLevel
+									}}
 								>
 									Βαθμοί: {question.difficultyLevel}
 								</BoldText>
@@ -539,16 +544,19 @@ const QuestionDetailScreen = (props) => {
 							</View>
 						) : null}
 					</QuestionItem>
+
 					{showAnswer && (
-						<Card
-							style={{
-								height: Math.ceil(cardHeight * height / 4),
-								width: Math.ceil(cardWidth * width),
-								...styles.centered
-							}}
-						>
-							<BoldText>{question.answer}</BoldText>
-						</Card>
+						<View style={styles.centered}>
+							<Card
+								style={{
+									height: Math.ceil(cardHeight * height / 4),
+									width: Math.ceil(cardWidth * width),
+									...styles.centered
+								}}
+							>
+								<BoldText>{question.answer}</BoldText>
+							</Card>
+						</View>
 					)}
 				</ScrollView>
 			);
@@ -623,7 +631,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		padding: 12
 	},
-	topButtonsAndIcon: {
+	topButtonsAndIcons: {
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignItems: 'center'
@@ -648,7 +656,7 @@ const styles = StyleSheet.create({
 		color: 'red',
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: '60%',
+		// height: '60%',
 		width: '100%'
 	},
 	switchesSummary: {

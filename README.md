@@ -62,6 +62,8 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 ### Check why we see the not correct message when we press refresh
 ### Save user's correct and not correct answers
 
+### Delete from All_Users_Data, old scores and keep the highest for every user.
+### Every time a user clicks a category, a bundle of 10 questions is made to shufle. Look out for bug: if timers ends up and user has more questions, next time he clicks on the category he starts from the remaining questions.
 ### Hide show answer button and show it only if user answered the question.
 ### Add a 'save session' feature, where the player may have a second look on the questions.
 ### Fix the cards and buttons dimensions everywhere you use it.
