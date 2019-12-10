@@ -161,9 +161,9 @@ const QuestionDetailScreen = (props) => {
 
 			// Code to automatically refresh app and show next question
 			if (choiceSave && corChoice) {
-			setRefreshing(true);
+				setRefreshing(true);
 			}
-			
+
 			props.navigation.setParams({ choiceSave: true });
 			setTryTimes((prevState) => prevState + 1);
 			const difficultyLevel = selectedQuestion.difficultyLevel;
@@ -492,7 +492,7 @@ const QuestionDetailScreen = (props) => {
 							</View>
 						)}
 
-						{Platform.OS === 'android' ? (
+						{!correctChoice && tryTimes === 2 ? Platform.OS === 'android' ? (
 							<View style={width < 400 ? styles.actionsSmall : styles.androidActions}>
 								<View style={styles.customButton}>
 									<CustomButton
@@ -537,7 +537,7 @@ const QuestionDetailScreen = (props) => {
 									/>
 								</View> */}
 							</View>
-						)}
+						) : null}
 					</QuestionItem>
 					{showAnswer && (
 						<Card
@@ -577,7 +577,7 @@ QuestionDetailScreen.navigationOptions = ({ navigation }) => {
 		showSaveButton = true;
 	}
 
-	let headerTitle = 'Καλή επιτυχία! ' 
+	let headerTitle = 'Καλή επιτυχία! ';
 	// if (!disable && !madeAChoice ) {
 	// 	headerTitle = 'Καλή επιτυχία! ' + navigation.getParam('userEmail');
 	// }
