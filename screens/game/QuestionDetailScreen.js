@@ -66,8 +66,8 @@ const QuestionDetailScreen = (props) => {
 	const [ showAnswer, setShowAnswer ] = useState(false);
 
 	// For the timer
-	const [ seconds, setSeconds ] = useState(0);
-	const [ minutes, setMinutes ] = useState(1);
+	const [ seconds, setSeconds ] = useState(10);
+	const [ minutes, setMinutes ] = useState(0);
 
 	// For the switches
 	const [ alfaIsTrue, setAlfaIsTrue ] = useState(false); // Runs when the Switch is pressed
@@ -78,6 +78,13 @@ const QuestionDetailScreen = (props) => {
 	const [ choiceSave, setChoiceSave ] = useState(false);
 	const [ correctChoice, setCorrectChoice ] = useState(false);
 	const [ tryTimes, setTryTimes ] = useState(0);
+
+	// For checking if previus uploaded grade is higher than this one.
+	const [ userID, setUserID ] = useState('');
+	// const [ userPreviusGrade, setUserPreviusGrade ] = useState(0);
+
+	// For deleting the old data when no more questions and user restarts the game.
+	const allUsersData = useSelector((state) => state.questions.allUsersData);
 
 	const dispatch = useDispatch();
 
@@ -282,12 +289,10 @@ const QuestionDetailScreen = (props) => {
 	for (key in questions) {
 		questionId = questions[key].id; // for checking favorites
 	}
-
 	// Checking if current question is favorite
 	const currentQuestionIsFavorite = useSelector((state) =>
 		state.questions.favoriteQuestions.some((question) => question.id === questionId)
 	);
-
 	const toggleFavoriteHandler = useCallback(
 		async () => {
 			setFavError(null);
@@ -305,7 +310,6 @@ const QuestionDetailScreen = (props) => {
 		},
 		[ dispatch, questionId, currentQuestionIsFavorite, setFavError ]
 	);
-
 	if (favError) {
 		return (
 			<CustomLinearGradient>
@@ -351,14 +355,59 @@ const QuestionDetailScreen = (props) => {
 			</CustomLinearGradient>
 		);
 	}
+	/////////////////////////////////////////////////////
+	// Code for when no more questions...
+	let userPreviusGrade = 0;
+	const getUserPrevieusGrade = () => {
+		// First we get the id of the user, to get the totalPoints he has on the server
+		// in All_Users_Data. Then we're going to calculate, if that or the one of this set,
+		// is higher and save the highest.
+		// Later in the code we first delete the old data on the server,
+		// but before we get the totalPoints to check if it is higher...
+		// Ther is a WHATCH OUT comment later in dispatch action!
+		const getUserID = async () => {
+			// Note: getItem is asynchronous, so we get a promise
+			const userData = await AsyncStorage.getItem('userData');
 
+			if (!!userData) {
+				// parse converts a string to an object or array
+				const transformedData = JSON.parse(userData);
+				let { userId } = transformedData;
+				setUserID(userId)
+			}
+		};
+		getUserID();
+		
+		let activeUserData = {};
+		
+		for (const key in allUsersData) {
+				activeUserData = allUsersData[userID];
+		}
+
+		for (const key in activeUserData) {
+			userPreviusGrade = activeUserData[key].totalPoints;
+		}
+	};
+	
 	if ((!isLoading && questions.length === 0) || (minutes === 0 && seconds === 0)) {
+		getUserPrevieusGrade();
 		// Calculate grade
 		const minutesDuration = minutes;
 		const secondsDuration = 60 - seconds;
-		const grade = (totalPoints + minutes + minutes) / 4;
-		console.log(grade);
-
+		const grade = (totalPoints + minutes + minutes) / 1;
+		// When user presses start new game ("Αποθήκευση και επανεκίνηση"), 
+		// we delete the old totalPoints saved on the server.
+		// But before that we check if old totalPoints is higher than the one of this set,
+		// and we upload the highest of the two.
+		console.log('userPreviusGrade', userPreviusGrade);
+		console.log('grade', grade);
+		
+		let gradeToUpload = 0;
+		if (userPreviusGrade >= grade) {
+			gradeToUpload = userPreviusGrade;
+		} else if (userPreviusGrade < grade){
+			gradeToUpload = grade;
+		}
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
@@ -389,24 +438,25 @@ const QuestionDetailScreen = (props) => {
 						<View>
 							<CustomButton
 								style={styles.buttonStyle}
-								title="Επανεκίνηση παιχνιδιού"
+								title="Αποθήκευση αποτελέσματος και επανεκίνηση"
 								color={Colours.moccasin_light}
 								onPress={() => {
-									dispatch(questionsActions.saveDataToAllUsersData(grade, email));
+									dispatch(questionsActions.deleteTotalPoints()); // WHATCH OUT !!! This one deletes also users's data to All_Users_Data 
 									dispatch(questionsActions.deleteAnsweredQuestions());
-									dispatch(questionsActions.deleteTotalPoints());
+									dispatch(questionsActions.saveDataToAllUsersData(gradeToUpload, email));
 									props.navigation.navigate('Categories');
 								}}
 							/>
 						</View>
 					) : (
 						<Button
-							title="Επανεκίνηση παιχνιδιού"
+							title="Αποθήκευση και επανεκίνηση"
 							color={Colours.moccasin_light}
-							onPress={() => {
-								dispatch(questionsActions.saveDataToAllUsersData(grade, email));
-								dispatch(questionsActions.deleteAnsweredQuestions());
-								dispatch(questionsActions.deleteTotalPoints());
+							onPress={async () => {
+								// !!! THE ORDER MATTERS !!!
+								await dispatch(questionsActions.deleteTotalPoints()); // WHATCH OUT !!! This one deletes also users's data to All_Users_Data
+								await dispatch(questionsActions.deleteAnsweredQuestions());
+								await dispatch(questionsActions.saveDataToAllUsersData(gradeToUpload, email));
 								props.navigation.navigate('Categories');
 							}}
 						/>

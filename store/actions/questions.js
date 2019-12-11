@@ -227,7 +227,8 @@ export const saveDataToAllUsersData = (totalPoints, email) => {
 			const userId = getState().auth.userId;
 			const date = new Date();
 
-			const response = await fetch(
+			// Fist post the data
+			const firstPostResponse = await fetch(
 				`https://en-touto-nika.firebaseio.com//All_Users_Data/${userId}.json?auth=${token}`,
 				{
 					method: 'POST',
@@ -241,13 +242,7 @@ export const saveDataToAllUsersData = (totalPoints, email) => {
 					})
 				}
 			);
-
-			if (!response.ok) {
-				throw new Error(
-					'Δυστυχώς η αποθήκευση των δεδομένων σας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
-				);
-			}
-
+			
 			dispatch({
 				type: SAVE_DATA_TO_ALL_USERS_DATA,
 				allusersData: {
@@ -304,10 +299,8 @@ export const fetchAllUsersData = () => {
 					'Δυστυχώς η φόρτωση των δεδομένων για όλους τους παίκτες δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);
 			}
-			
+
 			const resData = await response.json();
-			
-			
 
 			dispatch({
 				type: FETCH_All_USERS_DATA,
@@ -327,6 +320,8 @@ export const deleteTotalPoints = () => {
 		try {
 			const token = getState().auth.token;
 			const userId = getState().auth.userId;
+
+			// For only totalPoints on user_totalPoints address
 			const totalPointsresponse = await fetch(
 				`https://en-touto-nika.firebaseio.com//user_totalPoints/${userId}.json?auth=${token}`,
 				{
@@ -335,6 +330,19 @@ export const deleteTotalPoints = () => {
 			);
 
 			if (!totalPointsresponse.ok) {
+				throw new Error(
+					'Δυστυχώς η διαγραφή της βαθμολογίας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+				);
+			}
+
+			// Delete also data from All_Users_Data
+			const deleteTotalPointsResponseInAllUsersData = await fetch(
+				`https://en-touto-nika.firebaseio.com//All_Users_Data/${userId}.json?auth=${token}`,
+				{
+					method: 'DELETE'
+				}
+			);
+			if (!deleteTotalPointsResponseInAllUsersData.ok) {
 				throw new Error(
 					'Δυστυχώς η διαγραφή της βαθμολογίας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);

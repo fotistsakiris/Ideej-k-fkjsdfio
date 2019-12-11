@@ -63,11 +63,11 @@ const UsersScreen = (props) => {
 					const transformedData = JSON.parse(userData);
 					let { userId } = transformedData;
 					setUserId(userId);
-					for (const key in allUsersData) {
-						if (userId === key) {
-							console.log('ok');
-						}
-					}
+					// for (const key in allUsersData) {
+					// 	if (userId === key) {
+					// 		console.log('ok');
+					// 	}
+					// }
 				}
 			};
 			getUserID();
@@ -78,12 +78,12 @@ const UsersScreen = (props) => {
 			for (const key in allUsersData) {
 				dataPerUser.push(Object.values(allUsersData[key]));
 				activeUserData = allUsersData[userId];
-				setUserGrade(userId.totalPoints);
+				// setUserGrade(userId.totalPoints);
 			}
-			for (const key in activeUserData) {
-				// activeUserData = Object.values(allUsersData[userId]);
-				activeUserData = allUsersData[userId];
-			}
+			// for (const key in activeUserData) {
+			// 	// activeUserData = Object.values(allUsersData[userId]);
+			// 	activeUserData = allUsersData[userId];
+			// }
 			
 			for (const key in activeUserData) {
 				// console.log(activeUserData[key]);
@@ -94,7 +94,7 @@ const UsersScreen = (props) => {
 			
 			let flatArray = dataPerUser.flat();
 			flatArray.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
-			console.log(flatArray);
+			// console.log(flatArray);
 
 			let first = flatArray.splice(0, 1);
 			let second = [];
