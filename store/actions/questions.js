@@ -5,6 +5,7 @@ export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const SET_FAVORITES = 'SET_FAVORITES';
 export const FETCH_USER_TOTAL_POINTS = 'FETCH_USER_TOTAL_POINTS';
 export const DELETE_TOTAL_POINTS = 'DELETE_TOTAL_POINTS';
+export const DELETE_PREVIOUS_USER_DATA = 'DELETE_PREVIOUS_USER_DATA';
 export const SAVE_DATA_TO_ALL_USERS_DATA = 'SAVE_DATA_TO_ALL_USERS_DATA';
 export const FETCH_All_USERS_DATA = 'FETCH_All_USERS_DATA';
 
@@ -315,6 +316,35 @@ export const fetchAllUsersData = () => {
 	};
 };
 
+export const deletePreviousUserData = () => {
+	return async (dispatch, getState) => {
+		try {
+			const token = getState().auth.token;
+			const userId = getState().auth.userId;
+
+			// Delete active user's data from All_Users_Data
+			const deleteTotalPointsResponseInAllUsersData = await fetch(
+				`https://en-touto-nika.firebaseio.com//All_Users_Data/${userId}.json?auth=${token}`,
+				{
+					method: 'DELETE'
+				}
+			);
+			if (!deleteTotalPointsResponseInAllUsersData.ok) {
+				throw new Error(
+					'Δυστυχώς η διαγραφή της βαθμολογίας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
+				);
+			}
+			// This action does not need to be handled from reducer.
+			dispatch({ type: DELETE_PREVIOUS_USER_DATA });
+		} catch (err) {
+			// send to custom analytics server
+			console.log(err);
+
+			throw err;
+		}
+	};
+};
+
 export const deleteTotalPoints = () => {
 	return async (dispatch, getState) => {
 		try {
@@ -330,19 +360,6 @@ export const deleteTotalPoints = () => {
 			);
 
 			if (!totalPointsresponse.ok) {
-				throw new Error(
-					'Δυστυχώς η διαγραφή της βαθμολογίας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
-				);
-			}
-
-			// Delete also data from All_Users_Data
-			const deleteTotalPointsResponseInAllUsersData = await fetch(
-				`https://en-touto-nika.firebaseio.com//All_Users_Data/${userId}.json?auth=${token}`,
-				{
-					method: 'DELETE'
-				}
-			);
-			if (!deleteTotalPointsResponseInAllUsersData.ok) {
 				throw new Error(
 					'Δυστυχώς η διαγραφή της βαθμολογίας δεν ήταν δυνατή! Παρακαλούμε ελέγξτε τη σύνδεσή σας.'
 				);

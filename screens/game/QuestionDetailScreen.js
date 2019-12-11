@@ -81,7 +81,7 @@ const QuestionDetailScreen = (props) => {
 
 	// For checking if previus uploaded grade is higher than this one.
 	const [ userID, setUserID ] = useState('');
-	// const [ userPreviusGrade, setUserPreviusGrade ] = useState(0);
+	// const [ userPreviousGrade, setUserPreviousGrade ] = useState(0);
 
 	// For deleting the old data when no more questions and user restarts the game.
 	const allUsersData = useSelector((state) => state.questions.allUsersData);
@@ -357,7 +357,8 @@ const QuestionDetailScreen = (props) => {
 	}
 	/////////////////////////////////////////////////////
 	// Code for when no more questions...
-	let userPreviusGrade = 0;
+	let userPreviousGrade = 0;
+	// let userPreviusDate = '';
 	const getUserPrevieusGrade = () => {
 		// First we get the id of the user, to get the totalPoints he has on the server
 		// in All_Users_Data. Then we're going to calculate, if that or the one of this set,
@@ -373,41 +374,47 @@ const QuestionDetailScreen = (props) => {
 				// parse converts a string to an object or array
 				const transformedData = JSON.parse(userData);
 				let { userId } = transformedData;
-				setUserID(userId)
+				setUserID(userId);
 			}
 		};
 		getUserID();
-		
+
 		let activeUserData = {};
-		
+
 		for (const key in allUsersData) {
-				activeUserData = allUsersData[userID];
+			activeUserData = allUsersData[userID];
 		}
 
 		for (const key in activeUserData) {
-			userPreviusGrade = activeUserData[key].totalPoints;
+			userPreviousGrade = activeUserData[key].totalPoints;
+			// userPreviusDate = activeUserData[key].date;
 		}
 	};
-	
+
 	if ((!isLoading && questions.length === 0) || (minutes === 0 && seconds === 0)) {
 		getUserPrevieusGrade();
 		// Calculate grade
 		const minutesDuration = minutes;
 		const secondsDuration = 60 - seconds;
 		const grade = (totalPoints + minutes + minutes) / 1;
-		// When user presses start new game ("Αποθήκευση και επανεκίνηση"), 
+		// When user presses start new game ("Αποθήκευση και επανεκίνηση"),
 		// we delete the old totalPoints saved on the server.
 		// But before that we check if old totalPoints is higher than the one of this set,
 		// and we upload the highest of the two.
-		console.log('userPreviusGrade', userPreviusGrade);
+		console.log('userPreviousGrade', userPreviousGrade);
 		console.log('grade', grade);
-		
-		let gradeToUpload = 0;
-		if (userPreviusGrade >= grade) {
-			gradeToUpload = userPreviusGrade;
-		} else if (userPreviusGrade < grade){
-			gradeToUpload = grade;
+
+		// let gradeToUpload = 0;
+		let PreviousUserDataIsLower = false;
+		if (userPreviousGrade < grade) {
+			PreviousUserDataIsLower = true;
 		}
+		// if (userPreviousGrade < grade) {
+		// 	PreviousUserDataIsLower = true;
+		// 	date = userPreviusDate;
+		// } else if (userPreviousGrade < grade) {
+		// 	gradeToUpload = grade;
+		// }
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
@@ -441,9 +448,13 @@ const QuestionDetailScreen = (props) => {
 								title="Αποθήκευση αποτελέσματος και επανεκίνηση"
 								color={Colours.moccasin_light}
 								onPress={() => {
-									dispatch(questionsActions.deleteTotalPoints()); // WHATCH OUT !!! This one deletes also users's data to All_Users_Data 
+									// !!! THE ORDER MATTERS !!!
+									dispatch(questionsActions.deleteTotalPoints());
 									dispatch(questionsActions.deleteAnsweredQuestions());
-									dispatch(questionsActions.saveDataToAllUsersData(gradeToUpload, email));
+									if (PreviousUserDataIsLower) {
+										dispatch(questionsActions.deletePreviousUserData());
+										dispatch(questionsActions.saveDataToAllUsersData(grade, email));
+									}
 									props.navigation.navigate('Categories');
 								}}
 							/>
@@ -452,11 +463,16 @@ const QuestionDetailScreen = (props) => {
 						<Button
 							title="Αποθήκευση και επανεκίνηση"
 							color={Colours.moccasin_light}
-							onPress={async () => {
+							onPress={() => {
 								// !!! THE ORDER MATTERS !!!
-								await dispatch(questionsActions.deleteTotalPoints()); // WHATCH OUT !!! This one deletes also users's data to All_Users_Data
-								await dispatch(questionsActions.deleteAnsweredQuestions());
-								await dispatch(questionsActions.saveDataToAllUsersData(gradeToUpload, email));
+								dispatch(questionsActions.deleteTotalPoints());
+								dispatch(questionsActions.deleteAnsweredQuestions());
+								console.log('PreviousUserDataIsLower', PreviousUserDataIsLower);
+
+								if (PreviousUserDataIsLower) {
+									dispatch(questionsActions.deletePreviousUserData());
+									dispatch(questionsActions.saveDataToAllUsersData(grade, email));
+								}
 								props.navigation.navigate('Categories');
 							}}
 						/>

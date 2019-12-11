@@ -15,13 +15,13 @@ import Colours from '../../constants/Colours';
 const CategoriesScreen = (props) => {
 	const dispatch = useDispatch();
 
+	// Load All_Users_Data here, so you can use them in QuestionDetailScreen
 	const loadAllUsersData = useCallback(
 		async () => {
 			// setLoadQuestionsError(null);
 			try {
 				await dispatch(questionsActions.fetchAllUsersData());
 				console.log('ok');
-
 			} catch (err) {
 				// setLoadQuestionsError(err.message);
 			}
@@ -29,7 +29,8 @@ const CategoriesScreen = (props) => {
 		[ dispatch ]
 	);
 
-	useEffect( 
+	// Load All_Users_Data initially
+	useEffect(
 		() => {
 			const getUserID = async () => {
 				await dispatch(questionsActions.fetchAllUsersData());
@@ -40,6 +41,7 @@ const CategoriesScreen = (props) => {
 		[ dispatch ]
 	);
 
+	// Load All_Users_Data after focusing
 	useEffect(
 		() => {
 			const willFocusEvent = props.navigation.addListener('willFocus', loadAllUsersData);
@@ -47,7 +49,6 @@ const CategoriesScreen = (props) => {
 		},
 		[ loadAllUsersData ]
 	);
-	
 
 	const renderGridItem = (itemData) => {
 		return (
@@ -66,23 +67,6 @@ const CategoriesScreen = (props) => {
 			/>
 		);
 	};
-	// const renderGridItem = (itemData) => {
-	// 	return (
-	// 		<CategoryGridTile
-	// 			color={itemData.item.color}
-	// 			title={itemData.item.title}
-	// 			onSelect={() => {
-	// 				props.navigation.navigate({
-	// 					routeName: 'QuestionsOverview',
-	// 					params: {
-	// 						categoryId: itemData.item.id,
-	// 						categoryTitle: itemData.item.title
-	// 					}
-	// 				});
-	// 			}}
-	// 		/>
-	// 	);
-	// };
 
 	return (
 		<CustomLinearGradient>
