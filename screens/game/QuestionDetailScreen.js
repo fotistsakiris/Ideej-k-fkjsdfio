@@ -358,14 +358,12 @@ const QuestionDetailScreen = (props) => {
 	/////////////////////////////////////////////////////
 	// Code for when no more questions...
 	let userPreviousGrade = 0;
-	// let userPreviusDate = '';
 	const getUserPrevieusGrade = () => {
 		// First we get the id of the user, to get the totalPoints he has on the server
 		// in All_Users_Data. Then we're going to calculate, if that or the one of this set,
-		// is higher and save the highest.
-		// Later in the code we first delete the old data on the server,
-		// but before we get the totalPoints to check if it is higher...
-		// Ther is a WHATCH OUT comment later in dispatch action!
+		// is higher. Then, if the grade of this set is higher we delete the old one and we post
+		// this one, if not we do nothing!
+		
 		const getUserID = async () => {
 			// Note: getItem is asynchronous, so we get a promise
 			const userData = await AsyncStorage.getItem('userData');
@@ -397,24 +395,12 @@ const QuestionDetailScreen = (props) => {
 		const minutesDuration = minutes;
 		const secondsDuration = 60 - seconds;
 		const grade = (totalPoints + minutes + minutes) / 1;
-		// When user presses start new game ("Αποθήκευση και επανεκίνηση"),
-		// we delete the old totalPoints saved on the server.
-		// But before that we check if old totalPoints is higher than the one of this set,
-		// and we upload the highest of the two.
-		console.log('userPreviousGrade', userPreviousGrade);
-		console.log('grade', grade);
 
-		// let gradeToUpload = 0;
 		let PreviousUserDataIsLower = false;
 		if (userPreviousGrade < grade) {
 			PreviousUserDataIsLower = true;
 		}
-		// if (userPreviousGrade < grade) {
-		// 	PreviousUserDataIsLower = true;
-		// 	date = userPreviusDate;
-		// } else if (userPreviousGrade < grade) {
-		// 	gradeToUpload = grade;
-		// }
+		
 		return (
 			<CustomLinearGradient>
 				<View style={styles.centered}>
@@ -448,7 +434,6 @@ const QuestionDetailScreen = (props) => {
 								title="Αποθήκευση αποτελέσματος και επανεκίνηση"
 								color={Colours.moccasin_light}
 								onPress={() => {
-									// !!! THE ORDER MATTERS !!!
 									dispatch(questionsActions.deleteTotalPoints());
 									dispatch(questionsActions.deleteAnsweredQuestions());
 									if (PreviousUserDataIsLower) {
@@ -464,11 +449,8 @@ const QuestionDetailScreen = (props) => {
 							title="Αποθήκευση και επανεκίνηση"
 							color={Colours.moccasin_light}
 							onPress={() => {
-								// !!! THE ORDER MATTERS !!!
 								dispatch(questionsActions.deleteTotalPoints());
 								dispatch(questionsActions.deleteAnsweredQuestions());
-								console.log('PreviousUserDataIsLower', PreviousUserDataIsLower);
-
 								if (PreviousUserDataIsLower) {
 									dispatch(questionsActions.deletePreviousUserData());
 									dispatch(questionsActions.saveDataToAllUsersData(grade, email));

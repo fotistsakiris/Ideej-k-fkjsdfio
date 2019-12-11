@@ -15,7 +15,6 @@ import OrderItem from '../../components/game/OrderItem';
 import Colours from '../../constants/Colours';
 
 import * as questionsActions from '../../store/actions/questions';
-import { createIconSetFromFontello } from 'react-native-vector-icons';
 
 const UsersScreen = (props) => {
 	const { width, height } = Dimensions.get('window');
@@ -63,11 +62,6 @@ const UsersScreen = (props) => {
 					const transformedData = JSON.parse(userData);
 					let { userId } = transformedData;
 					setUserId(userId);
-					// for (const key in allUsersData) {
-					// 	if (userId === key) {
-					// 		console.log('ok');
-					// 	}
-					// }
 				}
 			};
 			getUserID();
@@ -76,41 +70,20 @@ const UsersScreen = (props) => {
 			let activeUserData = {};
 
 			for (const key in allUsersData) {
+				// This is to show the first 3 winners
 				dataPerUser.push(Object.values(allUsersData[key]));
+				// This is to get the higher grade of active user
 				activeUserData = allUsersData[userId];
-				// setUserGrade(userId.totalPoints);
 			}
-			// for (const key in activeUserData) {
-			// 	// activeUserData = Object.values(allUsersData[userId]);
-			// 	activeUserData = allUsersData[userId];
-			// }
-			
+			// Get the higher grade of active user			
 			for (const key in activeUserData) {
-				// console.log(activeUserData[key]);
 				setUserGrade(activeUserData[key].totalPoints);
-
 			}
-
 			
 			let flatArray = dataPerUser.flat();
 			flatArray.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
-			// console.log(flatArray);
-
-			let first = flatArray.splice(0, 1);
-			let second = [];
-			flatArray.map((item) => {
-				for (let i = 0; i < flatArray.length; i++) {
-					if (flatArray[i].email !== item.email) {
-						second.push(flatArray.slice(i, 1));
-					} else {
-						flatArray.splice(i, 1);
-					}
-				}
-			});
-
-			flatArray.unshift(first);
-			const result = flatArray.flat();
-			setUsersData(result.splice(0, 3));
+			setUsersData(flatArray);
+			
 		},
 		[ setUsersData, allUsersData, setUserGrade ]
 	);
