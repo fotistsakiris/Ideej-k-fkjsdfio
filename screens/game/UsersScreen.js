@@ -26,7 +26,9 @@ const UsersScreen = (props) => {
 	const cardWidth = DimensionsForStyle.cardWidth;
 
 	const [ email, setEmail ] = useState('');
+	const [ userId, setUserId ] = useState('');
 	const [ usersData, setUsersData ] = useState([]);
+	const [ userGrade, setUserGrade ] = useState(0);
 	const dispatch = useDispatch();
 
 	const totalPoints = useSelector((state) => state.questions.totalPoints);
@@ -52,13 +54,47 @@ const UsersScreen = (props) => {
 
 	useEffect(
 		() => {
+			const getUserID = async () => {
+				// Note: getItem is asynchronous, so we get a promise
+				const userData = await AsyncStorage.getItem('userData');
+
+				if (!!userData) {
+					// parse converts a string to an object or array
+					const transformedData = JSON.parse(userData);
+					let { userId } = transformedData;
+					setUserId(userId);
+					for (const key in allUsersData) {
+						if (userId === key) {
+							console.log('ok');
+						}
+					}
+				}
+			};
+			getUserID();
+
 			let dataPerUser = [];
+			let activeUserData = {};
+
 			for (const key in allUsersData) {
 				dataPerUser.push(Object.values(allUsersData[key]));
+				activeUserData = allUsersData[userId];
+				setUserGrade(userId.totalPoints);
+			}
+			for (const key in activeUserData) {
+				// activeUserData = Object.values(allUsersData[userId]);
+				activeUserData = allUsersData[userId];
+			}
+			
+			for (const key in activeUserData) {
+				// console.log(activeUserData[key]);
+				setUserGrade(activeUserData[key].totalPoints);
+
 			}
 
+			
 			let flatArray = dataPerUser.flat();
 			flatArray.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
+			console.log(flatArray);
 
 			let first = flatArray.splice(0, 1);
 			let second = [];
@@ -74,9 +110,9 @@ const UsersScreen = (props) => {
 
 			flatArray.unshift(first);
 			const result = flatArray.flat();
-			setUsersData(result);
+			setUsersData(result.splice(0, 3));
 		},
-		[ setUsersData, allUsersData ]
+		[ setUsersData, allUsersData, setUserGrade ]
 	);
 
 	if (email === '') {
@@ -110,8 +146,7 @@ const UsersScreen = (props) => {
 	}
 	return (
 		<CustomLinearGradient>
-			{/* <BoldText>{email}</BoldText> */}
-			<BoldText style={styles.content}>Βαθμολογία: {totalPoints}</BoldText>
+			<BoldText style={styles.content}>Υψηλότερη βαθμολογία: {userGrade}</BoldText>
 			{Platform.OS === 'android' ? (
 				<View>
 					<CustomButton
