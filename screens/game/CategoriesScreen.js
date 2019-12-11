@@ -34,7 +34,6 @@ const CategoriesScreen = (props) => {
 		() => {
 			const getUserID = async () => {
 				await dispatch(questionsActions.fetchAllUsersData());
-				console.log('ok');
 			};
 			getUserID();
 		},

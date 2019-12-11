@@ -5,6 +5,7 @@ import CartItem from './CartItem';
 import Colours from '../../constants/Colours';
 import Card from '../UI/Card';
 import CustomButton from '../UI/CustomButton';
+import BoldText from '../UI/BoldText'
 
 const OrderItem = (props) => {
 	const [ showDetails, setShowDetails ] = useState(false);
@@ -12,9 +13,10 @@ const OrderItem = (props) => {
 	return (
 		<Card style={styles.orderItem}>
 			<View style={styles.summary}>
-				<Text style={styles.date}>{props.date}</Text>
-				<Text style={styles.totalAmount}>{props.email}</Text>
-				<Text style={styles.totalAmount}>Βαθμολογία: {props.totalPoints}</Text>
+				<BoldText style={styles.date}>{props.date}</BoldText>
+				<BoldText style={styles.textItems}>{props.index}η θέση</BoldText>
+				<BoldText style={styles.textItems}>{props.email}</BoldText>
+				<BoldText style={styles.textItems}>Βαθμολογία: {props.totalPoints}</BoldText>
 				{/* {Platform.OS === 'android' ? (
 					<CustomButton
 						style={styles.customButton}
@@ -57,15 +59,13 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	},
 	summary: {
-		justifyContent: 'space-around',
+		justifyContent: 'space-evenly',
 		alignItems: 'center',
 		width: '80%',
-		padding: 10
+		margin: 2
 	},
-	totalAmount: {
-		fontFamily: 'GFSNeohellenic-Bold',
-		fontSize: 22,
-		paddingVertical: 10
+	textItems: {
+		marginVertical: 10
 	},
 	customButton: {
 		width: '75%',

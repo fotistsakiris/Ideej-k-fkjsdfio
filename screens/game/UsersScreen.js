@@ -32,6 +32,7 @@ const UsersScreen = (props) => {
 
 	const totalPoints = useSelector((state) => state.questions.totalPoints);
 	const allUsersData = useSelector((state) => state.questions.allUsersData);
+
 	useEffect(
 		() => {
 			const getData = async () => {
@@ -42,7 +43,7 @@ const UsersScreen = (props) => {
 					// parse converts a string to an object or array
 					const transformedData = JSON.parse(userData);
 					const { userEmail } = transformedData;
-					setEmail(userEmail);
+					// setEmail(userEmail);
 					props.navigation.setParams({ userEmail: userEmail });
 				}
 			};
@@ -56,7 +57,6 @@ const UsersScreen = (props) => {
 			const getUserID = async () => {
 				// Note: getItem is asynchronous, so we get a promise
 				const userData = await AsyncStorage.getItem('userData');
-
 				if (!!userData) {
 					// parse converts a string to an object or array
 					const transformedData = JSON.parse(userData);
@@ -75,15 +75,27 @@ const UsersScreen = (props) => {
 				// This is to get the higher grade of active user
 				activeUserData = allUsersData[userId];
 			}
-			// Get the higher grade of active user			
+			// Get the higher grade of active user
 			for (const key in activeUserData) {
 				setUserGrade(activeUserData[key].totalPoints);
+				setEmail(activeUserData[key].email);
 			}
-			
-			let flatArray = dataPerUser.flat();
-			flatArray.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
-			setUsersData(flatArray);
-			
+
+			let winnersList = dataPerUser.flat();
+			winnersList.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
+			setUsersData(winnersList);
+
+			// Get active user's position in the list of winners
+			// console.log(winnersList);
+			for (let i = 0; i < winnersList.length; i++) {
+				console.log('email', email );
+
+				if (winnersList[i].email === email) {
+					console.log(i);
+				}
+			}
+			// const index = winnersList.findIndex(item => item.email === email)
+			// console.log(index);
 		},
 		[ setUsersData, allUsersData, setUserGrade ]
 	);
@@ -119,8 +131,9 @@ const UsersScreen = (props) => {
 	}
 	return (
 		<CustomLinearGradient>
-			<BoldText style={styles.content}>Υψηλότερη βαθμολογία: {userGrade}</BoldText>
-			{Platform.OS === 'android' ? (
+			<BoldText style={styles.content}>Υψηλότερη προσωπική βαθμολογία: {userGrade}</BoldText>
+			<BoldText style={styles.content}>Λίστα νικητών</BoldText>
+			{/* {Platform.OS === 'android' ? (
 				<View>
 					<CustomButton
 						style={styles.content}
@@ -145,7 +158,7 @@ const UsersScreen = (props) => {
 						props.navigation.navigate('Categories');
 					}}
 				/>
-			)}
+			)} */}
 			{/* {Platform.OS === 'android' ? (
 				<View>
 					<CustomButton
@@ -162,8 +175,8 @@ const UsersScreen = (props) => {
 				<FlatList
 					data={usersData}
 					keyExtractor={(item, index) => index.toString()}
-					renderItem={(itemData) => {
-						const date = new Date(itemData.item.date);
+					renderItem={({item, index}) => {
+						const date = new Date(item.date);
 						const elLocale = require('moment/locale/el');
 						moment.updateLocale('el', elLocale);
 						const formattedDate = moment(date).format('LLL');
@@ -184,8 +197,9 @@ const UsersScreen = (props) => {
 								}}
 							>
 								<OrderItem
-									totalPoints={itemData.item.totalPoints}
+									totalPoints={item.totalPoints}
 									date={formattedDate}
+									index={index + 1}
 									// date={date.toLocaleString('el-GR', options)}
 									// date={
 									// 	Platform.OS === 'android' ? (
@@ -194,8 +208,8 @@ const UsersScreen = (props) => {
 									// 		date.toLocaleString('el-GR', options)
 									// 	)
 									// }
-									// items={itemData.item.items}
-									email={itemData.item.email}
+									// items={item.items}
+									email={item.email}
 								/>
 							</View>
 						);
