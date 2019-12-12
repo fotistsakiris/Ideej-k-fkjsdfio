@@ -15,7 +15,6 @@ import OrderItem from '../../components/game/OrderItem';
 import Colours from '../../constants/Colours';
 
 import * as questionsActions from '../../store/actions/questions';
-import { DarkTheme } from 'react-native-paper';
 
 const UsersScreen = (props) => {
 	const { width, height } = Dimensions.get('window');
@@ -25,7 +24,7 @@ const UsersScreen = (props) => {
 	const cardHeight = DimensionsForStyle.cardHeight;
 	const cardWidth = DimensionsForStyle.cardWidth;
 
-	const [ email, setEmail ] = useState('');
+	const [ positionOnWinnersList, setPositionOnWinnersList ] = useState(0);
 	const [ userId, setUserId ] = useState('');
 	const [ initialWinnersList, setInitialWinnersList ] = useState([]);
 	const [ userGrade, setUserGrade ] = useState(0);
@@ -50,13 +49,12 @@ const UsersScreen = (props) => {
 					// parse converts a string to an object or array
 					const transformedData = JSON.parse(userData);
 					const { userEmail } = transformedData;
-					// setEmail(userEmail);
 					props.navigation.setParams({ userEmail: userEmail });
 				}
 			};
 			getData();
 		},
-		[ setEmail, dispatch ]
+		[ dispatch ]
 	);
 
 	useEffect(
@@ -82,11 +80,14 @@ const UsersScreen = (props) => {
 				// This is to get the higher grade of active user
 				activeUserData = allUsersData[userId];
 			}
+			let email = ''
 			// Get the higher grade of active user
 			for (const key in activeUserData) {
 				setUserGrade(activeUserData[key].totalPoints);
-				setEmail(activeUserData[key].email);
+				email = activeUserData[key].email
+				
 			}
+			console.log(email);
 
 			let winnersList = dataPerUser.flat();
 			winnersList.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
@@ -97,14 +98,16 @@ const UsersScreen = (props) => {
 			// console.log(winnersList);
 			for (let i = 0; i < winnersList.length; i++) {
 				if (winnersList[i].email === email) {
-					console.log(i);
+					console.log(i + 1);
+					setPositionOnWinnersList(i + 1)
+
 				}
 			}
 		},
 		[ setInitialWinnersList, allUsersData, setUserGrade ]
 	);
 
-	if (email === '') {
+	if (userId === '') {
 		return (
 			<CustomLinearGradient>
 				<View style={styles.content}>
@@ -187,7 +190,12 @@ const UsersScreen = (props) => {
 	};
 	return (
 		<CustomLinearGradient>
-			<BoldText style={styles.content}>Υψηλότερη προσωπική βαθμολογία: {userGrade}</BoldText>
+			<View style={styles.summary}>
+			<BoldText style={styles.content}>Καλύτερος προσωπικός βαθμός</BoldText>
+			<BoldText style={styles.content}>Βαθμός: {userGrade}</BoldText>
+			<BoldText style={styles.content}>Θέση στη λίστα των νικητών</BoldText>
+			<BoldText style={styles.content}>Θέση: {positionOnWinnersList}</BoldText>
+			</View>
 			<BoldText style={styles.content}>Λίστα νικητών</BoldText>
 			{/* {Platform.OS === 'android' ? (
 				<View>
@@ -279,9 +287,13 @@ const styles = StyleSheet.create({
 		padding: 2
 	},
 	content: {
-		marginVertical: 12,
+		marginVertical: 7,
 		justifyContent: 'center',
 		alignItems: 'center'
+	},
+	summary: {
+		alignItems: 'flex-start',
+		justifyContent: 'flex-start'
 	}
 });
 

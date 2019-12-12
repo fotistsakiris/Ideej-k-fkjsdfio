@@ -54,6 +54,7 @@ This is an app for Greek Orthodox Church questions. In other words it's a game-a
 ### DONE! When saving user's data to all-users-data (on Firebase) save it by user id, to each user...
 ### DONE! Set a timer for each question.
 
+### Show user's place on the list of winners.
 ### Find number of questions set and according time and number to divide the sum of point to calculate grade
 ### Fix bug with winner's list in UserScreen
 ### Fix bug with header title and messages about being wrong when clicking the refresh button, in QuestionDetailScreen.
