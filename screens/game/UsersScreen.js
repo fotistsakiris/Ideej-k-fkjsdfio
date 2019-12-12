@@ -15,6 +15,7 @@ import OrderItem from '../../components/game/OrderItem';
 import Colours from '../../constants/Colours';
 
 import * as questionsActions from '../../store/actions/questions';
+import { DarkTheme } from 'react-native-paper';
 
 const UsersScreen = (props) => {
 	const { width, height } = Dimensions.get('window');
@@ -26,11 +27,17 @@ const UsersScreen = (props) => {
 
 	const [ email, setEmail ] = useState('');
 	const [ userId, setUserId ] = useState('');
-	const [ usersData, setUsersData ] = useState([]);
+	const [ initialWinnersList, setInitialWinnersList ] = useState([]);
 	const [ userGrade, setUserGrade ] = useState(0);
+
+	// For pagination i.e. loading 10 winners per scroll...
+	// https://stackoverflow.com/questions/45323007/react-native-limit-list-items
+	// const [ page, setPage ] = useState(1);
+	const [ dataSlice, setDataSlice ] = useState([]);
+
 	const dispatch = useDispatch();
 
-	const totalPoints = useSelector((state) => state.questions.totalPoints);
+	// const totalPoints = useSelector((state) => state.questions.totalPoints);
 	const allUsersData = useSelector((state) => state.questions.allUsersData);
 
 	useEffect(
@@ -83,21 +90,18 @@ const UsersScreen = (props) => {
 
 			let winnersList = dataPerUser.flat();
 			winnersList.sort((a, b) => (a.totalPoints < b.totalPoints ? 1 : -1));
-			setUsersData(winnersList);
+			setInitialWinnersList(winnersList);
+			setDataSlice(winnersList.slice(0, 9)); // for pagination
 
 			// Get active user's position in the list of winners
 			// console.log(winnersList);
 			for (let i = 0; i < winnersList.length; i++) {
-				console.log('email', email );
-
 				if (winnersList[i].email === email) {
 					console.log(i);
 				}
 			}
-			// const index = winnersList.findIndex(item => item.email === email)
-			// console.log(index);
 		},
-		[ setUsersData, allUsersData, setUserGrade ]
+		[ setInitialWinnersList, allUsersData, setUserGrade ]
 	);
 
 	if (email === '') {
@@ -129,6 +133,58 @@ const UsersScreen = (props) => {
 			</CustomLinearGradient>
 		);
 	}
+
+	const renderWinnersList = ({ item, index }) => {
+		const date = new Date(item.date);
+		const elLocale = require('moment/locale/el');
+		moment.updateLocale('el', elLocale);
+		const formattedDate = moment(date).format('LLL');
+		// const options = {
+		// 	weekday: 'long',
+		// 	year: 'numeric',
+		// 	month: 'long',
+		// 	day: 'numeric'
+		// 	// hour: 'numeric',
+		// 	// minute: 'numeric'
+		// };
+		return (
+			<View
+				style={{
+					height: Math.ceil(cardHeight * height / 4),
+					width: Math.ceil(cardWidth * width),
+					...styles.content
+				}}
+			>
+				<OrderItem
+					totalPoints={item.totalPoints}
+					date={formattedDate}
+					index={index + 1}
+					// date={date.toLocaleString('el-GR', options)}
+					// date={
+					// 	Platform.OS === 'android' ? (
+					// 		formattedDate
+					// 	) : (
+					// 		date.toLocaleString('el-GR', options)
+					// 	)
+					// }
+					// items={item.items}
+					email={item.email}
+				/>
+			</View>
+		);
+	};
+
+	// Code for loading only the first 10 winner and then each time user scrolls 10 more...
+
+	const loadMore = () => {
+		const ITEMS_PER_PAGE = 10; // what is the batch size you want to load.
+		let page = 1;
+		const start = page * ITEMS_PER_PAGE;
+		const end = (page + 1) * ITEMS_PER_PAGE - 1;
+
+		const newData = initialWinnersList.slice(start, end); // here, we will receive next batch of the items
+		setDataSlice([ ...dataSlice, ...newData ]); // here we are appending new batch to existing batch
+	};
 	return (
 		<CustomLinearGradient>
 			<BoldText style={styles.content}>Υψηλότερη προσωπική βαθμολογία: {userGrade}</BoldText>
@@ -173,47 +229,10 @@ const UsersScreen = (props) => {
 			)} */}
 			<View style={styles.flatListContainer}>
 				<FlatList
-					data={usersData}
+					data={initialWinnersList}
 					keyExtractor={(item, index) => index.toString()}
-					renderItem={({item, index}) => {
-						const date = new Date(item.date);
-						const elLocale = require('moment/locale/el');
-						moment.updateLocale('el', elLocale);
-						const formattedDate = moment(date).format('LLL');
-						// const options = {
-						// 	weekday: 'long',
-						// 	year: 'numeric',
-						// 	month: 'long',
-						// 	day: 'numeric'
-						// 	// hour: 'numeric',
-						// 	// minute: 'numeric'
-						// };
-						return (
-							<View
-								style={{
-									height: Math.ceil(cardHeight * height / 4),
-									width: Math.ceil(cardWidth * width),
-									...styles.content
-								}}
-							>
-								<OrderItem
-									totalPoints={item.totalPoints}
-									date={formattedDate}
-									index={index + 1}
-									// date={date.toLocaleString('el-GR', options)}
-									// date={
-									// 	Platform.OS === 'android' ? (
-									// 		formattedDate
-									// 	) : (
-									// 		date.toLocaleString('el-GR', options)
-									// 	)
-									// }
-									// items={item.items}
-									email={item.email}
-								/>
-							</View>
-						);
-					}}
+					renderItem={renderWinnersList}
+					onEndReached={loadMore}
 				/>
 			</View>
 		</CustomLinearGradient>
