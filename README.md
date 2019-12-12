@@ -1,6 +1,8 @@
 This is an app for Greek Orthodox Church questions. In other words it's a game-app. It started as a copy of this Udemy cource: 
 [React Native - The Practical Guide](https://www.udemy.com/react-native-the-practical-guide/)
 
+# THIS REPO IS MOVED ELSE WHERE...
+
 ## Extra features added:
 ### The configureStore file.
 ### Using an object in the Models.
